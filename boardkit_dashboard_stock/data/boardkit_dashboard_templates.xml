@@ -10,6 +10,7 @@
             outgoing backlogs, trends and operation-type analytics. Requires
             Inventory.
         </field>
+        <field name="group_ids" eval="[(4, ref('stock.group_stock_user'))]" />
         <field name="payload">
 {
   "version": 1,
