@@ -9,6 +9,7 @@
             high-priority and late backlogs, completion rate, unassigned
             orders, trends and team/stage analytics. Requires Field Service.
         </field>
+        <field name="group_ids" eval="[(4, ref('fieldservice.group_fsm_user'))]" />
         <field name="payload">
 {
   "version": 1,
