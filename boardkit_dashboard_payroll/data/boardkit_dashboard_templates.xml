@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="template_payroll_overview" model="boardkit.dashboard.template">
+        <field name="name">Payroll Overview</field>
+        <field name="key">payroll_overview</field>
+        <field name="sequence">89</field>
+        <field name="description">
+            Payroll board for payslip processing: draft and waiting backlogs,
+            done and rejected counts, confirmation rate, unbatched slips,
+            credit notes, trends and structure/employee analytics. Requires
+            OCA Payroll.
+        </field>
+        <field name="payload">
+{
+  "version": 1,
+  "dashboards": [
+    {
+      "name": "Payroll Overview",
+      "description": "Payslip processing, batches, structures and employee analytics.",
+      "tags": [
+        "HR",
+        "Payroll"
+      ],
+      "date_filter": "this_month",
+      "refresh_interval": "0",
+      "items": [
+        {
+          "name": "Draft Payslips",
+          "item_type": "tile",
+          "model": "hr.payslip",
+          "aggregation": "count",
+          "icon": "fa-pencil-square-o",
+          "domain": "[('state', '=', 'draft')]",
+          "layout": {
+            "x": 0,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 0
+        },
+        {
+          "name": "Waiting",
+          "item_type": "tile",
+          "model": "hr.payslip",
+          "aggregation": "count",
+          "icon": "fa-hourglass-half",
+          "domain": "[('state', '=', 'verify')]",
+          "layout": {
+            "x": 3,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 1
+        },
+        {
+          "name": "Done Payslips",
+          "item_type": "tile",
+          "model": "hr.payslip",
+          "aggregation": "count",
+          "icon": "fa-check-square-o",
+          "compare_previous_period": true,
+          "domain": "[('state', '=', 'done')]",
+          "date_field_id": "date_from",
+          "layout": {
+            "x": 6,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 2
+        },
+        {
+          "name": "Rejected",
+          "item_type": "tile",
+          "model": "hr.payslip",
+          "aggregation": "count",
+          "icon": "fa-times-circle",
+          "compare_previous_period": true,
+          "domain": "[('state', '=', 'cancel')]",
+          "date_field_id": "date_from",
+          "layout": {
+            "x": 9,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 3
+        },
+        {
+          "name": "Done Rate",
+          "item_type": "kpi",
+          "model": "hr.payslip",
+          "aggregation": "count",
+          "kpi_mode": "comparison",
+          "kpi_display": "percent",
+          "domain": "[('state', '=', 'done')]",
+          "model_2": "hr.payslip",
+          "aggregation_2": "count",
+          "domain_2": "[('state', 'in', ['done', 'cancel'])]",
+          "date_field_id": "date_from",
+          "date_field_2_id": "date_from",
+          "layout": {
+            "x": 0,
+            "y": 2,
+            "w": 6,
+            "h": 2
+          },
+          "index": 4
+        },
+        {
+          "name": "Unbatched",
+          "item_type": "tile",
+          "model": "hr.payslip",
+          "aggregation": "count",
+          "icon": "fa-files-o",
+          "domain": "[('state', 'in', ['draft', 'verify']), ('payslip_run_id', '=', False)]",
+          "layout": {
+            "x": 6,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 5
+        },
+        {
+          "name": "Credit Notes",
+          "item_type": "tile",
+          "model": "hr.payslip",
+          "aggregation": "count",
+          "icon": "fa-undo",
+          "compare_previous_period": true,
+          "domain": "[('credit_note', '=', True)]",
+          "date_field_id": "date_from",
+          "layout": {
+            "x": 9,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 6
+        },
+        {
+          "name": "Payslips per Month",
+          "item_type": "area",
+          "model": "hr.payslip",
+          "aggregation": "count",
+          "group_by_field_id": "date_from",
+          "group_by_granularity": "month",
+          "date_field_id": "date_from",
+          "chart_sort": "label_asc",
+          "show_trend_line": true,
+          "domain": "[('state', '=', 'done')]",
+          "layout": {
+            "x": 0,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 7
+        },
+        {
+          "name": "Done by Structure",
+          "item_type": "bar_horizontal",
+          "model": "hr.payslip",
+          "aggregation": "count",
+          "group_by_field_id": "struct_id",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "domain": "[('state', '=', 'done')]",
+          "date_field_id": "date_from",
+          "layout": {
+            "x": 6,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 8
+        },
+        {
+          "name": "Done by Employee",
+          "item_type": "bar",
+          "model": "hr.payslip",
+          "aggregation": "count",
+          "group_by_field_id": "employee_id",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "domain": "[('state', '=', 'done')]",
+          "date_field_id": "date_from",
+          "layout": {
+            "x": 0,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 9
+        },
+        {
+          "name": "Payslips by Status",
+          "item_type": "doughnut",
+          "model": "hr.payslip",
+          "aggregation": "count",
+          "group_by_field_id": "state",
+          "chart_sort": "value_desc",
+          "domain": "[]",
+          "date_field_id": "date_from",
+          "layout": {
+            "x": 6,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 10
+        },
+        {
+          "name": "Recent Payslips",
+          "item_type": "list",
+          "model": "hr.payslip",
+          "list_type": "plain",
+          "sort_field_id": "date_from",
+          "sort_field_model": "hr.payslip",
+          "sort_dir": "desc",
+          "page_size": 10,
+          "list_columns": [
+            "number",
+            "employee_id",
+            "date_from",
+            "date_to",
+            "state",
+            "struct_id",
+            "payslip_run_id",
+            "contract_id"
+          ],
+          "domain": "[('state', '!=', 'cancel')]",
+          "date_field_id": "date_from",
+          "layout": {
+            "x": 0,
+            "y": 12,
+            "w": 12,
+            "h": 5
+          },
+          "index": 11
+        }
+      ],
+      "filters": [
+        {
+          "name": "My Payslips",
+          "sequence": 10,
+          "model": "hr.payslip",
+          "domain": "[('employee_id.user_id', '=', uid)]",
+          "default_enabled": false
+        },
+        {
+          "name": "Draft",
+          "sequence": 20,
+          "model": "hr.payslip",
+          "domain": "[('state', '=', 'draft')]",
+          "default_enabled": false
+        },
+        {
+          "name": "Waiting",
+          "sequence": 30,
+          "model": "hr.payslip",
+          "domain": "[('state', '=', 'verify')]",
+          "default_enabled": false
+        },
+        {
+          "name": "Done",
+          "sequence": 40,
+          "model": "hr.payslip",
+          "domain": "[('state', '=', 'done')]",
+          "default_enabled": false
+        }
+      ]
+    }
+  ]
+}
+        </field>
+    </record>
+</odoo>
