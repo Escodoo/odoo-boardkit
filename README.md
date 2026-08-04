@@ -17,6 +17,16 @@ gauges, charts, maps and lists. Managers design the grid in the backend; every
 user sees data filtered by their own access rights. Ready-made templates cover
 Sales, CRM, Inventory, Accounting, HR, Helpdesk and more.
 
+### Screenshots
+
+![CRM Pipeline](boardkit_dashboard/static/description/images/boardkit-crm-pipeline.png)
+
+![Contacts Overview](boardkit_dashboard/static/description/images/boardkit-contacts-overview.png)
+
+![Purchase Overview](boardkit_dashboard/static/description/images/boardkit-purchase-overview.png)
+
+![Timesheet Overview](boardkit_dashboard/static/description/images/boardkit-timesheet-overview.png)
+
 ### Why Boardkit
 
 | | Proprietary dashboard apps | Boardkit |
