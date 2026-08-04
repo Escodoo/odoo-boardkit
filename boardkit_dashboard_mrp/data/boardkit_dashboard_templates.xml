@@ -10,6 +10,7 @@
             components, late MOs, trends and product analytics. Requires
             Manufacturing.
         </field>
+        <field name="group_ids" eval="[(4, ref('mrp.group_mrp_user'))]" />
         <field name="payload">
 {
   "version": 1,
