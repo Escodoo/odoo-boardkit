@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="template_fieldservice_overview" model="boardkit.dashboard.template">
+        <field name="name">Field Service Overview</field>
+        <field name="key">fieldservice_overview</field>
+        <field name="sequence">58</field>
+        <field name="description">
+            Field Service board for order delivery: open and completed counts,
+            high-priority and late backlogs, completion rate, unassigned
+            orders, trends and team/stage analytics. Requires Field Service.
+        </field>
+        <field name="payload">
+{
+  "version": 1,
+  "dashboards": [
+    {
+      "name": "Field Service Overview",
+      "description": "FSM order backlog, completions, priority and team analytics.",
+      "tags": [
+        "Field Service"
+      ],
+      "date_filter": "this_month",
+      "refresh_interval": "0",
+      "items": [
+        {
+          "name": "Open Orders",
+          "item_type": "tile",
+          "model": "fsm.order",
+          "aggregation": "count",
+          "icon": "fa-wrench",
+          "domain": "[('is_closed', '=', False)]",
+          "layout": {
+            "x": 0,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 0
+        },
+        {
+          "name": "Completed Orders",
+          "item_type": "tile",
+          "model": "fsm.order",
+          "aggregation": "count",
+          "icon": "fa-check-square-o",
+          "compare_previous_period": true,
+          "domain": "[('is_closed', '=', True)]",
+          "date_field_id": "date_end",
+          "layout": {
+            "x": 3,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 1
+        },
+        {
+          "name": "High Priority",
+          "item_type": "tile",
+          "model": "fsm.order",
+          "aggregation": "count",
+          "icon": "fa-exclamation-triangle",
+          "domain": "[('is_closed', '=', False), ('priority', 'in', ['2', '3'])]",
+          "layout": {
+            "x": 6,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 2
+        },
+        {
+          "name": "Late Requests",
+          "item_type": "tile",
+          "model": "fsm.order",
+          "aggregation": "count",
+          "icon": "fa-clock-o",
+          "domain": "[('is_closed', '=', False), ('request_late', '!=', False), ('request_late', '&lt;', context_today())]",
+          "layout": {
+            "x": 9,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 3
+        },
+        {
+          "name": "Completion Rate",
+          "item_type": "kpi",
+          "model": "fsm.order",
+          "aggregation": "count",
+          "kpi_mode": "comparison",
+          "kpi_display": "percent",
+          "domain": "[('is_closed', '=', True)]",
+          "model_2": "fsm.order",
+          "aggregation_2": "count",
+          "domain_2": "[]",
+          "date_field_id": "date_end",
+          "date_field_2_id": "create_date",
+          "layout": {
+            "x": 0,
+            "y": 2,
+            "w": 6,
+            "h": 2
+          },
+          "index": 4
+        },
+        {
+          "name": "Unassigned",
+          "item_type": "tile",
+          "model": "fsm.order",
+          "aggregation": "count",
+          "icon": "fa-user-times",
+          "domain": "[('is_closed', '=', False), ('person_id', '=', False)]",
+          "layout": {
+            "x": 6,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 5
+        },
+        {
+          "name": "New Orders",
+          "item_type": "tile",
+          "model": "fsm.order",
+          "aggregation": "count",
+          "icon": "fa-plus-circle",
+          "compare_previous_period": true,
+          "domain": "[]",
+          "date_field_id": "create_date",
+          "layout": {
+            "x": 9,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 6
+        },
+        {
+          "name": "Pipeline Funnel",
+          "item_type": "funnel",
+          "model": "fsm.order",
+          "aggregation": "count",
+          "group_by_field_id": "stage_id",
+          "sort_field_id": "sequence",
+          "sort_field_model": "fsm.stage",
+          "sort_dir": "asc",
+          "domain": "[('is_closed', '=', False)]",
+          "layout": {
+            "x": 0,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 7
+        },
+        {
+          "name": "Completed per Month",
+          "item_type": "area",
+          "model": "fsm.order",
+          "aggregation": "count",
+          "group_by_field_id": "date_end",
+          "group_by_granularity": "month",
+          "date_field_id": "date_end",
+          "chart_sort": "label_asc",
+          "show_trend_line": true,
+          "domain": "[('is_closed', '=', True)]",
+          "layout": {
+            "x": 6,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 8
+        },
+        {
+          "name": "Open by Team",
+          "item_type": "bar_horizontal",
+          "model": "fsm.order",
+          "aggregation": "count",
+          "group_by_field_id": "team_id",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "domain": "[('is_closed', '=', False)]",
+          "layout": {
+            "x": 0,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 9
+        },
+        {
+          "name": "Open by Type",
+          "item_type": "doughnut",
+          "model": "fsm.order",
+          "aggregation": "count",
+          "group_by_field_id": "type",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "domain": "[('is_closed', '=', False)]",
+          "layout": {
+            "x": 6,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 10
+        },
+        {
+          "name": "Recent Orders",
+          "item_type": "list",
+          "model": "fsm.order",
+          "list_type": "plain",
+          "sort_field_id": "create_date",
+          "sort_field_model": "fsm.order",
+          "sort_dir": "desc",
+          "page_size": 10,
+          "list_columns": [
+            "name",
+            "location_id",
+            "team_id",
+            "stage_id",
+            "person_id",
+            "priority",
+            "scheduled_date_start",
+            "request_late"
+          ],
+          "domain": "[('is_closed', '=', False)]",
+          "layout": {
+            "x": 0,
+            "y": 12,
+            "w": 12,
+            "h": 5
+          },
+          "index": 11
+        }
+      ],
+      "filters": [
+        {
+          "name": "My Orders",
+          "sequence": 10,
+          "model": "fsm.order",
+          "domain": "[('person_id.partner_id.user_ids', 'in', [uid])]",
+          "default_enabled": false
+        },
+        {
+          "name": "Open",
+          "sequence": 20,
+          "model": "fsm.order",
+          "domain": "[('is_closed', '=', False)]",
+          "default_enabled": false
+        },
+        {
+          "name": "Late",
+          "sequence": 30,
+          "model": "fsm.order",
+          "domain": "[('is_closed', '=', False), ('request_late', '!=', False), ('request_late', '&lt;', context_today())]",
+          "default_enabled": false
+        },
+        {
+          "name": "High Priority",
+          "sequence": 40,
+          "model": "fsm.order",
+          "domain": "[('is_closed', '=', False), ('priority', 'in', ['2', '3'])]",
+          "default_enabled": false
+        }
+      ]
+    }
+  ]
+}
+        </field>
+    </record>
+</odoo>
