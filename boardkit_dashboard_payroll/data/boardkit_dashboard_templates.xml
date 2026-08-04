@@ -10,6 +10,7 @@
             credit notes, trends and structure/employee analytics. Requires
             OCA Payroll.
         </field>
+        <field name="group_ids" eval="[(4, ref('payroll.group_payroll_user'))]" />
         <field name="payload">
 {
   "version": 1,
