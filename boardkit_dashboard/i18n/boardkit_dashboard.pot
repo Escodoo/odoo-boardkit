@@ -6,14 +6,30 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-03 22:39+0000\n"
-"PO-Revision-Date: 2026-08-03 22:39+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: boardkit_dashboard
+#: model:boardkit.dashboard.template,description:boardkit_dashboard.template_contacts_overview
+msgid ""
+"\n"
+"            A fuller contacts board with tiles, KPI, charts and a latest-contacts\n"
+"            list. Uses only Contacts (res.partner).\n"
+"        "
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:boardkit.dashboard.template,description:boardkit_dashboard.template_partner_starter
+msgid ""
+"\n"
+"            A minimal board with contact tiles and a target KPI. Uses only\n"
+"            Contacts (res.partner) so it works on every database.\n"
+"        "
+msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
@@ -110,6 +126,7 @@ msgstr ""
 
 #. module: boardkit_dashboard
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard__active
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template__active
 msgid "Active"
 msgstr ""
 
@@ -165,6 +182,7 @@ msgstr ""
 
 #. module: boardkit_dashboard
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard__group_ids
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template__group_ids
 msgid "Allowed Groups"
 msgstr ""
 
@@ -206,6 +224,7 @@ msgid "Apply this filter automatically when the dashboard is opened."
 msgstr ""
 
 #. module: boardkit_dashboard
+#: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_template_view_form
 #: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_view_form
 #: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_view_search
 msgid "Archived"
@@ -235,7 +254,11 @@ msgstr ""
 
 #. module: boardkit_dashboard
 #: model:ir.model.fields,help:boardkit_dashboard.field_boardkit_dashboard__refresh_interval
-msgid "Automatically reload the dashboard data at this interval."
+msgid ""
+"Automatically reload the dashboard data at this interval. When enabled, item"
+" payloads are also cached server-side for up to this many seconds (per user "
+"and filters) to spare the database on wall-screen boards. Cap via system "
+"parameter boardkit_dashboard.data_cache_max_ttl."
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -281,6 +304,67 @@ msgid "Before Today"
 msgstr ""
 
 #. module: boardkit_dashboard
+#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard
+msgid "Boardkit Dashboard"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard_palette
+msgid "Boardkit Dashboard Color Palette"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard_palette_color
+msgid "Boardkit Dashboard Color Palette Color"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard_item
+msgid "Boardkit Dashboard Item"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard_item_drill
+msgid "Boardkit Dashboard Item Drill Level"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard_item_column
+msgid "Boardkit Dashboard Item List Column"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard_item_measure
+msgid "Boardkit Dashboard Item Measure"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard_layout
+msgid "Boardkit Dashboard Personal Layout"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard_filter
+msgid "Boardkit Dashboard Predefined Filter"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard_tag
+msgid "Boardkit Dashboard Tag"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard_template
+msgid "Boardkit Dashboard Template"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.actions.act_window,name:boardkit_dashboard.boardkit_dashboard_action
+#: model:ir.ui.menu,name:boardkit_dashboard.menu_dashboard_boards
+msgid "Boards"
+msgstr ""
+
+#. module: boardkit_dashboard
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard_item__kpi_display__value
 msgid "Both Values"
 msgstr ""
@@ -293,6 +377,11 @@ msgstr ""
 #. module: boardkit_dashboard
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard_item__item_type__bullet
 msgid "Bullet Chart"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_template_wizard_view_form
+msgid "Cancel"
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -471,6 +560,7 @@ msgstr ""
 
 #. module: boardkit_dashboard
 #: model:boardkit.dashboard,name:boardkit_dashboard.dashboard_demo
+#: model:boardkit.dashboard.template,name:boardkit_dashboard.template_contacts_overview
 msgid "Contacts Overview"
 msgstr ""
 
@@ -487,6 +577,15 @@ msgstr ""
 #. module: boardkit_dashboard
 #: model:boardkit.dashboard.item,name:boardkit_dashboard.dashboard_demo_item_map_points
 msgid "Contacts by Location"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.model.fields,help:boardkit_dashboard.field_boardkit_dashboard_template__group_ids
+msgid ""
+"Copied to boards created from this template. Restrict who can open the "
+"dashboard and its menu entry. Leave empty to allow every Dashboard User "
+"only. Prefer the lowest app group that matches the template KPIs; managers "
+"already inherit implied user groups."
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -518,6 +617,27 @@ msgid "Country"
 msgstr ""
 
 #. module: boardkit_dashboard
+#: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_template_wizard_view_form
+msgid "Create Dashboard"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard_template_wizard
+msgid "Create Dashboard from Template"
+msgstr ""
+
+#. module: boardkit_dashboard
+#. odoo-javascript
+#: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
+msgid "Create a dashboard from a curated template"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_template_wizard_view_form
+msgid "Create from Template"
+msgstr ""
+
+#. module: boardkit_dashboard
 #: model_terms:ir.actions.act_window,help:boardkit_dashboard.boardkit_dashboard_palette_action
 msgid "Create your first color palette"
 msgstr ""
@@ -538,6 +658,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_palette__create_uid
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_palette_color__create_uid
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_tag__create_uid
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template__create_uid
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template_wizard__create_uid
 msgid "Created by"
 msgstr ""
 
@@ -552,6 +674,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_palette__create_date
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_palette_color__create_date
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_tag__create_date
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template__create_date
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template_wizard__create_date
 msgid "Created on"
 msgstr ""
 
@@ -602,7 +726,9 @@ msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
+#. odoo-python
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#: code:addons/boardkit_dashboard/wizards/boardkit_dashboard_template_wizard.py:0
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_filter__dashboard_id
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_item__dashboard_id
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_layout__dashboard_id
@@ -641,6 +767,11 @@ msgid "Dashboard Items"
 msgstr ""
 
 #. module: boardkit_dashboard
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template_wizard__name
+msgid "Dashboard Name"
+msgstr ""
+
+#. module: boardkit_dashboard
 #: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_view_list
 msgid "Dashboard Settings"
 msgstr ""
@@ -648,6 +779,12 @@ msgstr ""
 #. module: boardkit_dashboard
 #: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_tag_view_form
 msgid "Dashboard Tag"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.model.fields,help:boardkit_dashboard.field_boardkit_dashboard_template__payload
+msgid ""
+"Dashboard export structure (version + dashboards) used by import_config."
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -660,12 +797,6 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
 msgid "Dashboard not found or access denied"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:ir.actions.act_window,name:boardkit_dashboard.boardkit_dashboard_action
-#: model:ir.ui.menu,name:boardkit_dashboard.menu_dashboard_boards
-msgid "Boards"
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -759,6 +890,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard__description
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_item__description
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template__description
 msgid "Description"
 msgstr ""
 
@@ -784,6 +916,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_palette__display_name
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_palette_color__display_name
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_tag__display_name
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template__display_name
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template_wizard__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -922,56 +1056,6 @@ msgid "Error"
 msgstr ""
 
 #. module: boardkit_dashboard
-#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard
-msgid "Boardkit Dashboard"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard_palette
-msgid "Boardkit Dashboard Color Palette"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard_palette_color
-msgid "Boardkit Dashboard Color Palette Color"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard_item
-msgid "Boardkit Dashboard Item"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard_item_drill
-msgid "Boardkit Dashboard Item Drill Level"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard_item_column
-msgid "Boardkit Dashboard Item List Column"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard_item_measure
-msgid "Boardkit Dashboard Item Measure"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard_layout
-msgid "Boardkit Dashboard Personal Layout"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard_filter
-msgid "Boardkit Dashboard Predefined Filter"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard_tag
-msgid "Boardkit Dashboard Tag"
-msgstr ""
-
-#. module: boardkit_dashboard
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard_item__number_style__exact
 msgid "Exact"
 msgstr ""
@@ -998,9 +1082,9 @@ msgstr ""
 #: model:ir.model.fields,help:boardkit_dashboard.field_boardkit_dashboard__menu_as_app
 msgid ""
 "Expose the published dashboard as a top-level app in the main apps menu, "
-"using the Boardkit Dashboards module icon. The app is only visible while the "
-"dashboard is published. Not available when the dashboard is restricted to a "
-"specific company."
+"using the Boardkit Dashboards module icon. The app is only visible while the"
+" dashboard is published. Not available when the dashboard is restricted to a"
+" specific company."
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -1124,9 +1208,20 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard
+#: model:ir.actions.act_window,name:boardkit_dashboard.boardkit_dashboard_template_wizard_action
+msgid "From Template"
+msgstr ""
+
+#. module: boardkit_dashboard
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard__date_filter__future_excluding_today
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard_item__date_filter__future_excluding_today
 msgid "From Tomorrow"
+msgstr ""
+
+#. module: boardkit_dashboard
+#. odoo-javascript
+#: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
+msgid "From template"
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -1198,6 +1293,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_palette__id
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_palette_color__id
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_tag__id
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template__id
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template_wizard__id
 msgid "ID"
 msgstr ""
 
@@ -1334,8 +1431,25 @@ msgid "Items"
 msgstr ""
 
 #. module: boardkit_dashboard
+#: model:ir.model.fields,help:boardkit_dashboard.field_boardkit_dashboard_template__payload_text
+msgid ""
+"JSON export structure shown for editing. Must stay a valid object with a "
+"dashboards list."
+msgstr ""
+
+#. module: boardkit_dashboard
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard_item__item_type__kpi
 msgid "KPI"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_template_wizard_view_form
+msgid "Keep template name"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template__key
+msgid "Key"
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -1428,6 +1542,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_palette__write_uid
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_palette_color__write_uid
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_tag__write_uid
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template__write_uid
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template_wizard__write_uid
 msgid "Last Updated by"
 msgstr ""
 
@@ -1442,6 +1558,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_palette__write_date
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_palette_color__write_date
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_tag__write_date
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template__write_date
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template_wizard__write_date
 msgid "Last Updated on"
 msgstr ""
 
@@ -1718,6 +1836,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_item__name
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_palette__name
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_tag__name
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template__name
 msgid "Name"
 msgstr ""
 
@@ -1881,6 +2000,12 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard
+#: model:ir.model.fields,help:boardkit_dashboard.field_boardkit_dashboard_template_wizard__name
+msgid ""
+"Optional name for the new board. Leave empty to keep the template name."
+msgstr ""
+
+#. module: boardkit_dashboard
 #: model:ir.model.fields,help:boardkit_dashboard.field_boardkit_dashboard__menu_parent_id
 msgid ""
 "Optional parent menu for a generated entry. The menu is only created while "
@@ -1938,9 +2063,25 @@ msgid "Partial data"
 msgstr ""
 
 #. module: boardkit_dashboard
+#: model:boardkit.dashboard.template,name:boardkit_dashboard.template_partner_starter
+msgid "Partner Starter"
+msgstr ""
+
+#. module: boardkit_dashboard
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard__default_color_palette__pastel
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard_item__color_palette__pastel
 msgid "Pastel"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template__payload_text
+#: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_template_view_form
+msgid "Payload"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template__payload
+msgid "Payload Data"
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -2242,6 +2383,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_item_drill__sequence
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_item_measure__sequence
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_palette_color__sequence
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template__sequence
 msgid "Sequence"
 msgstr ""
 
@@ -2295,6 +2437,11 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/list_card.xml:0
 msgid "Sort direction"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.model.fields,help:boardkit_dashboard.field_boardkit_dashboard_template__key
+msgid "Stable technical identifier used in data and tests."
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -2395,6 +2542,34 @@ msgid "Technical model that owns the Sort By field."
 msgstr ""
 
 #. module: boardkit_dashboard
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template_wizard__template_id
+msgid "Template"
+msgstr ""
+
+#. module: boardkit_dashboard
+#. odoo-python
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0
+msgid "Template %(name)s has an invalid payload."
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.model.constraint,message:boardkit_dashboard.constraint_boardkit_dashboard_template_key_uniq
+msgid "Template key must be unique."
+msgstr ""
+
+#. module: boardkit_dashboard
+#. odoo-python
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard_template.py:0
+msgid "Template payload is not valid JSON: %s"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.actions.act_window,name:boardkit_dashboard.boardkit_dashboard_template_action
+#: model:ir.ui.menu,name:boardkit_dashboard.menu_dashboard_templates
+msgid "Templates"
+msgstr ""
+
+#. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.js:0
 msgid "The Fullscreen mode was denied by the browser"
@@ -2423,6 +2598,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
 msgid "The item data source model is not configured."
+msgstr ""
+
+#. module: boardkit_dashboard
+#. odoo-python
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0
+msgid "The selected template no longer exists."
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -2724,106 +2905,4 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.xml:0
 msgid "vs"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:ir.actions.act_window,name:boardkit_dashboard.boardkit_dashboard_template_wizard_action
-msgid "From Template"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:ir.actions.act_window,name:boardkit_dashboard.boardkit_dashboard_template_action
-msgid "Templates"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard_template
-msgid "Boardkit Dashboard Template"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard_template_wizard
-msgid "Create Dashboard from Template"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template_wizard__name
-msgid "Dashboard Name"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template_wizard__template_id
-msgid "Template"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:ir.model.fields,help:boardkit_dashboard.field_boardkit_dashboard_template_wizard__name
-msgid "Optional name for the new board. Leave empty to keep the template name."
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:ir.model.fields,help:boardkit_dashboard.field_boardkit_dashboard_template__key
-msgid "Stable technical identifier used in data and tests."
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:ir.model.fields,help:boardkit_dashboard.field_boardkit_dashboard_template__payload
-msgid "Dashboard export structure (version + dashboards) used by import_config."
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:ir.model.constraint,message:boardkit_dashboard.constraint_boardkit_dashboard_template_key_uniq
-msgid "Template key must be unique."
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_template_wizard_view_form
-msgid "Create from Template"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_template_wizard_view_form
-msgid "Create Dashboard"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_template_wizard_view_form
-msgid "Keep template name"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_template_view_form
-msgid "Payload"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:boardkit.dashboard.template,name:boardkit_dashboard.template_partner_starter
-msgid "Partner Starter"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0
-msgid "The selected template no longer exists."
-msgstr ""
-
-#. module: boardkit_dashboard
-#: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0
-msgid "Template %(name)s has an invalid payload."
-msgstr ""
-
-#. module: boardkit_dashboard
-#: code:addons/boardkit_dashboard/models/boardkit_dashboard_template.py:0
-msgid "Template payload is not valid JSON: %s"
-msgstr ""
-
-#. module: boardkit_dashboard
-#. odoo-javascript
-#: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
-msgid "From template"
-msgstr ""
-
-#. module: boardkit_dashboard
-#. odoo-javascript
-#: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
-msgid "Create a dashboard from a curated template"
 msgstr ""
