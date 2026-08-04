@@ -14,6 +14,10 @@ class TestSaleDashboardTemplates(TransactionCase):
         self.assertEqual(dashboard.name, "Sales Overview")
         self.assertFalse(dashboard.published)
         self.assertFalse(dashboard.menu_id)
+        self.assertEqual(
+            dashboard.group_ids,
+            self.env.ref("sales_team.group_sale_salesman_all_leads"),
+        )
         self.assertEqual(len(dashboard.item_ids), 12)
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
