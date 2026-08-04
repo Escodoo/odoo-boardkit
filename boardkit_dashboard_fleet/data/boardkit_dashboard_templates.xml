@@ -9,6 +9,7 @@
             registrations and write-offs, active rate, contract renewal
             warnings, trends and brand/fuel analytics. Requires Fleet.
         </field>
+        <field name="group_ids" eval="[(4, ref('fleet.fleet_group_manager'))]" />
         <field name="payload">
 {
   "version": 1,

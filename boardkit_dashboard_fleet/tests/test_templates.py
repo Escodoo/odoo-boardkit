@@ -14,6 +14,10 @@ class TestFleetDashboardTemplates(TransactionCase):
         self.assertEqual(dashboard.name, "Fleet Overview")
         self.assertFalse(dashboard.published)
         self.assertFalse(dashboard.menu_id)
+        self.assertEqual(
+            dashboard.group_ids,
+            self.env.ref("fleet.fleet_group_manager"),
+        )
         self.assertEqual(len(dashboard.item_ids), 12)
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
