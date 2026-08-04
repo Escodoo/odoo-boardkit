@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="boardkit_dashboard.ListCard">
+        <div class="o_boardkit_dashboard_list d-flex flex-column h-100">
+            <div class="table-responsive flex-grow-1">
+                <table class="table table-sm table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th
+                                t-foreach="props.data.columns"
+                                t-as="column"
+                                t-key="column_index"
+                                t-att-class="(isNumeric(column) ? 'text-end' : '') + (isSortable(column) ? ' cursor-pointer user-select-none' : '')"
+                                t-on-click="() => this.onHeaderClicked(column)"
+                            >
+                                <t t-esc="column.label" />
+                                <i
+                                    t-if="isSorted(column)"
+                                    t-att-class="'fa ms-1 ' + (props.data.sort_dir === 'desc' ? 'fa-sort-desc' : 'fa-sort-asc')"
+                                    role="img"
+                                    aria-label="Sort direction"
+                                />
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            t-foreach="props.data.rows"
+                            t-as="row"
+                            t-key="row_index"
+                            t-att-class="props.config.show_records ? 'cursor-pointer' : ''"
+                            t-on-click="() => this.onRowClicked(row)"
+                        >
+                            <td
+                                t-foreach="props.data.columns"
+                                t-as="column"
+                                t-key="column_index"
+                                t-att-class="isNumeric(column) ? 'text-end' : ''"
+                                t-esc="formatCell(row.values[column_index], column)"
+                            />
+                        </tr>
+                        <tr t-if="!props.data.rows.length">
+                            <td
+                                t-att-colspan="props.data.columns.length"
+                                class="text-muted text-center py-3"
+                            >No records found.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div
+                class="o_boardkit_dashboard_list_pager d-flex align-items-center justify-content-end gap-2 pt-1"
+                t-if="props.data.total > props.config.page_size"
+            >
+                <span class="text-muted small">
+                    <t t-esc="pageStart" />-<t t-esc="pageEnd" /> / <t
+                    t-esc="props.data.total"
+                />
+                </span>
+                <button
+                    class="btn btn-sm btn-light"
+                    t-att-disabled="props.data.offset === 0"
+                    t-on-click="onPreviousPage"
+                >
+                    <i
+                        class="fa fa-chevron-left"
+                        role="img"
+                        aria-label="Previous page"
+                    />
+                </button>
+                <button
+                    class="btn btn-sm btn-light"
+                    t-att-disabled="pageEnd >= props.data.total"
+                    t-on-click="onNextPage"
+                >
+                    <i class="fa fa-chevron-right" role="img" aria-label="Next page" />
+                </button>
+            </div>
+        </div>
+    </t>
+</templates>

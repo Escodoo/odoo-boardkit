@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="boardkit_dashboard.CatalogueToolbarButtons">
+        <button
+            t-if="importState.isManager"
+            type="button"
+            class="btn btn-secondary o_boardkit_dashboard_from_template_button"
+            title="Create a dashboard from a curated template"
+            t-on-click="onFromTemplate"
+        >
+            <i class="fa fa-magic me-1" />From template
+        </button>
+        <FileInput
+            t-if="importState.isManager"
+            acceptedFileExtensions="'.json'"
+            route="importRoute"
+            onUpload.bind="onDashboardImported"
+        >
+            <button
+                type="button"
+                class="btn btn-secondary o_boardkit_dashboard_import_button"
+                title="Import dashboards from an export file"
+            >
+                <i class="fa fa-upload me-1" />Import
+            </button>
+        </FileInput>
+    </t>
+
+    <t
+        t-name="boardkit_dashboard.CatalogueKanbanView"
+        t-inherit="web.KanbanView"
+        t-inherit-mode="primary"
+    >
+        <xpath expr="//t[@t-set-slot='control-panel-create-button']" position="inside">
+            <t t-call="boardkit_dashboard.CatalogueToolbarButtons" />
+        </xpath>
+    </t>
+
+    <t
+        t-name="boardkit_dashboard.CatalogueListView"
+        t-inherit="web.ListView"
+        t-inherit-mode="primary"
+    >
+        <xpath expr="//t[@t-set-slot='control-panel-create-button']" position="inside">
+            <t t-call="boardkit_dashboard.CatalogueToolbarButtons" />
+        </xpath>
+    </t>
+</templates>

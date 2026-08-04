@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="boardkit_dashboard.ChartRenderer">
+        <div class="o_boardkit_dashboard_chart" t-att-data-type="props.config.type">
+            <canvas t-ref="canvas" />
+        </div>
+    </t>
+</templates>

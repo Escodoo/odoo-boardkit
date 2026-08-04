@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="boardkit_dashboard.ItemPreviewField">
+        <!-- The dashboard root class scopes the card styles to the preview. -->
+        <div
+            class="o_boardkit_dashboard o_boardkit_dashboard_item_preview w-100 h-100 d-flex flex-column"
+        >
+            <DashboardItemCard
+                t-if="payload"
+                config="payload.config"
+                data="payload.data"
+                currency="payload.currency"
+                editable="false"
+                isManager="false"
+                preview="true"
+                onDrill="noop"
+                onDrillData.bind="fetchDrillData"
+                onOpenRecord="noop"
+                onPageChange="noop"
+                onEdit="noop"
+                onDuplicate="noop"
+                onDelete="noop"
+                onExport="noop"
+                onDragStart="noop"
+                onResizeStart="noop"
+            />
+            <div
+                t-else=""
+                class="o_boardkit_dashboard_item_preview_empty d-flex flex-grow-1 align-items-center justify-content-center text-center text-muted"
+            >
+                <div>
+                    <i class="fa fa-eye fa-2x mb-2" role="img" aria-label="Preview" />
+                    <div>Select a data source to preview the item.</div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

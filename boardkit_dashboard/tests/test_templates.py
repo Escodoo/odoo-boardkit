@@ -1,0 +1,83 @@
+# Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
+from odoo.exceptions import AccessError, ValidationError
+from odoo.tests import tagged
+
+from .common import BoardkitDashboardCommon
+
+
+@tagged("post_install", "-at_install")
+class TestDashboardTemplates(BoardkitDashboardCommon):
+    def test_create_from_template_unpublished_with_items(self):
+        template = self.env.ref("boardkit_dashboard.template_partner_starter")
+        dashboard_ids = self.env["boardkit.dashboard"].create_from_template(template.id)
+        dashboard = self.env["boardkit.dashboard"].browse(dashboard_ids)
+        self.assertEqual(len(dashboard), 1)
+        self.assertEqual(dashboard.name, "Partner Starter")
+        self.assertFalse(dashboard.published)
+        self.assertFalse(dashboard.menu_id)
+        self.assertEqual(len(dashboard.item_ids), 3)
+        self.assertTrue(dashboard.item_ids.filtered(lambda i: i.item_type == "tile"))
+        self.assertTrue(dashboard.item_ids.filtered(lambda i: i.item_type == "kpi"))
+
+    def test_create_from_template_name_override(self):
+        template = self.env.ref("boardkit_dashboard.template_partner_starter")
+        dashboard_ids = self.env["boardkit.dashboard"].create_from_template(
+            template.id, name="My Custom Board"
+        )
+        dashboard = self.env["boardkit.dashboard"].browse(dashboard_ids)
+        self.assertEqual(dashboard.name, "My Custom Board")
+
+    def test_create_from_template_contacts_overview(self):
+        template = self.env.ref("boardkit_dashboard.template_contacts_overview")
+        dashboard_ids = self.env["boardkit.dashboard"].create_from_template(template.id)
+        dashboard = self.env["boardkit.dashboard"].browse(dashboard_ids)
+        self.assertEqual(len(dashboard.item_ids), 6)
+        self.assertEqual(len(dashboard.filter_ids), 1)
+        bar = dashboard.item_ids.filtered(lambda i: i.item_type == "bar")
+        self.assertEqual(bar.group_by_field_id.name, "country_id")
+        self.assertEqual(len(bar.drill_level_ids), 1)
+
+    def test_create_from_template_invalid_payload(self):
+        template = self.env["boardkit.dashboard.template"].create(
+            {
+                "name": "Broken",
+                "key": "broken_template_test",
+                "payload": {"version": 1},
+            }
+        )
+        with self.assertRaises(ValidationError):
+            self.env["boardkit.dashboard"].create_from_template(template.id)
+
+    def test_wizard_creates_dashboard(self):
+        template = self.env.ref("boardkit_dashboard.template_partner_starter")
+        wizard = (
+            self.env["boardkit.dashboard.template.wizard"]
+            .with_user(self.manager)
+            .create(
+                {
+                    "template_id": template.id,
+                    "name": "Wizard Board",
+                }
+            )
+        )
+        action = wizard.action_create()
+        self.assertEqual(action["res_model"], "boardkit.dashboard")
+        dashboard = self.env["boardkit.dashboard"].browse(action["res_id"])
+        self.assertEqual(dashboard.name, "Wizard Board")
+        self.assertFalse(dashboard.published)
+
+    def test_user_cannot_create_from_template(self):
+        template = self.env.ref("boardkit_dashboard.template_partner_starter")
+        with self.assertRaises(AccessError):
+            self.env["boardkit.dashboard"].with_user(self.user).create_from_template(
+                template.id
+            )
+
+    def test_user_cannot_use_wizard(self):
+        template = self.env.ref("boardkit_dashboard.template_partner_starter")
+        with self.assertRaises(AccessError):
+            self.env["boardkit.dashboard.template.wizard"].with_user(self.user).create(
+                {"template_id": template.id}
+            )
