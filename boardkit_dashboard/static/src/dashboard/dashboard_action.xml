@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="boardkit_dashboard.DashboardAction">
+        <div class="o_boardkit_dashboard o_action h-100 d-flex flex-column">
+            <!-- Loading -->
+            <div
+                t-if="state.loading"
+                class="d-flex h-100 align-items-center justify-content-center"
+            >
+                <i
+                    class="fa fa-circle-o-notch fa-spin fa-3x text-muted"
+                    role="img"
+                    aria-label="Loading"
+                />
+            </div>
+            <!-- No dashboard available / no access -->
+            <div
+                t-elif="state.missing"
+                class="d-flex h-100 align-items-center justify-content-center text-center"
+            >
+                <div>
+                    <i
+                        class="fa fa-tachometer fa-4x text-muted mb-3"
+                        role="img"
+                        aria-label="Dashboard"
+                    />
+                    <h4>Dashboard not found or access denied</h4>
+                    <p class="text-muted">
+                        The dashboard does not exist, or you do not have
+                        permission to open it in the current company.
+                    </p>
+                    <button class="btn btn-primary" t-on-click="openConfiguration">
+                        Open Configuration
+                    </button>
+                </div>
+            </div>
+            <t t-else="">
+                <!-- Top bar: title | filters | actions on desktop; two rows on mobile -->
+                <div class="o_boardkit_dashboard_topbar border-bottom bg-view">
+                    <div
+                        class="o_boardkit_dashboard_topbar_title d-flex align-items-center gap-2 min-w-0"
+                    >
+                        <button
+                            class="btn btn-link btn-sm p-0 o_boardkit_dashboard_favorite"
+                            t-att-title="state.board.is_favorite ? 'Remove from Favorites' : 'Add to Favorites'"
+                            t-att-aria-label="state.board.is_favorite ? 'Remove from Favorites' : 'Add to Favorites'"
+                            t-att-aria-pressed="state.board.is_favorite ? 'true' : 'false'"
+                            t-on-click="toggleFavorite"
+                        >
+                            <i
+                                t-att-class="state.board.is_favorite ? 'fa fa-star' : 'fa fa-star-o'"
+                                role="img"
+                            />
+                        </button>
+                        <h5 class="mb-0 text-truncate" t-esc="state.board.name" />
+                    </div>
+                    <div
+                        class="o_boardkit_dashboard_topbar_filters d-flex align-items-center gap-2 flex-wrap"
+                    >
+                        <DateFilter
+                            presets="state.board.date_presets"
+                            value="state.dateFilter"
+                            onChange.bind="onDateFilterChanged"
+                        />
+                        <div
+                            t-if="state.board.filters.length"
+                            class="d-flex align-items-center gap-1 flex-wrap"
+                        >
+                            <button
+                                t-foreach="state.board.filters"
+                                t-as="boardFilter"
+                                t-key="boardFilter.id"
+                                class="btn btn-sm rounded-pill"
+                                t-att-class="isFilterActive(boardFilter.id) ? 'btn-primary' : 'btn-outline-secondary'"
+                                t-att-title="boardFilter.model_label"
+                                t-on-click="() => this.toggleFilter(boardFilter.id)"
+                            >
+                                <t t-esc="boardFilter.name" />
+                            </button>
+                        </div>
+                        <CustomFilters
+                            t-if="filterableModels.length"
+                            models="filterableModels"
+                            filters="state.customFilters"
+                            onAdd.bind="addCustomFilter"
+                            onRemove.bind="removeCustomFilter"
+                        />
+                    </div>
+                    <div
+                        class="o_boardkit_dashboard_topbar_actions d-flex align-items-center gap-1"
+                    >
+                        <t t-if="state.editMode">
+                            <button
+                                class="btn btn-sm btn-primary"
+                                t-on-click="() => this.saveLayout(!state.board.is_manager)"
+                            >
+                                <t t-if="state.board.is_manager">Save as Default</t>
+                                <t t-else="">Save Layout</t>
+                            </button>
+                            <button
+                                t-if="state.board.is_manager"
+                                class="btn btn-sm btn-secondary"
+                                t-on-click="() => this.saveLayout(true)"
+                            >
+                                Save for Me
+                            </button>
+                            <button
+                                class="btn btn-sm btn-link"
+                                t-on-click="cancelEditMode"
+                            >
+                                Discard
+                            </button>
+                        </t>
+                        <t t-else="">
+                            <button
+                                class="btn btn-sm btn-light"
+                                title="Refresh"
+                                t-on-click="() => this.loadItemsData()"
+                            >
+                                <i
+                                    class="fa fa-refresh"
+                                    role="img"
+                                    aria-label="Refresh"
+                                />
+                            </button>
+                            <button
+                                t-if="isFullscreenAvailable"
+                                class="btn btn-sm btn-light"
+                                t-att-title="state.isFullscreen ? 'Exit Full Screen' : 'Full Screen'"
+                                t-on-click="toggleFullscreen"
+                            >
+                                <i
+                                    t-att-class="state.isFullscreen ? 'fa fa-compress' : 'fa fa-expand'"
+                                    role="img"
+                                    t-att-aria-label="state.isFullscreen ? 'Exit Full Screen' : 'Full Screen'"
+                                />
+                            </button>
+                            <button
+                                t-if="state.board.is_manager"
+                                class="btn btn-sm btn-primary d-none d-md-inline-block"
+                                t-on-click="addItem"
+                            >
+                                <i
+                                class="fa fa-plus me-1"
+                                role="img"
+                                aria-label="Add"
+                            />Add Item
+                            </button>
+                            <button
+                                class="btn btn-sm btn-light d-none d-md-inline-block"
+                                title="Edit Layout"
+                                t-on-click="enterEditMode"
+                            >
+                                <i
+                                    class="fa fa-th-large"
+                                    role="img"
+                                    aria-label="Edit layout"
+                                />
+                            </button>
+                            <Dropdown>
+                                <button class="btn btn-sm btn-light">
+                                    <i
+                                        class="fa fa-ellipsis-v"
+                                        role="img"
+                                        aria-label="More options"
+                                    />
+                                </button>
+                                <t t-set-slot="content">
+                                    <DropdownItem onSelected.bind="copyShareLink">
+                                        Copy Link
+                                    </DropdownItem>
+                                    <DropdownItem
+                                        t-if="state.hasSavedFilters"
+                                        onSelected.bind="resetPersonalFilters"
+                                    >
+                                        Reset My Filters
+                                    </DropdownItem>
+                                    <DropdownItem
+                                        t-if="state.board.has_personal_layout"
+                                        onSelected.bind="resetPersonalLayout"
+                                    >
+                                        Reset My Layout
+                                    </DropdownItem>
+                                    <DropdownItem
+                                        t-if="state.board.is_manager"
+                                        onSelected.bind="exportDashboard"
+                                    >
+                                        Export as JSON
+                                    </DropdownItem>
+                                    <DropdownItem
+                                        t-if="state.board.is_manager"
+                                        onSelected.bind="openConfiguration"
+                                    >
+                                        Configuration
+                                    </DropdownItem>
+                                </t>
+                            </Dropdown>
+                        </t>
+                    </div>
+                </div>
+                <!-- Edit mode hint -->
+                <div
+                    t-if="state.editMode"
+                    class="alert alert-info rounded-0 py-1 px-3 mb-0 small"
+                >
+                    Drag the items by their header and resize them from the bottom-right
+                    corner, then save.
+                </div>
+                <!-- Grid -->
+                <div class="o_boardkit_dashboard_content flex-grow-1 overflow-auto p-3">
+                    <div
+                        t-if="!state.board.items.length"
+                        class="d-flex h-100 align-items-center justify-content-center text-center"
+                    >
+                        <div>
+                            <i
+                                class="fa fa-pie-chart fa-4x text-muted mb-3"
+                                role="img"
+                                aria-label="Empty dashboard"
+                            />
+                            <h4>This dashboard is empty</h4>
+                            <p class="text-muted">Add tiles, KPIs, charts or lists.</p>
+                            <button
+                                t-if="state.board.is_manager"
+                                class="btn btn-primary d-none d-md-inline-block"
+                                t-on-click="addItem"
+                            >
+                                <i
+                                class="fa fa-plus me-1"
+                                role="img"
+                                aria-label="Add"
+                            />Add Item
+                            </button>
+                        </div>
+                    </div>
+                    <div
+                        t-else=""
+                        class="o_boardkit_dashboard_grid"
+                        t-att-class="state.editMode ? 'o_edit_mode' : ''"
+                        t-ref="grid"
+                    >
+                        <div
+                            t-foreach="state.board.items"
+                            t-as="item"
+                            t-key="item.id"
+                            class="o_boardkit_dashboard_cell"
+                            t-att-style="getItemStyle(item.id)"
+                        >
+                            <DashboardItemCard
+                                config="item"
+                                data="state.itemData[item.id]"
+                                filterStamp="state.filterStamp"
+                                currency="state.board.currency"
+                                editable="state.editMode"
+                                isManager="state.board.is_manager"
+                                onDrill="(domain, name) => this.openDrilldown(item, domain, name)"
+                                onDrillData="(level, domain) => this.fetchDrillData(item, level, domain)"
+                                onOpenRecord="(resId) => this.openRecord(item, resId)"
+                                onPageChange="(params) => this.reloadItem(item.id, params)"
+                                onEdit="() => this.editItem(item)"
+                                onDuplicate="() => this.duplicateItem(item)"
+                                onDelete="() => this.deleteItem(item)"
+                                onExport="(format) => this.exportItem(item, format)"
+                                onDragStart="(ev) => this.onItemPointerDown(ev, item.id, 'move')"
+                                onResizeStart="(ev) => this.onItemPointerDown(ev, item.id, 'resize')"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

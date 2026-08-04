@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="boardkit_dashboard.DateFilter">
+        <div
+            class="o_boardkit_dashboard_date_filter d-flex align-items-center gap-2 flex-wrap"
+        >
+            <Dropdown>
+                <button class="btn btn-secondary btn-sm">
+                    <i
+                        class="fa fa-calendar me-1"
+                        role="img"
+                        aria-label="Date filter"
+                    />
+                    <t t-esc="currentLabel" />
+                    <i class="fa fa-caret-down ms-1" role="img" aria-label="Open" />
+                </button>
+                <t t-set-slot="content">
+                    <t t-foreach="props.presets" t-as="preset" t-key="preset[0]">
+                        <DropdownItem
+                            onSelected="() => this.onPresetSelected(preset[0])"
+                            class="{'fw-bold': preset[0] === props.value.preset}"
+                        >
+                            <t t-esc="preset[1]" />
+                        </DropdownItem>
+                    </t>
+                </t>
+            </Dropdown>
+            <t t-if="isCustom">
+                <DateTimeInput
+                    type="'date'"
+                    value="state.customFrom || undefined"
+                    onChange="(value) => { state.customFrom = value; }"
+                    placeholder.translate="Start date"
+                />
+                <i
+                    class="fa fa-long-arrow-right text-muted"
+                    role="img"
+                    aria-label="to"
+                />
+                <DateTimeInput
+                    type="'date'"
+                    value="state.customTo || undefined"
+                    onChange="(value) => { state.customTo = value; }"
+                    placeholder.translate="End date"
+                />
+                <button
+                    class="btn btn-primary btn-sm"
+                    t-on-click="onApplyCustom"
+                >Apply</button>
+            </t>
+        </div>
+    </t>
+</templates>
