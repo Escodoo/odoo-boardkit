@@ -1,0 +1,30 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_account
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_account
+#: model:boardkit.dashboard.template,description:boardkit_dashboard_account.template_account_invoicing
+msgid ""
+"\n"
+"            Finance-oriented invoicing board: billed amount, outstanding and\n"
+"            overdue AR, credit notes, collection rate, amount trends, payment\n"
+"            status, top customers and a recent invoices list. Requires\n"
+"            Invoicing.\n"
+"        "
+msgstr ""
+
+#. module: boardkit_dashboard_account
+#: model:boardkit.dashboard.template,name:boardkit_dashboard_account.template_account_invoicing
+msgid "Invoicing Overview"
+msgstr ""
