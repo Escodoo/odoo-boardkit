@@ -123,7 +123,11 @@ from the main apps menu when *Show as App* is enabled.
 Managers can create a board from a template with the *From template*
 button in the Boards toolbar. The new board is unpublished so it can be
 reviewed before users see it. Optionally rename it in the wizard; leave
-the name empty to keep the template title.
+the name empty to keep the template title. When the template has
+*Allowed Groups*, those groups are copied to the new board (who can open
+it / its menu). Tile data still respects the source model's record
+rules. Leave the template groups empty to keep the board limited to
+Dashboard Users until a manager sets an audience.
 
 In the catalogue (kanban or list), or from the star next to the title
 when a dashboard is open, click the star to favorite it. Favorited
