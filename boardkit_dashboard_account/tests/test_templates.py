@@ -14,6 +14,10 @@ class TestAccountDashboardTemplates(TransactionCase):
         self.assertEqual(dashboard.name, "Invoicing Overview")
         self.assertFalse(dashboard.published)
         self.assertFalse(dashboard.menu_id)
+        self.assertEqual(
+            dashboard.group_ids,
+            self.env.ref("account.group_account_invoice"),
+        )
         self.assertEqual(len(dashboard.item_ids), 12)
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
