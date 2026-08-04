@@ -9,6 +9,10 @@
             high-priority and overdue backlogs, completion rate, unassigned
             requests, trends and team/type analytics. Requires Maintenance.
         </field>
+        <field
+            name="group_ids"
+            eval="[(4, ref('maintenance.group_equipment_manager'))]"
+        />
         <field name="payload">
 {
   "version": 1,
