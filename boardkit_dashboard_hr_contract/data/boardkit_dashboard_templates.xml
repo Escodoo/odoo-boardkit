@@ -13,6 +13,10 @@
             endings, start trends and department/type analytics. Requires
             Contracts.
         </field>
+        <field
+            name="group_ids"
+            eval="[(4, ref('hr_contract.group_hr_contract_manager'))]"
+        />
         <field name="payload">
 {
   "version": 1,

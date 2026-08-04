@@ -16,6 +16,10 @@ class TestContractDashboardTemplates(TransactionCase):
         self.assertEqual(dashboard.name, "Employee Contracts Overview")
         self.assertFalse(dashboard.published)
         self.assertFalse(dashboard.menu_id)
+        self.assertEqual(
+            dashboard.group_ids,
+            self.env.ref("hr_contract.group_hr_contract_manager"),
+        )
         self.assertEqual(len(dashboard.item_ids), 12)
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
