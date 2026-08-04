@@ -316,6 +316,9 @@
 
 // Catalogue kanban used by the Dashboards configuration action.
 .o_boardkit_dashboard_kanban {
+    // Keep cards in a row equal height (Odoo ungrouped uses flex-wrap).
+    align-items: stretch;
+
     // Exclude Odoo flex-spacing ghosts (.o_kanban_ghost): min-height/hover
     // would make empty white blocks appear at the end of the last row.
     .o_kanban_record:not(.o_kanban_ghost) {
@@ -324,9 +327,18 @@
         // and the manage dropdown are not affected (own clipping / overlay).
         overflow: hidden;
         min-height: 11.5rem;
+        // Default min-width:auto lets nowrap footer chips (e.g. refresh)
+        // inflate the first card's width; allow shrink so siblings match.
+        min-width: 0;
+        flex: 1 1 var(--KanbanRecord-width);
         transition:
             box-shadow 0.15s ease,
             transform 0.15s ease;
+
+        // Undo Odoo's first-record margin-top: 1px quirk so row 1 aligns.
+        &:first-of-type {
+            margin-top: calc(var(--KanbanRecord-margin-v) * 0.5);
+        }
 
         &:hover {
             box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.12);
@@ -337,7 +349,8 @@
     .o_boardkit_dashboard_kanban_card {
         display: flex;
         flex-direction: column;
-        height: 100%;
+        flex: 1 1 auto;
+        width: 100%;
         min-height: 10.5rem;
         // Clear the absolute palette strip (6px) plus a bit of breathing room.
         padding-top: 0.65rem;
