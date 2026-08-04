@@ -936,7 +936,9 @@ class BoardkitDashboard(models.Model):
             "user": self.env.user,
             "company_id": self.env.company.id,
             "company_ids": self.env.companies.ids,
-            "context_today": fields.Date.context_today,
+            # Callable with no args so domains can use context_today() like
+            # standard Odoo search views / ir.rule expressions.
+            "context_today": lambda: fields.Date.context_today(self),
             "datetime": datetime,
             "timedelta": timedelta,
             "relativedelta": relativedelta,
