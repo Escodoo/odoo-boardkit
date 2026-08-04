@@ -9,6 +9,7 @@
             and departures, active rate, org gaps, permit expiry, trends and
             department/type analytics. Requires Employees.
         </field>
+        <field name="group_ids" eval="[(4, ref('hr.group_hr_user'))]" />
         <field name="payload">
 {
   "version": 1,

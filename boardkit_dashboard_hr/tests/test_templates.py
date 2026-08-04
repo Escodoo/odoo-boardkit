@@ -14,6 +14,10 @@ class TestHrDashboardTemplates(TransactionCase):
         self.assertEqual(dashboard.name, "Employees Overview")
         self.assertFalse(dashboard.published)
         self.assertFalse(dashboard.menu_id)
+        self.assertEqual(
+            dashboard.group_ids,
+            self.env.ref("hr.group_hr_user"),
+        )
         self.assertEqual(len(dashboard.item_ids), 12)
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
