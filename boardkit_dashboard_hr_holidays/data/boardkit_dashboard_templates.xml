@@ -10,6 +10,10 @@
             currently away, trends and type/department analytics. Requires
             Time Off.
         </field>
+        <field
+            name="group_ids"
+            eval="[(4, ref('hr_holidays.group_hr_holidays_user'))]"
+        />
         <field name="payload">
 {
   "version": 1,
