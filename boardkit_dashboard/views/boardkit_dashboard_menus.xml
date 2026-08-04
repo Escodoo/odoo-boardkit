@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem
+        id="menu_dashboard_root"
+        name="All Dashboards"
+        sequence="25"
+        groups="boardkit_dashboard.group_dashboard_user"
+        web_icon="boardkit_dashboard,static/description/icon.png"
+    />
+    <!-- Always visible for Dashboard Users so the app is not empty when no
+         board-specific menus are published under the root. -->
+    <menuitem
+        id="menu_dashboard_boards"
+        name="Boards"
+        parent="menu_dashboard_root"
+        action="boardkit_dashboard_action"
+        sequence="10"
+        groups="boardkit_dashboard.group_dashboard_user"
+    />
+    <menuitem
+        id="menu_dashboard_config"
+        name="Configuration"
+        parent="menu_dashboard_root"
+        sequence="99"
+        groups="boardkit_dashboard.group_dashboard_manager"
+    />
+    <menuitem
+        id="menu_dashboard_palettes"
+        parent="menu_dashboard_config"
+        action="boardkit_dashboard_palette_action"
+        sequence="25"
+    />
+    <menuitem
+        id="menu_dashboard_tags"
+        parent="menu_dashboard_config"
+        action="boardkit_dashboard_tag_action"
+        sequence="27"
+    />
+    <menuitem
+        id="menu_dashboard_templates"
+        parent="menu_dashboard_config"
+        action="boardkit_dashboard_template_action"
+        sequence="30"
+    />
+</odoo>

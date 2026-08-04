@@ -1,0 +1,481 @@
+// Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+// License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
+.o_boardkit_dashboard {
+    background-color: var(--o-webclient-background-color, #f9fafb);
+
+    .o_boardkit_dashboard_topbar {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        // Keep the bar opaque so scrolling cards never show through it.
+        background-color: var(--o-view-background-color, #ffffff);
+
+        .o_boardkit_dashboard_topbar_title {
+            margin-right: 0.25rem;
+            max-width: 40%;
+
+            .o_boardkit_dashboard_favorite {
+                flex: 0 0 auto;
+                line-height: 1;
+                color: var(--o-color-warning, #f0ad4e);
+                text-decoration: none;
+
+                &:hover,
+                &:focus {
+                    color: var(--o-color-warning, #f0ad4e);
+                    opacity: 0.85;
+                }
+            }
+        }
+
+        .o_boardkit_dashboard_topbar_filters {
+            min-width: 0;
+        }
+
+        .o_boardkit_dashboard_topbar_actions {
+            margin-left: auto;
+        }
+    }
+
+    .o_boardkit_dashboard_grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-auto-rows: 56px;
+        gap: 12px;
+
+        &.o_edit_mode {
+            background-image: radial-gradient(circle, #d1d5db 1px, transparent 1px);
+            background-size: calc(100% / 12) 68px;
+
+            .o_boardkit_dashboard_card {
+                outline: 1px dashed #9ca3af;
+            }
+        }
+    }
+
+    .o_boardkit_dashboard_cell {
+        min-width: 0;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    .o_boardkit_dashboard_drill_breadcrumb {
+        min-height: 1.5rem;
+        flex-wrap: wrap;
+        opacity: 0.9;
+
+        .btn-link {
+            max-width: 8rem;
+            text-decoration: none;
+            color: inherit;
+            opacity: 0.75;
+
+            &:hover {
+                opacity: 1;
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .o_boardkit_dashboard_card {
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 8px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        position: relative;
+        overflow: hidden;
+        transition: box-shadow 0.15s ease-in-out;
+
+        &:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    .o_boardkit_dashboard_card_header {
+        min-height: 32px;
+
+        &.o_grab {
+            cursor: grab;
+            user-select: none;
+        }
+    }
+
+    .o_boardkit_dashboard_card_menu {
+        color: inherit;
+        opacity: 0.5;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    .o_boardkit_dashboard_drag_icon {
+        opacity: 0.4;
+    }
+
+    .o_boardkit_dashboard_big_value {
+        font-size: 1.75rem;
+        font-weight: 700;
+        line-height: 1.1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .o_boardkit_dashboard_tile_icon {
+        width: 56px;
+        height: 56px;
+        flex: 0 0 56px;
+    }
+
+    .o_boardkit_dashboard_card_body {
+        min-height: 0;
+        // Size queries let pie/gauge/map pick the largest fitting box.
+        container-type: size;
+
+        // Chart/list content must claim the remaining card height so Chart.js
+        // (maintainAspectRatio: false) and tables can fill the cell.
+        > .o_boardkit_dashboard_chart,
+        > .o_boardkit_dashboard_list {
+            flex: 1 1 auto;
+            min-height: 0;
+            width: 100%;
+        }
+    }
+
+    .o_boardkit_dashboard_chart {
+        position: relative;
+        width: 100%;
+        height: 100%;
+
+        // Semicircle gauges and equalEarth maps look letterboxed in a tall
+        // square; constrain their box to a matching aspect ratio and center.
+        &[data-type="gauge"],
+        &[data-type="map"] {
+            // Largest 2:1 box that fits the card body (width or height limited).
+            width: #{"min(100%, calc(100cqh * 2))"};
+            height: #{"min(100%, calc(100cqi / 2))"};
+            max-width: 100%;
+            max-height: 100%;
+            aspect-ratio: 2 / 1;
+            margin: auto;
+            flex: 0 1 auto;
+            align-self: center;
+        }
+
+        // Pie-like charts stay circular: largest square that fits the body.
+        // Interpolation keeps libsass from evaluating container query units.
+        &[data-type="pie"],
+        &[data-type="doughnut"],
+        &[data-type="polar"] {
+            width: #{"min(100%, 100cqh)"};
+            height: #{"min(100%, 100cqi)"};
+            max-width: 100%;
+            max-height: 100%;
+            aspect-ratio: 1 / 1;
+            margin: auto;
+            flex: 0 1 auto;
+            align-self: center;
+        }
+    }
+
+    .o_boardkit_dashboard_error_text {
+        max-height: 4em;
+        overflow: hidden;
+    }
+
+    .o_boardkit_dashboard_list {
+        thead th {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            // Opaque background matching the card color so scrolled rows
+            // never show through the sticky header ("inherit" resolves to
+            // the transparent row background instead).
+            background-color: var(--esc-card-bg, #ffffff);
+        }
+    }
+
+    .o_boardkit_dashboard_resize_handle {
+        position: absolute;
+        right: 2px;
+        bottom: 2px;
+        width: 16px;
+        height: 16px;
+        cursor: nwse-resize;
+        border-right: 3px solid #9ca3af;
+        border-bottom: 3px solid #9ca3af;
+        border-bottom-right-radius: 6px;
+    }
+
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    // One-column layout below Bootstrap md / Odoo ui.isSmall.
+    @media (max-width: 767.98px) {
+        .o_boardkit_dashboard_topbar {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            grid-template-areas:
+                "title actions"
+                "filters filters";
+            align-items: center;
+            column-gap: 0.5rem;
+            row-gap: 0.5rem;
+            padding: 0.625rem 0.75rem;
+
+            .o_boardkit_dashboard_topbar_title {
+                grid-area: title;
+                max-width: none;
+                margin-right: 0;
+            }
+
+            .o_boardkit_dashboard_topbar_actions {
+                grid-area: actions;
+                margin-left: 0;
+            }
+
+            .o_boardkit_dashboard_topbar_filters {
+                grid-area: filters;
+            }
+        }
+
+        .o_boardkit_dashboard_content {
+            padding: 0.75rem !important;
+            // Isolate scrolling paint from the sticky topbar sibling.
+            position: relative;
+            z-index: 0;
+        }
+
+        .o_boardkit_dashboard_grid {
+            grid-template-columns: 1fr;
+
+            &.o_edit_mode {
+                background-size: 100% 68px;
+            }
+
+            .o_boardkit_dashboard_cell {
+                grid-column: auto !important;
+                grid-row: auto / span var(--esc-mobile-h, 4) !important;
+            }
+        }
+
+        .o_boardkit_dashboard_resize_handle,
+        .o_boardkit_dashboard_drag_icon {
+            display: none !important;
+        }
+
+        .o_boardkit_dashboard_big_value {
+            font-size: 1.5rem;
+        }
+
+        .o_boardkit_dashboard_tile_icon {
+            width: 48px;
+            height: 48px;
+            flex: 0 0 48px;
+        }
+    }
+}
+
+// Rendered in the overlay container, outside .o_boardkit_dashboard.
+.o_boardkit_dashboard_custom_filter_menu {
+    min-width: 260px;
+}
+
+// Widen the item form dialog so the side-by-side preview does not squeeze
+// the domain widget and many2one fields.
+// Interpolation keeps libsass from evaluating modern CSS math functions.
+.modal-dialog:has(.o_boardkit_dashboard_item_preview) {
+    max-width: #{"min(1400px, 95vw)"};
+}
+
+// Pass width/height through Odoo's field wrappers so the sticky preview
+// pane and card stretch to the available column.
+.o_boardkit_dashboard_item_preview_col {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+
+    .o_field_widget,
+    .o_cell,
+    .o_wrap_field,
+    .o_wrap_input {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+        width: 100%;
+        min-width: 0;
+        min-height: 0;
+    }
+}
+
+// Catalogue kanban used by the Dashboards configuration action.
+.o_boardkit_dashboard_kanban {
+    // Exclude Odoo flex-spacing ghosts (.o_kanban_ghost): min-height/hover
+    // would make empty white blocks appear at the end of the last row.
+    .o_kanban_record:not(.o_kanban_ghost) {
+        position: relative;
+        // Clip the palette strip to the card's rounded corners; the ribbon
+        // and the manage dropdown are not affected (own clipping / overlay).
+        overflow: hidden;
+        min-height: 11.5rem;
+        transition:
+            box-shadow 0.15s ease,
+            transform 0.15s ease;
+
+        &:hover {
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+    }
+
+    .o_boardkit_dashboard_kanban_card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        min-height: 10.5rem;
+    }
+
+    // Unpublished boards recede behind the published ones. Only the content
+    // fades: the ribbon and the palette strip keep full contrast.
+    .o_boardkit_dashboard_kanban_card_draft {
+        .o_boardkit_dashboard_kanban_title,
+        .o_boardkit_dashboard_kanban_description,
+        .o_field_many2many_tags,
+        .o_boardkit_dashboard_kanban_meta {
+            opacity: 0.7;
+            transition: opacity 0.15s ease;
+        }
+    }
+
+    .o_kanban_record:hover .o_boardkit_dashboard_kanban_card_draft {
+        .o_boardkit_dashboard_kanban_title,
+        .o_boardkit_dashboard_kanban_description,
+        .o_field_many2many_tags,
+        .o_boardkit_dashboard_kanban_meta {
+            opacity: 1;
+        }
+    }
+
+    // Same markup/classes as web.Ribbon; sized for kanban cards and kept
+    // clear of the top-right manage menu (pointer-events already none).
+    .o_boardkit_dashboard_kanban_ribbon {
+        --Ribbon-wrapper-width: 8.5rem;
+        --Ribbon-font-size: #{$font-size-sm};
+        --Ribbon-gap-top: 0;
+        --Ribbon-gap-right: 0;
+        --Ribbon-z-index: 2;
+    }
+
+    .o_boardkit_dashboard_kanban_title {
+        line-height: 1.25;
+        margin-bottom: 0.15rem;
+        padding-right: 2.5rem;
+
+        .o_field_widget {
+            font-weight: 600;
+        }
+    }
+
+    .o_boardkit_dashboard_kanban_description {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        padding-right: 2.5rem;
+    }
+
+    // Allow several tags on one card: Odoo sets --Tag-max-width: 100% on
+    // kanban records, which forces each tag onto its own full-width row.
+    .o_field_many2many_tags {
+        --Tag-max-width: 8rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+
+    .o_boardkit_dashboard_kanban_types {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+
+    .o_boardkit_dashboard_kanban_type {
+        font-weight: 500;
+    }
+
+    .o_boardkit_dashboard_kanban_company {
+        min-width: 0;
+        max-width: 100%;
+
+        .badge {
+            display: inline-block;
+            max-width: 100%;
+            vertical-align: bottom;
+        }
+    }
+
+    .o_boardkit_dashboard_kanban_footer {
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .o_boardkit_dashboard_kanban_item_count {
+        white-space: nowrap;
+        font-weight: 500;
+    }
+
+    .o_boardkit_dashboard_kanban_refresh {
+        white-space: nowrap;
+    }
+
+    // Palette accent bar bleeding to the top edge of the card.
+    .o_boardkit_dashboard_kanban_strip {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        display: flex;
+        z-index: 1;
+    }
+
+    .o_boardkit_dashboard_kanban_strip_segment {
+        flex: 1 1 0;
+    }
+}
+
+// Live preview card inside the item form view. The element also carries the
+// .o_boardkit_dashboard class so the regular card styles apply to it.
+.o_boardkit_dashboard_item_preview {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: #{"clamp(360px, 65vh, 640px)"};
+    min-height: 360px;
+    position: sticky;
+    top: 0.5rem;
+    background: none;
+
+    > .o_boardkit_dashboard_card {
+        flex: 1 1 auto;
+        width: 100%;
+        min-height: 0;
+    }
+
+    .o_boardkit_dashboard_item_preview_empty {
+        flex: 1 1 auto;
+        border: 1px dashed rgba(0, 0, 0, 0.15);
+        border-radius: 8px;
+    }
+}
+
+// Hide the Odoo navbar while this dashboard owns the browser fullscreen mode.
+// Scoped to our own body class so Discuss / PDF viewers stay unaffected.
+body.o_boardkit_dashboard_fullscreen .o_main_navbar {
+    display: none;
+}
