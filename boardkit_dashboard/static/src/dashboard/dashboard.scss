@@ -343,13 +343,17 @@
         padding-top: 0.65rem;
     }
 
+    // Draft look on the full kanban record (not only the inner card div),
+    // so the dashed border and muted background fill the whole tile.
+    .o_kanban_record:not(.o_kanban_ghost):has(.o_boardkit_dashboard_kanban_card_draft) {
+        background-color: rgba(0, 0, 0, 0.03);
+        border-style: dashed;
+        border-color: rgba(0, 0, 0, 0.18);
+    }
+
     // Unpublished boards recede behind the published ones. Only the content
     // fades: the ribbon, palette strip and Publish button keep full contrast.
     .o_boardkit_dashboard_kanban_card_draft {
-        background-color: rgba(0, 0, 0, 0.03);
-        border: 1px dashed rgba(0, 0, 0, 0.18);
-        border-radius: 0.25rem;
-
         .o_boardkit_dashboard_kanban_title,
         .o_boardkit_dashboard_kanban_description,
         .o_field_many2many_tags {
@@ -366,12 +370,15 @@
         }
     }
 
-    // Same markup/classes as web.Ribbon; sized for kanban cards and kept
-    // clear of the top-right manage menu (pointer-events already none).
+    // Same markup/classes as web.Ribbon; sized for kanban cards. Pull the
+    // ribbon up by the record padding and the card's top padding (clearance
+    // under the palette strip) so it sits flush with the top edge.
     .o_boardkit_dashboard_kanban_ribbon {
         --Ribbon-wrapper-width: 8.5rem;
         --Ribbon-font-size: #{$font-size-sm};
-        --Ribbon-gap-top: 0;
+        --Ribbon-gap-top: calc(
+            var(--KanbanRecord-padding-v) * -1 - 0.65rem - #{$border-width}
+        );
         --Ribbon-gap-right: 0;
         --Ribbon-z-index: 2;
     }
@@ -436,8 +443,7 @@
         font-weight: 500;
     }
 
-    .o_boardkit_dashboard_kanban_refresh,
-    .o_boardkit_dashboard_kanban_draft_label {
+    .o_boardkit_dashboard_kanban_refresh {
         white-space: nowrap;
     }
 

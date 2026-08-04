@@ -40,7 +40,7 @@
                     />
                     <widget
                         name="web_ribbon"
-                        title="Not Published"
+                        title="Draft"
                         bg_color="text-bg-warning"
                         invisible="published or not active"
                     />
@@ -221,9 +221,7 @@
                                 t-if="!record.published.raw_value"
                                 class="ribbon ribbon-top-right o_boardkit_dashboard_kanban_ribbon"
                             >
-                                <span
-                                    class="text-bg-danger o_small"
-                                >Not Published</span>
+                                <span class="text-bg-danger o_small">Draft</span>
                             </div>
                             <div
                                 class="o_boardkit_dashboard_kanban_title d-flex align-items-start gap-2 fw-bold fs-5"
@@ -269,9 +267,14 @@
                                     class="o_boardkit_dashboard_kanban_footer d-flex flex-wrap align-items-center gap-2 pt-2"
                                 >
                                     <span
-                                        t-if="!record.published.raw_value"
-                                        class="o_boardkit_dashboard_kanban_draft_label text-muted small"
-                                    >Draft</span>
+                                        class="o_boardkit_dashboard_kanban_item_count text-muted small"
+                                        title="Items"
+                                    >
+                                        <i class="fa fa-th-large me-1" />
+                                        <t
+                                            t-esc="record.item_count.raw_value === 1 ? (record.item_count.value + ' Item') : (record.item_count.value + ' Items')"
+                                        />
+                                    </span>
                                     <span
                                         t-if="record.refresh_interval.raw_value !== '0'"
                                         class="o_boardkit_dashboard_kanban_refresh text-muted small"
@@ -279,16 +282,6 @@
                                     >
                                         <i class="fa fa-refresh me-1" />
                                         <t t-esc="record.refresh_interval.value" />
-                                    </span>
-                                    <span
-                                        class="o_boardkit_dashboard_kanban_item_count text-muted small"
-                                        t-att-class="{'ms-auto': record.published.raw_value}"
-                                        title="Items"
-                                    >
-                                        <i class="fa fa-th-large me-1" />
-                                        <t
-                                            t-esc="record.item_count.raw_value === 1 ? (record.item_count.value + ' Item') : (record.item_count.value + ' Items')"
-                                        />
                                     </span>
                                     <button
                                         t-if="!record.published.raw_value"
@@ -369,7 +362,7 @@
                 />
                 <filter
                     name="not_published"
-                    string="Not Published"
+                    string="Draft"
                     domain="[('published', '=', False)]"
                 />
                 <separator />

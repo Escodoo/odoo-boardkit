@@ -162,10 +162,10 @@ dashboards appear first and can be filtered with *My Favorites* or the
 search panel *Favorites* section. Favorites are personal and do not
 affect other users.
 
-Unpublished boards show a draft style and a *Draft* label; managers can
-publish directly from the card. An empty catalogue shows a first-run
-hero with featured templates (when the matching template modules are
-installed).
+Unpublished boards show a draft style and a *Draft* ribbon; managers can
+publish directly from the card or the card menu. An empty catalogue shows
+a first-run hero with featured templates (when the matching template
+modules are installed).
 
 Catalogue cards show an icon from the board's optional *Icon* field.
 Leave it empty to inherit the first tag icon set in *All Dashboards >
