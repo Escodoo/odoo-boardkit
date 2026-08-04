@@ -111,7 +111,10 @@ Configuration
    JSON file exported from the dashboard action menu. Imported boards
    arrive unpublished and without a menu entry, so review them before
    publishing. Managers can also inspect or edit template payloads under
-   *All Dashboards > Configuration > Templates*.
+   *All Dashboards > Configuration > Templates*. On each template, set
+   *Allowed Groups* to the lowest app group that should open boards
+   created from it (managers already inherit implied user groups). Leave
+   empty for generic templates that stay limited to Dashboard Users.
 
 Usage
 =====
