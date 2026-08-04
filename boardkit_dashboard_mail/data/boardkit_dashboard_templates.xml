@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="template_my_day" model="boardkit.dashboard.template">
+        <field name="name">My Day</field>
+        <field name="key">my_day</field>
+        <field name="sequence">15</field>
+        <field name="description">
+            Personal board for the signed-in user: open and overdue activities,
+            today's due items, upcoming meetings, inbox unread, Discuss channels
+            and chats, plus lists for overdue activities, next meetings and
+            recent inbox messages. Requires Mail and Calendar.
+        </field>
+        <field name="group_ids" eval="[(4, ref('base.group_user'))]" />
+        <field name="payload">
+{
+  "version": 1,
+  "dashboards": [
+    {
+      "name": "My Day",
+      "description": "Personal activities, meetings, inbox and Discuss for the signed-in user.",
+      "tags": [
+        "Personal",
+        "Mail"
+      ],
+      "date_filter": "none",
+      "refresh_interval": "0",
+      "items": [
+        {
+          "name": "Open Activities",
+          "item_type": "tile",
+          "model": "mail.activity",
+          "aggregation": "count",
+          "icon": "fa-check-square-o",
+          "domain": "[('user_id', '=', uid), ('active', '=', True)]",
+          "layout": {
+            "x": 0,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 0
+        },
+        {
+          "name": "Overdue",
+          "item_type": "tile",
+          "model": "mail.activity",
+          "aggregation": "count",
+          "icon": "fa-exclamation-triangle",
+          "domain": "[('user_id', '=', uid), ('active', '=', True), ('date_deadline', '&lt;', context_today())]",
+          "layout": {
+            "x": 3,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 1
+        },
+        {
+          "name": "Due Today",
+          "item_type": "tile",
+          "model": "mail.activity",
+          "aggregation": "count",
+          "icon": "fa-calendar-check-o",
+          "domain": "[('user_id', '=', uid), ('active', '=', True), ('date_deadline', '=', context_today())]",
+          "layout": {
+            "x": 6,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 2
+        },
+        {
+          "name": "Upcoming Meetings",
+          "item_type": "tile",
+          "model": "calendar.event",
+          "aggregation": "count",
+          "icon": "fa-calendar",
+          "domain": "[('partner_ids.user_ids', 'in', [uid]), ('start', '>=', datetime.now())]",
+          "layout": {
+            "x": 9,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 3
+        },
+        {
+          "name": "Inbox Unread",
+          "item_type": "tile",
+          "model": "mail.message",
+          "aggregation": "count",
+          "icon": "fa-envelope",
+          "domain": "[('needaction', '=', True)]",
+          "layout": {
+            "x": 0,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 4
+        },
+        {
+          "name": "My Channels",
+          "item_type": "tile",
+          "model": "discuss.channel",
+          "aggregation": "count",
+          "icon": "fa-comments",
+          "domain": "[('is_member', '=', True)]",
+          "layout": {
+            "x": 3,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 5
+        },
+        {
+          "name": "My Chats",
+          "item_type": "tile",
+          "model": "discuss.channel",
+          "aggregation": "count",
+          "icon": "fa-comment",
+          "domain": "[('is_member', '=', True), ('channel_type', '=', 'chat')]",
+          "layout": {
+            "x": 6,
+            "y": 2,
+            "w": 6,
+            "h": 2
+          },
+          "index": 6
+        },
+        {
+          "name": "Activities by Type",
+          "item_type": "pie",
+          "model": "mail.activity",
+          "aggregation": "count",
+          "group_by_field_id": "activity_type_id",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "domain": "[('user_id', '=', uid), ('active', '=', True)]",
+          "layout": {
+            "x": 0,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 7
+        },
+        {
+          "name": "Activities by Model",
+          "item_type": "bar",
+          "model": "mail.activity",
+          "aggregation": "count",
+          "group_by_field_id": "res_model",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "domain": "[('user_id', '=', uid), ('active', '=', True)]",
+          "layout": {
+            "x": 6,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 8
+        },
+        {
+          "name": "Overdue Activities",
+          "item_type": "list",
+          "model": "mail.activity",
+          "list_type": "plain",
+          "sort_field_id": "date_deadline",
+          "sort_field_model": "mail.activity",
+          "sort_dir": "asc",
+          "page_size": 10,
+          "list_columns": [
+            "summary",
+            "date_deadline",
+            "activity_type_id",
+            "res_name"
+          ],
+          "domain": "[('user_id', '=', uid), ('active', '=', True), ('date_deadline', '&lt;', context_today())]",
+          "layout": {
+            "x": 0,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 9
+        },
+        {
+          "name": "Next Meetings",
+          "item_type": "list",
+          "model": "calendar.event",
+          "list_type": "plain",
+          "sort_field_id": "start",
+          "sort_field_model": "calendar.event",
+          "sort_dir": "asc",
+          "page_size": 10,
+          "list_columns": [
+            "name",
+            "start",
+            "stop",
+            "location"
+          ],
+          "domain": "[('partner_ids.user_ids', 'in', [uid]), ('start', '>=', datetime.now())]",
+          "layout": {
+            "x": 6,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 10
+        },
+        {
+          "name": "Recent Inbox",
+          "item_type": "list",
+          "model": "mail.message",
+          "list_type": "plain",
+          "sort_field_id": "date",
+          "sort_field_model": "mail.message",
+          "sort_dir": "desc",
+          "page_size": 10,
+          "list_columns": [
+            "date",
+            "author_id",
+            "subject",
+            "model"
+          ],
+          "domain": "[('needaction', '=', True)]",
+          "layout": {
+            "x": 0,
+            "y": 12,
+            "w": 12,
+            "h": 4
+          },
+          "index": 11
+        }
+      ],
+      "filters": [
+        {
+          "name": "Overdue only",
+          "sequence": 10,
+          "model": "mail.activity",
+          "domain": "[('user_id', '=', uid), ('active', '=', True), ('date_deadline', '&lt;', context_today())]",
+          "default_enabled": false
+        },
+        {
+          "name": "Due today",
+          "sequence": 20,
+          "model": "mail.activity",
+          "domain": "[('user_id', '=', uid), ('active', '=', True), ('date_deadline', '=', context_today())]",
+          "default_enabled": false
+        },
+        {
+          "name": "Chats only",
+          "sequence": 30,
+          "model": "discuss.channel",
+          "domain": "[('is_member', '=', True), ('channel_type', '=', 'chat')]",
+          "default_enabled": false
+        }
+      ]
+    }
+  ]
+}
+        </field>
+    </record>
+</odoo>
