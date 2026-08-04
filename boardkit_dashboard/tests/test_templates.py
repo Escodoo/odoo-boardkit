@@ -17,6 +17,7 @@ class TestDashboardTemplates(BoardkitDashboardCommon):
         self.assertEqual(dashboard.name, "Partner Starter")
         self.assertFalse(dashboard.published)
         self.assertFalse(dashboard.menu_id)
+        self.assertFalse(dashboard.group_ids)
         self.assertEqual(len(dashboard.item_ids), 3)
         self.assertTrue(dashboard.item_ids.filtered(lambda i: i.item_type == "tile"))
         self.assertTrue(dashboard.item_ids.filtered(lambda i: i.item_type == "kpi"))
@@ -29,10 +30,19 @@ class TestDashboardTemplates(BoardkitDashboardCommon):
         dashboard = self.env["boardkit.dashboard"].browse(dashboard_ids)
         self.assertEqual(dashboard.name, "My Custom Board")
 
+    def test_create_from_template_copies_allowed_groups(self):
+        template = self.env.ref("boardkit_dashboard.template_partner_starter")
+        group = self.env.ref("base.group_system")
+        template.group_ids = [(6, 0, group.ids)]
+        dashboard_ids = self.env["boardkit.dashboard"].create_from_template(template.id)
+        dashboard = self.env["boardkit.dashboard"].browse(dashboard_ids)
+        self.assertEqual(dashboard.group_ids, group)
+
     def test_create_from_template_contacts_overview(self):
         template = self.env.ref("boardkit_dashboard.template_contacts_overview")
         dashboard_ids = self.env["boardkit.dashboard"].create_from_template(template.id)
         dashboard = self.env["boardkit.dashboard"].browse(dashboard_ids)
+        self.assertFalse(dashboard.group_ids)
         self.assertEqual(len(dashboard.item_ids), 6)
         self.assertEqual(len(dashboard.filter_ids), 1)
         bar = dashboard.item_ids.filtered(lambda i: i.item_type == "bar")
