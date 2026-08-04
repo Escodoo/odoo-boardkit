@@ -1,5 +1,13 @@
 Build configurable analytic dashboards on top of any Odoo model, without writing code.
 
+![CRM Pipeline](../static/description/images/boardkit-crm-pipeline.png)
+
+![Contacts Overview](../static/description/images/boardkit-contacts-overview.png)
+
+![Purchase Overview](../static/description/images/boardkit-purchase-overview.png)
+
+![Timesheet Overview](../static/description/images/boardkit-timesheet-overview.png)
+
 Each dashboard is a grid of items rendered with native web assets (OWL and the Chart.js
 library bundled with Odoo):
 
