@@ -445,10 +445,11 @@
             position: absolute;
             right: 0.1rem;
             bottom: 100%;
-            width: 9.1rem;
+            width: 6.5rem;
             height: 5.33rem;
             pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 56'%3E%3Crect x='1' y='40' width='11' height='16' rx='2' fill='%23e8eaec80'/%3E%3Crect x='15' y='34' width='11' height='22' rx='2' fill='%23e8eaec80'/%3E%3Crect x='29' y='28' width='11' height='28' rx='2' fill='%23e8eaec80'/%3E%3Crect x='43' y='22' width='11' height='34' rx='2' fill='%23e8eaec80'/%3E%3Crect x='57' y='15' width='11' height='41' rx='2' fill='%23e8eaec80'/%3E%3Crect x='71' y='9' width='11' height='47' rx='2' fill='%23e8eaec80'/%3E%3Crect x='85' y='2' width='11' height='54' rx='2' fill='%23e8eaec80'/%3E%3C/svg%3E");
+            // Non-linear heights (≈40% / 70% / 30% / 95%); bars ~30% thicker.
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 76 56'%3E%3Crect x='1' y='34' width='16' height='22' rx='2.5' fill='%23e8eaec80'/%3E%3Crect x='21' y='16' width='16' height='40' rx='2.5' fill='%23e8eaec80'/%3E%3Crect x='41' y='39' width='16' height='17' rx='2.5' fill='%23e8eaec80'/%3E%3Crect x='61' y='3' width='16' height='53' rx='2.5' fill='%23e8eaec80'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right bottom;
             background-size: 100% 100%;
