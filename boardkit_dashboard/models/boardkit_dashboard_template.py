@@ -21,6 +21,17 @@ class BoardkitDashboardTemplate(models.Model):
     description = fields.Text(translate=True)
     sequence = fields.Integer(default=10)
     active = fields.Boolean(default=True)
+    group_ids = fields.Many2many(
+        comodel_name="res.groups",
+        relation="boardkit_dashboard_template_group_rel",
+        column1="template_id",
+        column2="group_id",
+        string="Allowed Groups",
+        help="Copied to boards created from this template. Restrict who can "
+        "open the dashboard and its menu entry. Leave empty to allow every "
+        "Dashboard User only. Prefer the lowest app group that matches the "
+        "template KPIs; managers already inherit implied user groups.",
+    )
     payload = fields.Json(
         string="Payload Data",
         required=True,

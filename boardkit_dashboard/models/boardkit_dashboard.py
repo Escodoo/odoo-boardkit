@@ -860,7 +860,12 @@ class BoardkitDashboard(models.Model):
                 if isinstance(data, dict):
                     data["name"] = name
                     break
-        return self.import_config(payload)
+        dashboard_ids = self.import_config(payload)
+        if template.group_ids:
+            self.browse(dashboard_ids).write(
+                {"group_ids": [(6, 0, template.group_ids.ids)]}
+            )
+        return dashboard_ids
 
     @api.model
     def import_config(self, payload):
