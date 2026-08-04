@@ -70,7 +70,9 @@ class TestExportImport(BoardkitDashboardCommon):
         self.assertEqual(tile.get_data()["value"], 3)
 
     def test_description_and_tags_export_import(self):
-        tag = self.env["boardkit.dashboard.tag"].create({"name": "Finance"})
+        tag = self.env["boardkit.dashboard.tag"].create(
+            {"name": "Finance", "icon": "fa-money"}
+        )
         self.dashboard.write(
             {
                 "description": "Finance KPIs at a glance",
@@ -80,7 +82,7 @@ class TestExportImport(BoardkitDashboardCommon):
         payload = self.dashboard.export_config()
         data = payload["dashboards"][0]
         self.assertEqual(data["description"], "Finance KPIs at a glance")
-        self.assertEqual(data["tags"], ["Finance"])
+        self.assertEqual(data["tags"], [{"name": "Finance", "icon": "fa-money"}])
 
         # Drop the tag so import must recreate it by name.
         tag.unlink()
@@ -88,6 +90,62 @@ class TestExportImport(BoardkitDashboardCommon):
         imported = self.env["boardkit.dashboard"].browse(new_ids)
         self.assertEqual(imported.description, "Finance KPIs at a glance")
         self.assertEqual(imported.tag_ids.mapped("name"), ["Finance"])
+        self.assertEqual(imported.tag_ids.icon, "fa-money")
+        self.assertEqual(imported.kanban_icon, "fa-money")
+
+    def test_import_legacy_string_tags_seeds_icon(self):
+        """Template-style string tags still create tags and seed known icons."""
+        payload = {
+            "version": 1,
+            "dashboards": [
+                {
+                    "name": "Legacy Tags Board",
+                    "tags": ["CRM"],
+                    "items": [],
+                }
+            ],
+        }
+        new_ids = self.env["boardkit.dashboard"].import_config(payload)
+        imported = self.env["boardkit.dashboard"].browse(new_ids)
+        self.assertEqual(imported.tag_ids.name, "CRM")
+        self.assertEqual(imported.tag_ids.icon, "fa-bullseye")
+        self.assertEqual(imported.kanban_icon, "fa-bullseye")
+
+    def test_import_does_not_overwrite_existing_tag_icon(self):
+        tag = self.env["boardkit.dashboard.tag"].create(
+            {"name": "Keep My Icon", "icon": "fa-cogs"}
+        )
+        payload = {
+            "version": 1,
+            "dashboards": [
+                {
+                    "name": "Keep Icon Board",
+                    "tags": [{"name": "Keep My Icon", "icon": "fa-bullseye"}],
+                    "items": [],
+                }
+            ],
+        }
+        new_ids = self.env["boardkit.dashboard"].import_config(payload)
+        imported = self.env["boardkit.dashboard"].browse(new_ids)
+        self.assertEqual(imported.tag_ids, tag)
+        self.assertEqual(tag.icon, "fa-cogs")
+
+    def test_board_icon_export_import(self):
+        tag = self.env["boardkit.dashboard.tag"].create(
+            {"name": "Override Domain", "icon": "fa-bullseye"}
+        )
+        self.dashboard.write(
+            {
+                "tag_ids": [(6, 0, tag.ids)],
+                "icon": "fa-plane",
+            }
+        )
+        payload = self.dashboard.export_config()
+        self.assertEqual(payload["dashboards"][0]["icon"], "fa-plane")
+        new_ids = self.env["boardkit.dashboard"].import_config(payload)
+        imported = self.env["boardkit.dashboard"].browse(new_ids)
+        self.assertEqual(imported.icon, "fa-plane")
+        self.assertEqual(imported.kanban_icon, "fa-plane")
 
     def test_import_leaves_board_hidden(self):
         """Imported boards must be reviewed before users can reach them."""

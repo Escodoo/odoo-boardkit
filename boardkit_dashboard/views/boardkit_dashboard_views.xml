@@ -65,6 +65,7 @@
                     <group>
                         <group name="settings">
                             <field name="company_id" options="{'no_create': True}" />
+                            <field name="icon" placeholder="Inherit from tags" />
                             <field name="refresh_interval" />
                             <field name="date_filter" />
                             <field
@@ -151,7 +152,6 @@
             <kanban
                 class="o_boardkit_dashboard_kanban"
                 js_class="boardkit_dashboard_catalogue_kanban"
-                sample="1"
                 action="action_open_dashboard"
                 type="object"
                 default_order="is_favorite desc, name"
@@ -163,6 +163,7 @@
                 <field name="item_count" />
                 <field name="refresh_interval" />
                 <field name="palette_strip_html" />
+                <field name="kanban_icon" />
                 <field name="company_id" />
                 <field name="is_favorite" />
                 <templates>
@@ -208,6 +209,14 @@
                             <div
                                 class="o_boardkit_dashboard_kanban_title d-flex align-items-start gap-2 fw-bold fs-5"
                             >
+                                <span
+                                    class="o_boardkit_dashboard_kanban_icon"
+                                    aria-hidden="true"
+                                >
+                                    <i
+                                        t-attf-class="fa {{ record.kanban_icon.raw_value or 'fa-th-large' }}"
+                                    />
+                                </span>
                                 <field
                                     name="is_favorite"
                                     widget="boardkit_dashboard_is_favorite"
@@ -220,13 +229,13 @@
                                 class="o_boardkit_dashboard_kanban_description text-muted small mb-1"
                                 t-esc="record.description.value"
                             />
-                            <field
-                                name="tag_ids"
-                                widget="many2many_tags"
-                                options="{'color_field': 'color'}"
-                                class="mb-2"
-                            />
                             <div class="o_boardkit_dashboard_kanban_meta mt-auto">
+                                <field
+                                    name="tag_ids"
+                                    widget="many2many_tags"
+                                    options="{'color_field': 'color'}"
+                                    class="mb-1"
+                                />
                                 <div
                                     t-if="record.company_id.raw_value"
                                     class="o_boardkit_dashboard_kanban_company mb-1"
@@ -241,6 +250,10 @@
                                     class="o_boardkit_dashboard_kanban_footer d-flex flex-wrap align-items-center gap-2 pt-2"
                                 >
                                     <span
+                                        t-if="!record.published.raw_value"
+                                        class="o_boardkit_dashboard_kanban_draft_label text-muted small"
+                                    >Draft</span>
+                                    <span
                                         t-if="record.refresh_interval.raw_value !== '0'"
                                         class="o_boardkit_dashboard_kanban_refresh text-muted small"
                                         title="Auto Refresh"
@@ -249,7 +262,8 @@
                                         <t t-esc="record.refresh_interval.value" />
                                     </span>
                                     <span
-                                        class="o_boardkit_dashboard_kanban_item_count ms-auto text-muted small"
+                                        class="o_boardkit_dashboard_kanban_item_count text-muted small"
+                                        t-att-class="{'ms-auto': record.published.raw_value}"
                                         title="Items"
                                     >
                                         <i class="fa fa-th-large me-1" />
@@ -257,6 +271,13 @@
                                             t-esc="record.item_count.raw_value === 1 ? (record.item_count.value + ' Item') : (record.item_count.value + ' Items')"
                                         />
                                     </span>
+                                    <button
+                                        t-if="!record.published.raw_value"
+                                        name="action_publish"
+                                        type="object"
+                                        class="btn btn-sm btn-primary ms-auto o_boardkit_dashboard_kanban_publish"
+                                        groups="boardkit_dashboard.group_dashboard_manager"
+                                    >Publish</button>
                                 </div>
                             </div>
                         </div>
@@ -341,6 +362,12 @@
                 />
                 <searchpanel>
                     <field
+                        name="favorite_panel"
+                        icon="fa-star"
+                        select="multi"
+                        enable_counters="1"
+                    />
+                    <field
                         name="tag_ids"
                         icon="fa-tag"
                         select="multi"
@@ -356,9 +383,10 @@
         <field name="res_model">boardkit.dashboard</field>
         <field name="view_mode">kanban,list,form</field>
         <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">No dashboards here yet</p>
-            <p>Dashboards you can access appear here. Managers can create new
-                ones combining tiles, KPIs, charts and lists from any model.</p>
+            <p class="o_view_nocontent_smiling_face">Start from a template</p>
+            <p>Managers can create a board from a curated template, import a JSON
+                export, or build one from scratch with tiles, KPIs, charts and lists.
+                Published boards you can access appear here.</p>
         </field>
     </record>
 </odoo>

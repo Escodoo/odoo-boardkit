@@ -339,16 +339,21 @@
         flex-direction: column;
         height: 100%;
         min-height: 10.5rem;
+        // Clear the absolute palette strip (6px) plus a bit of breathing room.
+        padding-top: 0.65rem;
     }
 
     // Unpublished boards recede behind the published ones. Only the content
-    // fades: the ribbon and the palette strip keep full contrast.
+    // fades: the ribbon, palette strip and Publish button keep full contrast.
     .o_boardkit_dashboard_kanban_card_draft {
+        background-color: rgba(0, 0, 0, 0.03);
+        border: 1px dashed rgba(0, 0, 0, 0.18);
+        border-radius: 0.25rem;
+
         .o_boardkit_dashboard_kanban_title,
         .o_boardkit_dashboard_kanban_description,
-        .o_field_many2many_tags,
-        .o_boardkit_dashboard_kanban_meta {
-            opacity: 0.7;
+        .o_field_many2many_tags {
+            opacity: 0.55;
             transition: opacity 0.15s ease;
         }
     }
@@ -356,8 +361,7 @@
     .o_kanban_record:hover .o_boardkit_dashboard_kanban_card_draft {
         .o_boardkit_dashboard_kanban_title,
         .o_boardkit_dashboard_kanban_description,
-        .o_field_many2many_tags,
-        .o_boardkit_dashboard_kanban_meta {
+        .o_field_many2many_tags {
             opacity: 1;
         }
     }
@@ -370,6 +374,19 @@
         --Ribbon-gap-top: 0;
         --Ribbon-gap-right: 0;
         --Ribbon-z-index: 2;
+    }
+
+    .o_boardkit_dashboard_kanban_icon {
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.75rem;
+        height: 1.75rem;
+        border-radius: 0.35rem;
+        background: rgba(113, 75, 103, 0.12);
+        color: #714b67;
+        font-size: 0.95rem;
     }
 
     .o_boardkit_dashboard_kanban_title {
@@ -399,16 +416,6 @@
         gap: 0.25rem;
     }
 
-    .o_boardkit_dashboard_kanban_types {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.25rem;
-    }
-
-    .o_boardkit_dashboard_kanban_type {
-        font-weight: 500;
-    }
-
     .o_boardkit_dashboard_kanban_company {
         min-width: 0;
         max-width: 100%;
@@ -429,7 +436,8 @@
         font-weight: 500;
     }
 
-    .o_boardkit_dashboard_kanban_refresh {
+    .o_boardkit_dashboard_kanban_refresh,
+    .o_boardkit_dashboard_kanban_draft_label {
         white-space: nowrap;
     }
 
@@ -439,13 +447,82 @@
         top: 0;
         left: 0;
         right: 0;
-        height: 4px;
+        height: 6px;
         display: flex;
         z-index: 1;
     }
 
     .o_boardkit_dashboard_kanban_strip_segment {
         flex: 1 1 0;
+    }
+}
+
+.o_boardkit_dashboard_catalogue_empty {
+    max-width: 52rem;
+    margin: 3rem auto;
+    padding: 0 1.5rem;
+    text-align: center;
+
+    .o_boardkit_dashboard_catalogue_empty_title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.35rem;
+    }
+
+    .o_boardkit_dashboard_catalogue_empty_subtitle {
+        color: var(--body-color);
+        opacity: 0.75;
+        margin-bottom: 1.25rem;
+    }
+
+    .o_boardkit_dashboard_catalogue_empty_actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-bottom: 1.75rem;
+    }
+
+    .o_boardkit_dashboard_catalogue_empty_featured {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+        gap: 0.75rem;
+        text-align: start;
+    }
+
+    .o_boardkit_dashboard_catalogue_empty_card {
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 0.35rem;
+        padding: 0.85rem 1rem;
+        background: #fff;
+        cursor: pointer;
+        transition:
+            box-shadow 0.15s ease,
+            transform 0.15s ease,
+            border-color 0.15s ease;
+
+        &:hover {
+            border-color: rgba(113, 75, 103, 0.45);
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0 0 0.35rem;
+        }
+
+        p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--body-color);
+            opacity: 0.75;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+            overflow: hidden;
+        }
     }
 }
 
