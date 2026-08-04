@@ -23,3 +23,6 @@
    exported from the dashboard action menu. Imported boards arrive unpublished and
    without a menu entry, so review them before publishing. Managers can also inspect
    or edit template payloads under _All Dashboards > Configuration > Templates_.
+   On each template, set _Allowed Groups_ to the lowest app group that should open
+   boards created from it (managers already inherit implied user groups). Leave
+   empty for generic templates that stay limited to Dashboard Users.
