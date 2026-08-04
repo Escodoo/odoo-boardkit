@@ -1,4 +1,5 @@
 from . import test_dashboard
+from . import test_data_cache
 from . import test_date_ranges
 from . import test_drill
 from . import test_export_data

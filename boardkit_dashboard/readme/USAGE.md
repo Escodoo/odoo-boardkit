@@ -20,6 +20,12 @@ the Dashboard User right (typical for menus under another app). Dashboards witho
 Allowed Groups stay limited to Dashboard Users. The Boardkit Dashboards app itself still
 requires Dashboard User or Manager.
 
+When _Auto Refresh_ is enabled, the server caches each item payload for up to the
+refresh interval (capped by the `boardkit_dashboard.data_cache_max_ttl` system
+parameter, default 60 seconds). The cache key includes the user, companies, item
+configuration and active filters, so access rights stay intact while wall-screen
+boards avoid recomputing the same queries on every tick.
+
 If a dashboard is missing or the current user cannot access it (for example a
 company-bound dashboard opened as a landing page outside that company), the client
 shows an empty state instead of an access error.
