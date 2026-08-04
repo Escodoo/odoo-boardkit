@@ -1,8 +1,3 @@
-Done:
-
-- **Dashboard templates**: start a board from a curated template instead of an empty
-  grid, reusing the JSON import pipeline.
-
 Planned next, in rough priority order:
 
 - **Periodic KPI digest by email**: scheduled summary of a board's tiles and KPIs,
@@ -19,7 +14,5 @@ Under consideration, no commitment yet:
   Odoo user. Needs a dedicated security review before it can be considered.
 - **Value history**: optional snapshots of item values, to show trends and sparklines
   regardless of what the source model keeps.
-- **Server-side data cache**: for boards refreshing every few seconds on a wall
-  screen. The cache key has to include the user so access rights stay intact.
 - **Narrative board summary**: a short written read of the current figures, generated
   from the same data the cards use.

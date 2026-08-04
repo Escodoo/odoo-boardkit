@@ -26,3 +26,7 @@
    On each template, set _Allowed Groups_ to the lowest app group that should open
    boards created from it (managers already inherit implied user groups). Leave
    empty for generic templates that stay limited to Dashboard Users.
+   For wall screens, set _Auto Refresh_ on the board; item data is then cached
+   server-side per user for up to that interval. Optionally lower the cap with
+   system parameter `boardkit_dashboard.data_cache_max_ttl` (seconds; `0`
+   disables the cache).
