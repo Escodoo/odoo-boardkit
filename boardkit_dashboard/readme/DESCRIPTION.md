@@ -32,7 +32,8 @@ Dashboard level features:
   personal layout.
 - Publish/unpublish workflow so managers can build boards privately before users see
   them; optional menu entry under any top-level menu, restricted by groups.
-- Auto refresh interval, dashboard duplication and JSON export/import.
+- Auto refresh interval with a per-user server-side data cache for wall screens,
+  dashboard duplication and JSON export/import.
 - Live preview in the item form while configuring, before saving.
 - Responsive one-column layout on mobile viewports.
 

@@ -103,7 +103,11 @@ class BoardkitDashboard(models.Model):
         ],
         default="0",
         required=True,
-        help="Automatically reload the dashboard data at this interval.",
+        help="Automatically reload the dashboard data at this interval. "
+        "When enabled, item payloads are also cached server-side for up to "
+        "this many seconds (per user and filters) to spare the database on "
+        "wall-screen boards. Cap via system parameter "
+        "boardkit_dashboard.data_cache_max_ttl.",
     )
     default_color_palette = fields.Selection(
         selection=PRESET_PALETTE_SELECTION + [("custom", "Custom")],

@@ -64,7 +64,8 @@ Dashboard level features:
 - Publish/unpublish workflow so managers can build boards privately
   before users see them; optional menu entry under any top-level menu,
   restricted by groups.
-- Auto refresh interval, dashboard duplication and JSON export/import.
+- Auto refresh interval with a per-user server-side data cache for wall
+  screens, dashboard duplication and JSON export/import.
 - Live preview in the item form while configuring, before saving.
 - Responsive one-column layout on mobile viewports.
 
@@ -114,7 +115,12 @@ Configuration
    *All Dashboards > Configuration > Templates*. On each template, set
    *Allowed Groups* to the lowest app group that should open boards
    created from it (managers already inherit implied user groups). Leave
-   empty for generic templates that stay limited to Dashboard Users.
+   empty for generic templates that stay limited to Dashboard Users. For
+   wall screens, set *Auto Refresh* on the board; item data is then
+   cached server-side per user for up to that interval. Optionally lower
+   the cap with system parameter
+   ``boardkit_dashboard.data_cache_max_ttl`` (seconds; ``0`` disables
+   the cache).
 
 Usage
 =====
@@ -142,6 +148,13 @@ groups even without the Dashboard User right (typical for menus under
 another app). Dashboards without Allowed Groups stay limited to
 Dashboard Users. The Boardkit Dashboards app itself still requires
 Dashboard User or Manager.
+
+When *Auto Refresh* is enabled, the server caches each item payload for
+up to the refresh interval (capped by the
+``boardkit_dashboard.data_cache_max_ttl`` system parameter, default 60
+seconds). The cache key includes the user, companies, item configuration
+and active filters, so access rights stay intact while wall-screen
+boards avoid recomputing the same queries on every tick.
 
 If a dashboard is missing or the current user cannot access it (for
 example a company-bound dashboard opened as a landing page outside that
@@ -238,11 +251,6 @@ pick the background and font colors by hand.
 Known issues / Roadmap
 ======================
 
-Done:
-
-- **Dashboard templates**: start a board from a curated template instead
-  of an empty grid, reusing the JSON import pipeline.
-
 Planned next, in rough priority order:
 
 - **Periodic KPI digest by email**: scheduled summary of a board's tiles
@@ -261,9 +269,6 @@ Under consideration, no commitment yet:
   be considered.
 - **Value history**: optional snapshots of item values, to show trends
   and sparklines regardless of what the source model keeps.
-- **Server-side data cache**: for boards refreshing every few seconds on
-  a wall screen. The cache key has to include the user so access rights
-  stay intact.
 - **Narrative board summary**: a short written read of the current
   figures, generated from the same data the cards use.
 

@@ -411,7 +411,8 @@ user can keep a personal layout.</li>
 <li>Publish/unpublish workflow so managers can build boards privately
 before users see them; optional menu entry under any top-level menu,
 restricted by groups.</li>
-<li>Auto refresh interval, dashboard duplication and JSON export/import.</li>
+<li>Auto refresh interval with a per-user server-side data cache for wall
+screens, dashboard duplication and JSON export/import.</li>
 <li>Live preview in the item form while configuring, before saving.</li>
 <li>Responsive one-column layout on mobile viewports.</li>
 </ul>
@@ -470,7 +471,12 @@ publishing. Managers can also inspect or edit template payloads under
 <em>All Dashboards &gt; Configuration &gt; Templates</em>. On each template, set
 <em>Allowed Groups</em> to the lowest app group that should open boards
 created from it (managers already inherit implied user groups). Leave
-empty for generic templates that stay limited to Dashboard Users.</li>
+empty for generic templates that stay limited to Dashboard Users. For
+wall screens, set <em>Auto Refresh</em> on the board; item data is then
+cached server-side per user for up to that interval. Optionally lower
+the cap with system parameter
+<tt class="docutils literal">boardkit_dashboard.data_cache_max_ttl</tt> (seconds; <tt class="docutils literal">0</tt> disables
+the cache).</li>
 </ol>
 </div>
 <div class="section" id="usage">
@@ -495,6 +501,12 @@ groups even without the Dashboard User right (typical for menus under
 another app). Dashboards without Allowed Groups stay limited to
 Dashboard Users. The Boardkit Dashboards app itself still requires
 Dashboard User or Manager.</p>
+<p>When <em>Auto Refresh</em> is enabled, the server caches each item payload for
+up to the refresh interval (capped by the
+<tt class="docutils literal">boardkit_dashboard.data_cache_max_ttl</tt> system parameter, default 60
+seconds). The cache key includes the user, companies, item configuration
+and active filters, so access rights stay intact while wall-screen
+boards avoid recomputing the same queries on every tick.</p>
 <p>If a dashboard is missing or the current user cannot access it (for
 example a company-bound dashboard opened as a landing page outside that
 company), the client shows an empty state instead of an access error.</p>
@@ -579,11 +591,6 @@ set <em>Parent Menu</em> or <em>Show as App</em> before sharing.</li>
 </div>
 <div class="section" id="known-issues-roadmap">
 <h1><a class="toc-backref" href="#toc-entry-3">Known issues / Roadmap</a></h1>
-<p>Done:</p>
-<ul class="simple">
-<li><strong>Dashboard templates</strong>: start a board from a curated template instead
-of an empty grid, reusing the JSON import pipeline.</li>
-</ul>
 <p>Planned next, in rough priority order:</p>
 <ul class="simple">
 <li><strong>Periodic KPI digest by email</strong>: scheduled summary of a board’s tiles
@@ -602,9 +609,6 @@ without an Odoo user. Needs a dedicated security review before it can
 be considered.</li>
 <li><strong>Value history</strong>: optional snapshots of item values, to show trends
 and sparklines regardless of what the source model keeps.</li>
-<li><strong>Server-side data cache</strong>: for boards refreshing every few seconds on
-a wall screen. The cache key has to include the user so access rights
-stay intact.</li>
 <li><strong>Narrative board summary</strong>: a short written read of the current
 figures, generated from the same data the cards use.</li>
 </ul>
