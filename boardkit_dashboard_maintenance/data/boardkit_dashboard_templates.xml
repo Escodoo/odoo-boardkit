@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="template_maintenance_overview" model="boardkit.dashboard.template">
+        <field name="name">Maintenance Overview</field>
+        <field name="key">maintenance_overview</field>
+        <field name="sequence">72</field>
+        <field name="description">
+            Maintenance board for request delivery: open and done counts,
+            high-priority and overdue backlogs, completion rate, unassigned
+            requests, trends and team/type analytics. Requires Maintenance.
+        </field>
+        <field name="payload">
+{
+  "version": 1,
+  "dashboards": [
+    {
+      "name": "Maintenance Overview",
+      "description": "Maintenance request backlog, completions, priority and team analytics.",
+      "tags": [
+        "Maintenance"
+      ],
+      "date_filter": "this_month",
+      "refresh_interval": "0",
+      "items": [
+        {
+          "name": "Open Requests",
+          "item_type": "tile",
+          "model": "maintenance.request",
+          "aggregation": "count",
+          "icon": "fa-wrench",
+          "domain": "[('done', '=', False), ('archive', '=', False)]",
+          "layout": {
+            "x": 0,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 0
+        },
+        {
+          "name": "Done Requests",
+          "item_type": "tile",
+          "model": "maintenance.request",
+          "aggregation": "count",
+          "icon": "fa-check-square-o",
+          "compare_previous_period": true,
+          "domain": "[('done', '=', True)]",
+          "date_field_id": "close_date",
+          "layout": {
+            "x": 3,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 1
+        },
+        {
+          "name": "High Priority",
+          "item_type": "tile",
+          "model": "maintenance.request",
+          "aggregation": "count",
+          "icon": "fa-exclamation-triangle",
+          "domain": "[('done', '=', False), ('archive', '=', False), ('priority', '=', '3')]",
+          "layout": {
+            "x": 6,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 2
+        },
+        {
+          "name": "Overdue",
+          "item_type": "tile",
+          "model": "maintenance.request",
+          "aggregation": "count",
+          "icon": "fa-clock-o",
+          "domain": "[('done', '=', False), ('archive', '=', False), ('schedule_date', '!=', False), ('schedule_date', '&lt;', context_today())]",
+          "layout": {
+            "x": 9,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 3
+        },
+        {
+          "name": "Completion Rate",
+          "item_type": "kpi",
+          "model": "maintenance.request",
+          "aggregation": "count",
+          "kpi_mode": "comparison",
+          "kpi_display": "percent",
+          "domain": "[('done', '=', True)]",
+          "model_2": "maintenance.request",
+          "aggregation_2": "count",
+          "domain_2": "[('archive', '=', False)]",
+          "date_field_id": "close_date",
+          "date_field_2_id": "request_date",
+          "layout": {
+            "x": 0,
+            "y": 2,
+            "w": 6,
+            "h": 2
+          },
+          "index": 4
+        },
+        {
+          "name": "Unassigned",
+          "item_type": "tile",
+          "model": "maintenance.request",
+          "aggregation": "count",
+          "icon": "fa-user-times",
+          "domain": "[('done', '=', False), ('archive', '=', False), ('user_id', '=', False)]",
+          "layout": {
+            "x": 6,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 5
+        },
+        {
+          "name": "New Requests",
+          "item_type": "tile",
+          "model": "maintenance.request",
+          "aggregation": "count",
+          "icon": "fa-plus-circle",
+          "compare_previous_period": true,
+          "domain": "[('archive', '=', False)]",
+          "date_field_id": "request_date",
+          "layout": {
+            "x": 9,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 6
+        },
+        {
+          "name": "Pipeline Funnel",
+          "item_type": "funnel",
+          "model": "maintenance.request",
+          "aggregation": "count",
+          "group_by_field_id": "stage_id",
+          "sort_field_id": "sequence",
+          "sort_field_model": "maintenance.stage",
+          "sort_dir": "asc",
+          "domain": "[('done', '=', False), ('archive', '=', False)]",
+          "layout": {
+            "x": 0,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 7
+        },
+        {
+          "name": "Done per Month",
+          "item_type": "area",
+          "model": "maintenance.request",
+          "aggregation": "count",
+          "group_by_field_id": "close_date",
+          "group_by_granularity": "month",
+          "date_field_id": "close_date",
+          "chart_sort": "label_asc",
+          "show_trend_line": true,
+          "domain": "[('done', '=', True)]",
+          "layout": {
+            "x": 6,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 8
+        },
+        {
+          "name": "Open by Team",
+          "item_type": "bar_horizontal",
+          "model": "maintenance.request",
+          "aggregation": "count",
+          "group_by_field_id": "maintenance_team_id",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "domain": "[('done', '=', False), ('archive', '=', False)]",
+          "layout": {
+            "x": 0,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 9
+        },
+        {
+          "name": "Open by Type",
+          "item_type": "doughnut",
+          "model": "maintenance.request",
+          "aggregation": "count",
+          "group_by_field_id": "maintenance_type",
+          "chart_sort": "value_desc",
+          "domain": "[('done', '=', False), ('archive', '=', False)]",
+          "layout": {
+            "x": 6,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 10
+        },
+        {
+          "name": "Recent Requests",
+          "item_type": "list",
+          "model": "maintenance.request",
+          "list_type": "plain",
+          "sort_field_id": "request_date",
+          "sort_field_model": "maintenance.request",
+          "sort_dir": "desc",
+          "page_size": 10,
+          "list_columns": [
+            "name",
+            "equipment_id",
+            "maintenance_team_id",
+            "stage_id",
+            "maintenance_type",
+            "priority",
+            "user_id",
+            "schedule_date"
+          ],
+          "domain": "[('done', '=', False), ('archive', '=', False)]",
+          "layout": {
+            "x": 0,
+            "y": 12,
+            "w": 12,
+            "h": 5
+          },
+          "index": 11
+        }
+      ],
+      "filters": [
+        {
+          "name": "My Requests",
+          "sequence": 10,
+          "model": "maintenance.request",
+          "domain": "[('user_id', '=', uid)]",
+          "default_enabled": false
+        },
+        {
+          "name": "Open",
+          "sequence": 20,
+          "model": "maintenance.request",
+          "domain": "[('done', '=', False), ('archive', '=', False)]",
+          "default_enabled": false
+        },
+        {
+          "name": "Overdue",
+          "sequence": 30,
+          "model": "maintenance.request",
+          "domain": "[('done', '=', False), ('archive', '=', False), ('schedule_date', '!=', False), ('schedule_date', '&lt;', context_today())]",
+          "default_enabled": false
+        },
+        {
+          "name": "High Priority",
+          "sequence": 40,
+          "model": "maintenance.request",
+          "domain": "[('done', '=', False), ('archive', '=', False), ('priority', '=', '3')]",
+          "default_enabled": false
+        }
+      ]
+    }
+  ]
+}
+        </field>
+    </record>
+</odoo>
