@@ -10,6 +10,7 @@
             status, top customers and a recent invoices list. Requires
             Invoicing.
         </field>
+        <field name="group_ids" eval="[(4, ref('account.group_account_invoice'))]" />
         <field name="payload">{
   "version": 1,
   "dashboards": [
