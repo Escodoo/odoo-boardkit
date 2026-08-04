@@ -10,6 +10,7 @@
             trends, top vendors, status and buyer breakdowns, and a recent
             orders list. Requires Purchase.
         </field>
+        <field name="group_ids" eval="[(4, ref('purchase.group_purchase_user'))]" />
         <field name="payload">
 {
   "version": 1,
