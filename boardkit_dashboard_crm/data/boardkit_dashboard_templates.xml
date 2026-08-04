@@ -10,6 +10,10 @@
             salesperson breakdowns, and a recent opportunities list. Requires
             CRM.
         </field>
+        <field
+            name="group_ids"
+            eval="[(4, ref('sales_team.group_sale_salesman_all_leads'))]"
+        />
         <field name="payload">
 {
   "version": 1,
