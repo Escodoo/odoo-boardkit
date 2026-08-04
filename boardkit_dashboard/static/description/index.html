@@ -1,0 +1,640 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
+<title>Boardkit Dashboard</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
+
+See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: gray; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic, pre.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="boardkit-dashboard">
+<h1 class="title">Boardkit Dashboard</h1>
+
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! This file is generated by oca-gen-addon-readme !!
+!! changes will be overwritten.                   !!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! source digest: sha256:49a91301e5405a0ca3911f221557df7a7dcc84d28b3254fc7e7b6e0bfd3c515a
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/Escodoo/odoo-boardkit/tree/18.0/boardkit_dashboard"><img alt="Escodoo/odoo-boardkit" src="https://img.shields.io/badge/github-Escodoo%2Fodoo--boardkit-lightgray.png?logo=github" /></a></p>
+<p>Build configurable analytic dashboards on top of any Odoo model, without
+writing code.</p>
+<p>Each dashboard is a grid of items rendered with native web assets (OWL
+and the Chart.js library bundled with Odoo):</p>
+<ul class="simple">
+<li><strong>Tile</strong>: a single aggregated value (count, sum or average) with icon
+and colors.</li>
+<li><strong>KPI</strong>: a value compared against a fixed target or against a second
+data source (sum, ratio or percentage), optionally compared with the
+previous period.</li>
+<li><strong>Gauge</strong>: a semicircular gauge for a single aggregated value, with
+optional target and configurable maximum.</li>
+<li><strong>Charts</strong>: bar, horizontal bar, line, area, pie, doughnut, polar
+area, radar, scatter, funnel and bullet, with group by (including date
+granularity), optional second dimension, multiple measures, record
+limit, sorting, and optional target, average and linear trend line
+overlays on cartesian charts.</li>
+<li><strong>Multi-level drill down</strong>: configure extra grouping levels per item
+so each click re-aggregates inside the card (with breadcrumbs) before
+opening the records.</li>
+<li><strong>Map</strong>: choropleth of values grouped by country (<tt class="docutils literal">res.country</tt>), or
+point markers from configurable latitude / longitude fields on any
+model (partners, tickets, field service orders, …). An optional
+focus country crops the outline and zooms the map.</li>
+<li><strong>List</strong>: plain or grouped record lists with pagination and
+click-through to the records.</li>
+</ul>
+<p>Dashboard level features:</p>
+<ul class="simple">
+<li>Date range filter with presets (today, this month, quarter to date,
+last 30 days, …) or a custom range, applied to every item through
+its configured date field.</li>
+<li>Predefined domain filters that users can toggle from the dashboard.</li>
+<li>Ad-hoc filters: any user can pick a field, an operator and a value to
+filter the items on the fly, without configuration.</li>
+<li>Per-item data export as CSV or XLSX, honoring the active filters.</li>
+<li>Drag and resize grid layout: managers save the default layout, every
+user can keep a personal layout.</li>
+<li>Publish/unpublish workflow so managers can build boards privately
+before users see them; optional menu entry under any top-level menu,
+restricted by groups.</li>
+<li>Auto refresh interval, dashboard duplication and JSON export/import.</li>
+<li>Live preview in the item form while configuring, before saving.</li>
+<li>Responsive one-column layout on mobile viewports.</li>
+</ul>
+<p>Data is always read with the access rights of the current user: ACLs and
+record rules of the source models are enforced.</p>
+<p><strong>Table of contents</strong></p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#configuration" id="toc-entry-1">Configuration</a></li>
+<li><a class="reference internal" href="#usage" id="toc-entry-2">Usage</a></li>
+<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-3">Known issues / Roadmap</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-4">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-5">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="toc-entry-6">Authors</a></li>
+<li><a class="reference internal" href="#contributors" id="toc-entry-7">Contributors</a></li>
+<li><a class="reference internal" href="#maintainers" id="toc-entry-8">Maintainers</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="configuration">
+<h1><a class="toc-backref" href="#toc-entry-1">Configuration</a></h1>
+<ol class="arabic simple">
+<li>Assign users to the proper group in <em>Settings &gt; Users</em>:<ul>
+<li><em>Dashboard / User</em>: can open the Boardkit Dashboards app and any
+dashboard without an Allowed Groups restriction, and keep a
+personal layout.</li>
+<li><em>Dashboard / Manager</em>: can create and configure dashboards and
+items.</li>
+</ul>
+</li>
+<li>Go to <em>All Dashboards &gt; Boards</em> and create a dashboard (managers), or
+use <em>From template</em> in the toolbar to start from a curated board
+(also managers only). Template boards and blank boards both start
+unpublished so only managers can see them while building. Use
+<em>Publish</em> when the board is ready for users. Optionally set <em>Parent
+Menu</em> to also expose a menu entry, or enable <em>Show as App</em> to expose
+the dashboard as a top-level app in the main apps menu (using the
+Boardkit Dashboards module icon). Both entries exist only while the
+board is published. Restrict visibility with <em>Allowed Groups</em>: users
+in those groups can open that dashboard (for example under Helpdesk)
+without needing Dashboard User. Leave Allowed Groups empty so only
+Dashboard Users see it. Unpublished or archived dashboards are
+visible only to Dashboard Managers. Dashboards limited to a specific
+company cannot have a menu entry (open them from <em>All Dashboards</em> or
+a landing-page action instead).</li>
+<li>Add items from the dashboard form or directly from the dashboard view
+with the <em>Add Item</em> button (managers only). The item form shows a
+live preview that updates as you change the configuration, before
+saving.</li>
+<li>To reuse a board from another database, use the <em>Import</em> button in
+the <em>All Dashboards &gt; Boards</em> toolbar (managers only) and select the
+JSON file exported from the dashboard action menu. Imported boards
+arrive unpublished and without a menu entry, so review them before
+publishing. Managers can also inspect or edit template payloads under
+<em>All Dashboards &gt; Configuration &gt; Templates</em>.</li>
+</ol>
+</div>
+<div class="section" id="usage">
+<h1><a class="toc-backref" href="#toc-entry-2">Usage</a></h1>
+<p>Open a published dashboard from <em>All Dashboards &gt; Boards</em> (click the
+card), from its optional menu entry when <em>Parent Menu</em> is configured, or
+from the main apps menu when <em>Show as App</em> is enabled.</p>
+<p>Managers can create a board from a template with the <em>From template</em>
+button in the Boards toolbar. The new board is unpublished so it can be
+reviewed before users see it. Optionally rename it in the wizard; leave
+the name empty to keep the template title.</p>
+<p>In the catalogue (kanban or list), or from the star next to the title
+when a dashboard is open, click the star to favorite it. Favorited
+dashboards appear first and can be filtered with <em>My Favorites</em>.
+Favorites are personal and do not affect other users.</p>
+<p>Dashboards with <em>Allowed Groups</em> can be opened by members of those
+groups even without the Dashboard User right (typical for menus under
+another app). Dashboards without Allowed Groups stay limited to
+Dashboard Users. The Boardkit Dashboards app itself still requires
+Dashboard User or Manager.</p>
+<p>If a dashboard is missing or the current user cannot access it (for
+example a company-bound dashboard opened as a landing page outside that
+company), the client shows an empty state instead of an access error.</p>
+<p>On charts and grouped lists, the <em>Measures</em> list adds one series (or one
+column) per numeric field. Drag the handle to reorder them: the order of
+the list is the order the series are plotted, and it travels with the
+dashboard JSON export.</p>
+<p>When configuring a <strong>Map</strong> item:</p>
+<ul class="simple">
+<li>Choose <em>Regions</em> and a Group By field pointing to Countries for a
+choropleth world map.</li>
+<li>Choose <em>Points</em> and pick the Latitude / Longitude float fields of the
+source model to plot markers (for example <tt class="docutils literal">partner_latitude</tt> /
+<tt class="docutils literal">partner_longitude</tt> on contacts, or equivalent fields on tickets and
+field service orders). Records sharing the same coordinates are merged
+into one marker whose size reflects the record count, or the sum of
+the <em>Measure Field</em> when one is configured.</li>
+<li>Optionally set <em>Focus Country</em> to crop the outline and zoom the
+projection to that country (works in both modes). Clicking a point
+opens the underlying record when <em>Show Records</em> is enabled.</li>
+<li>Click the expand icon in the top bar to enter full screen (TV / kiosk
+mode). The Odoo navbar is hidden and the dashboard fills the screen.
+Press ESC or click the compress icon to exit. Auto-refresh keeps
+running while full screen is active.</li>
+<li>Use the date filter in the top bar to restrict every item that has a
+<em>Date Field</em> configured. Choose a preset or a custom range.</li>
+<li>Toggle predefined filters to restrict the items whose model matches
+the filter model.</li>
+<li>Use <em>Add Filter</em> to build an ad-hoc filter: pick a model, a field, an
+operator and a value. The filter applies to every item based on that
+model and shows up as a removable chip. Text filters on relational
+fields match the record display name.</li>
+<li>Your date range, predefined filters and ad-hoc filters are remembered
+between visits. Use <em>Reset My Filters</em> in the dashboard menu to go
+back to the board defaults, or <em>Copy Link</em> to share the current filter
+state with someone who can open the same dashboard (the link overrides
+their saved filters when opened).</li>
+<li>Enable <em>Compare to Previous Period</em> on a tile, KPI, or bar / line /
+area chart (with a <em>Date Field</em> and an active date range) to show how
+the figure moved versus the previous equivalent period. Tiles and KPIs
+show a delta badge; charts draw a dashed overlay.</li>
+<li>Click on a tile, a KPI, a chart section or a list row to open the
+underlying records. When the item has <em>Drill Down</em> levels configured,
+the first clicks re-aggregate the data inside the card (breadcrumbs
+let you go back); the click on the last level opens the records. The
+item form live preview supports the same chart-to-chart drill
+(including unsaved levels); opening the record list stays disabled
+there.</li>
+</ul>
+<p>Chart colors come from the item’s <em>Color Palette</em> (Appearance tab):</p>
+<ul class="simple">
+<li><em>Dashboard Default</em> (the initial value) follows the <em>Default Palette</em>
+configured on the dashboard form. Changing the dashboard default — or
+moving the item to another dashboard — restyles every item still using
+it. An empty dashboard default means the Odoo preset.</li>
+<li>Pick one of the built-in presets (Odoo, Ocean, Sunset, Electric,
+Pastel, Vivid, Earth, Royal) to override the dashboard default on a
+single item, or</li>
+<li>Pick <em>Custom</em> and select a palette created in <em>All Dashboards &gt;
+Configuration &gt; Color Palettes</em>, where managers define an ordered list
+of hex colors. Palettes used by a dashboard travel inside its JSON
+export and are recreated on import when missing.</li>
+</ul>
+<p>Tiles and KPIs are themed by the palette too: with <em>Background Style</em>
+set to <em>From Palette</em> (the default) the card uses the darkest palette
+color as background with an automatic contrasting font, and the KPI
+progress bar takes the first palette color. Switch it to <em>Manual</em> to
+pick the background and font colors by hand.</p>
+<ul class="simple">
+<li>Use <em>Export CSV</em> / <em>Export XLSX</em> in an item menu to download its data
+with the current filters applied. Lists export all rows, ignoring
+pagination.</li>
+<li>Any dashboard user can switch to <em>Edit Layout</em> mode to drag and resize
+items. Managers can save the default layout for everyone; regular
+users save a personal layout and can reset it back to the default one.</li>
+<li>Managers can export the dashboard configuration as JSON from the
+dashboard action menu. To bring it back, use the <em>Import</em> button in
+the <em>All Dashboards &gt; Boards</em> toolbar and pick the file. Imported
+boards arrive unpublished and without a menu entry, so review them and
+set <em>Parent Menu</em> or <em>Show as App</em> before sharing.</li>
+</ul>
+</div>
+<div class="section" id="known-issues-roadmap">
+<h1><a class="toc-backref" href="#toc-entry-3">Known issues / Roadmap</a></h1>
+<p>Done:</p>
+<ul class="simple">
+<li><strong>Dashboard templates</strong>: start a board from a curated template instead
+of an empty grid, reusing the JSON import pipeline.</li>
+</ul>
+<p>Planned next, in rough priority order:</p>
+<ul class="simple">
+<li><strong>Periodic KPI digest by email</strong>: scheduled summary of a board’s tiles
+and KPIs, computed with each recipient’s own access rights.</li>
+<li><strong>Threshold alerts</strong>: notify when an item’s value crosses a configured
+limit.</li>
+<li><strong>Print-friendly board</strong>: a print stylesheet that flattens the grid,
+plus a <em>Print</em> entry in the dashboard menu.</li>
+</ul>
+<p>Under consideration, no commitment yet:</p>
+<ul class="simple">
+<li><strong>Cross filtering</strong>: clicking a chart section filters the other items
+built on the same model.</li>
+<li><strong>Read-only public sharing</strong>: token-based access to a board for people
+without an Odoo user. Needs a dedicated security review before it can
+be considered.</li>
+<li><strong>Value history</strong>: optional snapshots of item values, to show trends
+and sparklines regardless of what the source model keeps.</li>
+<li><strong>Server-side data cache</strong>: for boards refreshing every few seconds on
+a wall screen. The cache key has to include the user so access rights
+stay intact.</li>
+<li><strong>Narrative board summary</strong>: a short written read of the current
+figures, generated from the same data the cards use.</li>
+</ul>
+</div>
+<div class="section" id="bug-tracker">
+<h1><a class="toc-backref" href="#toc-entry-4">Bug Tracker</a></h1>
+<p>Bugs are tracked on <a class="reference external" href="https://github.com/Escodoo/odoo-boardkit/issues">GitHub Issues</a>.
+In case of trouble, please check there if your issue has already been reported.
+If you spotted it first, help us to smash it by providing a detailed and welcomed
+<a class="reference external" href="https://github.com/Escodoo/odoo-boardkit/issues/new?body=module:%20boardkit_dashboard%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<p>Do not contact contributors directly about support or help with technical issues.</p>
+</div>
+<div class="section" id="credits">
+<h1><a class="toc-backref" href="#toc-entry-5">Credits</a></h1>
+<div class="section" id="authors">
+<h2><a class="toc-backref" href="#toc-entry-6">Authors</a></h2>
+<ul class="simple">
+<li>Escodoo</li>
+</ul>
+</div>
+<div class="section" id="contributors">
+<h2><a class="toc-backref" href="#toc-entry-7">Contributors</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="https://www.escodoo.com.br">Escodoo</a>:<ul>
+<li>Marcel Savegnago &lt;<a class="reference external" href="mailto:marcel.savegnago&#64;escodoo.com.br">marcel.savegnago&#64;escodoo.com.br</a>&gt;</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="maintainers">
+<h2><a class="toc-backref" href="#toc-entry-8">Maintainers</a></h2>
+<p>Current maintainer:</p>
+<p><a class="reference external image-reference" href="https://github.com/marcelsavegnago"><img alt="marcelsavegnago" src="https://github.com/marcelsavegnago.png?size=40px" /></a></p>
+<p>This module is part of the <a class="reference external" href="https://github.com/Escodoo/odoo-boardkit/tree/18.0/boardkit_dashboard">Escodoo/odoo-boardkit</a> project on GitHub.</p>
+<p>You are welcome to contribute.</p>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="boardkit_dashboard_palette_view_form" model="ir.ui.view">
+        <field name="name">boardkit.dashboard.palette.form</field>
+        <field name="model">boardkit.dashboard.palette</field>
+        <field name="arch" type="xml">
+            <form string="Color Palette">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="e.g. Corporate" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True}" />
+                        </group>
+                    </group>
+                    <field name="color_ids">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle" />
+                            <field name="color" widget="color" />
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="boardkit_dashboard_palette_view_list" model="ir.ui.view">
+        <field name="name">boardkit.dashboard.palette.list</field>
+        <field name="model">boardkit.dashboard.palette</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="company_id" groups="base.group_multi_company" />
+            </list>
+        </field>
+    </record>
+
+    <record id="boardkit_dashboard_palette_view_search" model="ir.ui.view">
+        <field name="name">boardkit.dashboard.palette.search</field>
+        <field name="model">boardkit.dashboard.palette</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+            </search>
+        </field>
+    </record>
+
+    <record id="boardkit_dashboard_palette_action" model="ir.actions.act_window">
+        <field name="name">Color Palettes</field>
+        <field name="res_model">boardkit.dashboard.palette</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first color palette</p>
+            <p>Custom palettes can be applied to charts on any dashboard item.</p>
+        </field>
+    </record>
+</odoo>

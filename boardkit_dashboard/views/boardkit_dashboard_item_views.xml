@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="boardkit_dashboard_item_view_form" model="ir.ui.view">
+        <field name="name">boardkit.dashboard.item.form</field>
+        <field name="model">boardkit.dashboard.item</field>
+        <field name="arch" type="xml">
+            <form string="Dashboard Item">
+                <sheet>
+                    <div class="row">
+                        <div class="col-12 col-lg-7">
+                            <group>
+                                <group name="main">
+                                    <field name="name" />
+                                    <field name="dashboard_id" />
+                                    <field name="item_type" />
+                                    <field
+                                        name="model_id"
+                                        options="{'no_create': True}"
+                                    />
+                                    <field name="model_name" invisible="1" />
+                                    <field name="model_2_name" invisible="1" />
+                                    <field name="group_by_ttype" invisible="1" />
+                                    <field name="subgroup_by_ttype" invisible="1" />
+                                    <field name="sort_model_id" invisible="1" />
+                                </group>
+                                <group name="source">
+                                    <field
+                                        name="date_field_id"
+                                        options="{'no_create': True}"
+                                    />
+                                    <field name="date_filter" />
+                                    <field
+                                        name="date_from"
+                                        invisible="date_filter != 'custom'"
+                                        required="date_filter == 'custom'"
+                                    />
+                                    <field
+                                        name="date_to"
+                                        invisible="date_filter != 'custom'"
+                                        required="date_filter == 'custom'"
+                                    />
+                                </group>
+                            </group>
+                            <notebook>
+                                <page
+                                    name="value"
+                                    string="Value"
+                                    invisible="item_type not in ['tile', 'kpi', 'gauge']"
+                                >
+                                    <group>
+                                        <group>
+                                            <field name="aggregation" />
+                                            <field
+                                                name="measure_field_id"
+                                                options="{'no_create': True}"
+                                                invisible="aggregation == 'count'"
+                                                required="aggregation != 'count' and item_type in ['tile', 'kpi', 'gauge']"
+                                            />
+                                            <field
+                                                name="compare_previous_period"
+                                                invisible="item_type not in ['tile', 'kpi']"
+                                                help="Requires a Date Field and an active date range on the item or dashboard."
+                                            />
+                                        </group>
+                                        <group
+                                            name="kpi"
+                                            invisible="item_type != 'kpi'"
+                                        >
+                                            <field name="kpi_mode" />
+                                            <field
+                                                name="target_enabled"
+                                                invisible="kpi_mode != 'target'"
+                                            />
+                                            <field
+                                                name="target_value"
+                                                invisible="kpi_mode != 'target' or not target_enabled"
+                                            />
+                                            <field
+                                                name="kpi_display"
+                                                invisible="kpi_mode != 'comparison'"
+                                            />
+                                        </group>
+                                        <group
+                                            name="gauge"
+                                            invisible="item_type != 'gauge'"
+                                        >
+                                            <field name="target_enabled" />
+                                            <field
+                                                name="target_value"
+                                                invisible="not target_enabled"
+                                            />
+                                            <field name="gauge_max" />
+                                        </group>
+                                    </group>
+                                    <group
+                                        name="kpi_second_source"
+                                        string="Second Data Source"
+                                        invisible="item_type != 'kpi' or kpi_mode != 'comparison'"
+                                    >
+                                        <group>
+                                            <field
+                                                name="model_2_id"
+                                                options="{'no_create': True}"
+                                                required="item_type == 'kpi' and kpi_mode == 'comparison'"
+                                            />
+                                            <field
+                                                name="domain_2"
+                                                widget="domain"
+                                                options="{'model': 'model_2_name', 'in_dialog': True}"
+                                            />
+                                        </group>
+                                        <group>
+                                            <field name="aggregation_2" />
+                                            <field
+                                                name="measure_field_2_id"
+                                                options="{'no_create': True}"
+                                                invisible="aggregation_2 == 'count'"
+                                                required="aggregation_2 != 'count' and kpi_mode == 'comparison'"
+                                            />
+                                            <field
+                                                name="date_field_2_id"
+                                                options="{'no_create': True}"
+                                            />
+                                        </group>
+                                    </group>
+                                </page>
+                                <page
+                                    name="chart"
+                                    string="Chart"
+                                    invisible="item_type in ['tile', 'kpi', 'gauge', 'list']"
+                                >
+                                    <group>
+                                        <group>
+                                            <field
+                                                name="map_mode"
+                                                invisible="item_type != 'map'"
+                                            />
+                                            <field
+                                                name="group_by_field_id"
+                                                options="{'no_create': True}"
+                                                required="item_type in ['funnel', 'bullet'] or (item_type == 'map' and map_mode == 'regions')"
+                                                invisible="item_type == 'map' and map_mode == 'points'"
+                                                help="For Map regions mode, select a field that points to Countries (res.country)."
+                                            />
+                                            <field
+                                                name="sort_field_id"
+                                                options="{'no_create': True}"
+                                                invisible="item_type != 'funnel'"
+                                                help="Optional. Overrides Chart Sort and orders funnel stages by this field (for example sequence on the related stage). When empty, Chart Sort applies."
+                                            />
+                                            <field
+                                                name="sort_dir"
+                                                invisible="item_type != 'funnel' or not sort_field_id"
+                                            />
+                                            <field
+                                                name="latitude_field_id"
+                                                options="{'no_create': True}"
+                                                invisible="item_type != 'map' or map_mode != 'points'"
+                                                required="item_type == 'map' and map_mode == 'points'"
+                                            />
+                                            <field
+                                                name="longitude_field_id"
+                                                options="{'no_create': True}"
+                                                invisible="item_type != 'map' or map_mode != 'points'"
+                                                required="item_type == 'map' and map_mode == 'points'"
+                                            />
+                                            <field
+                                                name="map_focus_country_id"
+                                                options="{'no_create': True}"
+                                                invisible="item_type != 'map'"
+                                            />
+                                            <field
+                                                name="group_by_granularity"
+                                                invisible="group_by_ttype not in ['date', 'datetime']"
+                                            />
+                                            <field
+                                                name="subgroup_by_field_id"
+                                                options="{'no_create': True}"
+                                                invisible="item_type not in ['bar', 'bar_horizontal', 'line', 'area']"
+                                            />
+                                            <field
+                                                name="subgroup_by_granularity"
+                                                invisible="subgroup_by_ttype not in ['date', 'datetime']"
+                                            />
+                                            <field
+                                                name="boolean_true_label"
+                                                invisible="group_by_ttype != 'boolean' and subgroup_by_ttype != 'boolean'"
+                                                placeholder="Yes"
+                                            />
+                                            <field
+                                                name="boolean_false_label"
+                                                invisible="group_by_ttype != 'boolean' and subgroup_by_ttype != 'boolean'"
+                                                placeholder="No"
+                                            />
+                                            <field
+                                                name="aggregation"
+                                                invisible="item_type == 'scatter'"
+                                            />
+                                            <field
+                                                name="measure_field_id"
+                                                options="{'no_create': True}"
+                                                invisible="item_type != 'map' or map_mode != 'points'"
+                                                help="Optional. Used as the bubble size / tooltip value for each point."
+                                            />
+                                            <field
+                                                name="measure_x_field_id"
+                                                options="{'no_create': True}"
+                                                invisible="item_type != 'scatter'"
+                                                required="item_type == 'scatter'"
+                                            />
+                                            <field
+                                                name="measure_y_field_id"
+                                                options="{'no_create': True}"
+                                                invisible="item_type != 'scatter'"
+                                                required="item_type == 'scatter'"
+                                            />
+                                        </group>
+                                        <group>
+                                            <field
+                                                name="chart_sort"
+                                                invisible="item_type == 'map' or (item_type == 'funnel' and sort_field_id)"
+                                                help="For funnel charts, Default Order follows the related model's native order (for example stage sequence), and Value Ascending falls back to descending so the funnel keeps narrowing. Hidden when Sort By is set."
+                                            />
+                                            <field name="record_limit" />
+                                            <field
+                                                name="stacked"
+                                                invisible="item_type not in ['bar', 'bar_horizontal']"
+                                            />
+                                            <field
+                                                name="legend_visible"
+                                                invisible="item_type in ['bullet', 'map']"
+                                            />
+                                            <field
+                                                name="target_enabled"
+                                                invisible="item_type not in ['bar', 'bar_horizontal', 'line', 'area', 'bullet']"
+                                            />
+                                            <field
+                                                name="target_value"
+                                                invisible="not target_enabled or item_type not in ['bar', 'bar_horizontal', 'line', 'area', 'bullet']"
+                                            />
+                                            <field
+                                                name="show_average_line"
+                                                invisible="item_type not in ['bar', 'bar_horizontal', 'line', 'area']"
+                                            />
+                                            <field
+                                                name="show_trend_line"
+                                                invisible="item_type not in ['bar', 'bar_horizontal', 'line', 'area']"
+                                            />
+                                            <field
+                                                name="compare_previous_period"
+                                                invisible="item_type not in ['bar', 'bar_horizontal', 'line', 'area']"
+                                                help="Requires a Date Field and an active date range. Draws the previous period as a dashed series."
+                                            />
+                                        </group>
+                                    </group>
+                                    <group
+                                        string="Measures"
+                                        invisible="aggregation == 'count' or item_type == 'scatter' or (item_type == 'map' and map_mode == 'points')"
+                                    >
+                                        <field
+                                            name="measure_ids"
+                                            nolabel="1"
+                                            colspan="2"
+                                            context="{'default_item_id': id}"
+                                        />
+                                    </group>
+                                </page>
+                                <page
+                                    name="list"
+                                    string="List"
+                                    invisible="item_type != 'list'"
+                                >
+                                    <group>
+                                        <group>
+                                            <field name="list_type" />
+                                            <field
+                                                name="group_by_field_id"
+                                                options="{'no_create': True}"
+                                                invisible="list_type != 'grouped'"
+                                                required="item_type == 'list' and list_type == 'grouped'"
+                                            />
+                                            <field
+                                                name="group_by_granularity"
+                                                invisible="list_type != 'grouped' or group_by_ttype not in ['date', 'datetime']"
+                                            />
+                                            <field
+                                                name="boolean_true_label"
+                                                invisible="list_type != 'grouped' or group_by_ttype != 'boolean'"
+                                                placeholder="Yes"
+                                            />
+                                            <field
+                                                name="boolean_false_label"
+                                                invisible="list_type != 'grouped' or group_by_ttype != 'boolean'"
+                                                placeholder="No"
+                                            />
+                                        </group>
+                                        <group>
+                                            <field name="page_size" />
+                                            <field
+                                                name="sort_field_id"
+                                                options="{'no_create': True}"
+                                                invisible="list_type != 'plain'"
+                                            />
+                                            <field
+                                                name="sort_dir"
+                                                invisible="list_type != 'plain'"
+                                            />
+                                        </group>
+                                    </group>
+                                    <group
+                                        string="Measures"
+                                        invisible="list_type != 'grouped'"
+                                    >
+                                        <field
+                                            name="measure_ids"
+                                            nolabel="1"
+                                            colspan="2"
+                                            context="{'default_item_id': id}"
+                                        />
+                                    </group>
+                                    <field
+                                        name="list_column_ids"
+                                        invisible="list_type != 'plain'"
+                                        nolabel="1"
+                                        context="{'default_item_id': id}"
+                                    >
+                                        <list editable="bottom">
+                                            <field name="sequence" widget="handle" />
+                                            <field
+                                                name="field_id"
+                                                options="{'no_create': True}"
+                                                domain="[('model_id', '=', parent.model_id), ('ttype', 'not in', ['binary', 'one2many', 'many2many'])]"
+                                            />
+                                        </list>
+                                    </field>
+                                </page>
+                                <page
+                                    name="drill"
+                                    string="Drill Down"
+                                    invisible="item_type == 'list'"
+                                >
+                                    <field
+                                        name="drill_level_ids"
+                                        nolabel="1"
+                                        context="{'default_item_id': id}"
+                                    >
+                                        <list editable="bottom">
+                                            <field name="sequence" widget="handle" />
+                                            <field
+                                                name="model_id"
+                                                column_invisible="1"
+                                            />
+                                            <field
+                                                name="group_by_ttype"
+                                                column_invisible="1"
+                                            />
+                                            <field
+                                                name="group_by_field_id"
+                                                options="{'no_create': True}"
+                                            />
+                                            <field
+                                                name="group_by_granularity"
+                                                optional="show"
+                                                invisible="group_by_ttype not in ['date', 'datetime']"
+                                            />
+                                            <field name="chart_type" />
+                                            <field name="chart_sort" />
+                                            <field
+                                                name="record_limit"
+                                                optional="hide"
+                                            />
+                                        </list>
+                                    </field>
+                                </page>
+                                <page
+                                    name="domain"
+                                    string="Domain"
+                                    invisible="not model_id"
+                                >
+                                    <field
+                                        name="domain"
+                                        widget="domain"
+                                        options="{'model': 'model_name'}"
+                                    />
+                                </page>
+                                <page name="appearance" string="Appearance">
+                                    <group>
+                                        <group>
+                                            <field
+                                                name="icon"
+                                                invisible="item_type != 'tile'"
+                                            />
+                                            <field
+                                                name="color_palette"
+                                                invisible="item_type == 'list'"
+                                            />
+                                            <field
+                                                name="palette_id"
+                                                invisible="item_type == 'list' or color_palette != 'custom'"
+                                                required="item_type != 'list' and color_palette == 'custom'"
+                                                options="{'no_create': True}"
+                                            />
+                                            <field
+                                                name="background_style"
+                                                invisible="item_type not in ['tile', 'kpi']"
+                                            />
+                                            <field
+                                                name="background_color"
+                                                widget="color"
+                                                invisible="item_type in ['tile', 'kpi'] and background_style == 'palette'"
+                                            />
+                                            <field
+                                                name="font_color"
+                                                widget="color"
+                                                invisible="item_type in ['tile', 'kpi'] and background_style == 'palette'"
+                                            />
+                                        </group>
+                                        <group>
+                                            <field name="number_style" />
+                                            <field
+                                                name="unit_type"
+                                                invisible="item_type not in ['tile', 'kpi']"
+                                            />
+                                            <field
+                                                name="unit_symbol"
+                                                invisible="unit_type != 'custom'"
+                                                required="unit_type == 'custom'"
+                                            />
+                                        </group>
+                                    </group>
+                                </page>
+                                <page name="interaction" string="Interaction">
+                                    <group>
+                                        <group>
+                                            <field name="show_records" />
+                                            <field
+                                                name="action_id"
+                                                options="{'no_create': True}"
+                                            />
+                                        </group>
+                                        <group>
+                                            <field name="sequence" />
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <field
+                                            name="description"
+                                            placeholder="Shown as a tooltip on the dashboard."
+                                        />
+                                    </group>
+                                </page>
+                            </notebook>
+                        </div>
+                        <div
+                            class="col-12 col-lg-5 o_boardkit_dashboard_item_preview_col"
+                        >
+                            <field
+                                name="preview_json"
+                                widget="boardkit_dashboard_item_preview"
+                                nolabel="1"
+                                readonly="1"
+                            />
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Subview of the measure_ids field on both the Data and List pages. -->
+    <record id="boardkit_dashboard_item_measure_view_list" model="ir.ui.view">
+        <field name="name">boardkit.dashboard.item.measure.list</field>
+        <field name="model">boardkit.dashboard.item.measure</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle" />
+                <field name="model_id" column_invisible="1" />
+                <field name="field_id" options="{'no_create': True}" />
+            </list>
+        </field>
+    </record>
+
+    <record id="boardkit_dashboard_item_view_list" model="ir.ui.view">
+        <field name="name">boardkit.dashboard.item.list</field>
+        <field name="model">boardkit.dashboard.item</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+                <field name="item_type" />
+                <field name="dashboard_id" />
+                <field name="model_id" />
+            </list>
+        </field>
+    </record>
+
+    <record id="boardkit_dashboard_item_view_search" model="ir.ui.view">
+        <field name="name">boardkit.dashboard.item.search</field>
+        <field name="model">boardkit.dashboard.item</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="dashboard_id" />
+                <field name="model_id" />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="group_by_dashboard"
+                        string="Dashboard"
+                        context="{'group_by': 'dashboard_id'}"
+                    />
+                    <filter
+                        name="group_by_type"
+                        string="Type"
+                        context="{'group_by': 'item_type'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="boardkit_dashboard_item_action" model="ir.actions.act_window">
+        <field name="name">Dashboard Items</field>
+        <field name="res_model">boardkit.dashboard.item</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
