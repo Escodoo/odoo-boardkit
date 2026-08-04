@@ -6,6 +6,8 @@ import json
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
+from .boardkit_dashboard import FEATURED_TEMPLATE_KEYS
+
 
 class BoardkitDashboardTemplate(models.Model):
     _name = "boardkit.dashboard.template"
@@ -93,3 +95,25 @@ class BoardkitDashboardTemplate(models.Model):
         """Return a deep-copy-ready dict payload for import_config."""
         self.ensure_one()
         return self._normalize_payload(self.payload)
+
+    @api.model
+    def get_featured_for_catalogue(self):
+        """Return curated templates for the empty catalogue hero."""
+        templates = self.search(
+            [("active", "=", True), ("key", "in", list(FEATURED_TEMPLATE_KEYS))]
+        )
+        by_key = {template.key: template for template in templates}
+        featured = []
+        for key in FEATURED_TEMPLATE_KEYS:
+            template = by_key.get(key)
+            if not template:
+                continue
+            featured.append(
+                {
+                    "id": template.id,
+                    "key": template.key,
+                    "name": template.name,
+                    "description": template.description or "",
+                }
+            )
+        return featured

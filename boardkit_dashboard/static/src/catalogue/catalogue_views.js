@@ -4,6 +4,7 @@
 import {onWillStart, useState} from "@odoo/owl";
 import {FileInput} from "@web/core/file_input/file_input";
 import {KanbanController} from "@web/views/kanban/kanban_controller";
+import {KanbanRenderer} from "@web/views/kanban/kanban_renderer";
 import {ListController} from "@web/views/list/list_controller";
 import {_t} from "@web/core/l10n/translation";
 import {kanbanView} from "@web/views/kanban/kanban_view";
@@ -11,6 +12,7 @@ import {listView} from "@web/views/list/list_view";
 import {registry} from "@web/core/registry";
 import {useService} from "@web/core/utils/hooks";
 import {user} from "@web/core/user";
+import {CatalogueEmptyHero} from "./catalogue_empty_hero";
 
 export const IMPORT_ROUTE = "/boardkit_dashboard/import";
 
@@ -78,6 +80,14 @@ export const DashboardImport = (Controller) =>
         }
     };
 
+export class DashboardCatalogueKanbanRenderer extends KanbanRenderer {
+    static template = "boardkit_dashboard.CatalogueKanbanRenderer";
+    static components = {
+        ...KanbanRenderer.components,
+        CatalogueEmptyHero,
+    };
+}
+
 export class DashboardCatalogueKanbanController extends DashboardImport(
     KanbanController
 ) {
@@ -91,6 +101,7 @@ export class DashboardCatalogueListController extends DashboardImport(ListContro
 registry.category("views").add("boardkit_dashboard_catalogue_kanban", {
     ...kanbanView,
     Controller: DashboardCatalogueKanbanController,
+    Renderer: DashboardCatalogueKanbanRenderer,
 });
 
 registry.category("views").add("boardkit_dashboard_catalogue_list", {
