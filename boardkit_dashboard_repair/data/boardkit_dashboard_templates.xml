@@ -9,6 +9,7 @@
             and late backlogs, repair rate, under-repair and parts-late
             queues, trends and product/status analytics. Requires Repairs.
         </field>
+        <field name="group_ids" eval="[(4, ref('stock.group_stock_user'))]" />
         <field name="payload">
 {
   "version": 1,
