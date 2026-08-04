@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="template_mrp_overview" model="boardkit.dashboard.template">
+        <field name="name">Manufacturing Overview</field>
+        <field name="key">mrp_overview</field>
+        <field name="sequence">70</field>
+        <field name="description">
+            Manufacturing board for production orders: confirmed and in-progress
+            queues, done volume, quantity to produce, completion rate, waiting
+            components, late MOs, trends and product analytics. Requires
+            Manufacturing.
+        </field>
+        <field name="payload">
+{
+  "version": 1,
+  "dashboards": [
+    {
+      "name": "Manufacturing Overview",
+      "description": "Manufacturing orders backlog, throughput, readiness and product analytics.",
+      "tags": [
+        "Manufacturing"
+      ],
+      "date_filter": "this_month",
+      "refresh_interval": "0",
+      "items": [
+        {
+          "name": "Confirmed MOs",
+          "item_type": "tile",
+          "model": "mrp.production",
+          "aggregation": "count",
+          "icon": "fa-clipboard",
+          "domain": "[('state', '=', 'confirmed')]",
+          "layout": {
+            "x": 0,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 0
+        },
+        {
+          "name": "In Progress MOs",
+          "item_type": "tile",
+          "model": "mrp.production",
+          "aggregation": "count",
+          "icon": "fa-cogs",
+          "domain": "[('state', 'in', ['progress', 'to_close'])]",
+          "layout": {
+            "x": 3,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 1
+        },
+        {
+          "name": "Done MOs",
+          "item_type": "tile",
+          "model": "mrp.production",
+          "aggregation": "count",
+          "icon": "fa-check-square-o",
+          "compare_previous_period": true,
+          "domain": "[('state', '=', 'done')]",
+          "date_field_id": "date_finished",
+          "layout": {
+            "x": 6,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 2
+        },
+        {
+          "name": "Qty to Produce",
+          "item_type": "tile",
+          "model": "mrp.production",
+          "aggregation": "sum",
+          "measure_field_id": "product_qty",
+          "icon": "fa-cubes",
+          "domain": "[('state', 'in', ['confirmed', 'progress', 'to_close'])]",
+          "layout": {
+            "x": 9,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 3
+        },
+        {
+          "name": "Completion Rate",
+          "item_type": "kpi",
+          "model": "mrp.production",
+          "aggregation": "count",
+          "kpi_mode": "comparison",
+          "kpi_display": "percent",
+          "domain": "[('state', '=', 'done')]",
+          "model_2": "mrp.production",
+          "aggregation_2": "count",
+          "domain_2": "[('state', 'in', ['done', 'cancel'])]",
+          "date_field_id": "date_finished",
+          "date_field_2_id": "date_finished",
+          "layout": {
+            "x": 0,
+            "y": 2,
+            "w": 6,
+            "h": 2
+          },
+          "index": 4
+        },
+        {
+          "name": "Waiting Components",
+          "item_type": "tile",
+          "model": "mrp.production",
+          "aggregation": "count",
+          "icon": "fa-hourglass-half",
+          "domain": "[('state', 'in', ['confirmed', 'progress']), ('reservation_state', '=', 'confirmed')]",
+          "layout": {
+            "x": 6,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 5
+        },
+        {
+          "name": "Late MOs",
+          "item_type": "tile",
+          "model": "mrp.production",
+          "aggregation": "count",
+          "icon": "fa-exclamation-triangle",
+          "domain": "[('state', 'in', ['confirmed', 'progress', 'to_close']), ('date_deadline', '!=', False), ('date_deadline', '&lt;', context_today())]",
+          "layout": {
+            "x": 9,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 6
+        },
+        {
+          "name": "Done MOs per Month",
+          "item_type": "area",
+          "model": "mrp.production",
+          "aggregation": "count",
+          "group_by_field_id": "date_finished",
+          "group_by_granularity": "month",
+          "date_field_id": "date_finished",
+          "chart_sort": "label_asc",
+          "show_trend_line": true,
+          "domain": "[('state', '=', 'done')]",
+          "layout": {
+            "x": 0,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 7
+        },
+        {
+          "name": "Qty by Product",
+          "item_type": "bar_horizontal",
+          "model": "mrp.production",
+          "aggregation": "sum",
+          "measure_field_id": "product_qty",
+          "measures": [
+            "product_qty"
+          ],
+          "group_by_field_id": "product_id",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "domain": "[('state', 'in', ['confirmed', 'progress', 'to_close', 'done'])]",
+          "date_field_id": "date_start",
+          "layout": {
+            "x": 6,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 8
+        },
+        {
+          "name": "MOs by Status",
+          "item_type": "doughnut",
+          "model": "mrp.production",
+          "aggregation": "count",
+          "group_by_field_id": "state",
+          "chart_sort": "value_desc",
+          "domain": "[]",
+          "date_field_id": "date_start",
+          "layout": {
+            "x": 0,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 9
+        },
+        {
+          "name": "MOs by Responsible",
+          "item_type": "bar",
+          "model": "mrp.production",
+          "aggregation": "count",
+          "group_by_field_id": "user_id",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "domain": "[('state', 'not in', ['done', 'cancel'])]",
+          "layout": {
+            "x": 6,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 10
+        },
+        {
+          "name": "Recent Manufacturing Orders",
+          "item_type": "list",
+          "model": "mrp.production",
+          "list_type": "plain",
+          "sort_field_id": "date_start",
+          "sort_field_model": "mrp.production",
+          "sort_dir": "desc",
+          "page_size": 10,
+          "list_columns": [
+            "name",
+            "product_id",
+            "product_qty",
+            "state",
+            "reservation_state",
+            "date_start",
+            "date_deadline",
+            "user_id"
+          ],
+          "domain": "[('state', '!=', 'cancel')]",
+          "date_field_id": "date_start",
+          "layout": {
+            "x": 0,
+            "y": 12,
+            "w": 12,
+            "h": 5
+          },
+          "index": 11
+        }
+      ],
+      "filters": [
+        {
+          "name": "My MOs",
+          "sequence": 10,
+          "model": "mrp.production",
+          "domain": "[('user_id', '=', uid)]",
+          "default_enabled": false
+        },
+        {
+          "name": "In Progress",
+          "sequence": 20,
+          "model": "mrp.production",
+          "domain": "[('state', 'in', ['progress', 'to_close'])]",
+          "default_enabled": false
+        },
+        {
+          "name": "Waiting Components",
+          "sequence": 30,
+          "model": "mrp.production",
+          "domain": "[('reservation_state', '=', 'confirmed'), ('state', 'not in', ['done', 'cancel'])]",
+          "default_enabled": false
+        },
+        {
+          "name": "Late",
+          "sequence": 40,
+          "model": "mrp.production",
+          "domain": "[('date_deadline', '!=', False), ('date_deadline', '&lt;', context_today()), ('state', 'not in', ['done', 'cancel'])]",
+          "default_enabled": false
+        }
+      ]
+    }
+  ]
+}
+        </field>
+    </record>
+</odoo>
