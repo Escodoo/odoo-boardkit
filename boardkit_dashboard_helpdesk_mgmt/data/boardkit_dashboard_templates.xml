@@ -10,6 +10,10 @@
             tickets, trends and team/stage analytics. Requires Helpdesk
             Management.
         </field>
+        <field
+            name="group_ids"
+            eval="[(4, ref('helpdesk_mgmt.group_helpdesk_user'))]"
+        />
         <field name="payload">
 {
   "version": 1,
