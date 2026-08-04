@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="template_account_invoicing" model="boardkit.dashboard.template">
+        <field name="name">Invoicing Overview</field>
+        <field name="key">account_invoicing</field>
+        <field name="sequence">50</field>
+        <field name="description">
+            Finance-oriented invoicing board: billed amount, outstanding and
+            overdue AR, credit notes, collection rate, amount trends, payment
+            status, top customers and a recent invoices list. Requires
+            Invoicing.
+        </field>
+        <field name="payload">{
+  "version": 1,
+  "dashboards": [
+    {
+      "name": "Invoicing Overview",
+      "description": "Customer invoicing with AR, payment status and trends.",
+      "tags": [
+        "Accounting"
+      ],
+      "date_filter": "this_month",
+      "refresh_interval": "0",
+      "items": [
+        {
+          "name": "Total Invoiced",
+          "item_type": "tile",
+          "model": "account.move",
+          "aggregation": "sum",
+          "measure_field_id": "amount_total",
+          "icon": "fa-money",
+          "unit_type": "monetary",
+          "compare_previous_period": true,
+          "domain": "[('move_type', '=', 'out_invoice'), ('state', '=', 'posted')]",
+          "date_field_id": "invoice_date",
+          "layout": {
+            "x": 0,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 0
+        },
+        {
+          "name": "Outstanding AR",
+          "item_type": "tile",
+          "model": "account.move",
+          "aggregation": "sum",
+          "measure_field_id": "amount_residual",
+          "icon": "fa-balance-scale",
+          "unit_type": "monetary",
+          "domain": "[('move_type', '=', 'out_invoice'), ('state', '=', 'posted'), ('payment_state', 'in', ('not_paid', 'partial'))]",
+          "layout": {
+            "x": 3,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 1
+        },
+        {
+          "name": "Overdue",
+          "item_type": "tile",
+          "model": "account.move",
+          "aggregation": "sum",
+          "measure_field_id": "amount_residual",
+          "icon": "fa-exclamation-triangle",
+          "unit_type": "monetary",
+          "domain": "[('move_type', '=', 'out_invoice'), ('state', '=', 'posted'), ('payment_state', 'in', ('not_paid', 'partial')), ('invoice_date_due', '&lt;', context_today())]",
+          "layout": {
+            "x": 6,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 2
+        },
+        {
+          "name": "Credit Notes",
+          "item_type": "tile",
+          "model": "account.move",
+          "aggregation": "sum",
+          "measure_field_id": "amount_total",
+          "icon": "fa-reply",
+          "unit_type": "monetary",
+          "domain": "[('move_type', '=', 'out_refund'), ('state', '=', 'posted')]",
+          "date_field_id": "invoice_date",
+          "layout": {
+            "x": 9,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 3
+        },
+        {
+          "name": "Collection Rate",
+          "item_type": "kpi",
+          "model": "account.move",
+          "aggregation": "sum",
+          "measure_field_id": "amount_total",
+          "kpi_mode": "comparison",
+          "kpi_display": "percent",
+          "domain": "[('move_type', '=', 'out_invoice'), ('state', '=', 'posted'), ('payment_state', '=', 'paid')]",
+          "model_2": "account.move",
+          "aggregation_2": "sum",
+          "measure_field_2_id": "amount_total",
+          "domain_2": "[('move_type', '=', 'out_invoice'), ('state', '=', 'posted')]",
+          "date_field_id": "invoice_date",
+          "date_field_2_id": "invoice_date",
+          "layout": {
+            "x": 0,
+            "y": 2,
+            "w": 6,
+            "h": 2
+          },
+          "index": 4
+        },
+        {
+          "name": "Draft Invoices",
+          "item_type": "tile",
+          "model": "account.move",
+          "aggregation": "count",
+          "icon": "fa-pencil-square-o",
+          "domain": "[('move_type', '=', 'out_invoice'), ('state', '=', 'draft')]",
+          "date_field_id": "invoice_date",
+          "layout": {
+            "x": 6,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 5
+        },
+        {
+          "name": "Posted Invoices",
+          "item_type": "tile",
+          "model": "account.move",
+          "aggregation": "count",
+          "icon": "fa-check-square-o",
+          "domain": "[('move_type', '=', 'out_invoice'), ('state', '=', 'posted')]",
+          "date_field_id": "invoice_date",
+          "layout": {
+            "x": 9,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 6
+        },
+        {
+          "name": "Invoiced Amount per Month",
+          "item_type": "area",
+          "model": "account.move",
+          "aggregation": "sum",
+          "measure_field_id": "amount_total",
+          "measures": [
+            "amount_total"
+          ],
+          "group_by_field_id": "invoice_date",
+          "group_by_granularity": "month",
+          "date_field_id": "invoice_date",
+          "chart_sort": "label_asc",
+          "show_trend_line": true,
+          "domain": "[('move_type', '=', 'out_invoice'), ('state', '=', 'posted')]",
+          "layout": {
+            "x": 0,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 7
+        },
+        {
+          "name": "Top Customers by Amount",
+          "item_type": "bar_horizontal",
+          "model": "account.move",
+          "aggregation": "sum",
+          "measure_field_id": "amount_total",
+          "measures": [
+            "amount_total"
+          ],
+          "group_by_field_id": "partner_id",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "domain": "[('move_type', '=', 'out_invoice'), ('state', '=', 'posted')]",
+          "date_field_id": "invoice_date",
+          "layout": {
+            "x": 6,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 8
+        },
+        {
+          "name": "By Payment Status",
+          "item_type": "doughnut",
+          "model": "account.move",
+          "aggregation": "count",
+          "group_by_field_id": "payment_state",
+          "chart_sort": "value_desc",
+          "domain": "[('move_type', '=', 'out_invoice'), ('state', '=', 'posted')]",
+          "date_field_id": "invoice_date",
+          "layout": {
+            "x": 0,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 9
+        },
+        {
+          "name": "By Salesperson",
+          "item_type": "bar",
+          "model": "account.move",
+          "aggregation": "sum",
+          "measure_field_id": "amount_total",
+          "measures": [
+            "amount_total"
+          ],
+          "group_by_field_id": "invoice_user_id",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "domain": "[('move_type', '=', 'out_invoice'), ('state', '=', 'posted')]",
+          "date_field_id": "invoice_date",
+          "layout": {
+            "x": 6,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 10
+        },
+        {
+          "name": "Recent Invoices",
+          "item_type": "list",
+          "model": "account.move",
+          "list_type": "plain",
+          "sort_field_id": "invoice_date",
+          "sort_field_model": "account.move",
+          "sort_dir": "desc",
+          "page_size": 10,
+          "list_columns": [
+            "name",
+            "partner_id",
+            "amount_total",
+            "amount_residual",
+            "payment_state",
+            "invoice_date_due"
+          ],
+          "domain": "[('move_type', '=', 'out_invoice')]",
+          "date_field_id": "invoice_date",
+          "layout": {
+            "x": 0,
+            "y": 12,
+            "w": 12,
+            "h": 5
+          },
+          "index": 11
+        }
+      ],
+      "filters": [
+        {
+          "name": "Posted",
+          "sequence": 10,
+          "model": "account.move",
+          "domain": "[('state', '=', 'posted')]",
+          "default_enabled": false
+        },
+        {
+          "name": "Customer Invoices",
+          "sequence": 20,
+          "model": "account.move",
+          "domain": "[('move_type', '=', 'out_invoice')]",
+          "default_enabled": false
+        },
+        {
+          "name": "Vendor Bills",
+          "sequence": 30,
+          "model": "account.move",
+          "domain": "[('move_type', '=', 'in_invoice')]",
+          "default_enabled": false
+        },
+        {
+          "name": "Overdue",
+          "sequence": 40,
+          "model": "account.move",
+          "domain": "[('payment_state', 'in', ('not_paid', 'partial')), ('invoice_date_due', '&lt;', context_today())]",
+          "default_enabled": false
+        }
+      ]
+    }
+  ]
+}
+        </field>
+    </record>
+</odoo>
