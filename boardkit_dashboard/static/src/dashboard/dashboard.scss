@@ -450,9 +450,12 @@
     .o_boardkit_dashboard_kanban_footer {
         position: relative;
         border-top: 1px solid rgba(0, 0, 0, 0.06);
+        // One small-text line (+ pt-2): keeps the separator at the same
+        // height on draft and published cards.
+        min-height: calc(#{map-get($spacers, 2)} + 1.5em);
 
-        // Anchor the watermark to the footer top so draft cards (taller
-        // footer with Publish) stay aligned like published ones.
+        // Anchor the watermark to the footer top so draft cards stay
+        // aligned like published ones.
         &::before {
             content: "";
             position: absolute;
@@ -476,6 +479,16 @@
 
     .o_boardkit_dashboard_kanban_refresh {
         white-space: nowrap;
+    }
+
+    // Match the small meta line so Publish does not raise the footer
+    // separator above neighbouring published cards.
+    .o_boardkit_dashboard_kanban_publish {
+        --btn-padding-y: 0;
+        --btn-padding-x: 0.5rem;
+        --btn-font-size: #{$font-size-sm};
+        --btn-line-height: 1.5;
+        min-height: 0;
     }
 
     // Palette accent bar bleeding to the top edge of the card.
