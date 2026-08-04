@@ -224,7 +224,7 @@
                                 <span class="text-bg-danger o_small">Draft</span>
                             </div>
                             <div
-                                class="o_boardkit_dashboard_kanban_title d-flex align-items-start gap-2 fw-bold fs-5"
+                                class="o_boardkit_dashboard_kanban_title d-flex align-items-center gap-2 fw-bold fs-5"
                             >
                                 <span
                                     class="o_boardkit_dashboard_kanban_icon"
@@ -235,11 +235,15 @@
                                     />
                                 </span>
                                 <field
+                                    name="name"
+                                    class="o_boardkit_dashboard_kanban_name flex-grow-1 text-truncate fw-bold"
+                                />
+                                <field
                                     name="is_favorite"
                                     widget="boardkit_dashboard_is_favorite"
                                     nolabel="1"
+                                    class="o_boardkit_dashboard_kanban_favorite"
                                 />
-                                <field name="name" class="fw-bold" />
                             </div>
                             <div
                                 t-if="record.description.raw_value"

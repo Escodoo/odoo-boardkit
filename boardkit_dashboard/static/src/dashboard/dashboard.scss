@@ -344,6 +344,26 @@
             box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.12);
             transform: translateY(-2px);
         }
+
+        // Align the ⋮ menu with the title/icon/star row. Bootstrap's
+        // .top-0 uses !important, so override it the same way.
+        .o_dropdown_kanban.top-0 {
+            top: calc(var(--KanbanRecord-padding-v) + 0.65rem) !important;
+            height: 1.75rem;
+            display: flex;
+            align-items: center;
+            z-index: 3;
+
+            .btn {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 1.5rem;
+                height: 1.75rem;
+                padding: 0;
+                line-height: 1;
+            }
+        }
     }
 
     .o_boardkit_dashboard_kanban_card {
@@ -364,10 +384,11 @@
         border-color: rgba(0, 0, 0, 0.18);
     }
 
-    // Unpublished boards recede behind the published ones. Only the content
-    // fades: the ribbon, palette strip and Publish button keep full contrast.
+    // Unpublished boards recede behind the published ones. Keep the
+    // favorite control fully opaque so it never disappears under the ribbon.
     .o_boardkit_dashboard_kanban_card_draft {
-        .o_boardkit_dashboard_kanban_title,
+        .o_boardkit_dashboard_kanban_icon,
+        .o_boardkit_dashboard_kanban_name,
         .o_boardkit_dashboard_kanban_description,
         .o_field_many2many_tags {
             opacity: 0.55;
@@ -376,7 +397,8 @@
     }
 
     .o_kanban_record:hover .o_boardkit_dashboard_kanban_card_draft {
-        .o_boardkit_dashboard_kanban_title,
+        .o_boardkit_dashboard_kanban_icon,
+        .o_boardkit_dashboard_kanban_name,
         .o_boardkit_dashboard_kanban_description,
         .o_field_many2many_tags {
             opacity: 1;
@@ -389,11 +411,21 @@
     .o_boardkit_dashboard_kanban_ribbon {
         --Ribbon-wrapper-width: 8.5rem;
         --Ribbon-font-size: #{$font-size-sm};
+        // Slightly thicker band than the default (font-size * 2.5).
+        --Ribbon-height: 1.85rem;
         --Ribbon-gap-top: calc(
             var(--KanbanRecord-padding-v) * -1 - 0.65rem - #{$border-width}
         );
+        // Stay flush with the card's right edge.
         --Ribbon-gap-right: 0;
-        --Ribbon-z-index: 2;
+        // Below star / ⋮ so those controls stay visible and clickable.
+        --Ribbon-z-index: 1;
+
+        span {
+            --Ribbon-top-position: calc(var(--Ribbon-height) * -1);
+            --Ribbon-left-position: 0.35rem;
+            line-height: var(--Ribbon-height);
+        }
     }
 
     .o_boardkit_dashboard_kanban_icon {
@@ -411,11 +443,47 @@
 
     .o_boardkit_dashboard_kanban_title {
         line-height: 1.25;
-        margin-bottom: 0.15rem;
-        padding-right: 2.5rem;
+        // Tight gap: only the ⋮ control width; star sits just left of it.
+        padding-right: 1.35rem;
+        min-width: 0;
 
-        .o_field_widget {
+        .o_boardkit_dashboard_kanban_name {
+            min-width: 0;
             font-weight: 600;
+        }
+    }
+
+    .o_boardkit_dashboard_kanban_favorite {
+        // Same slot on every card (draft or published); above the ribbon.
+        position: relative;
+        z-index: 4;
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        height: 1.75rem;
+        margin-right: 0;
+
+        .o_favorite {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 1.75rem;
+
+            i {
+                margin-inline-end: 0 !important;
+                font-size: 1.1rem;
+                line-height: 1;
+            }
+        }
+    }
+
+    // Keep the star readable when it sits over the Draft ribbon.
+    .o_boardkit_dashboard_kanban_card_draft .o_boardkit_dashboard_kanban_favorite {
+        .o_favorite i {
+            text-shadow:
+                0 0 0.15rem #fff,
+                0 0 0.35rem #fff,
+                0 0 0.5rem #fff;
         }
     }
 
@@ -424,7 +492,8 @@
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
         overflow: hidden;
-        padding-right: 2.5rem;
+        margin-top: 0.55rem;
+        padding-right: 1.75rem;
     }
 
     // Allow several tags on one card: Odoo sets --Tag-max-width: 100% on
