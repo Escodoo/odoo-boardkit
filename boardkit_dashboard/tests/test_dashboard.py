@@ -422,14 +422,71 @@ class TestDashboard(BoardkitDashboardCommon):
         self.assertIn("Bar Chart", self.dashboard.item_type_summary)
         self.assertEqual(self.dashboard.model_summary, "res.partner")
         self.assertIn(
-            "o_boardkit_dashboard_kanban_type",
-            self.dashboard.item_type_badge_html,
-        )
-        self.assertIn(
             "o_boardkit_dashboard_kanban_strip",
             self.dashboard.palette_strip_html,
         )
         self.assertIn("#7EB5E8", self.dashboard.palette_strip_html)
+
+    def test_kanban_icon_from_tag(self):
+        tag = self.env["boardkit.dashboard.tag"].create(
+            {"name": "Custom Domain", "icon": "fa-bullseye"}
+        )
+        self.dashboard.tag_ids = [(6, 0, tag.ids)]
+        self.assertEqual(self.dashboard.kanban_icon, "fa-bullseye")
+        # Without an icon on the tag, the catalogue falls back to the grid.
+        tag.icon = False
+        self.assertEqual(self.dashboard.kanban_icon, "fa-th-large")
+
+    def test_kanban_icon_board_overrides_tag(self):
+        tag = self.env["boardkit.dashboard.tag"].create(
+            {"name": "Domain Tag", "icon": "fa-bullseye"}
+        )
+        self.dashboard.write(
+            {
+                "tag_ids": [(6, 0, tag.ids)],
+                "icon": "fa-cogs",
+            }
+        )
+        self.assertEqual(self.dashboard.kanban_icon, "fa-cogs")
+        self.dashboard.icon = False
+        self.assertEqual(self.dashboard.kanban_icon, "fa-bullseye")
+
+    def test_favorite_panel_search(self):
+        Dashboard = self.env["boardkit.dashboard"]
+        dashboard = self.dashboard.with_user(self.user)
+        dashboard.write({"is_favorite": True})
+        favorites = Dashboard.with_user(self.user).search(
+            [("favorite_panel", "=", "favorite")]
+        )
+        self.assertEqual(favorites, self.dashboard)
+        self.assertEqual(
+            Dashboard.with_user(self.manager).search(
+                [("favorite_panel", "=", "favorite")]
+            ),
+            Dashboard.browse(),
+        )
+        # Searchpanel multi-select uses the 'in' operator.
+        favorites_in = Dashboard.with_user(self.user).search(
+            [("favorite_panel", "in", ["favorite"])]
+        )
+        self.assertEqual(favorites_in, self.dashboard)
+        # Searchpanel calls read_group via search_panel_select_multi_range.
+        panel = Dashboard.with_user(self.user).search_panel_select_multi_range(
+            "favorite_panel",
+            enable_counters=True,
+            search_domain=[],
+        )
+        values = {row["id"]: row for row in panel["values"]}
+        self.assertIn("favorite", values)
+        self.assertGreaterEqual(values["favorite"]["__count"], 1)
+        # Counting tags while Favorites is selected also uses 'in' on favorite_panel.
+        tags_panel = Dashboard.with_user(self.user).search_panel_select_multi_range(
+            "tag_ids",
+            enable_counters=True,
+            search_domain=[],
+            filter_domain=[("favorite_panel", "in", ["favorite"])],
+        )
+        self.assertIn("values", tags_panel)
 
     def test_publish_without_menu_visible_to_user(self):
         """Published boards are available in the catalogue even without a menu."""

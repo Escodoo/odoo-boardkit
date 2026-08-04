@@ -116,11 +116,16 @@ Configuration
    visible only to Dashboard Managers. Dashboards limited to a specific
    company cannot have a menu entry (open them from *All Dashboards* or
    a landing-page action instead).
-3. Add items from the dashboard form or directly from the dashboard view
+3. Optionally create or edit tags under *All Dashboards > Configuration
+   > Tags* and set an *Icon* for each domain tag (template tags such as
+   CRM and Purchase are seeded automatically). On each board form, set
+   *Icon* to override the catalogue card icon, or leave it empty to
+   inherit the first non-empty tag icon.
+4. Add items from the dashboard form or directly from the dashboard view
    with the *Add Item* button (managers only). The item form shows a
    live preview that updates as you change the configuration, before
    saving.
-4. To reuse a board from another database, use the *Import* button in
+5. To reuse a board from another database, use the *Import* button in
    the *All Dashboards > Boards* toolbar (managers only) and select the
    JSON file exported from the dashboard action menu. Imported boards
    arrive unpublished and without a menu entry, so review them before
@@ -153,8 +158,19 @@ Dashboard Users until a manager sets an audience.
 
 In the catalogue (kanban or list), or from the star next to the title
 when a dashboard is open, click the star to favorite it. Favorited
-dashboards appear first and can be filtered with *My Favorites*.
-Favorites are personal and do not affect other users.
+dashboards appear first and can be filtered with *My Favorites* or the
+search panel *Favorites* section. Favorites are personal and do not
+affect other users.
+
+Unpublished boards show a draft style and a *Draft* label; managers can
+publish directly from the card. An empty catalogue shows a first-run
+hero with featured templates (when the matching template modules are
+installed).
+
+Catalogue cards show an icon from the board's optional *Icon* field.
+Leave it empty to inherit the first tag icon set in *All Dashboards >
+Configuration > Tags*. Rename tags freely; the stored tag icon stays.
+With neither board nor tag icon, the catalogue uses a default grid icon.
 
 Dashboards with *Allowed Groups* can be opened by members of those
 groups even without the Dashboard User right (typical for menus under

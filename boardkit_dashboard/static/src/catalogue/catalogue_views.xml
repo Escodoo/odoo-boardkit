@@ -45,4 +45,67 @@
             <t t-call="boardkit_dashboard.CatalogueToolbarButtons" />
         </xpath>
     </t>
+
+    <t
+        t-name="boardkit_dashboard.CatalogueKanbanRenderer"
+        t-inherit="web.KanbanRenderer"
+        t-inherit-mode="primary"
+    >
+        <xpath expr="//t[@t-if='showNoContentHelper']" position="replace">
+            <t t-if="showNoContentHelper">
+                <CatalogueEmptyHero />
+            </t>
+        </xpath>
+    </t>
+
+    <t t-name="boardkit_dashboard.CatalogueEmptyHero">
+        <div class="o_boardkit_dashboard_catalogue_empty o_view_nocontent">
+            <t t-if="state.isManager">
+                <div class="o_boardkit_dashboard_catalogue_empty_title">
+                    Start from a template
+                </div>
+                <p class="o_boardkit_dashboard_catalogue_empty_subtitle">
+                    Pick a curated board, import a JSON export, or create a blank
+                    dashboard with tiles, KPIs, charts and lists.
+                </p>
+                <div class="o_boardkit_dashboard_catalogue_empty_actions">
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        t-on-click="onFromTemplate"
+                    >
+                        <i class="fa fa-magic me-1" />From template
+                    </button>
+                    <button type="button" class="btn btn-secondary" t-on-click="onNew">
+                        New
+                    </button>
+                </div>
+                <div
+                    t-if="state.featured.length"
+                    class="o_boardkit_dashboard_catalogue_empty_featured"
+                >
+                    <button
+                        t-foreach="state.featured"
+                        t-as="template"
+                        t-key="template.id"
+                        type="button"
+                        class="o_boardkit_dashboard_catalogue_empty_card"
+                        t-att-disabled="state.creatingId"
+                        t-on-click="() => this.onFeaturedClick(template)"
+                    >
+                        <h3 t-esc="template.name" />
+                        <p t-esc="template.description or ''" />
+                    </button>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="o_boardkit_dashboard_catalogue_empty_title">
+                    No dashboards here yet
+                </div>
+                <p class="o_boardkit_dashboard_catalogue_empty_subtitle">
+                    Published boards you can access will appear here.
+                </p>
+            </t>
+        </div>
+    </t>
 </templates>

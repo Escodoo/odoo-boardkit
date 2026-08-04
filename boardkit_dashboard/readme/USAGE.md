@@ -12,8 +12,17 @@ Dashboard Users until a manager sets an audience.
 
 In the catalogue (kanban or list), or from the star next to the title when a
 dashboard is open, click the star to favorite it. Favorited dashboards appear
-first and can be filtered with _My Favorites_. Favorites are personal and do not
-affect other users.
+first and can be filtered with _My Favorites_ or the search panel _Favorites_
+section. Favorites are personal and do not affect other users.
+
+Unpublished boards show a draft style and a _Draft_ label; managers can publish
+directly from the card. An empty catalogue shows a first-run hero with featured
+templates (when the matching template modules are installed).
+
+Catalogue cards show an icon from the board's optional _Icon_ field. Leave it
+empty to inherit the first tag icon set in _All Dashboards > Configuration >
+Tags_. Rename tags freely; the stored tag icon stays. With neither board nor tag
+icon, the catalogue uses a default grid icon.
 
 Dashboards with _Allowed Groups_ can be opened by members of those groups even without
 the Dashboard User right (typical for menus under another app). Dashboards without

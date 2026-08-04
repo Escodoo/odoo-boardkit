@@ -91,3 +91,18 @@ class TestDashboardTemplates(BoardkitDashboardCommon):
             self.env["boardkit.dashboard.template.wizard"].with_user(self.user).create(
                 {"template_id": template.id}
             )
+
+    def test_get_featured_for_catalogue(self):
+        from ..models.boardkit_dashboard import FEATURED_TEMPLATE_KEYS
+
+        featured = self.env["boardkit.dashboard.template"].get_featured_for_catalogue()
+        keys = [row["key"] for row in featured]
+        # Core templates shipped with boardkit_dashboard; satellite keys are
+        # included only when those modules are installed.
+        self.assertIn("partner_starter", keys)
+        self.assertIn("contacts_overview", keys)
+        expected = [key for key in FEATURED_TEMPLATE_KEYS if key in keys]
+        self.assertEqual(keys, expected)
+        partner = next(row for row in featured if row["key"] == "partner_starter")
+        self.assertEqual(partner["name"], "Partner Starter")
+        self.assertIn("id", partner)
