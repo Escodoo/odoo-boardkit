@@ -16,6 +16,10 @@ class TestHrTimesheetDashboardTemplates(TransactionCase):
         self.assertEqual(dashboard.name, "Timesheet Overview")
         self.assertFalse(dashboard.published)
         self.assertFalse(dashboard.menu_id)
+        self.assertEqual(
+            dashboard.group_ids,
+            self.env.ref("hr_timesheet.group_hr_timesheet_approver"),
+        )
         self.assertEqual(len(dashboard.item_ids), 12)
         self.assertEqual(len(dashboard.filter_ids), 3)
         self.assertTrue(
