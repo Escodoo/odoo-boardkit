@@ -9,6 +9,10 @@
             refusals, hire rate, stage funnel, job and source analytics, and a
             recent applications list. Requires Recruitment.
         </field>
+        <field
+            name="group_ids"
+            eval="[(4, ref('hr_recruitment.group_hr_recruitment_user'))]"
+        />
         <field name="payload">
 {
   "version": 1,
