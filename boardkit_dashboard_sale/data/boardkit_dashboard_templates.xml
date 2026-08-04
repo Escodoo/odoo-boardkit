@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="template_sale_overview" model="boardkit.dashboard.template">
+        <field name="name">Sales Overview</field>
+        <field name="key">sale_overview</field>
+        <field name="sequence">40</field>
+        <field name="description">
+            Sales board for quotations and orders: quotation and order counts,
+            untaxed totals, confirmation rate, late deliveries, to-invoice
+            backlog, amount trends, top customers, status and salesperson
+            breakdowns, and a recent orders list. Requires Sales.
+        </field>
+        <field
+            name="group_ids"
+            eval="[(4, ref('sales_team.group_sale_salesman_all_leads'))]"
+        />
+        <field name="payload">
+{
+  "version": 1,
+  "dashboards": [
+    {
+      "name": "Sales Overview",
+      "description": "Quotations and confirmed orders with revenue, conversion and team analytics.",
+      "tags": [
+        "Sales"
+      ],
+      "date_filter": "this_month",
+      "refresh_interval": "0",
+      "items": [
+        {
+          "name": "Quotations",
+          "item_type": "tile",
+          "model": "sale.order",
+          "aggregation": "count",
+          "icon": "fa-file-text-o",
+          "domain": "[('state', 'in', ['draft', 'sent'])]",
+          "layout": {
+            "x": 0,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 0
+        },
+        {
+          "name": "Sales Orders",
+          "item_type": "tile",
+          "model": "sale.order",
+          "aggregation": "count",
+          "icon": "fa-shopping-cart",
+          "compare_previous_period": true,
+          "domain": "[('state', '=', 'sale')]",
+          "date_field_id": "date_order",
+          "layout": {
+            "x": 3,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 1
+        },
+        {
+          "name": "Untaxed Total",
+          "item_type": "tile",
+          "model": "sale.order",
+          "aggregation": "sum",
+          "measure_field_id": "amount_untaxed",
+          "icon": "fa-money",
+          "unit_type": "monetary",
+          "compare_previous_period": true,
+          "domain": "[('state', '=', 'sale')]",
+          "date_field_id": "date_order",
+          "layout": {
+            "x": 6,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 2
+        },
+        {
+          "name": "Quotations Value",
+          "item_type": "tile",
+          "model": "sale.order",
+          "aggregation": "sum",
+          "measure_field_id": "amount_untaxed",
+          "icon": "fa-briefcase",
+          "unit_type": "monetary",
+          "domain": "[('state', 'in', ['draft', 'sent'])]",
+          "layout": {
+            "x": 9,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 3
+        },
+        {
+          "name": "Confirmation Rate",
+          "item_type": "kpi",
+          "model": "sale.order",
+          "aggregation": "count",
+          "kpi_mode": "comparison",
+          "kpi_display": "percent",
+          "domain": "[('state', '=', 'sale')]",
+          "model_2": "sale.order",
+          "aggregation_2": "count",
+          "domain_2": "[('state', 'in', ['sale', 'cancel'])]",
+          "date_field_id": "date_order",
+          "date_field_2_id": "date_order",
+          "layout": {
+            "x": 0,
+            "y": 2,
+            "w": 6,
+            "h": 2
+          },
+          "index": 4
+        },
+        {
+          "name": "Late Deliveries",
+          "item_type": "tile",
+          "model": "sale.order",
+          "aggregation": "count",
+          "icon": "fa-exclamation-triangle",
+          "domain": "[('state', '=', 'sale'), ('commitment_date', '!=', False), ('commitment_date', '&lt;', context_today())]",
+          "layout": {
+            "x": 6,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 5
+        },
+        {
+          "name": "To Invoice",
+          "item_type": "tile",
+          "model": "sale.order",
+          "aggregation": "count",
+          "icon": "fa-file-text",
+          "domain": "[('state', '=', 'sale'), ('invoice_status', '=', 'to invoice')]",
+          "layout": {
+            "x": 9,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 6
+        },
+        {
+          "name": "Untaxed Amount per Month",
+          "item_type": "area",
+          "model": "sale.order",
+          "aggregation": "sum",
+          "measure_field_id": "amount_untaxed",
+          "measures": [
+            "amount_untaxed"
+          ],
+          "group_by_field_id": "date_order",
+          "group_by_granularity": "month",
+          "date_field_id": "date_order",
+          "chart_sort": "label_asc",
+          "show_trend_line": true,
+          "domain": "[('state', '=', 'sale')]",
+          "layout": {
+            "x": 0,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 7
+        },
+        {
+          "name": "Top Customers by Amount",
+          "item_type": "bar_horizontal",
+          "model": "sale.order",
+          "aggregation": "sum",
+          "measure_field_id": "amount_untaxed",
+          "measures": [
+            "amount_untaxed"
+          ],
+          "group_by_field_id": "partner_id",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "domain": "[('state', '=', 'sale')]",
+          "date_field_id": "date_order",
+          "layout": {
+            "x": 6,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 8
+        },
+        {
+          "name": "Orders by Status",
+          "item_type": "doughnut",
+          "model": "sale.order",
+          "aggregation": "count",
+          "group_by_field_id": "state",
+          "chart_sort": "value_desc",
+          "domain": "[]",
+          "date_field_id": "date_order",
+          "layout": {
+            "x": 0,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 9
+        },
+        {
+          "name": "Revenue by Salesperson",
+          "item_type": "bar",
+          "model": "sale.order",
+          "aggregation": "sum",
+          "measure_field_id": "amount_untaxed",
+          "measures": [
+            "amount_untaxed"
+          ],
+          "group_by_field_id": "user_id",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "domain": "[('state', '=', 'sale')]",
+          "date_field_id": "date_order",
+          "layout": {
+            "x": 6,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 10
+        },
+        {
+          "name": "Recent Orders",
+          "item_type": "list",
+          "model": "sale.order",
+          "list_type": "plain",
+          "sort_field_id": "date_order",
+          "sort_field_model": "sale.order",
+          "sort_dir": "desc",
+          "page_size": 10,
+          "list_columns": [
+            "name",
+            "partner_id",
+            "amount_untaxed",
+            "state",
+            "invoice_status",
+            "user_id",
+            "date_order"
+          ],
+          "domain": "[('state', '!=', 'cancel')]",
+          "date_field_id": "date_order",
+          "layout": {
+            "x": 0,
+            "y": 12,
+            "w": 12,
+            "h": 5
+          },
+          "index": 11
+        }
+      ],
+      "filters": [
+        {
+          "name": "My Orders",
+          "sequence": 10,
+          "model": "sale.order",
+          "domain": "[('user_id', '=', uid)]",
+          "default_enabled": false
+        },
+        {
+          "name": "Confirmed",
+          "sequence": 20,
+          "model": "sale.order",
+          "domain": "[('state', '=', 'sale')]",
+          "default_enabled": false
+        },
+        {
+          "name": "Quotations",
+          "sequence": 30,
+          "model": "sale.order",
+          "domain": "[('state', 'in', ['draft', 'sent'])]",
+          "default_enabled": false
+        },
+        {
+          "name": "To Invoice",
+          "sequence": 40,
+          "model": "sale.order",
+          "domain": "[('state', '=', 'sale'), ('invoice_status', '=', 'to invoice')]",
+          "default_enabled": false
+        }
+      ]
+    }
+  ]
+}
+        </field>
+    </record>
+</odoo>

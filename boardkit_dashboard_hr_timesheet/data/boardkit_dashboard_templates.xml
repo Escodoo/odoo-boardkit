@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="template_timesheet_overview" model="boardkit.dashboard.template">
+        <field name="name">Timesheet Overview</field>
+        <field name="key">timesheet_overview</field>
+        <field name="sequence">80</field>
+        <field name="description">
+            Timesheet board for project time: hours logged, line counts,
+            average hours, today total, task coverage, cost amount, daily
+            trends and project/employee analytics. Requires Timesheets.
+        </field>
+        <field
+            name="group_ids"
+            eval="[(4, ref('hr_timesheet.group_hr_timesheet_approver'))]"
+        />
+        <field name="payload">
+{
+  "version": 1,
+  "dashboards": [
+    {
+      "name": "Timesheet Overview",
+      "description": "Time spent on projects with employee and department analytics.",
+      "tags": [
+        "Timesheets"
+      ],
+      "date_filter": "this_month",
+      "refresh_interval": "0",
+      "items": [
+        {
+          "name": "Hours Logged",
+          "item_type": "tile",
+          "model": "account.analytic.line",
+          "aggregation": "sum",
+          "measure_field_id": "unit_amount",
+          "icon": "fa-clock-o",
+          "compare_previous_period": true,
+          "domain": "[('project_id', '!=', False)]",
+          "date_field_id": "date",
+          "layout": {
+            "x": 0,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 0
+        },
+        {
+          "name": "Timesheet Lines",
+          "item_type": "tile",
+          "model": "account.analytic.line",
+          "aggregation": "count",
+          "icon": "fa-list",
+          "compare_previous_period": true,
+          "domain": "[('project_id', '!=', False)]",
+          "date_field_id": "date",
+          "layout": {
+            "x": 3,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 1
+        },
+        {
+          "name": "Average Hours / Line",
+          "item_type": "tile",
+          "model": "account.analytic.line",
+          "aggregation": "avg",
+          "measure_field_id": "unit_amount",
+          "icon": "fa-calculator",
+          "domain": "[('project_id', '!=', False)]",
+          "date_field_id": "date",
+          "layout": {
+            "x": 6,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 2
+        },
+        {
+          "name": "Cost Amount",
+          "item_type": "tile",
+          "model": "account.analytic.line",
+          "aggregation": "sum",
+          "measure_field_id": "amount",
+          "icon": "fa-money",
+          "unit_type": "monetary",
+          "domain": "[('project_id', '!=', False)]",
+          "date_field_id": "date",
+          "layout": {
+            "x": 9,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 3
+        },
+        {
+          "name": "Today Hours",
+          "item_type": "tile",
+          "model": "account.analytic.line",
+          "aggregation": "sum",
+          "measure_field_id": "unit_amount",
+          "icon": "fa-calendar-check-o",
+          "domain": "[('project_id', '!=', False), ('date', '=', context_today())]",
+          "layout": {
+            "x": 0,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 4
+        },
+        {
+          "name": "Without Task",
+          "item_type": "tile",
+          "model": "account.analytic.line",
+          "aggregation": "count",
+          "icon": "fa-exclamation-triangle",
+          "domain": "[('project_id', '!=', False), ('task_id', '=', False)]",
+          "date_field_id": "date",
+          "layout": {
+            "x": 3,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 5
+        },
+        {
+          "name": "With Task",
+          "item_type": "tile",
+          "model": "account.analytic.line",
+          "aggregation": "count",
+          "icon": "fa-check-square-o",
+          "domain": "[('project_id', '!=', False), ('task_id', '!=', False)]",
+          "date_field_id": "date",
+          "layout": {
+            "x": 6,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 6
+        },
+        {
+          "name": "Task Coverage",
+          "item_type": "kpi",
+          "model": "account.analytic.line",
+          "aggregation": "count",
+          "kpi_mode": "comparison",
+          "kpi_display": "percent",
+          "domain": "[('project_id', '!=', False), ('task_id', '!=', False)]",
+          "model_2": "account.analytic.line",
+          "aggregation_2": "count",
+          "domain_2": "[('project_id', '!=', False)]",
+          "date_field_id": "date",
+          "date_field_2_id": "date",
+          "layout": {
+            "x": 9,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 7
+        },
+        {
+          "name": "Hours per Day",
+          "item_type": "area",
+          "model": "account.analytic.line",
+          "aggregation": "sum",
+          "measure_field_id": "unit_amount",
+          "measures": [
+            "unit_amount"
+          ],
+          "group_by_field_id": "date",
+          "group_by_granularity": "day",
+          "date_field_id": "date",
+          "chart_sort": "label_asc",
+          "show_trend_line": true,
+          "domain": "[('project_id', '!=', False)]",
+          "layout": {
+            "x": 0,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 8
+        },
+        {
+          "name": "Hours by Project",
+          "item_type": "bar_horizontal",
+          "model": "account.analytic.line",
+          "aggregation": "sum",
+          "measure_field_id": "unit_amount",
+          "measures": [
+            "unit_amount"
+          ],
+          "group_by_field_id": "project_id",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "domain": "[('project_id', '!=', False)]",
+          "date_field_id": "date",
+          "layout": {
+            "x": 6,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 9
+        },
+        {
+          "name": "Hours by Employee",
+          "item_type": "bar",
+          "model": "account.analytic.line",
+          "aggregation": "sum",
+          "measure_field_id": "unit_amount",
+          "measures": [
+            "unit_amount"
+          ],
+          "group_by_field_id": "employee_id",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "domain": "[('project_id', '!=', False)]",
+          "date_field_id": "date",
+          "layout": {
+            "x": 0,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 10
+        },
+        {
+          "name": "Recent Timesheets",
+          "item_type": "list",
+          "model": "account.analytic.line",
+          "list_type": "plain",
+          "sort_field_id": "date",
+          "sort_field_model": "account.analytic.line",
+          "sort_dir": "desc",
+          "page_size": 10,
+          "list_columns": [
+            "date",
+            "employee_id",
+            "project_id",
+            "task_id",
+            "name",
+            "unit_amount"
+          ],
+          "domain": "[('project_id', '!=', False)]",
+          "date_field_id": "date",
+          "layout": {
+            "x": 6,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 11
+        }
+      ],
+      "filters": [
+        {
+          "name": "My Timesheets",
+          "sequence": 10,
+          "model": "account.analytic.line",
+          "domain": "[('user_id', '=', uid)]",
+          "default_enabled": false
+        },
+        {
+          "name": "With Task",
+          "sequence": 20,
+          "model": "account.analytic.line",
+          "domain": "[('project_id', '!=', False), ('task_id', '!=', False)]",
+          "default_enabled": false
+        },
+        {
+          "name": "Without Task",
+          "sequence": 30,
+          "model": "account.analytic.line",
+          "domain": "[('project_id', '!=', False), ('task_id', '=', False)]",
+          "default_enabled": false
+        }
+      ]
+    }
+  ]
+}
+        </field>
+    </record>
+</odoo>

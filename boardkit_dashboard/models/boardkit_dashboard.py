@@ -860,7 +860,12 @@ class BoardkitDashboard(models.Model):
                 if isinstance(data, dict):
                     data["name"] = name
                     break
-        return self.import_config(payload)
+        dashboard_ids = self.import_config(payload)
+        if template.group_ids:
+            self.browse(dashboard_ids).write(
+                {"group_ids": [(6, 0, template.group_ids.ids)]}
+            )
+        return dashboard_ids
 
     @api.model
     def import_config(self, payload):
@@ -936,7 +941,9 @@ class BoardkitDashboard(models.Model):
             "user": self.env.user,
             "company_id": self.env.company.id,
             "company_ids": self.env.companies.ids,
-            "context_today": fields.Date.context_today,
+            # Callable with no args so domains can use context_today() like
+            # standard Odoo search views / ir.rule expressions.
+            "context_today": lambda: fields.Date.context_today(self),
             "datetime": datetime,
             "timedelta": timedelta,
             "relativedelta": relativedelta,
