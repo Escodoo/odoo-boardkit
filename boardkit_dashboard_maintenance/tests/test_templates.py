@@ -16,6 +16,10 @@ class TestMaintenanceDashboardTemplates(TransactionCase):
         self.assertEqual(dashboard.name, "Maintenance Overview")
         self.assertFalse(dashboard.published)
         self.assertFalse(dashboard.menu_id)
+        self.assertEqual(
+            dashboard.group_ids,
+            self.env.ref("maintenance.group_equipment_manager"),
+        )
         self.assertEqual(len(dashboard.item_ids), 12)
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
