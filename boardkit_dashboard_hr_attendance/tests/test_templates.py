@@ -16,6 +16,10 @@ class TestAttendanceDashboardTemplates(TransactionCase):
         self.assertEqual(dashboard.name, "Attendance Overview")
         self.assertFalse(dashboard.published)
         self.assertFalse(dashboard.menu_id)
+        self.assertEqual(
+            dashboard.group_ids,
+            self.env.ref("hr_attendance.group_hr_attendance_officer"),
+        )
         self.assertEqual(len(dashboard.item_ids), 12)
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
