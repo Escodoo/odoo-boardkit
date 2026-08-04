@@ -1,6 +1,7 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import copy
 from datetime import date, datetime, time, timedelta
 
 import babel.dates
@@ -12,8 +13,13 @@ from odoo.exceptions import ValidationError
 from odoo.tools.misc import babel_locale_parse, format_date, format_datetime, get_lang
 from odoo.tools.safe_eval import safe_eval
 
+from ..tools import data_cache
 from ..tools.date_ranges import DATE_RANGE_PRESETS
 from ..tools.palettes import PRESET_PALETTE_SELECTION
+
+# Default upper bound for the process-local item data cache TTL (seconds).
+# Overridable with ir.config_parameter boardkit_dashboard.data_cache_max_ttl.
+DEFAULT_DATA_CACHE_MAX_TTL = 60
 
 # Soft cap for unpaginated list exports (CSV/XLSX) to protect memory/time.
 EXPORT_MAX_ROWS = 65000
@@ -883,10 +889,54 @@ class BoardkitDashboardItem(models.Model):
         # the source model (those must stay per-item payloads).
         self.check_access("read")
         params = params or {}
+        ttl = self._data_cache_ttl()
+        cache_key = self._data_cache_key(params) if ttl else None
+        if cache_key is not None:
+            cached = data_cache.cache_get(cache_key)
+            if cached is not None:
+                return copy.deepcopy(cached)
         try:
-            return self._get_data(params)
+            data = self._get_data(params)
         except Exception as error:  # noqa: BLE001 - isolate faulty items
             return {"type": self.item_type, "error": str(error)}
+        if cache_key is not None and isinstance(data, dict) and "error" not in data:
+            data_cache.cache_set(cache_key, copy.deepcopy(data), ttl)
+        return data
+
+    def _data_cache_ttl(self):
+        """Seconds to keep a computed payload, or 0 to bypass the cache."""
+        interval = int(self.dashboard_id.refresh_interval or 0)
+        if interval <= 0:
+            return 0
+        raw_max = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param(
+                "boardkit_dashboard.data_cache_max_ttl",
+                str(DEFAULT_DATA_CACHE_MAX_TTL),
+            )
+        )
+        try:
+            max_ttl = int(raw_max)
+        except (TypeError, ValueError):
+            max_ttl = DEFAULT_DATA_CACHE_MAX_TTL
+        if max_ttl <= 0:
+            return 0
+        return min(interval, max_ttl)
+
+    def _data_cache_key(self, params):
+        """Build a user-scoped cache key for the current filter payload."""
+        return (
+            "boardkit.dashboard.item.data",
+            self.env.uid,
+            tuple(sorted(self.env.companies.ids)),
+            self.id,
+            fields.Datetime.to_string(self.write_date),
+            fields.Datetime.to_string(self.dashboard_id.write_date),
+            self.env.lang or "",
+            self.env.context.get("tz") or self.env.user.tz or "",
+            data_cache.fingerprint_params(params),
+        )
 
     def _get_data(self, params):
         if self.item_type == "tile":
