@@ -185,6 +185,25 @@
                                         role="menuitem"
                                         type="open"
                                     >Settings</a>
+                                    <a
+                                        t-if="!record.published.raw_value"
+                                        class="dropdown-item"
+                                        role="menuitem"
+                                        name="action_publish"
+                                        type="object"
+                                    >Publish</a>
+                                    <a
+                                        t-if="record.published.raw_value"
+                                        class="dropdown-item"
+                                        role="menuitem"
+                                        name="action_unpublish"
+                                        type="object"
+                                    >Unpublish</a>
+                                    <a
+                                        class="dropdown-item text-danger"
+                                        role="menuitem"
+                                        type="delete"
+                                    >Delete</a>
                                 </div>
                             </div>
                         </div>
