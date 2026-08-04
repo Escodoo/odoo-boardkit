@@ -1,0 +1,30 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_stock
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_stock
+#: model:boardkit.dashboard.template,description:boardkit_dashboard_stock.template_stock_overview
+msgid ""
+"\n"
+"            Inventory board for warehouse transfers: ready and waiting\n"
+"            queues, done volume, late transfers, completion rate, incoming and\n"
+"            outgoing backlogs, trends and operation-type analytics. Requires\n"
+"            Inventory.\n"
+"        "
+msgstr ""
+
+#. module: boardkit_dashboard_stock
+#: model:boardkit.dashboard.template,name:boardkit_dashboard_stock.template_stock_overview
+msgid "Inventory Overview"
+msgstr ""
