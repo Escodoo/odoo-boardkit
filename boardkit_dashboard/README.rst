@@ -25,6 +25,14 @@ Boardkit Dashboard
 Build configurable analytic dashboards on top of any Odoo model, without
 writing code.
 
+|CRM Pipeline|
+
+|Contacts Overview|
+
+|Purchase Overview|
+
+|Timesheet Overview|
+
 Each dashboard is a grid of items rendered with native web assets (OWL
 and the Chart.js library bundled with Odoo):
 
@@ -71,6 +79,11 @@ Dashboard level features:
 
 Data is always read with the access rights of the current user: ACLs and
 record rules of the source models are enforced.
+
+.. |CRM Pipeline| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-crm-pipeline.png
+.. |Contacts Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-contacts-overview.png
+.. |Purchase Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-purchase-overview.png
+.. |Timesheet Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-timesheet-overview.png
 
 **Table of contents**
 
