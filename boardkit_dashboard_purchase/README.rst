@@ -35,6 +35,10 @@ confirmation rate, late receipts, waiting bills, amount trends, top
 vendors, status and buyer breakdowns, and a recent orders list. Toggle
 filters cover my orders, confirmed orders, RFQs and waiting bills.
 
+|Purchase Overview|
+
+.. |Purchase Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_purchase/static/description/images/boardkit-purchase-overview.png
+
 **Table of contents**
 
 .. contents::
