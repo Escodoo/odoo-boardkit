@@ -8,3 +8,5 @@ It focuses on headcount: active employees, new hires and departures, active
 rate, employees without manager or department, expired work permits, hire
 trends, department and type breakdowns, and a recent employees list. Toggle
 filters cover my team, active employees, without manager and contractors.
+
+![Employees Overview](../static/description/images/boardkit-employees-overview.png)
