@@ -9,3 +9,5 @@ It focuses on ticket delivery: open and closed counts, high-priority and
 unattended backlogs, closure rate, unassigned tickets, trends, team and stage
 analytics, and a recent tickets list. Toggle filters cover my tickets, open,
 unattended and high priority.
+
+![Helpdesk Overview](../static/description/images/boardkit-helpdesk-overview.png)
