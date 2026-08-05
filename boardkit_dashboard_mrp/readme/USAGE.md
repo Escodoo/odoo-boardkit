@@ -10,5 +10,4 @@ always show the current backlog. Done metrics use _End_ date and follow the date
 filter. Use the toggle filters (My MOs, In Progress, Waiting Components, Late) to
 narrow the other cards.
 
-Review the unpublished board, adjust items or filters, then publish and
-optionally set a parent menu under Manufacturing.
+When installed with demo data, a published board is created from this template and placed first (sequence `-1`) under the related app menu.
