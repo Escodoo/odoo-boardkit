@@ -9,3 +9,5 @@ comparison), outstanding and overdue AR, credit notes, collection rate, amount
 trends, payment status, top customers, salesperson breakdown and a recent
 invoices list. Toggle filters cover posted moves, customer invoices, vendor
 bills and overdue residuals.
+
+![Invoicing Overview](../static/description/images/boardkit-invoicing-overview.png)

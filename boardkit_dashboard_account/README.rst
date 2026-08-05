@@ -35,6 +35,10 @@ rate, amount trends, payment status, top customers, salesperson
 breakdown and a recent invoices list. Toggle filters cover posted moves,
 customer invoices, vendor bills and overdue residuals.
 
+|Invoicing Overview|
+
+.. |Invoicing Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_account/static/description/images/boardkit-invoicing-overview.png
+
 **Table of contents**
 
 .. contents::
