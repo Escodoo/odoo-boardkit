@@ -41,6 +41,10 @@ class TestProjectDashboardTemplates(TransactionCase):
         self.assertEqual(by_project.item_type, "bar_horizontal")
         self.assertEqual(by_project.group_by_field_id.name, "project_id")
 
+        funnel = dashboard.item_ids.filtered(lambda i: i.name == "Stage Funnel")
+        self.assertEqual(funnel.item_type, "funnel")
+        self.assertEqual(funnel.group_by_field_id.name, "stage_id")
+
         recent = dashboard.item_ids.filtered(lambda i: i.name == "Recent Tasks")
         column_names = recent.list_column_ids.mapped("field_id.name")
         self.assertIn("project_id", column_names)

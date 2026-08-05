@@ -17,7 +17,7 @@
   "dashboards": [
     {
       "name": "Project Overview",
-      "description": "Task delivery backlog, overdue work, completion and project analytics.",
+      "description": "Project tasks with completion rate, overdue backlog and stage funnel.",
       "tags": [
         "Project"
       ],
@@ -174,14 +174,15 @@
           "index": 8
         },
         {
-          "name": "Open Tasks by Stage",
-          "item_type": "doughnut",
+          "name": "Stage Funnel",
+          "item_type": "funnel",
           "model": "project.task",
           "aggregation": "count",
           "group_by_field_id": "stage_id",
-          "chart_sort": "value_desc",
-          "record_limit": 10,
-          "domain": "[('is_closed', '=', False)]",
+          "sort_field_id": "sequence",
+          "sort_field_model": "project.task.type",
+          "sort_dir": "asc",
+          "domain": "[('active', '=', True)]",
           "layout": {
             "x": 0,
             "y": 8,
