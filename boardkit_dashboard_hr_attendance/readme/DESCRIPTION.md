@@ -9,3 +9,5 @@ counts, worked and overtime hours, average hours, overtime approvals, daily
 trends, department and employee breakdowns, check-in modes, and a recent
 attendances list. Toggle filters cover my attendances, my team, open check-ins
 and overtime to approve.
+
+![Attendance Overview](../static/description/images/boardkit-attendance-overview.png)
