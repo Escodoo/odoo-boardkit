@@ -174,7 +174,7 @@ class BoardkitDashboard(models.Model):
         "catalogue (and from its menu entry, if configured). Leave "
         "unchecked while building or reviewing the dashboard.",
     )
-    menu_sequence = fields.Integer(default=10)
+    menu_sequence = fields.Integer(default=1)
     group_ids = fields.Many2many(
         comodel_name="res.groups",
         string="Allowed Groups",
