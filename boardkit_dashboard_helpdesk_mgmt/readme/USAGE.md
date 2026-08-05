@@ -10,5 +10,4 @@ the current queue. Closed metrics use _Closed Date_ and follow the date filter.
 Use the toggle filters (My Tickets, Open, Unattended, High Priority) to narrow
 the other cards.
 
-Review the unpublished board, adjust items or filters, then publish and
-optionally set a parent menu under Helpdesk.
+When installed with demo data, a published board is created from this template and placed first (sequence `-1`) under the related app menu.
