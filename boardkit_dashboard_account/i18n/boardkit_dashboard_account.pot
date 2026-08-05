@@ -25,6 +25,12 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard_account
+#: model:boardkit.dashboard,description:boardkit_dashboard_account.dashboard_demo
+msgid "Customer invoicing with AR, payment status and trends."
+msgstr ""
+
+#. module: boardkit_dashboard_account
+#: model:boardkit.dashboard,name:boardkit_dashboard_account.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard_account.template_account_invoicing
 msgid "Invoicing Overview"
 msgstr ""
