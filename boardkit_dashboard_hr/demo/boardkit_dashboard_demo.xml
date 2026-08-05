@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <function model="boardkit.dashboard" name="_load_demo_from_template">
+        <value
+            eval="{
+                'template_xmlid': 'boardkit_dashboard_hr.template_employees_overview',
+                'demo_xmlid': 'boardkit_dashboard_hr.dashboard_demo',
+                'menu_parent_xmlid': 'hr.menu_hr_root',
+                'menu_sequence': -1,
+            }"
+        />
+    </function>
+</odoo>
