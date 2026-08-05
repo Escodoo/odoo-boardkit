@@ -25,6 +25,14 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard_purchase
+#: model:boardkit.dashboard,name:boardkit_dashboard_purchase.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard_purchase.template_purchase_overview
 msgid "Purchase Overview"
+msgstr ""
+
+#. module: boardkit_dashboard_purchase
+#: model:boardkit.dashboard,description:boardkit_dashboard_purchase.dashboard_demo
+msgid ""
+"RFQs and confirmed purchase orders with spend, conversion and buyer "
+"analytics."
 msgstr ""
