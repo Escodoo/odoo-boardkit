@@ -7,8 +7,8 @@
         <field name="description">
             Pipeline board for opportunities: open and won counts, expected and
             won revenue, win rate, overdue closings, stage funnel, source and
-            salesperson breakdowns, and a recent opportunities list. Requires
-            CRM.
+            salesperson breakdowns, country map and a recent opportunities list.
+            Requires CRM.
         </field>
         <field
             name="group_ids"
@@ -20,7 +20,7 @@
   "dashboards": [
     {
       "name": "CRM Pipeline",
-      "description": "Opportunity pipeline with revenue, win rate and stage funnel.",
+      "description": "Opportunity pipeline with revenue, win rate, stage funnel and country map.",
       "tags": [
         "CRM"
       ],
@@ -190,18 +190,14 @@
           "index": 8
         },
         {
-          "name": "Revenue by Source",
-          "item_type": "doughnut",
+          "name": "Opportunities by Country",
+          "item_type": "map",
+          "map_mode": "regions",
           "model": "crm.lead",
-          "aggregation": "sum",
-          "measure_field_id": "expected_revenue",
-          "measures": [
-            "expected_revenue"
-          ],
-          "group_by_field_id": "source_id",
-          "chart_sort": "value_desc",
-          "record_limit": 8,
-          "domain": "[('type', '=', 'opportunity'), ('active', '=', True), ('probability', '&lt;', 100)]",
+          "aggregation": "count",
+          "group_by_field_id": "country_id",
+          "record_limit": 50,
+          "domain": "[('type', '=', 'opportunity'), ('country_id', '!=', False)]",
           "layout": {
             "x": 0,
             "y": 9,
