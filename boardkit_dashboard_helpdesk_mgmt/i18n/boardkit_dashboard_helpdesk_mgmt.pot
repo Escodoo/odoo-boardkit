@@ -25,6 +25,12 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard_helpdesk_mgmt
+#: model:boardkit.dashboard,name:boardkit_dashboard_helpdesk_mgmt.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard_helpdesk_mgmt.template_helpdesk_overview
 msgid "Helpdesk Overview"
+msgstr ""
+
+#. module: boardkit_dashboard_helpdesk_mgmt
+#: model:boardkit.dashboard,description:boardkit_dashboard_helpdesk_mgmt.dashboard_demo
+msgid "Ticket backlog, closures, priority and team analytics."
 msgstr ""
