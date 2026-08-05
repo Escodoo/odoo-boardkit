@@ -111,20 +111,32 @@ class TestDashboardTemplates(BoardkitDashboardCommon):
         featured = self.env["boardkit.dashboard.template"].get_featured_for_catalogue()
         self.assertNotIn("contacts_overview", [row["key"] for row in featured])
 
-    def test_load_demo_contacts_overview_matches_template(self):
-        """Demo loader builds a published board from the core template payload."""
+    def test_load_demo_from_template_matches_and_configures_menu(self):
+        """Demo loader builds a published board from the template with menu."""
         demo = self.env.ref(
             "boardkit_dashboard.dashboard_demo", raise_if_not_found=False
         )
         if demo:
             demo.unlink()
-        self.env["boardkit.dashboard"]._load_demo_contacts_overview()
+        self.env["boardkit.dashboard"]._load_demo_from_template(
+            {
+                "template_xmlid": "boardkit_dashboard.template_contacts_overview",
+                "demo_xmlid": "boardkit_dashboard.dashboard_demo",
+                "menu_parent_xmlid": "contacts.menu_contacts",
+                "menu_sequence": -1,
+            }
+        )
         demo = self.env.ref("boardkit_dashboard.dashboard_demo")
         template = self.env.ref("boardkit_dashboard.template_contacts_overview")
         from_template = self.env["boardkit.dashboard"].browse(
             self.env["boardkit.dashboard"].create_from_template(template.id)
         )
         self.assertTrue(demo.published)
+        self.assertFalse(demo.menu_as_app)
+        self.assertEqual(demo.menu_sequence, -1)
+        self.assertEqual(demo.menu_parent_id, self.env.ref("contacts.menu_contacts"))
+        self.assertTrue(demo.menu_id)
+        self.assertEqual(demo.menu_id.sequence, -1)
         self.assertEqual(demo.name, from_template.name)
         self.assertEqual(len(demo.item_ids), len(from_template.item_ids))
         self.assertEqual(len(demo.filter_ids), len(from_template.filter_ids))
@@ -134,7 +146,38 @@ class TestDashboardTemplates(BoardkitDashboardCommon):
         )
         # Second call is a no-op when the xmlid already exists.
         board_count = self.env["boardkit.dashboard"].search_count([])
-        self.assertTrue(self.env["boardkit.dashboard"]._load_demo_contacts_overview())
+        self.assertTrue(
+            self.env["boardkit.dashboard"]._load_demo_from_template(
+                {
+                    "template_xmlid": "boardkit_dashboard.template_contacts_overview",
+                    "demo_xmlid": "boardkit_dashboard.dashboard_demo",
+                    "menu_parent_xmlid": "contacts.menu_contacts",
+                }
+            )
+        )
         self.assertEqual(self.env["boardkit.dashboard"].search_count([]), board_count)
         self.assertEqual(self.env.ref("boardkit_dashboard.dashboard_demo"), demo)
         from_template.unlink()
+
+    def test_load_demo_from_template_as_app(self):
+        """My Day-style demos can be exposed as a top-level app."""
+        xmlid = "boardkit_dashboard.dashboard_demo_as_app_test"
+        existing = self.env.ref(xmlid, raise_if_not_found=False)
+        if existing:
+            existing.unlink()
+        self.env["boardkit.dashboard"]._load_demo_from_template(
+            {
+                "template_xmlid": "boardkit_dashboard.template_contacts_overview",
+                "demo_xmlid": xmlid,
+                "menu_as_app": True,
+                "menu_sequence": -1,
+            }
+        )
+        demo = self.env.ref(xmlid)
+        self.assertTrue(demo.published)
+        self.assertTrue(demo.menu_as_app)
+        self.assertFalse(demo.menu_parent_id)
+        self.assertEqual(demo.menu_sequence, -1)
+        self.assertTrue(demo.menu_id)
+        self.assertFalse(demo.menu_id.parent_id)
+        demo.unlink()
