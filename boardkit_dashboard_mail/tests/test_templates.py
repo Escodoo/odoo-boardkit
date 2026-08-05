@@ -15,7 +15,8 @@ class TestMailDashboardTemplates(TransactionCase):
         self.assertFalse(dashboard.published)
         self.assertFalse(dashboard.menu_id)
         self.assertEqual(dashboard.group_ids, self.env.ref("base.group_user"))
-        self.assertEqual(len(dashboard.item_ids), 12)
+        self.assertEqual(len(dashboard.item_ids), 13)
+        self.assertTrue(dashboard.item_ids.filtered(lambda i: i.item_type == "kpi"))
         self.assertEqual(len(dashboard.filter_ids), 3)
 
         models = set(dashboard.item_ids.mapped("model_name"))
@@ -34,6 +35,12 @@ class TestMailDashboardTemplates(TransactionCase):
         self.assertEqual(overdue.model_name, "mail.activity")
         self.assertIn("date_deadline", overdue.domain)
         self.assertIn("context_today()", overdue.domain)
+
+        overdue_rate = dashboard.item_ids.filtered(lambda i: i.name == "Overdue Rate")
+        self.assertEqual(overdue_rate.item_type, "kpi")
+        self.assertEqual(overdue_rate.kpi_mode, "comparison")
+        self.assertEqual(overdue_rate.kpi_display, "percent")
+        self.assertEqual(overdue_rate.model_name, "mail.activity")
 
         meetings = dashboard.item_ids.filtered(lambda i: i.name == "Next Meetings")
         self.assertEqual(meetings.item_type, "list")
