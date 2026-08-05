@@ -13,7 +13,6 @@ const FEATURED_ICONS = {
     my_day: "fa-sun-o",
     crm_pipeline: "fa-filter",
     contacts_overview: "fa-address-book-o",
-    partner_starter: "fa-rocket",
 };
 
 /**

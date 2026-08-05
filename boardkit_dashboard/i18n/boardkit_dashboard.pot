@@ -22,14 +22,6 @@ msgid ""
 "        "
 msgstr ""
 
-#. module: boardkit_dashboard
-#: model:boardkit.dashboard.template,description:boardkit_dashboard.template_partner_starter
-msgid ""
-"\n"
-"            A minimal board with contact tiles and a target KPI. Uses only\n"
-"            Contacts (res.partner) so it works on every database.\n"
-"        "
-msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
@@ -2221,10 +2213,6 @@ msgstr ""
 msgid "Partial data"
 msgstr ""
 
-#. module: boardkit_dashboard
-#: model:boardkit.dashboard.template,name:boardkit_dashboard.template_partner_starter
-msgid "Partner Starter"
-msgstr ""
 
 #. module: boardkit_dashboard
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard__default_color_palette__pastel
