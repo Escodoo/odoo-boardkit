@@ -9,3 +9,5 @@ confirmed orders and untaxed totals (with period comparison), confirmation
 rate, late deliveries, to-invoice backlog, amount trends, top customers,
 status and salesperson breakdowns, and a recent orders list. Toggle filters
 cover my orders, confirmed orders, quotations and to-invoice backlog.
+
+![Sales Overview](../static/description/images/boardkit-sales-overview.png)
