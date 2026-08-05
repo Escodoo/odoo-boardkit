@@ -35,6 +35,10 @@ employees currently on leave, monthly trends, leave type and department
 breakdowns, and a recent requests list. Toggle filters cover my leaves,
 my team, to approve and approved.
 
+|Time Off Overview|
+
+.. |Time Off Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_hr_holidays/static/description/images/boardkit-time-off-overview.png
+
 **Table of contents**
 
 .. contents::
