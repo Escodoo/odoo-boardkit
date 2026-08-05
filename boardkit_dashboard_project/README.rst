@@ -34,6 +34,10 @@ overdue backlogs, completion rate, unassigned and waiting tasks, done
 trends, project and stage breakdowns, and a recent tasks list. Toggle
 filters cover my tasks, open tasks, overdue tasks and high priority.
 
+|Project Overview|
+
+.. |Project Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_project/static/description/images/boardkit-project-overview.png
+
 **Table of contents**
 
 .. contents::
