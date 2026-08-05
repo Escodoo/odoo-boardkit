@@ -24,6 +24,12 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard_repair
+#: model:boardkit.dashboard,name:boardkit_dashboard_repair.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard_repair.template_repair_overview
 msgid "Repair Overview"
+msgstr ""
+
+#. module: boardkit_dashboard_repair
+#: model:boardkit.dashboard,description:boardkit_dashboard_repair.dashboard_demo
+msgid "Repair order backlog, completions, urgency and product analytics."
 msgstr ""
