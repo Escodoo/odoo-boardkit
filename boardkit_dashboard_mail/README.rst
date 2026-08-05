@@ -35,6 +35,10 @@ Requires Discuss / Mail and Calendar. Allowed Groups defaults to
 Internal User so any employee can open a board created from this
 template.
 
+|My Day|
+
+.. |My Day| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_mail/static/description/images/boardkit-my-day.png
+
 **Table of contents**
 
 .. contents::
