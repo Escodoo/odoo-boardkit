@@ -1,300 +1,297 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<odoo>
-    <delete model="boardkit.dashboard.template" id="template_partner_starter" />
-
-    <data noupdate="1">
-        <record id="template_contacts_overview" model="boardkit.dashboard.template">
-            <field name="name">Contacts Overview</field>
-            <field name="key">contacts_overview</field>
-            <field name="sequence">10</field>
-            <field name="description">
-                Contacts board with tiles, KPI, country and location maps, charts
-                and a latest-contacts list. Uses only Contacts (res.partner).
-            </field>
-            <field name="payload">{
-      "version": 1,
-      "dashboards": [
+<odoo noupdate="1">
+    <record id="template_contacts_overview" model="boardkit.dashboard.template">
+        <field name="name">Contacts Overview</field>
+        <field name="key">contacts_overview</field>
+        <field name="sequence">10</field>
+        <field name="description">
+            Contacts board with tiles, KPI, country and location maps, charts
+            and a latest-contacts list. Uses only Contacts (res.partner).
+        </field>
+        <field name="payload">
+{
+  "version": 1,
+  "dashboards": [
+    {
+      "name": "Contacts Overview",
+      "description": "Contacts with geo maps, KPIs, charts and a recent list.",
+      "tags": [
+        "Contacts"
+      ],
+      "date_filter": "none",
+      "refresh_interval": "0",
+      "default_color_palette": "custom",
+      "default_palette": "Boardkit Brand",
+      "palettes": [
         {
-          "name": "Contacts Overview",
-          "description": "Contacts with geo maps, KPIs, charts and a recent list.",
-          "tags": [
-            "Contacts"
-          ],
-          "date_filter": "none",
-          "refresh_interval": "0",
-          "default_color_palette": "custom",
-          "default_palette": "Boardkit Brand",
-          "palettes": [
-            {
-              "name": "Boardkit Brand",
-              "colors": [
-                "#8B5CF6",
-                "#A78BFA",
-                "#6D28D9",
-                "#C4B5FD",
-                "#4C1D95"
-              ]
-            }
-          ],
-          "items": [
-            {
-              "name": "Total Contacts",
-              "item_type": "tile",
-              "model": "res.partner",
-              "aggregation": "count",
-              "icon": "fa-users",
-              "domain": "[]",
-              "layout": {
-                "x": 0,
-                "y": 0,
-                "w": 2,
-                "h": 2
-              },
-              "index": 0
-            },
-            {
-              "name": "Companies",
-              "item_type": "tile",
-              "model": "res.partner",
-              "aggregation": "count",
-              "icon": "fa-building",
-              "domain": "[('is_company', '=', True)]",
-              "layout": {
-                "x": 2,
-                "y": 0,
-                "w": 2,
-                "h": 2
-              },
-              "index": 1
-            },
-            {
-              "name": "Individuals",
-              "item_type": "tile",
-              "model": "res.partner",
-              "aggregation": "count",
-              "icon": "fa-user",
-              "domain": "[('is_company', '=', False)]",
-              "layout": {
-                "x": 4,
-                "y": 0,
-                "w": 2,
-                "h": 2
-              },
-              "index": 2
-            },
-            {
-              "name": "Missing Email",
-              "item_type": "tile",
-              "model": "res.partner",
-              "aggregation": "count",
-              "icon": "fa-envelope-o",
-              "domain": "['|', ('email', '=', False), ('email', '=', '')]",
-              "layout": {
-                "x": 6,
-                "y": 0,
-                "w": 2,
-                "h": 2
-              },
-              "index": 3
-            },
-            {
-              "name": "Missing Country",
-              "item_type": "tile",
-              "model": "res.partner",
-              "aggregation": "count",
-              "icon": "fa-globe",
-              "domain": "[('country_id', '=', False)]",
-              "layout": {
-                "x": 8,
-                "y": 0,
-                "w": 2,
-                "h": 2
-              },
-              "index": 4
-            },
-            {
-              "name": "Geolocalized",
-              "item_type": "tile",
-              "model": "res.partner",
-              "aggregation": "count",
-              "icon": "fa-map-marker",
-              "domain": "[('partner_latitude', '!=', 0), ('partner_longitude', '!=', 0)]",
-              "layout": {
-                "x": 10,
-                "y": 0,
-                "w": 2,
-                "h": 2
-              },
-              "index": 5
-            },
-            {
-              "name": "Contacts Target",
-              "item_type": "kpi",
-              "model": "res.partner",
-              "aggregation": "count",
-              "kpi_mode": "target",
-              "target_enabled": true,
-              "target_value": 100,
-              "domain": "[]",
-              "layout": {
-                "x": 0,
-                "y": 2,
-                "w": 4,
-                "h": 2
-              },
-              "index": 6
-            },
-            {
-              "name": "Geolocalized Rate",
-              "item_type": "kpi",
-              "model": "res.partner",
-              "aggregation": "count",
-              "kpi_mode": "comparison",
-              "kpi_display": "percent",
-              "domain": "[('partner_latitude', '!=', 0), ('partner_longitude', '!=', 0)]",
-              "model_2": "res.partner",
-              "aggregation_2": "count",
-              "domain_2": "[]",
-              "layout": {
-                "x": 4,
-                "y": 2,
-                "w": 4,
-                "h": 2
-              },
-              "index": 7
-            },
-            {
-              "name": "Companies vs Individuals",
-              "item_type": "pie",
-              "model": "res.partner",
-              "aggregation": "count",
-              "group_by_field_id": "is_company",
-              "boolean_true_label": "Company",
-              "boolean_false_label": "Individual",
-              "color_palette": "custom",
-              "palette": "Boardkit Brand",
-              "domain": "[]",
-              "layout": {
-                "x": 8,
-                "y": 2,
-                "w": 4,
-                "h": 2
-              },
-              "index": 8
-            },
-            {
-              "name": "Contacts by Country",
-              "item_type": "map",
-              "map_mode": "regions",
-              "model": "res.partner",
-              "aggregation": "count",
-              "group_by_field_id": "country_id",
-              "record_limit": 50,
-              "domain": "[('country_id', '!=', False)]",
-              "layout": {
-                "x": 0,
-                "y": 4,
-                "w": 6,
-                "h": 5
-              },
-              "index": 9
-            },
-            {
-              "name": "Contacts by Location",
-              "item_type": "map",
-              "map_mode": "points",
-              "model": "res.partner",
-              "aggregation": "count",
-              "latitude_field_id": "partner_latitude",
-              "longitude_field_id": "partner_longitude",
-              "record_limit": 200,
-              "domain": "[('partner_latitude', '!=', 0), ('partner_longitude', '!=', 0)]",
-              "layout": {
-                "x": 6,
-                "y": 4,
-                "w": 6,
-                "h": 5
-              },
-              "index": 10
-            },
-            {
-              "name": "New Contacts per Month",
-              "item_type": "line",
-              "model": "res.partner",
-              "aggregation": "count",
-              "group_by_field_id": "create_date",
-              "group_by_granularity": "month",
-              "date_field_id": "create_date",
-              "chart_sort": "label_asc",
-              "domain": "[]",
-              "layout": {
-                "x": 0,
-                "y": 9,
-                "w": 6,
-                "h": 4
-              },
-              "index": 11
-            },
-            {
-              "name": "Latest Contacts",
-              "item_type": "list",
-              "model": "res.partner",
-              "list_type": "plain",
-              "sort_field_id": "create_date",
-              "sort_field_model": "res.partner",
-              "sort_dir": "desc",
-              "page_size": 10,
-              "list_columns": [
-                "name",
-                "email",
-                "phone",
-                "country_id",
-                "city"
-              ],
-              "domain": "[]",
-              "layout": {
-                "x": 6,
-                "y": 9,
-                "w": 6,
-                "h": 4
-              },
-              "index": 12
-            }
-          ],
-          "filters": [
-            {
-              "name": "Companies",
-              "sequence": 10,
-              "model": "res.partner",
-              "domain": "[('is_company', '=', True)]",
-              "default_enabled": false
-            },
-            {
-              "name": "Individuals",
-              "sequence": 20,
-              "model": "res.partner",
-              "domain": "[('is_company', '=', False)]",
-              "default_enabled": false
-            },
-            {
-              "name": "Has Country",
-              "sequence": 30,
-              "model": "res.partner",
-              "domain": "[('country_id', '!=', False)]",
-              "default_enabled": false
-            },
-            {
-              "name": "Geolocalized",
-              "sequence": 40,
-              "model": "res.partner",
-              "domain": "[('partner_latitude', '!=', 0), ('partner_longitude', '!=', 0)]",
-              "default_enabled": false
-            }
+          "name": "Boardkit Brand",
+          "colors": [
+            "#8B5CF6",
+            "#A78BFA",
+            "#6D28D9",
+            "#C4B5FD",
+            "#4C1D95"
           ]
+        }
+      ],
+      "items": [
+        {
+          "name": "Total Contacts",
+          "item_type": "tile",
+          "model": "res.partner",
+          "aggregation": "count",
+          "icon": "fa-users",
+          "domain": "[]",
+          "layout": {
+            "x": 0,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "index": 0
+        },
+        {
+          "name": "Companies",
+          "item_type": "tile",
+          "model": "res.partner",
+          "aggregation": "count",
+          "icon": "fa-building",
+          "domain": "[('is_company', '=', True)]",
+          "layout": {
+            "x": 2,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "index": 1
+        },
+        {
+          "name": "Individuals",
+          "item_type": "tile",
+          "model": "res.partner",
+          "aggregation": "count",
+          "icon": "fa-user",
+          "domain": "[('is_company', '=', False)]",
+          "layout": {
+            "x": 4,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "index": 2
+        },
+        {
+          "name": "Missing Email",
+          "item_type": "tile",
+          "model": "res.partner",
+          "aggregation": "count",
+          "icon": "fa-envelope-o",
+          "domain": "['|', ('email', '=', False), ('email', '=', '')]",
+          "layout": {
+            "x": 6,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "index": 3
+        },
+        {
+          "name": "Missing Country",
+          "item_type": "tile",
+          "model": "res.partner",
+          "aggregation": "count",
+          "icon": "fa-globe",
+          "domain": "[('country_id', '=', False)]",
+          "layout": {
+            "x": 8,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "index": 4
+        },
+        {
+          "name": "Geolocalized",
+          "item_type": "tile",
+          "model": "res.partner",
+          "aggregation": "count",
+          "icon": "fa-map-marker",
+          "domain": "[('partner_latitude', '!=', 0), ('partner_longitude', '!=', 0)]",
+          "layout": {
+            "x": 10,
+            "y": 0,
+            "w": 2,
+            "h": 2
+          },
+          "index": 5
+        },
+        {
+          "name": "Contacts Target",
+          "item_type": "kpi",
+          "model": "res.partner",
+          "aggregation": "count",
+          "kpi_mode": "target",
+          "target_enabled": true,
+          "target_value": 100,
+          "domain": "[]",
+          "layout": {
+            "x": 0,
+            "y": 2,
+            "w": 4,
+            "h": 2
+          },
+          "index": 6
+        },
+        {
+          "name": "Geolocalized Rate",
+          "item_type": "kpi",
+          "model": "res.partner",
+          "aggregation": "count",
+          "kpi_mode": "comparison",
+          "kpi_display": "percent",
+          "domain": "[('partner_latitude', '!=', 0), ('partner_longitude', '!=', 0)]",
+          "model_2": "res.partner",
+          "aggregation_2": "count",
+          "domain_2": "[]",
+          "layout": {
+            "x": 4,
+            "y": 2,
+            "w": 4,
+            "h": 2
+          },
+          "index": 7
+        },
+        {
+          "name": "Companies vs Individuals",
+          "item_type": "pie",
+          "model": "res.partner",
+          "aggregation": "count",
+          "group_by_field_id": "is_company",
+          "boolean_true_label": "Company",
+          "boolean_false_label": "Individual",
+          "color_palette": "custom",
+          "palette": "Boardkit Brand",
+          "domain": "[]",
+          "layout": {
+            "x": 8,
+            "y": 2,
+            "w": 4,
+            "h": 2
+          },
+          "index": 8
+        },
+        {
+          "name": "Contacts by Country",
+          "item_type": "map",
+          "map_mode": "regions",
+          "model": "res.partner",
+          "aggregation": "count",
+          "group_by_field_id": "country_id",
+          "record_limit": 50,
+          "domain": "[('country_id', '!=', False)]",
+          "layout": {
+            "x": 0,
+            "y": 4,
+            "w": 6,
+            "h": 5
+          },
+          "index": 9
+        },
+        {
+          "name": "Contacts by Location",
+          "item_type": "map",
+          "map_mode": "points",
+          "model": "res.partner",
+          "aggregation": "count",
+          "latitude_field_id": "partner_latitude",
+          "longitude_field_id": "partner_longitude",
+          "record_limit": 200,
+          "domain": "[('partner_latitude', '!=', 0), ('partner_longitude', '!=', 0)]",
+          "layout": {
+            "x": 6,
+            "y": 4,
+            "w": 6,
+            "h": 5
+          },
+          "index": 10
+        },
+        {
+          "name": "New Contacts per Month",
+          "item_type": "line",
+          "model": "res.partner",
+          "aggregation": "count",
+          "group_by_field_id": "create_date",
+          "group_by_granularity": "month",
+          "date_field_id": "create_date",
+          "chart_sort": "label_asc",
+          "domain": "[]",
+          "layout": {
+            "x": 0,
+            "y": 9,
+            "w": 6,
+            "h": 4
+          },
+          "index": 11
+        },
+        {
+          "name": "Latest Contacts",
+          "item_type": "list",
+          "model": "res.partner",
+          "list_type": "plain",
+          "sort_field_id": "create_date",
+          "sort_field_model": "res.partner",
+          "sort_dir": "desc",
+          "page_size": 10,
+          "list_columns": [
+            "name",
+            "email",
+            "phone",
+            "country_id",
+            "city"
+          ],
+          "domain": "[]",
+          "layout": {
+            "x": 6,
+            "y": 9,
+            "w": 6,
+            "h": 4
+          },
+          "index": 12
+        }
+      ],
+      "filters": [
+        {
+          "name": "Companies",
+          "sequence": 10,
+          "model": "res.partner",
+          "domain": "[('is_company', '=', True)]",
+          "default_enabled": false
+        },
+        {
+          "name": "Individuals",
+          "sequence": 20,
+          "model": "res.partner",
+          "domain": "[('is_company', '=', False)]",
+          "default_enabled": false
+        },
+        {
+          "name": "Has Country",
+          "sequence": 30,
+          "model": "res.partner",
+          "domain": "[('country_id', '!=', False)]",
+          "default_enabled": false
+        },
+        {
+          "name": "Geolocalized",
+          "sequence": 40,
+          "model": "res.partner",
+          "domain": "[('partner_latitude', '!=', 0), ('partner_longitude', '!=', 0)]",
+          "default_enabled": false
         }
       ]
     }
-            </field>
-        </record>
-    </data>
+  ]
+}
+        </field>
+    </record>
 </odoo>
