@@ -25,6 +25,12 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard_project
+#: model:boardkit.dashboard,name:boardkit_dashboard_project.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard_project.template_project_overview
 msgid "Project Overview"
+msgstr ""
+
+#. module: boardkit_dashboard_project
+#: model:boardkit.dashboard,description:boardkit_dashboard_project.dashboard_demo
+msgid "Project tasks with completion rate, overdue backlog and stage funnel."
 msgstr ""
