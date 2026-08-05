@@ -15,6 +15,9 @@
     "data": [
         "data/boardkit_dashboard_templates.xml",
     ],
+    "images": [
+        "static/description/banner.png",
+    ],
     "auto_install": True,
     "installable": True,
 }
