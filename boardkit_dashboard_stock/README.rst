@@ -60,8 +60,8 @@ they always show the current queue. Done metrics use *Date of Transfer*
 and follow the date filter. Use the toggle filters (My Transfers, Ready,
 Late, Outgoing) to narrow the other cards.
 
-Review the unpublished board, adjust items or filters, then publish and
-optionally set a parent menu under Inventory.
+When installed with demo data, a published board is created from this
+template and placed first (sequence ``-1``) under the related app menu.
 
 Bug Tracker
 ===========
