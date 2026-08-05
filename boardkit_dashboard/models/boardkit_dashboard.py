@@ -956,6 +956,32 @@ class BoardkitDashboard(models.Model):
         return dashboard_ids
 
     @api.model
+    def _load_demo_contacts_overview(self):
+        """Create the published demo board from the Contacts Overview template.
+
+        Called from demo data so the installed demo stays identical to the
+        curated template payload (single source of truth).
+        """
+        existing = self.env.ref(
+            "boardkit_dashboard.dashboard_demo", raise_if_not_found=False
+        )
+        if existing:
+            return True
+        template = self.env.ref("boardkit_dashboard.template_contacts_overview")
+        dashboard = self.browse(self.create_from_template(template.id))
+        dashboard.write({"published": True})
+        self.env["ir.model.data"].sudo().create(
+            {
+                "name": "dashboard_demo",
+                "module": "boardkit_dashboard",
+                "model": dashboard._name,
+                "res_id": dashboard.id,
+                "noupdate": True,
+            }
+        )
+        return True
+
+    @api.model
     def import_config(self, payload):
         """Create dashboards from a structure produced by ``export_config``.
 
