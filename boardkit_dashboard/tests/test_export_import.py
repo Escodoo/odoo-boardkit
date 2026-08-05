@@ -130,6 +130,59 @@ class TestExportImport(BoardkitDashboardCommon):
         self.assertEqual(imported.tag_ids, tag)
         self.assertEqual(tag.icon, "fa-cogs")
 
+    def test_import_tags_fills_empty_icon_and_skips_invalid_entries(self):
+        tag = self.env["boardkit.dashboard.tag"].create(
+            {"name": "Fill Me", "icon": False}
+        )
+        tags = self.env["boardkit.dashboard"]._import_tags(
+            [
+                None,
+                42,
+                {"name": "", "icon": "fa-cogs"},
+                {"name": "Fill Me", "icon": "not-a-real-icon"},
+                {"name": "Fill Me", "icon": "fa-plane"},
+                {"name": "Brand New Unknown"},
+            ]
+        )
+        self.assertIn(tag, tags)
+        self.assertEqual(tag.icon, "fa-plane")
+        created = tags.filtered(lambda t: t.name == "Brand New Unknown")
+        self.assertEqual(len(created), 1)
+        self.assertFalse(created.icon)
+
+    def test_import_rejects_invalid_board_icon(self):
+        payload = {
+            "version": 1,
+            "dashboards": [
+                {
+                    "name": "Bad Icon Board",
+                    "icon": "not-a-real-icon",
+                    "items": [],
+                }
+            ],
+        }
+        new_ids = self.env["boardkit.dashboard"].import_config(payload)
+        imported = self.env["boardkit.dashboard"].browse(new_ids)
+        self.assertFalse(imported.icon)
+
+    def test_import_missing_default_custom_palette_clears_key(self):
+        """Unresolved custom default palette clears default_color_palette."""
+        payload = {
+            "version": 1,
+            "dashboards": [
+                {
+                    "name": "Missing Default Palette",
+                    "default_color_palette": "custom",
+                    "default_palette": "Does Not Exist Either",
+                    "items": [],
+                }
+            ],
+        }
+        new_ids = self.env["boardkit.dashboard"].import_config(payload)
+        imported = self.env["boardkit.dashboard"].browse(new_ids)
+        self.assertFalse(imported.default_color_palette)
+        self.assertFalse(imported.default_palette_id)
+
     def test_board_icon_export_import(self):
         tag = self.env["boardkit.dashboard.tag"].create(
             {"name": "Override Domain", "icon": "fa-bullseye"}

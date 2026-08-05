@@ -106,3 +106,11 @@ class TestDashboardTemplates(BoardkitDashboardCommon):
         partner = next(row for row in featured if row["key"] == "partner_starter")
         self.assertEqual(partner["name"], "Partner Starter")
         self.assertIn("id", partner)
+
+    def test_get_featured_for_catalogue_skips_inactive_templates(self):
+        """Missing or inactive featured keys are skipped, not raised."""
+        partner = self.env.ref("boardkit_dashboard.template_partner_starter")
+        partner.active = False
+        featured = self.env["boardkit.dashboard.template"].get_featured_for_catalogue()
+        self.assertNotIn("partner_starter", [row["key"] for row in featured])
+        self.assertIn("contacts_overview", [row["key"] for row in featured])
