@@ -20,7 +20,8 @@ class TestMaintenanceDashboardTemplates(TransactionCase):
             dashboard.group_ids,
             self.env.ref("maintenance.group_equipment_manager"),
         )
-        self.assertEqual(len(dashboard.item_ids), 12)
+        self.assertEqual(len(dashboard.item_ids), 13)
+        self.assertTrue(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
             all(item.model_name == "maintenance.request" for item in dashboard.item_ids)
