@@ -9,3 +9,5 @@ It focuses on order delivery: open and completed counts, high-priority and late
 backlogs, completion rate, unassigned orders, trends, team and stage analytics,
 and a recent orders list. Toggle filters cover my orders, open, late and high
 priority.
+
+![Field Service Overview](../static/description/images/boardkit-fieldservice-overview.png)
