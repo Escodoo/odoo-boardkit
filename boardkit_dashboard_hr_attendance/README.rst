@@ -35,6 +35,10 @@ approvals, daily trends, department and employee breakdowns, check-in
 modes, and a recent attendances list. Toggle filters cover my
 attendances, my team, open check-ins and overtime to approve.
 
+|Attendance Overview|
+
+.. |Attendance Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_hr_attendance/static/description/images/boardkit-attendance-overview.png
+
 **Table of contents**
 
 .. contents::
