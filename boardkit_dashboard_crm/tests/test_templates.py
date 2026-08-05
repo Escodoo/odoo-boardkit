@@ -19,6 +19,11 @@ class TestCrmDashboardTemplates(TransactionCase):
             self.env.ref("sales_team.group_sale_salesman_all_leads"),
         )
         self.assertEqual(len(dashboard.item_ids), 12)
+        maps = dashboard.item_ids.filtered(lambda i: i.item_type == "map")
+        self.assertEqual(len(maps), 1)
+        self.assertEqual(maps.name, "Opportunities by Country")
+        self.assertEqual(maps.map_mode, "regions")
+        self.assertEqual(maps.group_by_field_id.name, "country_id")
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
             all(item.model_name == "crm.lead" for item in dashboard.item_ids)
