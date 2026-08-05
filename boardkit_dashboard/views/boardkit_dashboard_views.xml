@@ -53,14 +53,15 @@
                         <field
                             name="description"
                             placeholder="Short summary of this dashboard"
-                            class="oe_inline"
                         />
-                        <field
-                            name="tag_ids"
-                            widget="many2many_tags"
-                            options="{'color_field': 'color'}"
-                            placeholder="Tags"
-                        />
+                        <div class="mt-2 mb-3">
+                            <field
+                                name="tag_ids"
+                                widget="many2many_tags"
+                                options="{'color_field': 'color'}"
+                                placeholder="Tags"
+                            />
+                        </div>
                     </div>
                     <group>
                         <group name="settings">
