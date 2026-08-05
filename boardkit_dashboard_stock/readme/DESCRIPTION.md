@@ -8,3 +8,5 @@ It focuses on warehouse operations: ready and waiting transfers, done volume
 (with period comparison), late transfers, completion rate, incoming and outgoing
 backlogs, transfer trends, operation type and status breakdowns, and a recent
 transfers list. Toggle filters cover my transfers, ready, late and outgoing.
+
+![Inventory Overview](../static/description/images/boardkit-inventory-overview.png)
