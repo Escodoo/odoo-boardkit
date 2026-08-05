@@ -10,5 +10,4 @@ current queue. Approved totals and counts use _Expense Date_ and follow the
 date filter. Use the toggle filters (My Expenses, To Report, Submitted,
 Approved) to narrow the other cards.
 
-Review the unpublished board, adjust items or filters, then publish and
-optionally set a parent menu under Expenses.
+When installed with demo data, a published board is created from this template and placed first (sequence `-1`) under the related app menu.
