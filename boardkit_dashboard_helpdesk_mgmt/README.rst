@@ -34,6 +34,10 @@ unattended backlogs, closure rate, unassigned tickets, trends, team and
 stage analytics, and a recent tickets list. Toggle filters cover my
 tickets, open, unattended and high priority.
 
+|Helpdesk Overview|
+
+.. |Helpdesk Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_helpdesk_mgmt/static/description/images/boardkit-helpdesk-overview.png
+
 **Table of contents**
 
 .. contents::
