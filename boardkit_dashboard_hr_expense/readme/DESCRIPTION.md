@@ -8,3 +8,5 @@ It focuses on expense health: to-report and submitted backlogs, approved totals
 and counts, approval rate, reimbursement queue, amount trends, employee and
 category breakdowns, and a recent expenses list. Toggle filters cover my
 expenses, to report, submitted and approved.
+
+![Expenses Overview](../static/description/images/boardkit-expenses-overview.png)
