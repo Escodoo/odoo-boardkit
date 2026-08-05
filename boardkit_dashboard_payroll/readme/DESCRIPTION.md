@@ -8,3 +8,5 @@ It focuses on payslip processing: draft and waiting backlogs, done and rejected
 counts, confirmation rate, unbatched slips, credit notes, monthly trends,
 structure and employee breakdowns, and a recent payslips list. Toggle filters
 cover my payslips, draft, waiting and done.
+
+![Payroll Overview](../static/description/images/boardkit-payroll-overview.png)
