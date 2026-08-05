@@ -19,6 +19,11 @@ class TestHrDashboardTemplates(TransactionCase):
             self.env.ref("hr.group_hr_user"),
         )
         self.assertEqual(len(dashboard.item_ids), 12)
+        maps = dashboard.item_ids.filtered(lambda i: i.item_type == "map")
+        self.assertTrue(maps)
+        regions = maps.filtered(lambda i: i.map_mode == "regions")
+        self.assertTrue(regions)
+        self.assertEqual(regions[:1].group_by_field_id.name, "country_id")
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
             all(item.model_name == "hr.employee" for item in dashboard.item_ids)
