@@ -35,6 +35,10 @@ closings, a stage funnel, source and salesperson revenue breakdowns, and
 a recent opportunities list. Toggle filters cover my opportunities, open
 pipeline, won deals and overdue closings.
 
+|CRM Pipeline|
+
+.. |CRM Pipeline| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_crm/static/description/images/boardkit-crm-pipeline.png
+
 **Table of contents**
 
 .. contents::
