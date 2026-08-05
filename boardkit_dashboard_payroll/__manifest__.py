@@ -18,6 +18,7 @@
     "images": [
         "static/description/banner.png",
     ],
+    "demo": ["demo/boardkit_dashboard_demo.xml"],
     "auto_install": True,
     "installable": True,
 }
