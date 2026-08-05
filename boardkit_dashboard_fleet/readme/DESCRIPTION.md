@@ -8,3 +8,5 @@ It focuses on fleet health: active vehicles, new registrations and write-offs,
 active rate, vehicles without driver, contract renewal warnings, trends, brand
 and fuel analytics, and a recent vehicles list. Toggle filters cover my fleet,
 active vehicles, without driver and overdue contracts.
+
+![Fleet Overview](../static/description/images/boardkit-fleet-overview.png)
