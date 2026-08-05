@@ -25,6 +25,8 @@ Boardkit Dashboard
 Build configurable analytic dashboards on top of any Odoo model, without
 writing code.
 
+|Boards Catalogue|
+
 |CRM Pipeline|
 
 |Contacts Overview|
@@ -80,6 +82,7 @@ Dashboard level features:
 Data is always read with the access rights of the current user: ACLs and
 record rules of the source models are enforced.
 
+.. |Boards Catalogue| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-boards-catalogue.png
 .. |CRM Pipeline| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-crm-pipeline.png
 .. |Contacts Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-contacts-overview.png
 .. |Purchase Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-purchase-overview.png
@@ -163,9 +166,9 @@ search panel *Favorites* section. Favorites are personal and do not
 affect other users.
 
 Unpublished boards show a draft style and a *Draft* ribbon; managers can
-publish directly from the card or the card menu. An empty catalogue shows
-a first-run hero with featured templates (when the matching template
-modules are installed).
+publish directly from the card or the card menu. An empty catalogue
+shows a first-run hero with featured templates (when the matching
+template modules are installed).
 
 Catalogue cards show an icon from the board's optional *Icon* field.
 Leave it empty to inherit the first tag icon set in *All Dashboards >
