@@ -5,6 +5,7 @@ import {
     Component,
     onWillStart,
     onWillUnmount,
+    useEffect,
     useExternalListener,
     useRef,
     useState,
@@ -23,6 +24,7 @@ import {registry} from "@web/core/registry";
 import {router} from "@web/core/browser/router";
 import {useDebounced} from "@web/core/utils/timing";
 import {useService} from "@web/core/utils/hooks";
+import {useSetupAction} from "@web/search/action_hook";
 
 const GRID_COLS = 12;
 const GRID_ROW_HEIGHT = 56;
@@ -87,6 +89,22 @@ export class BoardkitDashboardAction extends Component {
             FILTER_SAVE_DELAY,
             {execBeforeUnmount: true}
         );
+        // Keep the open board across breadcrumb navigation.
+        useSetupAction({
+            getLocalState: () => ({
+                dashboardId: this.state.board?.id,
+            }),
+        });
+        // Persist dashboard_id in the URL so a full page reload reopens the
+        // same board (same pattern as spreadsheet_dashboard).
+        useEffect(
+            () => {
+                if (this.state.board?.id) {
+                    router.pushState({dashboard_id: this.state.board.id});
+                }
+            },
+            () => [this.state.board?.id]
+        );
         useExternalListener(browser, "fullscreenchange", this.onFullscreenChange);
         onWillStart(() => this.loadDashboard());
         onWillUnmount(() => {
@@ -95,6 +113,23 @@ export class BoardkitDashboardAction extends Component {
             // Leaving the action (e.g. drilldown) must restore the Odoo navbar.
             this.exitFullscreen();
         });
+    }
+
+    /**
+     * Resolve which board to open: local action state, action/URL params,
+     * then fall back to null (caller may search for a default).
+     */
+    resolveDashboardId() {
+        if (this.props.state?.dashboardId) {
+            return this.props.state.dashboardId;
+        }
+        const params = this.props.action?.params || this.props.action?.context?.params;
+        const raw = params?.dashboard_id ?? router.current.dashboard_id;
+        if (raw === undefined || raw === null || raw === "") {
+            return null;
+        }
+        const id = Number(raw);
+        return Number.isFinite(id) && id > 0 ? id : null;
     }
 
     // ------------------------------------------------------------------
@@ -249,8 +284,9 @@ export class BoardkitDashboardAction extends Component {
 
     async loadDashboard() {
         this.state.loading = true;
-        let dashboardId = this.props.action?.params?.dashboard_id;
+        let dashboardId = this.resolveDashboardId();
         if (!dashboardId) {
+            // Landing / menu entry without a board id: open the first readable one.
             const ids = await this.orm.search("boardkit.dashboard", [], {limit: 1});
             dashboardId = ids[0];
         }
