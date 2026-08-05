@@ -24,6 +24,12 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard_hr_attendance
+#: model:boardkit.dashboard,name:boardkit_dashboard_hr_attendance.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard_hr_attendance.template_attendance_overview
 msgid "Attendance Overview"
+msgstr ""
+
+#. module: boardkit_dashboard_hr_attendance
+#: model:boardkit.dashboard,description:boardkit_dashboard_hr_attendance.dashboard_demo
+msgid "Check-ins, worked hours, overtime and department analytics."
 msgstr ""
