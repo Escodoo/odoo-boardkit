@@ -19,12 +19,19 @@ msgid ""
 "\n"
 "            Pipeline board for opportunities: open and won counts, expected and\n"
 "            won revenue, win rate, overdue closings, stage funnel, source and\n"
-"            salesperson breakdowns, and a recent opportunities list. Requires\n"
-"            CRM.\n"
+"            salesperson breakdowns, country map and a recent opportunities list.\n"
+"            Requires CRM.\n"
 "        "
 msgstr ""
 
 #. module: boardkit_dashboard_crm
+#: model:boardkit.dashboard,name:boardkit_dashboard_crm.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard_crm.template_crm_pipeline
 msgid "CRM Pipeline"
+msgstr ""
+
+#. module: boardkit_dashboard_crm
+#: model:boardkit.dashboard,description:boardkit_dashboard_crm.dashboard_demo
+msgid ""
+"Opportunity pipeline with revenue, win rate, stage funnel and country map."
 msgstr ""
