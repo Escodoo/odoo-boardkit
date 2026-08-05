@@ -181,3 +181,59 @@ class TestDashboardTemplates(BoardkitDashboardCommon):
         self.assertTrue(demo.menu_id)
         self.assertFalse(demo.menu_id.parent_id)
         demo.unlink()
+
+    def test_load_demo_from_template_rejects_invalid_config(self):
+        Dashboard = self.env["boardkit.dashboard"]
+        with self.assertRaises(ValidationError) as error:
+            Dashboard._load_demo_from_template("not-a-dict")
+        self.assertIn("dictionary", str(error.exception))
+
+        for config in (
+            {},
+            {"template_xmlid": "boardkit_dashboard.template_contacts_overview"},
+            {"demo_xmlid": "boardkit_dashboard.dashboard_demo"},
+            {
+                "template_xmlid": "boardkit_dashboard.template_contacts_overview",
+                "demo_xmlid": "missing_module_prefix",
+            },
+        ):
+            with self.assertRaises(ValidationError) as error:
+                Dashboard._load_demo_from_template(config)
+            self.assertIn("template_xmlid", str(error.exception))
+
+    def test_load_demo_from_template_skips_missing_parent_menu(self):
+        """Unknown parent xmlids leave the board published without a menu."""
+        xmlid = "boardkit_dashboard.dashboard_demo_missing_parent_test"
+        existing = self.env.ref(xmlid, raise_if_not_found=False)
+        if existing:
+            existing.unlink()
+        self.env["boardkit.dashboard"]._load_demo_from_template(
+            {
+                "template_xmlid": "boardkit_dashboard.template_contacts_overview",
+                "demo_xmlid": xmlid,
+                "menu_parent_xmlid": "boardkit_dashboard.menu_does_not_exist",
+                "menu_sequence": -1,
+            }
+        )
+        demo = self.env.ref(xmlid)
+        self.assertTrue(demo.published)
+        self.assertFalse(demo.menu_parent_id)
+        self.assertFalse(demo.menu_as_app)
+        self.assertFalse(demo.menu_id)
+        demo.unlink()
+
+    def test_load_demo_contacts_overview_wrapper(self):
+        """Legacy demo entry point still creates the Contacts Overview board."""
+        demo = self.env.ref(
+            "boardkit_dashboard.dashboard_demo", raise_if_not_found=False
+        )
+        if demo:
+            demo.unlink()
+        self.assertTrue(self.env["boardkit.dashboard"]._load_demo_contacts_overview())
+        demo = self.env.ref("boardkit_dashboard.dashboard_demo")
+        self.assertTrue(demo.published)
+        self.assertEqual(demo.menu_parent_id, self.env.ref("contacts.menu_contacts"))
+        self.assertEqual(demo.menu_sequence, -1)
+        self.assertTrue(demo.menu_id)
+        # Wrapper is idempotent through the shared loader.
+        self.assertTrue(self.env["boardkit.dashboard"]._load_demo_contacts_overview())
