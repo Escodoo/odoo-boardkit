@@ -31,6 +31,21 @@
                     opacity: 0.85;
                 }
             }
+
+            .o_boardkit_dashboard_draft_badge {
+                flex: 0 0 auto;
+                padding: 0.15rem 0.65rem;
+                font-size: 0.75rem;
+                font-weight: 600;
+                line-height: 1.35;
+                text-transform: uppercase;
+                letter-spacing: 0.02em;
+
+                &:disabled {
+                    opacity: 0.85;
+                    cursor: default;
+                }
+            }
         }
 
         .o_boardkit_dashboard_topbar_filters {

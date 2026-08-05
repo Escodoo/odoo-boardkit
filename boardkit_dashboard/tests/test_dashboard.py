@@ -243,6 +243,7 @@ class TestDashboard(BoardkitDashboardCommon):
         self.assertEqual(data["name"], "Test Dashboard")
         self.assertFalse(data["is_manager"])
         self.assertFalse(data["is_favorite"])
+        self.assertTrue(data["published"])
         self.assertEqual([item["id"] for item in data["items"]], [self.tile.id])
         self.assertIn(
             ["today", "Today"], [list(preset) for preset in data["date_presets"]]
@@ -253,6 +254,7 @@ class TestDashboard(BoardkitDashboardCommon):
             .get_dashboard_data(self.dashboard.id)
         )
         self.assertTrue(manager_data["is_manager"])
+        self.assertTrue(manager_data["published"])
 
     def test_toggle_favorite_from_client_action(self):
         """Client action can toggle favorites for read-only dashboard users."""

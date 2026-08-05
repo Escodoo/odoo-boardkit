@@ -53,6 +53,14 @@
                             />
                         </button>
                         <h5 class="mb-0 text-truncate" t-esc="state.board.name" />
+                        <button
+                            t-if="!state.board.published"
+                            class="btn btn-sm rounded-pill o_boardkit_dashboard_draft_badge"
+                            t-att-class="state.board.is_manager ? 'btn-warning' : 'btn-secondary disabled'"
+                            t-att-disabled="!state.board.is_manager"
+                            t-att-title="state.board.is_manager ? 'Publish this dashboard' : 'Draft dashboard'"
+                            t-on-click="publishDashboard"
+                        >Draft</button>
                     </div>
                     <div
                         class="o_boardkit_dashboard_topbar_filters d-flex align-items-center gap-2 flex-wrap"
@@ -135,6 +143,11 @@
                                     t-att-aria-label="state.isFullscreen ? 'Exit Full Screen' : 'Full Screen'"
                                 />
                             </button>
+                            <button
+                                t-if="state.board.is_manager &amp;&amp; !state.board.published"
+                                class="btn btn-sm btn-primary"
+                                t-on-click="publishDashboard"
+                            >Publish</button>
                             <button
                                 t-if="state.board.is_manager"
                                 class="btn btn-sm btn-primary d-none d-md-inline-block"
