@@ -34,6 +34,10 @@ and expired contracts, average wage, overdue endings, start trends,
 department and type breakdowns, and a recent contracts list. Toggle
 filters cover my contracts, running, draft and expired.
 
+|Employee Contracts Overview|
+
+.. |Employee Contracts Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_hr_contract/static/description/images/boardkit-employee-contracts-overview.png
+
 **Table of contents**
 
 .. contents::
