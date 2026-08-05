@@ -10,6 +10,11 @@ board (who can open it / its menu). Tile data still respects the source model's
 record rules. Leave the template groups empty to keep the board limited to
 Dashboard Users until a manager sets an audience.
 
+Core ships two contact templates: _Partner Starter_ (minimal hello-world) and
+_Contacts Overview_ (tiles, KPIs, country regions map, location points map on
+`partner_latitude` / `partner_longitude`, charts and a recent list). App-specific
+overview templates live in the matching `boardkit_dashboard_*` modules.
+
 In the catalogue (kanban or list), or from the star next to the title when a
 dashboard is open, click the star to favorite it. Favorited dashboards appear
 first and can be filtered with _My Favorites_ or the search panel _Favorites_

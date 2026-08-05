@@ -27,6 +27,8 @@ library bundled with Odoo):
 - **Map**: choropleth of values grouped by country (`res.country`), or point markers
   from configurable latitude / longitude fields on any model (partners, tickets, field
   service orders, ...). An optional focus country crops the outline and zooms the map.
+  The built-in **Contacts Overview** template includes both a country map and a points
+  map on `partner_latitude` / `partner_longitude`.
 - **List**: plain or grouped record lists with pagination and click-through to the
   records.
 
