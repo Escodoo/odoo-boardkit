@@ -35,6 +35,10 @@ incoming and outgoing backlogs, transfer trends, operation type and
 status breakdowns, and a recent transfers list. Toggle filters cover my
 transfers, ready, late and outgoing.
 
+|Inventory Overview|
+
+.. |Inventory Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_stock/static/description/images/boardkit-inventory-overview.png
+
 **Table of contents**
 
 .. contents::
