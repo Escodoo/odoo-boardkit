@@ -34,6 +34,10 @@ totals and counts, approval rate, reimbursement queue, amount trends,
 employee and category breakdowns, and a recent expenses list. Toggle
 filters cover my expenses, to report, submitted and approved.
 
+|Expenses Overview|
+
+.. |Expenses Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_hr_expense/static/description/images/boardkit-expenses-overview.png
+
 **Table of contents**
 
 .. contents::
