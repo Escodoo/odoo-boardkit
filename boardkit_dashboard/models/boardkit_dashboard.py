@@ -32,7 +32,6 @@ FEATURED_TEMPLATE_KEYS = (
     "my_day",
     "crm_pipeline",
     "contacts_overview",
-    "partner_starter",
 )
 
 # Field types a user can pick when building an ad-hoc filter from the UI.
