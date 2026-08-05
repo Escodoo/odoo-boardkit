@@ -9,5 +9,4 @@ you attend, your inbox and channels). Optional chips refine activities (Overdue
 only, Due today) or channels (Chats only). There is no board-level date filter;
 each card uses its own deadline / start / message date rules.
 
-Review the unpublished board, adjust items or filters, then publish and
-optionally set a parent menu under Discuss or Calendar.
+When installed with demo data, a published board is created from this template and exposed as a top-level app (sequence `-1`).
