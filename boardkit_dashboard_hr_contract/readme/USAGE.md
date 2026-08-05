@@ -11,5 +11,4 @@ show the current portfolio. New Contracts use _Start Date_ and Expired use
 _End Date_; both follow the date filter. Use the toggle filters (My Contracts,
 Running, Draft, Expired) to narrow the other cards.
 
-Review the unpublished board, adjust items or filters, then publish and
-optionally set a parent menu under Employees.
+When installed with demo data, a published board is created from this template and placed first (sequence `-1`) under the related app menu.
