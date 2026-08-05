@@ -35,6 +35,10 @@ permits, hire trends, department and type breakdowns, and a recent
 employees list. Toggle filters cover my team, active employees, without
 manager and contractors.
 
+|Employees Overview|
+
+.. |Employees Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_hr/static/description/images/boardkit-employees-overview.png
+
 **Table of contents**
 
 .. contents::
