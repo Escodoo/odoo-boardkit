@@ -25,6 +25,13 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard_sale
+#: model:boardkit.dashboard,description:boardkit_dashboard_sale.dashboard_demo
+msgid ""
+"Quotations and confirmed orders with revenue, conversion and team analytics."
+msgstr ""
+
+#. module: boardkit_dashboard_sale
+#: model:boardkit.dashboard,name:boardkit_dashboard_sale.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard_sale.template_sale_overview
 msgid "Sales Overview"
 msgstr ""
