@@ -17,11 +17,10 @@ msgstr ""
 #: model:boardkit.dashboard.template,description:boardkit_dashboard.template_contacts_overview
 msgid ""
 "\n"
-"            A fuller contacts board with tiles, KPI, charts and a latest-contacts\n"
-"            list. Uses only Contacts (res.partner).\n"
+"            Contacts board with tiles, KPI, country and location maps, charts\n"
+"            and a latest-contacts list. Uses only Contacts (res.partner).\n"
 "        "
 msgstr ""
-
 
 #. module: boardkit_dashboard
 #. odoo-python
@@ -51,6 +50,7 @@ msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
+#: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_empty_hero.js:0
 #: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.js:0
 msgid "%s dashboard(s) imported."
 msgstr ""
@@ -302,6 +302,12 @@ msgid "Before Today"
 msgstr ""
 
 #. module: boardkit_dashboard
+#. odoo-javascript
+#: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
+msgid "Blank board"
+msgstr ""
+
+#. module: boardkit_dashboard
 #: model:ir.model,name:boardkit_dashboard.model_boardkit_dashboard
 msgid "Boardkit Dashboard"
 msgstr ""
@@ -365,11 +371,6 @@ msgstr ""
 #. module: boardkit_dashboard
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard_item__kpi_display__value
 msgid "Both Values"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:boardkit.dashboard.item,name:boardkit_dashboard.dashboard_demo_item_map_points_br
-msgid "Brazil Contacts Map"
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -478,17 +479,6 @@ msgid "Compact"
 msgstr ""
 
 #. module: boardkit_dashboard
-#: model:boardkit.dashboard.filter,name:boardkit_dashboard.dashboard_demo_filter_companies
-msgid "Companies"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:boardkit.dashboard.item,name:boardkit_dashboard.dashboard_demo_item_pie
-msgid "Companies vs Individuals"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:boardkit.dashboard.item,boolean_true_label:boardkit_dashboard.dashboard_demo_item_pie
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard__company_id
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_palette__company_id
 msgid "Company"
@@ -566,44 +556,14 @@ msgid "Configure the columns of this list."
 msgstr ""
 
 #. module: boardkit_dashboard
-#: model:boardkit.dashboard.item,name:boardkit_dashboard.dashboard_demo_item_bullet
-msgid "Contacts Bullet by Country"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:boardkit.dashboard.item,name:boardkit_dashboard.dashboard_demo_item_funnel
-msgid "Contacts Funnel by Country"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:boardkit.dashboard.item,name:boardkit_dashboard.dashboard_demo_item_gauge
-msgid "Contacts Gauge"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:boardkit.dashboard.item,name:boardkit_dashboard.dashboard_demo_item_map
-msgid "Contacts Map"
-msgstr ""
-
-#. module: boardkit_dashboard
 #: model:boardkit.dashboard,name:boardkit_dashboard.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard.template_contacts_overview
 msgid "Contacts Overview"
 msgstr ""
 
 #. module: boardkit_dashboard
-#: model:boardkit.dashboard.item,name:boardkit_dashboard.dashboard_demo_item_kpi
-msgid "Contacts Target"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:boardkit.dashboard.item,name:boardkit_dashboard.dashboard_demo_item_bar
-msgid "Contacts by Country"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:boardkit.dashboard.item,name:boardkit_dashboard.dashboard_demo_item_map_points
-msgid "Contacts by Location"
+#: model:boardkit.dashboard,description:boardkit_dashboard.dashboard_demo
+msgid "Contacts with geo maps, KPIs, charts and a recent list."
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -704,6 +664,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template__create_date
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template_wizard__create_date
 msgid "Created on"
+msgstr ""
+
+#. module: boardkit_dashboard
+#. odoo-javascript
+#: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
+msgid "Creating…"
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -952,6 +918,18 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.js:0
 msgid "Delete Dashboard Item"
+msgstr ""
+
+#. module: boardkit_dashboard
+#. odoo-python
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0
+msgid "Demo template config must be a dictionary."
+msgstr ""
+
+#. module: boardkit_dashboard
+#. odoo-python
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0
+msgid "Demo template config requires template_xmlid and demo_xmlid."
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -1435,11 +1413,6 @@ msgid "Imported Dashboard"
 msgstr ""
 
 #. module: boardkit_dashboard
-#: model:boardkit.dashboard.item,boolean_false_label:boardkit_dashboard.dashboard_demo_item_pie
-msgid "Individual"
-msgstr ""
-
-#. module: boardkit_dashboard
 #: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_view_form
 msgid "Inherit from tags"
 msgstr ""
@@ -1691,11 +1664,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard__date_filter__last_year
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard_item__date_filter__last_year
 msgid "Last Year"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:boardkit.dashboard.item,name:boardkit_dashboard.dashboard_demo_item_list
-msgid "Latest Contacts"
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -1986,17 +1954,6 @@ msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
-#: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
-msgid "New"
-msgstr ""
-
-#. module: boardkit_dashboard
-#: model:boardkit.dashboard.item,name:boardkit_dashboard.dashboard_demo_item_line
-msgid "New Contacts per Month"
-msgstr ""
-
-#. module: boardkit_dashboard
-#. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.js:0
 msgid "New Dashboard Item"
 msgstr ""
@@ -2046,6 +2003,7 @@ msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
+#: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_empty_hero.js:0
 #: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.js:0
 msgid "No dashboard was found in this file."
 msgstr ""
@@ -2213,7 +2171,6 @@ msgstr ""
 msgid "Partial data"
 msgstr ""
 
-
 #. module: boardkit_dashboard
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard__default_color_palette__pastel
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard_item__color_palette__pastel
@@ -2246,7 +2203,7 @@ msgstr ""
 #: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
 msgid ""
 "Pick a curated board, import a JSON export, or create a blank\n"
-"                    dashboard with tiles, KPIs, charts and lists."
+"                        dashboard with tiles, KPIs, charts and lists."
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -2274,6 +2231,12 @@ msgstr ""
 #. module: boardkit_dashboard
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard_item__item_type__polar
 msgid "Polar Area Chart"
+msgstr ""
+
+#. module: boardkit_dashboard
+#. odoo-javascript
+#: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
+msgid "Popular templates"
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -2876,11 +2839,6 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard
-#: model:boardkit.dashboard.item,name:boardkit_dashboard.dashboard_demo_item_tile
-msgid "Total Contacts"
-msgstr ""
-
-#. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/chart_renderer.js:0
 msgid "Track"
@@ -2954,6 +2912,12 @@ msgstr ""
 msgid ""
 "Upper bound of the gauge scale. When empty, a value is derived from the "
 "current value and target."
+msgstr ""
+
+#. module: boardkit_dashboard
+#. odoo-javascript
+#: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
+msgid "Use template"
 msgstr ""
 
 #. module: boardkit_dashboard
