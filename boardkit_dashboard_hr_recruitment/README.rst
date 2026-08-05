@@ -34,6 +34,10 @@ refusals, hire rate, stage and job breakdowns, source analytics, and a
 recent applicants list. Toggle filters cover my applications, ongoing,
 hired and refused.
 
+|Recruitment Overview|
+
+.. |Recruitment Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_hr_recruitment/static/description/images/boardkit-recruitment-overview.png
+
 **Table of contents**
 
 .. contents::
