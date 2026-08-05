@@ -25,6 +25,12 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard_payroll
+#: model:boardkit.dashboard,name:boardkit_dashboard_payroll.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard_payroll.template_payroll_overview
 msgid "Payroll Overview"
+msgstr ""
+
+#. module: boardkit_dashboard_payroll
+#: model:boardkit.dashboard,description:boardkit_dashboard_payroll.dashboard_demo
+msgid "Payslip processing, batches, structures and employee analytics."
 msgstr ""
