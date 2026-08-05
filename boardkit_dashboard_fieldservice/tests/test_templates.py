@@ -20,10 +20,22 @@ class TestFieldServiceDashboardTemplates(TransactionCase):
             dashboard.group_ids,
             self.env.ref("fieldservice.group_fsm_user"),
         )
-        self.assertEqual(len(dashboard.item_ids), 12)
+        self.assertEqual(len(dashboard.item_ids), 14)
+        maps = dashboard.item_ids.filtered(lambda i: i.item_type == "map")
+        self.assertTrue(maps)
+        points = maps.filtered(lambda i: i.map_mode == "points")
+        self.assertTrue(points)
+        self.assertEqual(points[:1].latitude_field_id.name, "partner_latitude")
+        self.assertEqual(points[:1].longitude_field_id.name, "partner_longitude")
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
-            all(item.model_name == "fsm.order" for item in dashboard.item_ids)
+            all(
+                item.model_name in ("fsm.order", "fsm.location")
+                for item in dashboard.item_ids
+            )
+        )
+        self.assertTrue(
+            dashboard.item_ids.filtered(lambda i: i.name == "Locations without Geo")
         )
 
         open_orders = dashboard.item_ids.filtered(lambda i: i.name == "Open Orders")
