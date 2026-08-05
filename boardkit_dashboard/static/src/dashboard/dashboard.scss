@@ -618,17 +618,19 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 3.25rem;
-        height: 3.25rem;
+        width: 3.5rem;
+        height: 3.5rem;
+        padding: 0.45rem;
         border-radius: 0.85rem;
-        color: #fff;
-        font-size: 1.35rem;
-        background: linear-gradient(
-            145deg,
-            var(--boardkit-empty-accent) 0%,
-            var(--boardkit-empty-accent-deep) 100%
-        );
-        box-shadow: 0 0.35rem 1rem rgba(109, 40, 217, 0.28);
+        background: #fff;
+        box-shadow: 0 0.35rem 1rem rgba(109, 40, 217, 0.22);
+
+        .o_boardkit_dashboard_catalogue_empty_brand_logo {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
     }
 
     .o_boardkit_dashboard_catalogue_empty_title {

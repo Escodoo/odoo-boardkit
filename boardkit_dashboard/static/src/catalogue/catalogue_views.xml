@@ -67,7 +67,11 @@
                             class="o_boardkit_dashboard_catalogue_empty_brand_icon"
                             aria-hidden="true"
                         >
-                            <i class="fa fa-th-large" />
+                            <img
+                                class="o_boardkit_dashboard_catalogue_empty_brand_logo"
+                                src="/boardkit_dashboard/static/description/icon.svg"
+                                alt=""
+                            />
                         </span>
                     </div>
                     <div class="o_boardkit_dashboard_catalogue_empty_title">
@@ -165,7 +169,11 @@
                             class="o_boardkit_dashboard_catalogue_empty_brand_icon"
                             aria-hidden="true"
                         >
-                            <i class="fa fa-th-large" />
+                            <img
+                                class="o_boardkit_dashboard_catalogue_empty_brand_logo"
+                                src="/boardkit_dashboard/static/description/icon.svg"
+                                alt=""
+                            />
                         </span>
                     </div>
                     <div class="o_boardkit_dashboard_catalogue_empty_title">
