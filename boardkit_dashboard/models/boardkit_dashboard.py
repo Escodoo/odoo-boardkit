@@ -624,6 +624,7 @@ class BoardkitDashboard(models.Model):
             "name": dashboard.name,
             "is_favorite": dashboard.is_favorite,
             "is_manager": is_manager,
+            "published": bool(dashboard.published),
             "refresh_interval": int(dashboard.refresh_interval or "0"),
             "date_filter": dashboard.date_filter,
             "date_from": fields.Datetime.to_string(dashboard.date_from) or False,
