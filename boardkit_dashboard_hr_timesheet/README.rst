@@ -35,6 +35,10 @@ lines, cost amount, daily trends, project/employee/department
 breakdowns, and a recent timesheets list. Toggle filters cover my
 timesheets, lines with a task, and lines without a task.
 
+|Timesheet Overview|
+
+.. |Timesheet Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_hr_timesheet/static/description/images/boardkit-timesheet-overview.png
+
 **Table of contents**
 
 .. contents::
