@@ -36,6 +36,10 @@ top customers, status and salesperson breakdowns, and a recent orders
 list. Toggle filters cover my orders, confirmed orders, quotations and
 to-invoice backlog.
 
+|Sales Overview|
+
+.. |Sales Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_sale/static/description/images/boardkit-sales-overview.png
+
 **Table of contents**
 
 .. contents::
