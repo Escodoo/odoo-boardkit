@@ -20,7 +20,8 @@ class TestContractDashboardTemplates(TransactionCase):
             dashboard.group_ids,
             self.env.ref("hr_contract.group_hr_contract_manager"),
         )
-        self.assertEqual(len(dashboard.item_ids), 12)
+        self.assertEqual(len(dashboard.item_ids), 13)
+        self.assertTrue(dashboard.item_ids.filtered(lambda i: i.item_type == "kpi"))
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
             all(item.model_name == "hr.contract" for item in dashboard.item_ids)
