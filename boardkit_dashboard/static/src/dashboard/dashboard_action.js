@@ -216,7 +216,11 @@ export class BoardkitDashboardAction extends Component {
     // ------------------------------------------------------------------
 
     async publishDashboard() {
-        if (!this.state.board?.id || this.state.board.published || !this.state.board.is_manager) {
+        if (
+            !this.state.board?.id ||
+            this.state.board.published ||
+            !this.state.board.is_manager
+        ) {
             return;
         }
         await this.orm.call("boardkit.dashboard", "action_publish", [
