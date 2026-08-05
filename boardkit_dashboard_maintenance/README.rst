@@ -34,6 +34,10 @@ overdue backlogs, completion rate, unassigned requests, trends, team and
 type analytics, and a recent requests list. Toggle filters cover my
 requests, open, overdue and high priority.
 
+|Maintenance Overview|
+
+.. |Maintenance Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_maintenance/static/description/images/boardkit-maintenance-overview.png
+
 **Table of contents**
 
 .. contents::
