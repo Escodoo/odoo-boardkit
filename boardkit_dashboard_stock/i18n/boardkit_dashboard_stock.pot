@@ -25,6 +25,14 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard_stock
+#: model:boardkit.dashboard,name:boardkit_dashboard_stock.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard_stock.template_stock_overview
 msgid "Inventory Overview"
+msgstr ""
+
+#. module: boardkit_dashboard_stock
+#: model:boardkit.dashboard,description:boardkit_dashboard_stock.dashboard_demo
+msgid ""
+"Transfers backlog, late operations, done volume and operation-type "
+"analytics."
 msgstr ""
