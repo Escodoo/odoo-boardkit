@@ -25,6 +25,12 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard_hr_contract
+#: model:boardkit.dashboard,name:boardkit_dashboard_hr_contract.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard_hr_contract.template_employee_contracts_overview
 msgid "Employee Contracts Overview"
+msgstr ""
+
+#. module: boardkit_dashboard_hr_contract
+#: model:boardkit.dashboard,description:boardkit_dashboard_hr_contract.dashboard_demo
+msgid "Employee contract portfolio, wage, expiries and type analytics."
 msgstr ""
