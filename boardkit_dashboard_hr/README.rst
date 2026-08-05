@@ -89,6 +89,13 @@ Contributors
 
   - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 
+Other credits
+-------------
+
+The development of this module has been financially supported by:
+
+- Escodoo - https://escodoo.com.br
+
 Maintainers
 -----------
 
