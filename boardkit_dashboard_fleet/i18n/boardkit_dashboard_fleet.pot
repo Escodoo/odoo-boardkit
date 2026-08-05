@@ -24,6 +24,12 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard_fleet
+#: model:boardkit.dashboard,name:boardkit_dashboard_fleet.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard_fleet.template_fleet_overview
 msgid "Fleet Overview"
+msgstr ""
+
+#. module: boardkit_dashboard_fleet
+#: model:boardkit.dashboard,description:boardkit_dashboard_fleet.dashboard_demo
+msgid "Vehicle inventory, contracts warnings and brand analytics."
 msgstr ""
