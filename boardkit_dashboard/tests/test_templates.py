@@ -110,3 +110,31 @@ class TestDashboardTemplates(BoardkitDashboardCommon):
         contacts.active = False
         featured = self.env["boardkit.dashboard.template"].get_featured_for_catalogue()
         self.assertNotIn("contacts_overview", [row["key"] for row in featured])
+
+    def test_load_demo_contacts_overview_matches_template(self):
+        """Demo loader builds a published board from the core template payload."""
+        demo = self.env.ref(
+            "boardkit_dashboard.dashboard_demo", raise_if_not_found=False
+        )
+        if demo:
+            demo.unlink()
+        self.env["boardkit.dashboard"]._load_demo_contacts_overview()
+        demo = self.env.ref("boardkit_dashboard.dashboard_demo")
+        template = self.env.ref("boardkit_dashboard.template_contacts_overview")
+        from_template = self.env["boardkit.dashboard"].browse(
+            self.env["boardkit.dashboard"].create_from_template(template.id)
+        )
+        self.assertTrue(demo.published)
+        self.assertEqual(demo.name, from_template.name)
+        self.assertEqual(len(demo.item_ids), len(from_template.item_ids))
+        self.assertEqual(len(demo.filter_ids), len(from_template.filter_ids))
+        self.assertEqual(
+            sorted(demo.item_ids.mapped("item_type")),
+            sorted(from_template.item_ids.mapped("item_type")),
+        )
+        # Second call is a no-op when the xmlid already exists.
+        board_count = self.env["boardkit.dashboard"].search_count([])
+        self.assertTrue(self.env["boardkit.dashboard"]._load_demo_contacts_overview())
+        self.assertEqual(self.env["boardkit.dashboard"].search_count([]), board_count)
+        self.assertEqual(self.env.ref("boardkit_dashboard.dashboard_demo"), demo)
+        from_template.unlink()
