@@ -19,11 +19,19 @@ msgid ""
 "\n"
 "            Field Service board for order delivery: open and completed counts,\n"
 "            high-priority and late backlogs, completion rate, unassigned\n"
-"            orders, trends and team/stage analytics. Requires Field Service.\n"
+"            orders, trends, team/stage analytics and location map. Requires Field\n"
+"            Service.\n"
 "        "
 msgstr ""
 
 #. module: boardkit_dashboard_fieldservice
+#: model:boardkit.dashboard,description:boardkit_dashboard_fieldservice.dashboard_demo
+msgid ""
+"FSM order backlog, completions, priority, team analytics and location map."
+msgstr ""
+
+#. module: boardkit_dashboard_fieldservice
+#: model:boardkit.dashboard,name:boardkit_dashboard_fieldservice.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard_fieldservice.template_fieldservice_overview
 msgid "Field Service Overview"
 msgstr ""
