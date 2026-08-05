@@ -15,10 +15,14 @@
    dashboards are visible only to Dashboard Managers. Dashboards limited to a
    specific company cannot have a menu entry (open them from _All Dashboards_ or a
    landing-page action instead).
-3. Add items from the dashboard form or directly from the dashboard view with the _Add
+3. Optionally create or edit tags under _All Dashboards > Configuration > Tags_ and
+   set an _Icon_ for each domain tag (template tags such as CRM and Purchase are
+   seeded automatically). On each board form, set _Icon_ to override the catalogue
+   card icon, or leave it empty to inherit the first non-empty tag icon.
+4. Add items from the dashboard form or directly from the dashboard view with the _Add
    Item_ button (managers only). The item form shows a live preview that updates as you
    change the configuration, before saving.
-4. To reuse a board from another database, use the _Import_ button in the
+5. To reuse a board from another database, use the _Import_ button in the
    _All Dashboards > Boards_ toolbar (managers only) and select the JSON file
    exported from the dashboard action menu. Imported boards arrive unpublished and
    without a menu entry, so review them before publishing. Managers can also inspect

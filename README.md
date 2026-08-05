@@ -19,6 +19,8 @@ Sales, CRM, Inventory, Accounting, HR, Helpdesk and more.
 
 ### Screenshots
 
+![Boards Catalogue](boardkit_dashboard/static/description/images/boardkit-boards-catalogue.png)
+
 ![CRM Pipeline](boardkit_dashboard/static/description/images/boardkit-crm-pipeline.png)
 
 ![Contacts Overview](boardkit_dashboard/static/description/images/boardkit-contacts-overview.png)
@@ -135,6 +137,7 @@ addon | version | maintainers | summary
 [boardkit_dashboard_hr_holidays](boardkit_dashboard_hr_holidays/) | 18.0.1.0.0 | <a href='https://github.com/marcelsavegnago'><img src='https://github.com/marcelsavegnago.png' width='32' height='32' style='border-radius:50%;' alt='marcelsavegnago'/></a> | Time Off overview dashboard template for Boardkit
 [boardkit_dashboard_hr_recruitment](boardkit_dashboard_hr_recruitment/) | 18.0.1.0.0 | <a href='https://github.com/marcelsavegnago'><img src='https://github.com/marcelsavegnago.png' width='32' height='32' style='border-radius:50%;' alt='marcelsavegnago'/></a> | Recruitment overview dashboard template for Boardkit
 [boardkit_dashboard_hr_timesheet](boardkit_dashboard_hr_timesheet/) | 18.0.1.0.0 | <a href='https://github.com/marcelsavegnago'><img src='https://github.com/marcelsavegnago.png' width='32' height='32' style='border-radius:50%;' alt='marcelsavegnago'/></a> | Timesheet overview dashboard template for Boardkit
+[boardkit_dashboard_mail](boardkit_dashboard_mail/) | 18.0.1.0.0 | <a href='https://github.com/marcelsavegnago'><img src='https://github.com/marcelsavegnago.png' width='32' height='32' style='border-radius:50%;' alt='marcelsavegnago'/></a> | Personal My Day dashboard template for Boardkit
 [boardkit_dashboard_maintenance](boardkit_dashboard_maintenance/) | 18.0.1.0.0 | <a href='https://github.com/marcelsavegnago'><img src='https://github.com/marcelsavegnago.png' width='32' height='32' style='border-radius:50%;' alt='marcelsavegnago'/></a> | Maintenance overview dashboard template for Boardkit
 [boardkit_dashboard_mrp](boardkit_dashboard_mrp/) | 18.0.1.0.0 | <a href='https://github.com/marcelsavegnago'><img src='https://github.com/marcelsavegnago.png' width='32' height='32' style='border-radius:50%;' alt='marcelsavegnago'/></a> | Manufacturing overview dashboard template for Boardkit
 [boardkit_dashboard_payroll](boardkit_dashboard_payroll/) | 18.0.1.0.0 | <a href='https://github.com/marcelsavegnago'><img src='https://github.com/marcelsavegnago.png' width='32' height='32' style='border-radius:50%;' alt='marcelsavegnago'/></a> | Payroll overview dashboard template for Boardkit

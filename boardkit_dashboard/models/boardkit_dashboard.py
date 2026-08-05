@@ -16,6 +16,7 @@ from odoo.tools.safe_eval import safe_eval
 from ..tools.date_ranges import DATE_RANGE_PRESETS, get_date_range
 from ..tools.palettes import PRESET_PALETTE_COLORS, PRESET_PALETTE_SELECTION
 from .boardkit_dashboard_palette import HEX_COLOR_PATTERN
+from .boardkit_dashboard_tag import TAG_ICON_SELECTION
 
 KANBAN_SUMMARY_LIMIT = 4
 KANBAN_PALETTE_LIMIT = 5
@@ -23,6 +24,16 @@ KANBAN_PALETTE_LIMIT = 5
 USER_GROUP = "boardkit_dashboard.group_dashboard_user"
 MANAGER_GROUP = "boardkit_dashboard.group_dashboard_manager"
 DEFAULT_MENU_WEB_ICON = "boardkit_dashboard,static/description/icon.png"
+
+# Catalogue cards inherit the first non-empty tag icon; this is the fallback.
+KANBAN_DEFAULT_ICON = "fa-th-large"
+
+FEATURED_TEMPLATE_KEYS = (
+    "my_day",
+    "crm_pipeline",
+    "contacts_overview",
+    "partner_starter",
+)
 
 # Field types a user can pick when building an ad-hoc filter from the UI.
 CUSTOM_FILTER_FIELD_TYPES = (
@@ -61,6 +72,11 @@ class BoardkitDashboard(models.Model):
         column1="dashboard_id",
         column2="tag_id",
         string="Tags",
+    )
+    icon = fields.Selection(
+        selection=TAG_ICON_SELECTION,
+        help="Catalogue card icon. Leave empty to inherit the first non-empty "
+        "icon from Tags.",
     )
     active = fields.Boolean(default=True)
     company_id = fields.Many2one(
@@ -158,7 +174,7 @@ class BoardkitDashboard(models.Model):
         "catalogue (and from its menu entry, if configured). Leave "
         "unchecked while building or reviewing the dashboard.",
     )
-    menu_sequence = fields.Integer(default=10)
+    menu_sequence = fields.Integer(default=1)
     group_ids = fields.Many2many(
         comodel_name="res.groups",
         string="Allowed Groups",
@@ -176,12 +192,10 @@ class BoardkitDashboard(models.Model):
     item_count = fields.Integer(compute="_compute_kanban_summary")
     item_type_summary = fields.Char(compute="_compute_kanban_summary")
     model_summary = fields.Char(compute="_compute_kanban_summary")
-    item_type_badge_html = fields.Html(
-        compute="_compute_kanban_summary", sanitize=False
-    )
     palette_strip_html = fields.Html(
         compute="_compute_palette_strip_html", sanitize=False
     )
+    kanban_icon = fields.Char(compute="_compute_kanban_icon")
     favorite_user_ids = fields.Many2many(
         comodel_name="res.users",
         relation="boardkit_dashboard_favorite_user_rel",
@@ -196,6 +210,12 @@ class BoardkitDashboard(models.Model):
         search="_search_is_favorite",
         compute_sudo=True,
         string="Favorite",
+    )
+    favorite_panel = fields.Selection(
+        selection=[("favorite", "Favorites")],
+        compute="_compute_favorite_panel",
+        search="_search_favorite_panel",
+        string="Favorites",
     )
 
     @api.model
@@ -215,6 +235,36 @@ class BoardkitDashboard(models.Model):
         for dashboard in self:
             dashboard.is_favorite = self.env.user in dashboard.favorite_user_ids
 
+    @api.depends("is_favorite")
+    def _compute_favorite_panel(self):
+        for dashboard in self:
+            dashboard.favorite_panel = "favorite" if dashboard.is_favorite else False
+
+    @api.model
+    def _search_favorite_panel(self, operator, value):
+        # Searchpanel multi-select uses ('favorite_panel', 'in', ['favorite']).
+        if operator in ("in", "not in"):
+            values = value or []
+            if not isinstance(values, list | tuple | set):
+                values = [values]
+            has_favorite = "favorite" in values
+            if operator == "in":
+                return (
+                    self._search_is_favorite("=", has_favorite)
+                    if has_favorite
+                    else [(0, "=", 1)]
+                )
+            # not in ['favorite'] => boards that are not favorited
+            return (
+                self._search_is_favorite("=", not has_favorite) if has_favorite else []
+            )
+        if operator not in ("=", "!="):
+            raise NotImplementedError(_("Operation not supported"))
+        wants_favorite = (operator == "=" and value == "favorite") or (
+            operator == "!=" and value != "favorite"
+        )
+        return self._search_is_favorite("=", wants_favorite)
+
     def _set_favorite_user_ids(self, is_favorite):
         # Users can favorite dashboards they can read even without write ACL.
         self.check_access("read")
@@ -224,7 +274,25 @@ class BoardkitDashboard(models.Model):
         else:
             self_sudo.favorite_user_ids = [Command.unlink(self.env.uid)]
         # web_save re-reads is_favorite in the same request; drop the stale cache.
-        self.invalidate_recordset(["is_favorite"])
+        self.invalidate_recordset(["is_favorite", "favorite_panel"])
+
+    def _favorite_panel_sql(self, alias):
+        """SQL expression for the current user's favorite searchpanel value."""
+        return SQL(
+            "CASE WHEN %s IN ("
+            "SELECT dashboard_id FROM boardkit_dashboard_favorite_user_rel "
+            "WHERE user_id = %s"
+            ") THEN 'favorite' END",
+            SQL.identifier(alias, "id"),
+            self.env.uid,
+        )
+
+    def _field_to_sql(self, alias, fname, query=None, flush=True):
+        # Searchpanel uses read_group on selection fields; favorite_panel is
+        # personal and non-stored, so expose an equivalent SQL expression.
+        if fname == "favorite_panel":
+            return self._favorite_panel_sql(alias)
+        return super()._field_to_sql(alias, fname, query=query, flush=flush)
 
     def _order_field_to_sql(self, alias, field_name, direction, nulls, query):
         if field_name == "is_favorite":
@@ -260,29 +328,6 @@ class BoardkitDashboard(models.Model):
                 [type_labels.get(key, key) for key in type_keys]
             )
             rec.model_summary = rec._format_summary_list(model_names)
-            shown_types = type_keys[:KANBAN_SUMMARY_LIMIT]
-            extra_types = len(type_keys) - len(shown_types)
-            badges = [
-                Markup(
-                    '<span class="badge text-bg-light '
-                    'o_boardkit_dashboard_kanban_type">{}</span>'
-                ).format(escape(type_labels.get(key, key)))
-                for key in shown_types
-            ]
-            if extra_types > 0:
-                badges.append(
-                    Markup(
-                        '<span class="badge text-bg-secondary '
-                        'o_boardkit_dashboard_kanban_type">+{}</span>'
-                    ).format(extra_types)
-                )
-            rec.item_type_badge_html = (
-                Markup(
-                    '<div class="o_boardkit_dashboard_kanban_types">{}</div>'
-                ).format(Markup("").join(badges))
-                if badges
-                else False
-            )
 
     def init(self):
         """One-shot: mark existing menu-backed dashboards as published.
@@ -327,6 +372,17 @@ class BoardkitDashboard(models.Model):
             rec.palette_strip_html = Markup(
                 '<div class="o_boardkit_dashboard_kanban_strip">{}</div>'
             ).format(segments)
+
+    @api.depends("icon", "tag_ids", "tag_ids.icon")
+    def _compute_kanban_icon(self):
+        for rec in self:
+            icon = rec.icon or False
+            if not icon:
+                for tag_icon in rec.tag_ids.mapped("icon"):
+                    if tag_icon:
+                        icon = tag_icon
+                        break
+            rec.kanban_icon = icon or KANBAN_DEFAULT_ICON
 
     @api.model
     def _format_summary_list(self, values):
@@ -568,6 +624,7 @@ class BoardkitDashboard(models.Model):
             "name": dashboard.name,
             "is_favorite": dashboard.is_favorite,
             "is_manager": is_manager,
+            "published": bool(dashboard.published),
             "refresh_interval": int(dashboard.refresh_interval or "0"),
             "date_filter": dashboard.date_filter,
             "date_from": fields.Datetime.to_string(dashboard.date_from) or False,
@@ -767,7 +824,11 @@ class BoardkitDashboard(models.Model):
                 {
                     "name": dashboard.name,
                     "description": dashboard.description or False,
-                    "tags": dashboard.tag_ids.mapped("name"),
+                    "icon": dashboard.icon or False,
+                    "tags": [
+                        {"name": tag.name, "icon": tag.icon or False}
+                        for tag in dashboard.tag_ids
+                    ],
                     "date_filter": dashboard.date_filter
                     if dashboard.date_filter != "custom"
                     else "none",
@@ -828,17 +889,41 @@ class BoardkitDashboard(models.Model):
             )
 
     @api.model
-    def _import_tags(self, tag_names):
-        """Return tags for the given names, creating any that are missing."""
+    def _import_tags(self, tags_data):
+        """Return tags from export/template data, creating any that are missing.
+
+        Accepts a list of tag names (legacy / templates) or dicts
+        ``{"name": ..., "icon": ...}``. New tags get an explicit icon from the
+        payload when present, otherwise a suggested icon from the tag name.
+        Existing tags keep a customer-chosen icon; an empty icon may be filled
+        from the payload.
+        """
         tag_model = self.env["boardkit.dashboard.tag"]
+        valid_icons = {key for key, _label in tag_model._fields["icon"].selection}
         tags = tag_model.browse()
-        for name in tag_names or []:
-            if not isinstance(name, str) or not name.strip():
+        for entry in tags_data or []:
+            icon = False
+            if isinstance(entry, str):
+                name = entry.strip()
+            elif isinstance(entry, dict):
+                name = (entry.get("name") or "").strip()
+                raw_icon = entry.get("icon") or False
+                if raw_icon in valid_icons:
+                    icon = raw_icon
+            else:
                 continue
-            name = name.strip()
+            if not name:
+                continue
             tag = tag_model.search([("name", "=", name)], limit=1)
             if not tag:
-                tag = tag_model.create({"name": name})
+                if not icon:
+                    icon = tag_model.suggested_icon_for_name(name)
+                vals = {"name": name}
+                if icon:
+                    vals["icon"] = icon
+                tag = tag_model.create(vals)
+            elif icon and not tag.icon:
+                tag.icon = icon
             tags |= tag
         return tags
 
@@ -894,10 +979,15 @@ class BoardkitDashboard(models.Model):
                 # The palette could not be resolved on this database.
                 default_key = False
             tags = self._import_tags(data.get("tags"))
+            valid_icons = {key for key, _label in self._fields["icon"].selection}
+            board_icon = data.get("icon") or False
+            if board_icon not in valid_icons:
+                board_icon = False
             dashboard = self.create(
                 {
                     "name": data.get("name") or _("Imported Dashboard"),
                     "description": data.get("description") or False,
+                    "icon": board_icon,
                     "tag_ids": [(6, 0, tags.ids)],
                     "date_filter": data.get("date_filter") or "none",
                     "refresh_interval": data.get("refresh_interval") or "0",
