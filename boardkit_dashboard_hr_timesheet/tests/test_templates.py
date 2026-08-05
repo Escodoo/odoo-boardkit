@@ -42,6 +42,13 @@ class TestHrTimesheetDashboardTemplates(TransactionCase):
         self.assertEqual(by_project.item_type, "bar_horizontal")
         self.assertEqual(by_project.group_by_field_id.name, "project_id")
 
+        share = dashboard.item_ids.filtered(
+            lambda i: i.name == "Hours by Project Share"
+        )
+        self.assertEqual(share.item_type, "doughnut")
+        self.assertEqual(share.group_by_field_id.name, "project_id")
+        self.assertEqual(share.measure_field_id.name, "unit_amount")
+
         recent = dashboard.item_ids.filtered(lambda i: i.name == "Recent Timesheets")
         column_names = recent.list_column_ids.mapped("field_id.name")
         self.assertIn("employee_id", column_names)
