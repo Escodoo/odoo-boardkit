@@ -191,6 +191,58 @@ export class BoardkitDashboardAction extends Component {
         this.notification.add(_t("Dashboard published."), {type: "success"});
     }
 
+    async unpublishDashboard() {
+        if (
+            !this.state.board?.id ||
+            !this.state.board.published ||
+            !this.state.board.is_manager
+        ) {
+            return;
+        }
+        await this.orm.call("boardkit.dashboard", "action_unpublish", [
+            [this.state.board.id],
+        ]);
+        this.state.board.published = false;
+        this.notification.add(_t("Dashboard unpublished."), {type: "info"});
+    }
+
+    async duplicateDashboard() {
+        if (!this.state.board?.id || !this.state.board.is_manager) {
+            return;
+        }
+        const newId = await this.orm.call("boardkit.dashboard", "copy", [
+            [this.state.board.id],
+        ]);
+        this.notification.add(_t("Dashboard duplicated."), {type: "success"});
+        await this.actionService.doAction({
+            type: "ir.actions.client",
+            tag: "boardkit_dashboard",
+            name: _t("Dashboard"),
+            params: {dashboard_id: newId},
+        });
+    }
+
+    async deleteDashboard() {
+        if (!this.state.board?.id || !this.state.board.is_manager) {
+            return;
+        }
+        const boardId = this.state.board.id;
+        const boardName = this.state.board.name;
+        this.dialogService.add(ConfirmationDialog, {
+            title: _t("Delete Dashboard"),
+            body: _t('Are you sure you want to delete "%s"?', boardName),
+            confirmLabel: _t("Delete"),
+            confirm: async () => {
+                await this.orm.unlink("boardkit.dashboard", [boardId]);
+                this.notification.add(_t("Dashboard deleted."), {type: "success"});
+                await this.actionService.doAction(
+                    "boardkit_dashboard.boardkit_dashboard_action",
+                    {clearBreadcrumbs: true}
+                );
+            },
+        });
+    }
+
     // ------------------------------------------------------------------
     // Data loading
     // ------------------------------------------------------------------
@@ -792,9 +844,9 @@ export class BoardkitDashboardAction extends Component {
         );
     }
 
-    openConfiguration() {
+    openSettings() {
         if (!this.state.board?.id) {
-            // Empty state: open the dashboards list to create one.
+            // Empty state: open the boards catalogue to create one.
             this.actionService.doAction("boardkit_dashboard.boardkit_dashboard_action");
             return;
         }
