@@ -116,6 +116,25 @@
           "index": 5
         },
         {
+          "name": "Overdue Rate",
+          "item_type": "kpi",
+          "model": "mail.activity",
+          "aggregation": "count",
+          "kpi_mode": "comparison",
+          "kpi_display": "percent",
+          "domain": "[('user_id', '=', uid), ('date_deadline', '&lt;', context_today())]",
+          "model_2": "mail.activity",
+          "aggregation_2": "count",
+          "domain_2": "[('user_id', '=', uid)]",
+          "layout": {
+            "x": 6,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 6
+        },
+        {
           "name": "My Chats",
           "item_type": "tile",
           "model": "discuss.channel",
@@ -123,12 +142,12 @@
           "icon": "fa-comment",
           "domain": "[('is_member', '=', True), ('channel_type', '=', 'chat')]",
           "layout": {
-            "x": 6,
+            "x": 9,
             "y": 2,
-            "w": 6,
+            "w": 3,
             "h": 2
           },
-          "index": 6
+          "index": 7
         },
         {
           "name": "Activities by Type",
@@ -145,7 +164,7 @@
             "w": 6,
             "h": 4
           },
-          "index": 7
+          "index": 8
         },
         {
           "name": "Activities by Model",
@@ -162,7 +181,7 @@
             "w": 6,
             "h": 4
           },
-          "index": 8
+          "index": 9
         },
         {
           "name": "Overdue Activities",
@@ -186,7 +205,7 @@
             "w": 6,
             "h": 4
           },
-          "index": 9
+          "index": 10
         },
         {
           "name": "Next Meetings",
@@ -210,7 +229,7 @@
             "w": 6,
             "h": 4
           },
-          "index": 10
+          "index": 11
         },
         {
           "name": "Recent Inbox",
@@ -234,7 +253,7 @@
             "w": 12,
             "h": 4
           },
-          "index": 11
+          "index": 12
         }
       ],
       "filters": [
