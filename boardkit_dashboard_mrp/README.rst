@@ -35,6 +35,10 @@ waiting components, late MOs, throughput trends, product and status
 breakdowns, and a recent manufacturing orders list. Toggle filters cover
 my MOs, in progress, waiting components and late orders.
 
+|Manufacturing Overview|
+
+.. |Manufacturing Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_mrp/static/description/images/boardkit-manufacturing-overview.png
+
 **Table of contents**
 
 .. contents::
