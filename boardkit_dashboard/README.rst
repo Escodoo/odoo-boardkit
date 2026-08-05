@@ -161,10 +161,12 @@ it / its menu). Tile data still respects the source model's record
 rules. Leave the template groups empty to keep the board limited to
 Dashboard Users until a manager sets an audience.
 
-Core ships two contact templates: *Partner Starter* (minimal
-hello-world) and *Contacts Overview* (tiles, KPIs, country regions map,
-location points map on ``partner_latitude`` / ``partner_longitude``,
-charts and a recent list). App-specific overview templates live in the
+Core ships two contact templates: *Partner Starter* (same composition as
+the module demo board — tile, target KPI, charts with drill-down,
+funnel, gauge, bullet, country regions map, location points maps
+including a Brazil focus) and *Contacts Overview* (richer ops board with
+data-quality tiles, KPIs, maps, charts and a recent list). Both use only
+Contacts (``res.partner``). App-specific overview templates live in the
 matching ``boardkit_dashboard_*`` modules.
 
 In the catalogue (kanban or list), or from the star next to the title
