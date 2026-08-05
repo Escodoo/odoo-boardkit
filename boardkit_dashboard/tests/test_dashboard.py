@@ -453,10 +453,25 @@ class TestDashboard(BoardkitDashboardCommon):
         self.dashboard.icon = False
         self.assertEqual(self.dashboard.kanban_icon, "fa-bullseye")
 
+    def test_kanban_icon_uses_first_non_empty_tag_icon(self):
+        empty = self.env["boardkit.dashboard.tag"].create(
+            {"name": "Empty Icon Tag", "icon": False}
+        )
+        filled = self.env["boardkit.dashboard.tag"].create(
+            {"name": "Filled Icon Tag", "icon": "fa-life-ring"}
+        )
+        self.dashboard.tag_ids = [(6, 0, (empty | filled).ids)]
+        self.assertEqual(self.dashboard.kanban_icon, "fa-life-ring")
+
     def test_favorite_panel_search(self):
         Dashboard = self.env["boardkit.dashboard"]
         dashboard = self.dashboard.with_user(self.user)
+        # Reading the field exercises _compute_favorite_panel for both states.
+        self.assertFalse(dashboard.favorite_panel)
         dashboard.write({"is_favorite": True})
+        dashboard.invalidate_recordset(["is_favorite", "favorite_panel"])
+        self.assertEqual(dashboard.favorite_panel, "favorite")
+
         favorites = Dashboard.with_user(self.user).search(
             [("favorite_panel", "=", "favorite")]
         )
@@ -472,8 +487,38 @@ class TestDashboard(BoardkitDashboardCommon):
             [("favorite_panel", "in", ["favorite"])]
         )
         self.assertEqual(favorites_in, self.dashboard)
+        # Call the search method directly so scalar / not-in branches stay covered
+        # even if ORM domain normalization changes.
+        user_dashboards = Dashboard.with_user(self.user)
+        self.assertEqual(
+            user_dashboards._search_favorite_panel("in", "favorite"),
+            user_dashboards._search_is_favorite("=", True),
+        )
+        self.assertEqual(
+            user_dashboards._search_favorite_panel("in", ["other"]),
+            [(0, "=", 1)],
+        )
+        self.assertEqual(
+            user_dashboards._search_favorite_panel("not in", ["favorite"]),
+            user_dashboards._search_is_favorite("=", False),
+        )
+        self.assertEqual(
+            user_dashboards._search_favorite_panel("not in", ["other"]),
+            [],
+        )
+        not_favorites = user_dashboards.search(
+            [("favorite_panel", "not in", ["favorite"])]
+        )
+        self.assertNotIn(self.dashboard, not_favorites)
+        # '!=' favorite keeps favorited boards (same as '=' with other value).
+        still_favorite = user_dashboards.search([("favorite_panel", "!=", "other")])
+        self.assertIn(self.dashboard, still_favorite)
+        with self.assertRaises(NotImplementedError):
+            user_dashboards._search_favorite_panel("ilike", "favorite")
+        with self.assertRaises(NotImplementedError):
+            user_dashboards.search([("favorite_panel", "ilike", "favorite")])
         # Searchpanel calls read_group via search_panel_select_multi_range.
-        panel = Dashboard.with_user(self.user).search_panel_select_multi_range(
+        panel = user_dashboards.search_panel_select_multi_range(
             "favorite_panel",
             enable_counters=True,
             search_domain=[],
@@ -482,7 +527,7 @@ class TestDashboard(BoardkitDashboardCommon):
         self.assertIn("favorite", values)
         self.assertGreaterEqual(values["favorite"]["__count"], 1)
         # Counting tags while Favorites is selected also uses 'in' on favorite_panel.
-        tags_panel = Dashboard.with_user(self.user).search_panel_select_multi_range(
+        tags_panel = user_dashboards.search_panel_select_multi_range(
             "tag_ids",
             enable_counters=True,
             search_domain=[],
