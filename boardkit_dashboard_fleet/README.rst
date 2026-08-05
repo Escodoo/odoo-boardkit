@@ -35,6 +35,10 @@ warnings, trends, brand and fuel analytics, and a recent vehicles list.
 Toggle filters cover my fleet, active vehicles, without driver and
 overdue contracts.
 
+|Fleet Overview|
+
+.. |Fleet Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_fleet/static/description/images/boardkit-fleet-overview.png
+
 **Table of contents**
 
 .. contents::
