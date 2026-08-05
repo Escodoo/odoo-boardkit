@@ -29,5 +29,14 @@
     </record>
 
     <!-- Demo board is created from template_contacts_overview (same payload). -->
-    <function model="boardkit.dashboard" name="_load_demo_contacts_overview" />
+    <function model="boardkit.dashboard" name="_load_demo_from_template">
+        <value
+            eval="{
+                'template_xmlid': 'boardkit_dashboard.template_contacts_overview',
+                'demo_xmlid': 'boardkit_dashboard.dashboard_demo',
+                'menu_parent_xmlid': 'contacts.menu_contacts',
+                'menu_sequence': -1,
+            }"
+        />
+    </function>
 </odoo>

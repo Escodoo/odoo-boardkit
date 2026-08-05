@@ -956,30 +956,69 @@ class BoardkitDashboard(models.Model):
         return dashboard_ids
 
     @api.model
-    def _load_demo_contacts_overview(self):
-        """Create the published demo board from the Contacts Overview template.
+    def _load_demo_from_template(self, config):
+        """Create a published demo board from a curated template payload.
 
-        Called from demo data so the installed demo stays identical to the
-        curated template payload (single source of truth).
+        Called from demo data so each template module can ship a board that
+        matches its template (single source of truth). ``config`` keys:
+
+        - ``template_xmlid`` (required)
+        - ``demo_xmlid`` (required) — xmlid written for the created board
+        - ``menu_parent_xmlid`` (optional) — parent app/root menu
+        - ``menu_as_app`` (optional) — expose as a top-level app instead
+        - ``menu_sequence`` (optional, default ``-1``) — first in the menu
         """
-        existing = self.env.ref(
-            "boardkit_dashboard.dashboard_demo", raise_if_not_found=False
-        )
+        if not isinstance(config, dict):
+            raise ValidationError(_("Demo template config must be a dictionary."))
+        template_xmlid = config.get("template_xmlid")
+        demo_xmlid = config.get("demo_xmlid")
+        if not template_xmlid or not demo_xmlid or "." not in demo_xmlid:
+            raise ValidationError(
+                _("Demo template config requires template_xmlid and demo_xmlid.")
+            )
+        existing = self.env.ref(demo_xmlid, raise_if_not_found=False)
         if existing:
             return True
-        template = self.env.ref("boardkit_dashboard.template_contacts_overview")
+
+        template = self.env.ref(template_xmlid)
         dashboard = self.browse(self.create_from_template(template.id))
-        dashboard.write({"published": True})
+        menu_as_app = bool(config.get("menu_as_app"))
+        menu_sequence = config.get("menu_sequence", -1)
+        vals = {
+            "published": True,
+            "menu_sequence": menu_sequence,
+            "menu_as_app": menu_as_app,
+            "menu_parent_id": False,
+        }
+        menu_parent_xmlid = config.get("menu_parent_xmlid") or False
+        if not menu_as_app and menu_parent_xmlid:
+            parent = self.env.ref(menu_parent_xmlid, raise_if_not_found=False)
+            if parent:
+                vals["menu_parent_id"] = parent.id
+        dashboard.write(vals)
+
+        module_name, xmlid_name = demo_xmlid.split(".", 1)
         self.env["ir.model.data"].sudo().create(
             {
-                "name": "dashboard_demo",
-                "module": "boardkit_dashboard",
+                "name": xmlid_name,
+                "module": module_name,
                 "model": dashboard._name,
                 "res_id": dashboard.id,
                 "noupdate": True,
             }
         )
         return True
+
+    @api.model
+    def _load_demo_contacts_overview(self):
+        """Backward-compatible wrapper for the core Contacts Overview demo."""
+        return self._load_demo_from_template(
+            {
+                "template_xmlid": "boardkit_dashboard.template_contacts_overview",
+                "demo_xmlid": "boardkit_dashboard.dashboard_demo",
+                "menu_parent_xmlid": "contacts.menu_contacts",
+            }
+        )
 
     @api.model
     def import_config(self, payload):
