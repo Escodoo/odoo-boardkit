@@ -21,6 +21,7 @@ class TestAttendanceDashboardTemplates(TransactionCase):
             self.env.ref("hr_attendance.group_hr_attendance_officer"),
         )
         self.assertEqual(len(dashboard.item_ids), 12)
+        self.assertTrue(dashboard.item_ids.filtered(lambda i: i.item_type == "kpi"))
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
             all(item.model_name == "hr.attendance" for item in dashboard.item_ids)

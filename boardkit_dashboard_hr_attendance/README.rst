@@ -35,6 +35,10 @@ approvals, daily trends, department and employee breakdowns, check-in
 modes, and a recent attendances list. Toggle filters cover my
 attendances, my team, open check-ins and overtime to approve.
 
+|Attendance Overview|
+
+.. |Attendance Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_hr_attendance/static/description/images/boardkit-attendance-overview.png
+
 **Table of contents**
 
 .. contents::
@@ -56,8 +60,8 @@ show the current queue. Other cards use *Check In* and follow the date
 filter. Use the toggle filters (My Attendances, My Team, Open Check-Ins,
 Overtime To Approve) to narrow the other cards.
 
-Review the unpublished board, adjust items or filters, then publish and
-optionally set a parent menu under Attendances.
+When installed with demo data, a published board is created from this
+template and placed first (sequence ``-1``) under the related app menu.
 
 Bug Tracker
 ===========

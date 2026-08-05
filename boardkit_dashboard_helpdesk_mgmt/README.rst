@@ -34,6 +34,10 @@ unattended backlogs, closure rate, unassigned tickets, trends, team and
 stage analytics, and a recent tickets list. Toggle filters cover my
 tickets, open, unattended and high priority.
 
+|Helpdesk Overview|
+
+.. |Helpdesk Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_helpdesk_mgmt/static/description/images/boardkit-helpdesk-overview.png
+
 **Table of contents**
 
 .. contents::
@@ -55,8 +59,8 @@ always show the current queue. Closed metrics use *Closed Date* and
 follow the date filter. Use the toggle filters (My Tickets, Open,
 Unattended, High Priority) to narrow the other cards.
 
-Review the unpublished board, adjust items or filters, then publish and
-optionally set a parent menu under Helpdesk.
+When installed with demo data, a published board is created from this
+template and placed first (sequence ``-1``) under the related app menu.
 
 Bug Tracker
 ===========

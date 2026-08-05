@@ -35,6 +35,10 @@ permits, hire trends, department and type breakdowns, and a recent
 employees list. Toggle filters cover my team, active employees, without
 manager and contractors.
 
+|Employees Overview|
+
+.. |Employees Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_hr/static/description/images/boardkit-employees-overview.png
+
 **Table of contents**
 
 .. contents::
@@ -57,8 +61,8 @@ New Hires use *Created on* and Departures use *Departure Date*; both
 follow the date filter. Use the toggle filters (My Team, Active, Without
 Manager, Contractors) to narrow the other cards.
 
-Review the unpublished board, adjust items or filters, then publish and
-optionally set a parent menu under Employees.
+When installed with demo data, a published board is created from this
+template and placed first (sequence ``-1``) under the related app menu.
 
 Bug Tracker
 ===========

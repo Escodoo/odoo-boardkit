@@ -9,3 +9,5 @@ reviewed before users see it.
 
 Requires Discuss / Mail and Calendar. Allowed Groups defaults to Internal User
 so any employee can open a board created from this template.
+
+![My Day](../static/description/images/boardkit-my-day.png)

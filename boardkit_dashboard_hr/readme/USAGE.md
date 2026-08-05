@@ -11,5 +11,4 @@ _Created on_ and Departures use _Departure Date_; both follow the date filter.
 Use the toggle filters (My Team, Active, Without Manager, Contractors) to
 narrow the other cards.
 
-Review the unpublished board, adjust items or filters, then publish and
-optionally set a parent menu under Employees.
+When installed with demo data, a published board is created from this template and placed first (sequence `-1`) under the related app menu.

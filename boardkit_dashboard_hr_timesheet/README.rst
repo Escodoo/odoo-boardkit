@@ -35,6 +35,10 @@ lines, cost amount, daily trends, project/employee/department
 breakdowns, and a recent timesheets list. Toggle filters cover my
 timesheets, lines with a task, and lines without a task.
 
+|Timesheet Overview|
+
+.. |Timesheet Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_hr_timesheet/static/description/images/boardkit-timesheet-overview.png
+
 **Table of contents**
 
 .. contents::
@@ -56,8 +60,8 @@ use the timesheet *Date* field and follow the date filter. Use the
 toggle filters (My Timesheets, With Task, Without Task) to narrow the
 other cards.
 
-Review the unpublished board, adjust items or filters, then publish and
-optionally set a parent menu under Timesheets.
+When installed with demo data, a published board is created from this
+template and placed first (sequence ``-1``) under the related app menu.
 
 Bug Tracker
 ===========

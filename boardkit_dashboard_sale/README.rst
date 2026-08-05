@@ -36,6 +36,10 @@ top customers, status and salesperson breakdowns, and a recent orders
 list. Toggle filters cover my orders, confirmed orders, quotations and
 to-invoice backlog.
 
+|Sales Overview|
+
+.. |Sales Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_sale/static/description/images/boardkit-sales-overview.png
+
 **Table of contents**
 
 .. contents::
@@ -58,8 +62,8 @@ order metrics use *Order Date* and follow the date filter. Use the
 toggle filters (My Orders, Confirmed, Quotations, To Invoice) to narrow
 the other cards.
 
-Review the unpublished board, adjust items or filters, then publish and
-optionally set a parent menu under Sales.
+When installed with demo data, a published board is created from this
+template and placed first (sequence ``-1``) under the related app menu.
 
 Bug Tracker
 ===========

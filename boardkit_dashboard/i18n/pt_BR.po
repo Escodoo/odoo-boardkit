@@ -2803,10 +2803,6 @@ msgstr "Manter nome do template"
 msgid "Payload"
 msgstr "Payload"
 
-#. module: boardkit_dashboard
-#: model:boardkit.dashboard.template,name:boardkit_dashboard.template_partner_starter
-msgid "Partner Starter"
-msgstr "Starter de contatos"
 
 #. module: boardkit_dashboard
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0

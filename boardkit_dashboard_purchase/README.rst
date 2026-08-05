@@ -35,6 +35,10 @@ confirmation rate, late receipts, waiting bills, amount trends, top
 vendors, status and buyer breakdowns, and a recent orders list. Toggle
 filters cover my orders, confirmed orders, RFQs and waiting bills.
 
+|Purchase Overview|
+
+.. |Purchase Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_purchase/static/description/images/boardkit-purchase-overview.png
+
 **Table of contents**
 
 .. contents::
@@ -56,8 +60,8 @@ they always show the current queue. Confirmed order metrics use
 *Confirmation Date* and follow the date filter. Use the toggle filters
 (My Orders, Confirmed, RFQs, Waiting Bills) to narrow the other cards.
 
-Review the unpublished board, adjust items or filters, then publish and
-optionally set a parent menu under Purchase.
+When installed with demo data, a published board is created from this
+template and placed first (sequence ``-1``) under the related app menu.
 
 Bug Tracker
 ===========

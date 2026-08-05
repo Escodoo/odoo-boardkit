@@ -9,3 +9,5 @@ It focuses on time spent across projects: hours logged (with period comparison),
 line counts, average hours, today backlog, missing-task lines, cost amount, daily
 trends, project/employee/department breakdowns, and a recent timesheets list.
 Toggle filters cover my timesheets, lines with a task, and lines without a task.
+
+![Timesheet Overview](../static/description/images/boardkit-timesheet-overview.png)

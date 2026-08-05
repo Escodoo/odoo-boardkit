@@ -35,6 +35,10 @@ employees currently on leave, monthly trends, leave type and department
 breakdowns, and a recent requests list. Toggle filters cover my leaves,
 my team, to approve and approved.
 
+|Time Off Overview|
+
+.. |Time Off Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_hr_holidays/static/description/images/boardkit-time-off-overview.png
+
 **Table of contents**
 
 .. contents::
@@ -57,8 +61,8 @@ metrics use *Start Date* and follow the date filter. Use the toggle
 filters (My Leaves, My Team, To Approve, Approved) to narrow the other
 cards.
 
-Review the unpublished board, adjust items or filters, then publish and
-optionally set a parent menu under Time Off.
+When installed with demo data, a published board is created from this
+template and placed first (sequence ``-1``) under the related app menu.
 
 Bug Tracker
 ===========

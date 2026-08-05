@@ -9,3 +9,5 @@ It focuses on request delivery: open and done counts, high-priority and overdue
 backlogs, completion rate, unassigned requests, trends, team and type analytics,
 and a recent requests list. Toggle filters cover my requests, open, overdue and
 high priority.
+
+![Maintenance Overview](../static/description/images/boardkit-maintenance-overview.png)

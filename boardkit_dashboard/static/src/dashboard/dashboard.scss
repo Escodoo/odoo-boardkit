@@ -591,22 +591,62 @@
     }
 }
 
-.o_boardkit_dashboard_catalogue_empty {
-    max-width: 52rem;
-    margin: 3rem auto;
-    padding: 0 1.5rem;
-    text-align: center;
+// Empty catalogue hero. Odoo's .o_view_nocontent is absolute + row flex with
+// pointer-events:none; override so the first-run panel stacks and is clickable.
+.o_boardkit_dashboard_catalogue_empty.o_view_nocontent {
+    --boardkit-empty-accent: #8b5cf6;
+    --boardkit-empty-accent-deep: #6d28d9;
+    flex-direction: column;
+    pointer-events: auto;
+    padding: 1.5rem;
+    overflow: auto;
+
+    .o_boardkit_dashboard_catalogue_empty_panel {
+        width: 100%;
+        max-width: 44rem;
+        margin: auto;
+        text-align: center;
+    }
+
+    .o_boardkit_dashboard_catalogue_empty_brand {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+
+    .o_boardkit_dashboard_catalogue_empty_brand_icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 3.5rem;
+        height: 3.5rem;
+        padding: 0.45rem;
+        border-radius: 0.85rem;
+        background: #fff;
+        box-shadow: 0 0.35rem 1rem rgba(109, 40, 217, 0.22);
+
+        .o_boardkit_dashboard_catalogue_empty_brand_logo {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    }
 
     .o_boardkit_dashboard_catalogue_empty_title {
-        font-size: 1.5rem;
-        font-weight: 600;
-        margin-bottom: 0.35rem;
+        font-size: 1.65rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 0.4rem;
+        color: var(--o-color-text, #212529);
     }
 
     .o_boardkit_dashboard_catalogue_empty_subtitle {
+        max-width: 32rem;
+        margin: 0 auto 1.35rem;
         color: var(--body-color);
-        opacity: 0.75;
-        margin-bottom: 1.25rem;
+        opacity: 0.72;
+        line-height: 1.45;
     }
 
     .o_boardkit_dashboard_catalogue_empty_actions {
@@ -615,48 +655,125 @@
         justify-content: center;
         gap: 0.5rem;
         margin-bottom: 1.75rem;
+
+        .btn-primary {
+            background-color: var(--boardkit-empty-accent);
+            border-color: var(--boardkit-empty-accent);
+
+            &:hover,
+            &:focus {
+                background-color: var(--boardkit-empty-accent-deep);
+                border-color: var(--boardkit-empty-accent-deep);
+            }
+        }
     }
 
     .o_boardkit_dashboard_catalogue_empty_featured {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
-        gap: 0.75rem;
         text-align: start;
     }
 
+    .o_boardkit_dashboard_catalogue_empty_featured_label {
+        margin-bottom: 0.65rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--body-color);
+        opacity: 0.55;
+    }
+
+    .o_boardkit_dashboard_catalogue_empty_featured_grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.75rem;
+
+        @media (max-width: 576px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
     .o_boardkit_dashboard_catalogue_empty_card {
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        border-radius: 0.35rem;
-        padding: 0.85rem 1rem;
-        background: #fff;
+        display: flex;
+        gap: 0.85rem;
+        width: 100%;
+        min-height: 7.5rem;
+        margin: 0;
+        padding: 0.95rem 1rem;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 0.65rem;
+        background: var(--o-view-background-color, #fff);
+        text-align: start;
         cursor: pointer;
         transition:
             box-shadow 0.15s ease,
             transform 0.15s ease,
             border-color 0.15s ease;
 
-        &:hover {
-            border-color: rgba(113, 75, 103, 0.45);
-            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+        &:hover:not(:disabled) {
+            border-color: rgba(139, 92, 246, 0.45);
+            box-shadow: 0 0.35rem 1rem rgba(109, 40, 217, 0.12);
             transform: translateY(-2px);
+
+            .o_boardkit_dashboard_catalogue_empty_card_cta {
+                color: var(--boardkit-empty-accent-deep);
+            }
         }
 
-        h3 {
-            font-size: 1rem;
-            font-weight: 600;
-            margin: 0 0 0.35rem;
+        &:disabled {
+            opacity: 0.7;
+            cursor: wait;
         }
 
-        p {
-            margin: 0;
-            font-size: 0.85rem;
-            color: var(--body-color);
-            opacity: 0.75;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 3;
-            overflow: hidden;
+        &.o_boardkit_dashboard_catalogue_empty_card_busy {
+            border-color: rgba(139, 92, 246, 0.35);
         }
+    }
+
+    .o_boardkit_dashboard_catalogue_empty_card_icon {
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.35rem;
+        height: 2.35rem;
+        border-radius: 0.55rem;
+        background: rgba(139, 92, 246, 0.12);
+        color: var(--boardkit-empty-accent-deep);
+        font-size: 1.05rem;
+    }
+
+    .o_boardkit_dashboard_catalogue_empty_card_body {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+        min-width: 0;
+        gap: 0.25rem;
+    }
+
+    .o_boardkit_dashboard_catalogue_empty_card_name {
+        font-size: 0.98rem;
+        font-weight: 600;
+        color: var(--o-color-text, #212529);
+    }
+
+    .o_boardkit_dashboard_catalogue_empty_card_desc {
+        flex: 1 1 auto;
+        margin: 0;
+        font-size: 0.82rem;
+        line-height: 1.35;
+        color: var(--body-color);
+        opacity: 0.72;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
+    }
+
+    .o_boardkit_dashboard_catalogue_empty_card_cta {
+        margin-top: 0.35rem;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--boardkit-empty-accent);
     }
 }
 

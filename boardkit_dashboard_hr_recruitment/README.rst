@@ -34,6 +34,10 @@ refusals, hire rate, stage and job breakdowns, source analytics, and a
 recent applicants list. Toggle filters cover my applications, ongoing,
 hired and refused.
 
+|Recruitment Overview|
+
+.. |Recruitment Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_hr_recruitment/static/description/images/boardkit-recruitment-overview.png
+
 **Table of contents**
 
 .. contents::
@@ -55,8 +59,8 @@ and refused metrics use *Hire Date* / refuse timing and follow the date
 filter where a date field is set. Use the toggle filters (My
 Applications, Ongoing, Hired, Refused) to narrow the other cards.
 
-Review the unpublished board, adjust items or filters, then publish and
-optionally set a parent menu under Recruitment.
+When installed with demo data, a published board is created from this
+template and placed first (sequence ``-1``) under the related app menu.
 
 Bug Tracker
 ===========

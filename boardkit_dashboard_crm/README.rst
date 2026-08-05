@@ -35,6 +35,10 @@ closings, a stage funnel, source and salesperson revenue breakdowns, and
 a recent opportunities list. Toggle filters cover my opportunities, open
 pipeline, won deals and overdue closings.
 
+|CRM Pipeline|
+
+.. |CRM Pipeline| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_crm/static/description/images/boardkit-crm-pipeline.png
+
 **Table of contents**
 
 .. contents::
@@ -57,8 +61,8 @@ Won metrics use *Closed Date* and follow the date filter. Use the toggle
 filters (My Opportunities, Open Pipeline, Won, Overdue Closing) to
 narrow the other cards.
 
-Review the unpublished board, adjust items or filters, then publish and
-optionally set a parent menu under CRM.
+When installed with demo data, a published board is created from this
+template and placed first (sequence ``-1``) under the related app menu.
 
 Bug Tracker
 ===========

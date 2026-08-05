@@ -213,12 +213,12 @@
           "index": 9
         },
         {
-          "name": "Expenses by Status",
-          "item_type": "doughnut",
+          "name": "Expense Funnel",
+          "item_type": "funnel",
           "model": "hr.expense",
           "aggregation": "count",
           "group_by_field_id": "state",
-          "chart_sort": "value_desc",
+          "chart_sort": "default",
           "domain": "[]",
           "date_field_id": "date",
           "layout": {

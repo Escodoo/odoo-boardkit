@@ -9,3 +9,5 @@ purchase orders and untaxed totals (with period comparison), confirmation rate,
 late receipts, waiting bills, amount trends, top vendors, status and buyer
 breakdowns, and a recent orders list. Toggle filters cover my orders, confirmed
 orders, RFQs and waiting bills.
+
+![Purchase Overview](../static/description/images/boardkit-purchase-overview.png)

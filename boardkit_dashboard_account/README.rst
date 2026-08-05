@@ -35,6 +35,10 @@ rate, amount trends, payment status, top customers, salesperson
 breakdown and a recent invoices list. Toggle filters cover posted moves,
 customer invoices, vendor bills and overdue residuals.
 
+|Invoicing Overview|
+
+.. |Invoicing Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_account/static/description/images/boardkit-invoicing-overview.png
+
 **Table of contents**
 
 .. contents::
@@ -55,8 +59,8 @@ Overdue tiles ignore that filter so they always show open balances. Use
 the toggle filters (Posted, Customer Invoices, Vendor Bills, Overdue) to
 narrow the other cards.
 
-Review the unpublished board, adjust items or filters, then publish and
-optionally set a parent menu under Accounting.
+When installed with demo data, a published board is created from this
+template and placed first (sequence ``-1``) under the related app menu.
 
 Bug Tracker
 ===========

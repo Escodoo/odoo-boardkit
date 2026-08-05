@@ -34,6 +34,10 @@ rejected counts, confirmation rate, unbatched slips, credit notes,
 monthly trends, structure and employee breakdowns, and a recent payslips
 list. Toggle filters cover my payslips, draft, waiting and done.
 
+|Payroll Overview|
+
+.. |Payroll Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_payroll/static/description/images/boardkit-payroll-overview.png
+
 **Table of contents**
 
 .. contents::
@@ -55,8 +59,8 @@ current queue. Done and rejected metrics use *Date From* and follow the
 date filter. Use the toggle filters (My Payslips, Draft, Waiting, Done)
 to narrow the other cards.
 
-Review the unpublished board, adjust items or filters, then publish and
-optionally set a parent menu under Payroll.
+When installed with demo data, a published board is created from this
+template and placed first (sequence ``-1``) under the related app menu.
 
 Bug Tracker
 ===========

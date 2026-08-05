@@ -34,6 +34,10 @@ and late backlogs, completion rate, unassigned orders, trends, team and
 stage analytics, and a recent orders list. Toggle filters cover my
 orders, open, late and high priority.
 
+|Field Service Overview|
+
+.. |Field Service Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_fieldservice/static/description/images/boardkit-fieldservice-overview.png
+
 **Table of contents**
 
 .. contents::
@@ -55,8 +59,8 @@ they always show the current queue. Completed metrics use *Actual End*
 and follow the date filter. Use the toggle filters (My Orders, Open,
 Late, High Priority) to narrow the other cards.
 
-Review the unpublished board, adjust items or filters, then publish and
-optionally set a parent menu under Field Service.
+When installed with demo data, a published board is created from this
+template and placed first (sequence ``-1``) under the related app menu.
 
 Bug Tracker
 ===========

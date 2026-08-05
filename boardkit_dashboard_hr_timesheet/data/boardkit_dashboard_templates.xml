@@ -211,17 +211,17 @@
           "index": 9
         },
         {
-          "name": "Hours by Employee",
-          "item_type": "bar",
+          "name": "Hours by Project Share",
+          "item_type": "doughnut",
           "model": "account.analytic.line",
           "aggregation": "sum",
           "measure_field_id": "unit_amount",
           "measures": [
             "unit_amount"
           ],
-          "group_by_field_id": "employee_id",
+          "group_by_field_id": "project_id",
           "chart_sort": "value_desc",
-          "record_limit": 10,
+          "record_limit": 8,
           "domain": "[('project_id', '!=', False)]",
           "date_field_id": "date",
           "layout": {

@@ -35,6 +35,10 @@ Requires Discuss / Mail and Calendar. Allowed Groups defaults to
 Internal User so any employee can open a board created from this
 template.
 
+|My Day|
+
+.. |My Day| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_mail/static/description/images/boardkit-my-day.png
+
 **Table of contents**
 
 .. contents::
@@ -56,8 +60,8 @@ activities (Overdue only, Due today) or channels (Chats only). There is
 no board-level date filter; each card uses its own deadline / start /
 message date rules.
 
-Review the unpublished board, adjust items or filters, then publish and
-optionally set a parent menu under Discuss or Calendar.
+When installed with demo data, a published board is created from this
+template and exposed as a top-level app (sequence ``-1``).
 
 Bug Tracker
 ===========

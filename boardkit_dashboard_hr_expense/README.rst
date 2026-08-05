@@ -34,6 +34,10 @@ totals and counts, approval rate, reimbursement queue, amount trends,
 employee and category breakdowns, and a recent expenses list. Toggle
 filters cover my expenses, to report, submitted and approved.
 
+|Expenses Overview|
+
+.. |Expenses Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_hr_expense/static/description/images/boardkit-expenses-overview.png
+
 **Table of contents**
 
 .. contents::
@@ -55,8 +59,8 @@ show the current queue. Approved totals and counts use *Expense Date*
 and follow the date filter. Use the toggle filters (My Expenses, To
 Report, Submitted, Approved) to narrow the other cards.
 
-Review the unpublished board, adjust items or filters, then publish and
-optionally set a parent menu under Expenses.
+When installed with demo data, a published board is created from this
+template and placed first (sequence ``-1``) under the related app menu.
 
 Bug Tracker
 ===========

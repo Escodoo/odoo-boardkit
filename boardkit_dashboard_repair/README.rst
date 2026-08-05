@@ -34,6 +34,10 @@ and late backlogs, completion rate, under-repair and parts-late queues,
 trends, product and status analytics, and a recent orders list. Toggle
 filters cover my orders, open, late and urgent.
 
+|Repair Overview|
+
+.. |Repair Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_repair/static/description/images/boardkit-repair-overview.png
+
 **Table of contents**
 
 .. contents::
@@ -55,8 +59,8 @@ they always show the current queue. Repaired metrics use *Scheduled
 Date* and follow the date filter. Use the toggle filters (My Orders,
 Open, Late, Urgent) to narrow the other cards.
 
-Review the unpublished board, adjust items or filters, then publish and
-optionally set a parent menu under Repairs.
+When installed with demo data, a published board is created from this
+template and placed first (sequence ``-1``) under the related app menu.
 
 Bug Tracker
 ===========
