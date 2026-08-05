@@ -177,6 +177,21 @@ export class BoardkitDashboardAction extends Component {
     }
 
     // ------------------------------------------------------------------
+    // Publish
+    // ------------------------------------------------------------------
+
+    async publishDashboard() {
+        if (!this.state.board?.id || this.state.board.published || !this.state.board.is_manager) {
+            return;
+        }
+        await this.orm.call("boardkit.dashboard", "action_publish", [
+            [this.state.board.id],
+        ]);
+        this.state.board.published = true;
+        this.notification.add(_t("Dashboard published."), {type: "success"});
+    }
+
+    // ------------------------------------------------------------------
     // Data loading
     // ------------------------------------------------------------------
 
