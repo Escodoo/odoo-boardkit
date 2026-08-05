@@ -25,6 +25,13 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard_mrp
+#: model:boardkit.dashboard,name:boardkit_dashboard_mrp.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard_mrp.template_mrp_overview
 msgid "Manufacturing Overview"
+msgstr ""
+
+#. module: boardkit_dashboard_mrp
+#: model:boardkit.dashboard,description:boardkit_dashboard_mrp.dashboard_demo
+msgid ""
+"Manufacturing orders backlog, throughput, readiness and product analytics."
 msgstr ""
