@@ -8,3 +8,5 @@ It focuses on repair order delivery: open and repaired counts, urgent and late
 backlogs, completion rate, under-repair and parts-late queues, trends, product
 and status analytics, and a recent orders list. Toggle filters cover my orders,
 open, late and urgent.
+
+![Repair Overview](../static/description/images/boardkit-repair-overview.png)

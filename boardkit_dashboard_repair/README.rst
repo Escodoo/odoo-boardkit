@@ -34,6 +34,10 @@ and late backlogs, completion rate, under-repair and parts-late queues,
 trends, product and status analytics, and a recent orders list. Toggle
 filters cover my orders, open, late and urgent.
 
+|Repair Overview|
+
+.. |Repair Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_repair/static/description/images/boardkit-repair-overview.png
+
 **Table of contents**
 
 .. contents::
