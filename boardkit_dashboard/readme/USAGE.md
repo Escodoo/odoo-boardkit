@@ -12,8 +12,11 @@ Dashboard Users until a manager sets an audience.
 
 Core ships the _Contacts Overview_ template (data-quality tiles, KPIs, country
 regions map, location points map on `partner_latitude` / `partner_longitude`,
-charts and a recent list). It uses only Contacts (`res.partner`). App-specific
-overview templates live in the matching `boardkit_dashboard_*` modules.
+charts and a recent list). It uses only Contacts (`res.partner`). When the module
+is installed with demo data, a published board is created from that same
+template (plus a few geolocalized sample partners for the points map).
+App-specific overview templates live in the matching `boardkit_dashboard_*`
+modules.
 
 In the catalogue (kanban or list), or from the star next to the title when a
 dashboard is open, click the star to favorite it. Favorited dashboards appear
