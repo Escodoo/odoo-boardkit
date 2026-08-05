@@ -43,11 +43,16 @@ class TestDashboardTemplates(BoardkitDashboardCommon):
         dashboard_ids = self.env["boardkit.dashboard"].create_from_template(template.id)
         dashboard = self.env["boardkit.dashboard"].browse(dashboard_ids)
         self.assertFalse(dashboard.group_ids)
-        self.assertEqual(len(dashboard.item_ids), 6)
-        self.assertEqual(len(dashboard.filter_ids), 1)
-        bar = dashboard.item_ids.filtered(lambda i: i.item_type == "bar")
-        self.assertEqual(bar.group_by_field_id.name, "country_id")
-        self.assertEqual(len(bar.drill_level_ids), 1)
+        self.assertEqual(len(dashboard.item_ids), 13)
+        self.assertEqual(len(dashboard.filter_ids), 4)
+        maps = dashboard.item_ids.filtered(lambda i: i.item_type == "map")
+        self.assertEqual(len(maps), 2)
+        regions = maps.filtered(lambda i: i.map_mode == "regions")
+        points = maps.filtered(lambda i: i.map_mode == "points")
+        self.assertEqual(regions.group_by_field_id.name, "country_id")
+        self.assertEqual(points.latitude_field_id.name, "partner_latitude")
+        self.assertEqual(points.longitude_field_id.name, "partner_longitude")
+        self.assertTrue(dashboard.item_ids.filtered(lambda i: i.item_type == "kpi"))
 
     def test_create_from_template_invalid_payload(self):
         template = self.env["boardkit.dashboard.template"].create(
