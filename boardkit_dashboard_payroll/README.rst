@@ -34,6 +34,10 @@ rejected counts, confirmation rate, unbatched slips, credit notes,
 monthly trends, structure and employee breakdowns, and a recent payslips
 list. Toggle filters cover my payslips, draft, waiting and done.
 
+|Payroll Overview|
+
+.. |Payroll Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_payroll/static/description/images/boardkit-payroll-overview.png
+
 **Table of contents**
 
 .. contents::
