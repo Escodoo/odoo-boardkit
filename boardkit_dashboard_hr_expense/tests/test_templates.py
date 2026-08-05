@@ -44,6 +44,10 @@ class TestExpenseDashboardTemplates(TransactionCase):
         self.assertEqual(by_cat.item_type, "bar_horizontal")
         self.assertEqual(by_cat.group_by_field_id.name, "product_id")
 
+        funnel = dashboard.item_ids.filtered(lambda i: i.name == "Expense Funnel")
+        self.assertEqual(funnel.item_type, "funnel")
+        self.assertEqual(funnel.group_by_field_id.name, "state")
+
         recent = dashboard.item_ids.filtered(lambda i: i.name == "Recent Expenses")
         column_names = recent.list_column_ids.mapped("field_id.name")
         self.assertIn("employee_id", column_names)
