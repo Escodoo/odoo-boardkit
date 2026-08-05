@@ -25,6 +25,13 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard_mail
+#: model:boardkit.dashboard,name:boardkit_dashboard_mail.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard_mail.template_my_day
 msgid "My Day"
+msgstr ""
+
+#. module: boardkit_dashboard_mail
+#: model:boardkit.dashboard,description:boardkit_dashboard_mail.dashboard_demo
+msgid ""
+"Personal activities, meetings, inbox and Discuss for the signed-in user."
 msgstr ""
