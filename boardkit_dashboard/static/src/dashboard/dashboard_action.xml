@@ -29,8 +29,8 @@
                         The dashboard does not exist, or you do not have
                         permission to open it in the current company.
                     </p>
-                    <button class="btn btn-primary" t-on-click="openConfiguration">
-                        Open Configuration
+                                    <button class="btn btn-primary" t-on-click="openSettings">
+                        Open Boards
                     </button>
                 </div>
             </div>
@@ -196,15 +196,40 @@
                                     </DropdownItem>
                                     <DropdownItem
                                         t-if="state.board.is_manager"
+                                        onSelected.bind="duplicateDashboard"
+                                    >
+                                        Duplicate
+                                    </DropdownItem>
+                                    <DropdownItem
+                                        t-if="state.board.is_manager"
+                                        onSelected.bind="openSettings"
+                                    >
+                                        Settings
+                                    </DropdownItem>
+                                    <DropdownItem
+                                        t-if="state.board.is_manager &amp;&amp; !state.board.published"
+                                        onSelected.bind="publishDashboard"
+                                    >
+                                        Publish
+                                    </DropdownItem>
+                                    <DropdownItem
+                                        t-if="state.board.is_manager &amp;&amp; state.board.published"
+                                        onSelected.bind="unpublishDashboard"
+                                    >
+                                        Unpublish
+                                    </DropdownItem>
+                                    <DropdownItem
+                                        t-if="state.board.is_manager"
                                         onSelected.bind="exportDashboard"
                                     >
                                         Export as JSON
                                     </DropdownItem>
                                     <DropdownItem
                                         t-if="state.board.is_manager"
-                                        onSelected.bind="openConfiguration"
+                                        onSelected.bind="deleteDashboard"
+                                        class="'text-danger'"
                                     >
-                                        Configuration
+                                        Delete
                                     </DropdownItem>
                                 </t>
                             </Dropdown>
