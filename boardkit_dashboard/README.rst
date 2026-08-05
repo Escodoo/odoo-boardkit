@@ -56,7 +56,9 @@ and the Chart.js library bundled with Odoo):
 - **Map**: choropleth of values grouped by country (``res.country``), or
   point markers from configurable latitude / longitude fields on any
   model (partners, tickets, field service orders, ...). An optional
-  focus country crops the outline and zooms the map.
+  focus country crops the outline and zooms the map. The built-in
+  **Contacts Overview** template includes both a country map and a
+  points map on ``partner_latitude`` / ``partner_longitude``.
 - **List**: plain or grouped record lists with pagination and
   click-through to the records.
 
@@ -158,6 +160,12 @@ the name empty to keep the template title. When the template has
 it / its menu). Tile data still respects the source model's record
 rules. Leave the template groups empty to keep the board limited to
 Dashboard Users until a manager sets an audience.
+
+Core ships two contact templates: *Partner Starter* (minimal
+hello-world) and *Contacts Overview* (tiles, KPIs, country regions map,
+location points map on ``partner_latitude`` / ``partner_longitude``,
+charts and a recent list). App-specific overview templates live in the
+matching ``boardkit_dashboard_*`` modules.
 
 In the catalogue (kanban or list), or from the star next to the title
 when a dashboard is open, click the star to favorite it. Favorited

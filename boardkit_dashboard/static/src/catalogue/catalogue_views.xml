@@ -60,52 +60,122 @@
 
     <t t-name="boardkit_dashboard.CatalogueEmptyHero">
         <div class="o_boardkit_dashboard_catalogue_empty o_view_nocontent">
-            <t t-if="state.isManager">
-                <div class="o_boardkit_dashboard_catalogue_empty_title">
-                    Start from a template
-                </div>
-                <p class="o_boardkit_dashboard_catalogue_empty_subtitle">
-                    Pick a curated board, import a JSON export, or create a blank
-                    dashboard with tiles, KPIs, charts and lists.
-                </p>
-                <div class="o_boardkit_dashboard_catalogue_empty_actions">
-                    <button
-                        type="button"
-                        class="btn btn-primary"
-                        t-on-click="onFromTemplate"
+            <div class="o_boardkit_dashboard_catalogue_empty_panel">
+                <t t-if="state.isManager">
+                    <div class="o_boardkit_dashboard_catalogue_empty_brand">
+                        <span
+                            class="o_boardkit_dashboard_catalogue_empty_brand_icon"
+                            aria-hidden="true"
+                        >
+                            <i class="fa fa-th-large" />
+                        </span>
+                    </div>
+                    <div class="o_boardkit_dashboard_catalogue_empty_title">
+                        Start from a template
+                    </div>
+                    <p class="o_boardkit_dashboard_catalogue_empty_subtitle">
+                        Pick a curated board, import a JSON export, or create a blank
+                        dashboard with tiles, KPIs, charts and lists.
+                    </p>
+                    <div class="o_boardkit_dashboard_catalogue_empty_actions">
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            t-on-click="onFromTemplate"
+                        >
+                            <i class="fa fa-magic me-1" />From template
+                        </button>
+                        <FileInput
+                            acceptedFileExtensions="'.json'"
+                            route="importRoute"
+                            onUpload.bind="onDashboardImported"
+                        >
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                title="Import dashboards from an export file"
+                            >
+                                <i class="fa fa-upload me-1" />Import
+                            </button>
+                        </FileInput>
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            t-on-click="onNew"
+                        >
+                            <i class="fa fa-plus me-1" />Blank board
+                        </button>
+                    </div>
+                    <div
+                        t-if="state.featured.length"
+                        class="o_boardkit_dashboard_catalogue_empty_featured"
                     >
-                        <i class="fa fa-magic me-1" />From template
-                    </button>
-                    <button type="button" class="btn btn-secondary" t-on-click="onNew">
-                        New
-                    </button>
-                </div>
-                <div
-                    t-if="state.featured.length"
-                    class="o_boardkit_dashboard_catalogue_empty_featured"
-                >
-                    <button
-                        t-foreach="state.featured"
-                        t-as="template"
-                        t-key="template.id"
-                        type="button"
-                        class="o_boardkit_dashboard_catalogue_empty_card"
-                        t-att-disabled="state.creatingId"
-                        t-on-click="() => this.onFeaturedClick(template)"
-                    >
-                        <h3 t-esc="template.name" />
-                        <p t-esc="template.description or ''" />
-                    </button>
-                </div>
-            </t>
-            <t t-else="">
-                <div class="o_boardkit_dashboard_catalogue_empty_title">
-                    No dashboards here yet
-                </div>
-                <p class="o_boardkit_dashboard_catalogue_empty_subtitle">
-                    Published boards you can access will appear here.
-                </p>
-            </t>
+                        <div
+                            class="o_boardkit_dashboard_catalogue_empty_featured_label"
+                        >
+                            Popular templates
+                        </div>
+                        <div class="o_boardkit_dashboard_catalogue_empty_featured_grid">
+                            <button
+                                t-foreach="state.featured"
+                                t-as="template"
+                                t-key="template.id"
+                                type="button"
+                                class="o_boardkit_dashboard_catalogue_empty_card"
+                                t-att-class="{
+                                    'o_boardkit_dashboard_catalogue_empty_card_busy': state.creatingId === template.id,
+                                }"
+                                t-att-disabled="state.creatingId"
+                                t-on-click="() => this.onFeaturedClick(template)"
+                            >
+                                <span
+                                    class="o_boardkit_dashboard_catalogue_empty_card_icon"
+                                    aria-hidden="true"
+                                >
+                                    <i t-attf-class="fa {{ templateIcon(template) }}" />
+                                </span>
+                                <span
+                                    class="o_boardkit_dashboard_catalogue_empty_card_body"
+                                >
+                                    <span
+                                        class="o_boardkit_dashboard_catalogue_empty_card_name"
+                                        t-esc="template.name"
+                                    />
+                                    <span
+                                        class="o_boardkit_dashboard_catalogue_empty_card_desc"
+                                        t-esc="template.description or ''"
+                                    />
+                                    <span
+                                        class="o_boardkit_dashboard_catalogue_empty_card_cta"
+                                    >
+                                        <t t-if="state.creatingId === template.id">
+                                            Creating…
+                                        </t>
+                                        <t t-else="">Use template</t>
+                                        <i class="fa fa-angle-right ms-1" />
+                                    </span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </t>
+                <t t-else="">
+                    <div class="o_boardkit_dashboard_catalogue_empty_brand">
+                        <span
+                            class="o_boardkit_dashboard_catalogue_empty_brand_icon"
+                            aria-hidden="true"
+                        >
+                            <i class="fa fa-th-large" />
+                        </span>
+                    </div>
+                    <div class="o_boardkit_dashboard_catalogue_empty_title">
+                        No dashboards here yet
+                    </div>
+                    <p class="o_boardkit_dashboard_catalogue_empty_subtitle">
+                        Published boards you can access will appear here.
+                    </p>
+                </t>
+            </div>
         </div>
     </t>
 </templates>
