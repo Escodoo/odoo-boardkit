@@ -24,6 +24,12 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard_hr_expense
+#: model:boardkit.dashboard,description:boardkit_dashboard_hr_expense.dashboard_demo
+msgid "Expense submissions, approvals, reimbursement and category analytics."
+msgstr ""
+
+#. module: boardkit_dashboard_hr_expense
+#: model:boardkit.dashboard,name:boardkit_dashboard_hr_expense.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard_hr_expense.template_expenses_overview
 msgid "Expenses Overview"
 msgstr ""
