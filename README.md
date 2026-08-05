@@ -19,6 +19,8 @@ Sales, CRM, Inventory, Accounting, HR, Helpdesk and more.
 
 ### Screenshots
 
+![Boards Catalogue](boardkit_dashboard/static/description/images/boardkit-boards-catalogue.png)
+
 ![CRM Pipeline](boardkit_dashboard/static/description/images/boardkit-crm-pipeline.png)
 
 ![Contacts Overview](boardkit_dashboard/static/description/images/boardkit-contacts-overview.png)
