@@ -34,6 +34,10 @@ and late backlogs, completion rate, unassigned orders, trends, team and
 stage analytics, and a recent orders list. Toggle filters cover my
 orders, open, late and high priority.
 
+|Field Service Overview|
+
+.. |Field Service Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_fieldservice/static/description/images/boardkit-fieldservice-overview.png
+
 **Table of contents**
 
 .. contents::
