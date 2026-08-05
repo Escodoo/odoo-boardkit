@@ -234,9 +234,10 @@
                                         t-attf-class="fa {{ record.kanban_icon.raw_value or 'fa-th-large' }}"
                                     />
                                 </span>
-                                <field
-                                    name="name"
+                                <span
                                     class="o_boardkit_dashboard_kanban_name flex-grow-1 text-truncate fw-bold"
+                                    t-att-title="record.name.value"
+                                    t-esc="record.name.value"
                                 />
                                 <field
                                     name="is_favorite"
