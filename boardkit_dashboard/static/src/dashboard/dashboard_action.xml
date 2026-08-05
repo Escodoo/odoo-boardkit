@@ -144,11 +144,6 @@
                                 />
                             </button>
                             <button
-                                t-if="state.board.is_manager &amp;&amp; !state.board.published"
-                                class="btn btn-sm btn-primary"
-                                t-on-click="publishDashboard"
-                            >Publish</button>
-                            <button
                                 t-if="state.board.is_manager"
                                 class="btn btn-sm btn-primary d-none d-md-inline-block"
                                 t-on-click="addItem"
