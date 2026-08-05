@@ -5,11 +5,11 @@
         <field
             name="color_ids"
             eval="[
-                (0, 0, {'sequence': 10, 'color': '#005B96'}),
-                (0, 0, {'sequence': 20, 'color': '#6497B1'}),
-                (0, 0, {'sequence': 30, 'color': '#03396C'}),
-                (0, 0, {'sequence': 40, 'color': '#B3CDE0'}),
-                (0, 0, {'sequence': 50, 'color': '#011F4B'}),
+                (0, 0, {'sequence': 10, 'color': '#8B5CF6'}),
+                (0, 0, {'sequence': 20, 'color': '#A78BFA'}),
+                (0, 0, {'sequence': 30, 'color': '#6D28D9'}),
+                (0, 0, {'sequence': 40, 'color': '#C4B5FD'}),
+                (0, 0, {'sequence': 50, 'color': '#4C1D95'}),
             ]"
         />
     </record>

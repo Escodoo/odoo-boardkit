@@ -39,6 +39,9 @@
             "boardkit_dashboard/static/tests/tours/**/*",
         ],
     },
+    "images": [
+        "static/description/banner.png",
+    ],
     "uninstall_hook": "uninstall_hook",
     "installable": True,
 }
