@@ -221,7 +221,7 @@
                                 t-if="!record.published.raw_value"
                                 class="ribbon ribbon-top-right o_boardkit_dashboard_kanban_ribbon"
                             >
-                                <span class="text-bg-danger o_small">Draft</span>
+                                <span class="text-bg-warning o_small">Draft</span>
                             </div>
                             <div
                                 class="o_boardkit_dashboard_kanban_title d-flex align-items-center gap-2 fw-bold fs-5"
