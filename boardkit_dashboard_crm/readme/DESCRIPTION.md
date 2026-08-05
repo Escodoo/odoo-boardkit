@@ -9,3 +9,5 @@ won revenue, prorated revenue, win rate, overdue expected closings, a stage
 funnel, source and salesperson revenue breakdowns, and a recent opportunities
 list. Toggle filters cover my opportunities, open pipeline, won deals and
 overdue closings.
+
+![CRM Pipeline](../static/description/images/boardkit-crm-pipeline.png)
