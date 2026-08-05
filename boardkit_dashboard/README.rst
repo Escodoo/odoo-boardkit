@@ -166,8 +166,10 @@ country regions map, location points map on ``partner_latitude`` /
 ``partner_longitude``, charts and a recent list). It uses only Contacts
 (``res.partner``). When the module is installed with demo data, a
 published board is created from that same template (plus a few
-geolocalized sample partners for the points map). App-specific overview
-templates live in the matching ``boardkit_dashboard_*`` modules.
+geolocalized sample partners for the points map), linked under the
+Contacts app menu with sequence ``-1``. App-specific overview templates
+in ``boardkit_dashboard_*`` modules follow the same demo pattern under
+their app menu (My Day is exposed as a top-level app).
 
 In the catalogue (kanban or list), or from the star next to the title
 when a dashboard is open, click the star to favorite it. Favorited

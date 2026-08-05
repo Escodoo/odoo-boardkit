@@ -11,7 +11,7 @@
     "maintainers": ["marcelsavegnago"],
     "development_status": "Beta",
     "license": "AGPL-3",
-    "depends": ["web", "web_tour"],
+    "depends": ["web", "web_tour", "contacts"],
     "data": [
         "security/boardkit_dashboard_security.xml",
         "security/ir.model.access.csv",
