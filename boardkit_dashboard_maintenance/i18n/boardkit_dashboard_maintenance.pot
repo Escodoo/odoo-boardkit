@@ -24,6 +24,12 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard_maintenance
+#: model:boardkit.dashboard,name:boardkit_dashboard_maintenance.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard_maintenance.template_maintenance_overview
 msgid "Maintenance Overview"
+msgstr ""
+
+#. module: boardkit_dashboard_maintenance
+#: model:boardkit.dashboard,description:boardkit_dashboard_maintenance.dashboard_demo
+msgid "Maintenance request backlog, completions, priority and team analytics."
 msgstr ""
