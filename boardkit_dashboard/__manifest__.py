@@ -21,6 +21,7 @@
         "views/boardkit_dashboard_tag_views.xml",
         "views/boardkit_dashboard_template_views.xml",
         "views/boardkit_dashboard_views.xml",
+        "views/res_config_settings_views.xml",
         "views/boardkit_dashboard_menus.xml",
     ],
     "demo": ["demo/boardkit_dashboard_demo.xml"],

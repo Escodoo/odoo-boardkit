@@ -459,6 +459,43 @@ class BoardkitDashboard(models.Model):
     # CRUD / menu lifecycle
     # ------------------------------------------------------------------
 
+    @api.model
+    def _company_default_palette_vals(self, company=None):
+        """Return palette vals copied from the company default setting.
+
+        Only new dashboards use this snapshot; changing the company default
+        later does not rewrite existing boards.
+        """
+        company = company or self.env.company
+        if not company.boardkit_default_color_palette:
+            return {}
+        vals = {
+            "default_color_palette": company.boardkit_default_color_palette,
+        }
+        if company.boardkit_default_color_palette == "custom":
+            vals["default_palette_id"] = company.boardkit_default_palette_id.id
+        else:
+            vals["default_palette_id"] = False
+        return vals
+
+    @api.model
+    def default_get(self, fields_list):
+        res = super().default_get(fields_list)
+        if "default_color_palette" not in fields_list:
+            return res
+        if res.get("default_color_palette"):
+            return res
+        company = self.env.company
+        if res.get("company_id"):
+            company = self.env["res.company"].browse(res["company_id"])
+        palette_vals = self._company_default_palette_vals(company)
+        if not palette_vals:
+            return res
+        res["default_color_palette"] = palette_vals["default_color_palette"]
+        if "default_palette_id" in fields_list:
+            res["default_palette_id"] = palette_vals.get("default_palette_id") or False
+        return res
+
     @api.model_create_multi
     def create(self, vals_list):
         prepared = []
@@ -469,6 +506,11 @@ class BoardkitDashboard(models.Model):
             if vals.get("company_id"):
                 vals["menu_parent_id"] = False
                 vals["menu_as_app"] = False
+            if not vals.get("default_color_palette"):
+                company = self.env.company
+                if vals.get("company_id"):
+                    company = self.env["res.company"].browse(vals["company_id"])
+                vals.update(self._company_default_palette_vals(company))
             prepared.append(vals)
         records = super().create(prepared)
         records._sync_menu_entry()
