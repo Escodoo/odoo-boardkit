@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="template_rma_overview" model="boardkit.dashboard.template">
+        <field name="name">RMA Overview</field>
+        <field name="key">rma_overview</field>
+        <field name="sequence">63</field>
+        <field name="description">
+            RMA board for return merchandise authorization: drafts and open
+            pipeline, received and finished counts, completion rate, overdue
+            deadlines, trends, operation and team analytics, and a recent RMA
+            list. Requires RMA.
+        </field>
+        <field name="group_ids" eval="[(4, ref('rma.rma_group_user_all'))]" />
+        <field name="payload">
+{
+  "version": 1,
+  "dashboards": [
+    {
+      "name": "RMA Overview",
+      "description": "Return merchandise pipeline, completions and operation analytics.",
+      "tags": [
+        "RMA",
+        "Inventory"
+      ],
+      "date_filter": "this_month",
+      "refresh_interval": "0",
+      "items": [
+        {
+          "name": "Draft RMAs",
+          "item_type": "tile",
+          "model": "rma",
+          "aggregation": "count",
+          "icon": "fa-pencil-square-o",
+          "domain": "[('state', '=', 'draft')]",
+          "layout": {
+            "x": 0,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 0
+        },
+        {
+          "name": "Open Pipeline",
+          "item_type": "tile",
+          "model": "rma",
+          "aggregation": "count",
+          "icon": "fa-exchange",
+          "domain": "[('state', 'in', ['confirmed', 'received', 'waiting_return', 'waiting_replacement'])]",
+          "layout": {
+            "x": 3,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 1
+        },
+        {
+          "name": "Received",
+          "item_type": "tile",
+          "model": "rma",
+          "aggregation": "count",
+          "icon": "fa-inbox",
+          "compare_previous_period": true,
+          "domain": "[('state', '=', 'received')]",
+          "date_field_id": "date",
+          "layout": {
+            "x": 6,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 2
+        },
+        {
+          "name": "Finished",
+          "item_type": "tile",
+          "model": "rma",
+          "aggregation": "count",
+          "icon": "fa-check-square-o",
+          "compare_previous_period": true,
+          "domain": "[('state', 'in', ['finished', 'refunded', 'returned', 'replaced'])]",
+          "date_field_id": "date",
+          "layout": {
+            "x": 9,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 3
+        },
+        {
+          "name": "Completion Rate",
+          "item_type": "kpi",
+          "model": "rma",
+          "aggregation": "count",
+          "kpi_mode": "comparison",
+          "kpi_display": "percent",
+          "domain": "[('state', 'in', ['finished', 'refunded', 'returned', 'replaced'])]",
+          "model_2": "rma",
+          "aggregation_2": "count",
+          "domain_2": "[('state', 'in', ['finished', 'refunded', 'returned', 'replaced', 'cancelled'])]",
+          "date_field_id": "date",
+          "date_field_2_id": "date",
+          "layout": {
+            "x": 0,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 4
+        },
+        {
+          "name": "Finished Target",
+          "item_type": "gauge",
+          "model": "rma",
+          "aggregation": "count",
+          "target_enabled": true,
+          "target_value": 20,
+          "gauge_max": 25,
+          "domain": "[('state', 'in', ['finished', 'refunded', 'returned', 'replaced'])]",
+          "date_field_id": "date",
+          "layout": {
+            "x": 3,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 5
+        },
+        {
+          "name": "Overdue",
+          "item_type": "tile",
+          "model": "rma",
+          "aggregation": "count",
+          "icon": "fa-exclamation-triangle",
+          "domain": "[('state', 'not in', ['finished', 'refunded', 'returned', 'replaced', 'cancelled', 'locked']), ('deadline', '!=', False), ('deadline', '&lt;', context_today())]",
+          "layout": {
+            "x": 6,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 6
+        },
+        {
+          "name": "Cancelled",
+          "item_type": "tile",
+          "model": "rma",
+          "aggregation": "count",
+          "icon": "fa-ban",
+          "domain": "[('state', '=', 'cancelled')]",
+          "layout": {
+            "x": 9,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 7
+        },
+        {
+          "name": "RMAs per Month",
+          "item_type": "area",
+          "model": "rma",
+          "aggregation": "count",
+          "group_by_field_id": "date",
+          "group_by_granularity": "month",
+          "date_field_id": "date",
+          "chart_sort": "label_asc",
+          "show_trend_line": true,
+          "domain": "[('state', '!=', 'cancelled')]",
+          "layout": {
+            "x": 0,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 8
+        },
+        {
+          "name": "Top Partners by RMAs",
+          "item_type": "bar_horizontal",
+          "model": "rma",
+          "aggregation": "count",
+          "group_by_field_id": "partner_id",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "domain": "[('state', '!=', 'cancelled')]",
+          "date_field_id": "date",
+          "layout": {
+            "x": 6,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 9
+        },
+        {
+          "name": "RMAs by Status",
+          "item_type": "doughnut",
+          "model": "rma",
+          "aggregation": "count",
+          "group_by_field_id": "state",
+          "chart_sort": "value_desc",
+          "domain": "[]",
+          "date_field_id": "date",
+          "layout": {
+            "x": 0,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 10
+        },
+        {
+          "name": "Open by Operation",
+          "item_type": "bar",
+          "model": "rma",
+          "aggregation": "count",
+          "group_by_field_id": "operation_id",
+          "chart_sort": "value_desc",
+          "domain": "[('state', 'in', ['confirmed', 'received', 'waiting_return', 'waiting_replacement'])]",
+          "layout": {
+            "x": 6,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 11
+        },
+        {
+          "name": "Recent RMAs",
+          "item_type": "list",
+          "model": "rma",
+          "list_type": "plain",
+          "sort_field_id": "date",
+          "sort_field_model": "rma",
+          "sort_dir": "desc",
+          "page_size": 10,
+          "list_columns": [
+            "name",
+            "partner_id",
+            "product_id",
+            "product_uom_qty",
+            "state",
+            "operation_id",
+            "team_id",
+            "user_id",
+            "deadline",
+            "date"
+          ],
+          "domain": "[('state', '!=', 'cancelled')]",
+          "date_field_id": "date",
+          "layout": {
+            "x": 0,
+            "y": 12,
+            "w": 12,
+            "h": 5
+          },
+          "index": 12
+        }
+      ],
+      "filters": [
+        {
+          "name": "My RMAs",
+          "sequence": 10,
+          "model": "rma",
+          "domain": "[('user_id', '=', uid)]",
+          "default_enabled": false
+        },
+        {
+          "name": "Open Pipeline",
+          "sequence": 20,
+          "model": "rma",
+          "domain": "[('state', 'in', ['confirmed', 'received', 'waiting_return', 'waiting_replacement'])]",
+          "default_enabled": false
+        },
+        {
+          "name": "Finished",
+          "sequence": 30,
+          "model": "rma",
+          "domain": "[('state', 'in', ['finished', 'refunded', 'returned', 'replaced'])]",
+          "default_enabled": false
+        },
+        {
+          "name": "Overdue",
+          "sequence": 40,
+          "model": "rma",
+          "domain": "[('state', 'not in', ['finished', 'refunded', 'returned', 'replaced', 'cancelled', 'locked']), ('deadline', '!=', False), ('deadline', '&lt;', context_today())]",
+          "default_enabled": false
+        }
+      ]
+    }
+  ]
+}
+        </field>
+    </record>
+</odoo>
