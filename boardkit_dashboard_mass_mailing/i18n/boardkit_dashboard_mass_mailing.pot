@@ -1,0 +1,36 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_mass_mailing
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_mass_mailing
+#: model:boardkit.dashboard.template,description:boardkit_dashboard_mass_mailing.template_email_marketing_overview
+msgid ""
+"\n"
+"            Email marketing board for mailing delivery: drafts and queue,\n"
+"            sent campaigns, delivered and opened traces, open rate, bounce\n"
+"            backlog, send trends, campaign and status analytics, and a\n"
+"            recent mailings list. Requires Email Marketing.\n"
+"        "
+msgstr ""
+
+#. module: boardkit_dashboard_mass_mailing
+#: model:boardkit.dashboard,name:boardkit_dashboard_mass_mailing.dashboard_demo
+#: model:boardkit.dashboard.template,name:boardkit_dashboard_mass_mailing.template_email_marketing_overview
+msgid "Email Marketing Overview"
+msgstr ""
+
+#. module: boardkit_dashboard_mass_mailing
+#: model:boardkit.dashboard,description:boardkit_dashboard_mass_mailing.dashboard_demo
+msgid "Mailing delivery, engagement traces and campaign analytics."
+msgstr ""
