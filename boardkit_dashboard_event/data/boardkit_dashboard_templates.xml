@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="template_event_overview" model="boardkit.dashboard.template">
+        <field name="name">Event Overview</field>
+        <field name="key">event_overview</field>
+        <field name="sequence">35</field>
+        <field name="description">
+            Events board for portfolio and attendance: upcoming and ongoing
+            events, registrations, attendance rate, cancelled attendees,
+            trends, stage and status analytics, and a recent events list.
+            Requires Events.
+        </field>
+        <field name="group_ids" eval="[(4, ref('event.group_event_user'))]" />
+        <field name="payload">
+{
+  "version": 1,
+  "dashboards": [
+    {
+      "name": "Event Overview",
+      "description": "Event portfolio, registrations, attendance and stage analytics.",
+      "tags": [
+        "Events"
+      ],
+      "date_filter": "this_month",
+      "refresh_interval": "0",
+      "items": [
+        {
+          "name": "Upcoming Events",
+          "item_type": "tile",
+          "model": "event.event",
+          "aggregation": "count",
+          "icon": "fa-calendar",
+          "domain": "[('active', '=', True), ('date_begin', '&gt;', context_today())]",
+          "layout": {
+            "x": 0,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 0
+        },
+        {
+          "name": "Ongoing Events",
+          "item_type": "tile",
+          "model": "event.event",
+          "aggregation": "count",
+          "icon": "fa-play-circle",
+          "domain": "[('active', '=', True), ('is_ongoing', '=', True)]",
+          "layout": {
+            "x": 3,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 1
+        },
+        {
+          "name": "Finished Events",
+          "item_type": "tile",
+          "model": "event.event",
+          "aggregation": "count",
+          "icon": "fa-flag-checkered",
+          "compare_previous_period": true,
+          "domain": "[('is_finished', '=', True)]",
+          "date_field_id": "date_end",
+          "layout": {
+            "x": 6,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 2
+        },
+        {
+          "name": "Registrations",
+          "item_type": "tile",
+          "model": "event.registration",
+          "aggregation": "count",
+          "icon": "fa-ticket",
+          "compare_previous_period": true,
+          "domain": "[('active', '=', True), ('state', 'in', ['open', 'done'])]",
+          "date_field_id": "create_date",
+          "layout": {
+            "x": 9,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 3
+        },
+        {
+          "name": "Attendance Rate",
+          "item_type": "kpi",
+          "model": "event.registration",
+          "aggregation": "count",
+          "kpi_mode": "comparison",
+          "kpi_display": "percent",
+          "domain": "[('active', '=', True), ('state', '=', 'done')]",
+          "model_2": "event.registration",
+          "aggregation_2": "count",
+          "domain_2": "[('active', '=', True), ('state', 'in', ['open', 'done'])]",
+          "date_field_id": "date_closed",
+          "date_field_2_id": "create_date",
+          "layout": {
+            "x": 0,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 4
+        },
+        {
+          "name": "Registrations Target",
+          "item_type": "gauge",
+          "model": "event.registration",
+          "aggregation": "count",
+          "target_enabled": true,
+          "target_value": 40,
+          "gauge_max": 50,
+          "domain": "[('active', '=', True), ('state', 'in', ['open', 'done'])]",
+          "date_field_id": "create_date",
+          "layout": {
+            "x": 3,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 5
+        },
+        {
+          "name": "Attended",
+          "item_type": "tile",
+          "model": "event.registration",
+          "aggregation": "count",
+          "icon": "fa-check-square-o",
+          "compare_previous_period": true,
+          "domain": "[('active', '=', True), ('state', '=', 'done')]",
+          "date_field_id": "date_closed",
+          "layout": {
+            "x": 6,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 6
+        },
+        {
+          "name": "Cancelled",
+          "item_type": "tile",
+          "model": "event.registration",
+          "aggregation": "count",
+          "icon": "fa-ban",
+          "domain": "[('state', '=', 'cancel')]",
+          "layout": {
+            "x": 9,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 7
+        },
+        {
+          "name": "Registrations per Month",
+          "item_type": "area",
+          "model": "event.registration",
+          "aggregation": "count",
+          "group_by_field_id": "create_date",
+          "group_by_granularity": "month",
+          "date_field_id": "create_date",
+          "chart_sort": "label_asc",
+          "show_trend_line": true,
+          "domain": "[('active', '=', True), ('state', '!=', 'cancel')]",
+          "layout": {
+            "x": 0,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 8
+        },
+        {
+          "name": "Top Events by Registrations",
+          "item_type": "bar_horizontal",
+          "model": "event.registration",
+          "aggregation": "count",
+          "group_by_field_id": "event_id",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "domain": "[('active', '=', True), ('state', 'in', ['open', 'done'])]",
+          "date_field_id": "create_date",
+          "layout": {
+            "x": 6,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 9
+        },
+        {
+          "name": "Events by Stage",
+          "item_type": "doughnut",
+          "model": "event.event",
+          "aggregation": "count",
+          "group_by_field_id": "stage_id",
+          "chart_sort": "value_desc",
+          "domain": "[('active', '=', True)]",
+          "date_field_id": "date_begin",
+          "layout": {
+            "x": 0,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 10
+        },
+        {
+          "name": "Registrations by Status",
+          "item_type": "bar",
+          "model": "event.registration",
+          "aggregation": "count",
+          "group_by_field_id": "state",
+          "chart_sort": "value_desc",
+          "domain": "[]",
+          "date_field_id": "create_date",
+          "layout": {
+            "x": 6,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 11
+        },
+        {
+          "name": "Recent Events",
+          "item_type": "list",
+          "model": "event.event",
+          "list_type": "plain",
+          "sort_field_id": "date_begin",
+          "sort_field_model": "event.event",
+          "sort_dir": "desc",
+          "page_size": 10,
+          "list_columns": [
+            "name",
+            "date_begin",
+            "date_end",
+            "stage_id",
+            "user_id",
+            "organizer_id",
+            "address_id",
+            "seats_max"
+          ],
+          "domain": "[('active', '=', True)]",
+          "date_field_id": "date_begin",
+          "layout": {
+            "x": 0,
+            "y": 12,
+            "w": 12,
+            "h": 5
+          },
+          "index": 12
+        }
+      ],
+      "filters": [
+        {
+          "name": "My Events",
+          "sequence": 10,
+          "model": "event.event",
+          "domain": "[('user_id', '=', uid)]",
+          "default_enabled": false
+        },
+        {
+          "name": "Upcoming",
+          "sequence": 20,
+          "model": "event.event",
+          "domain": "[('active', '=', True), ('date_begin', '&gt;', context_today())]",
+          "default_enabled": false
+        },
+        {
+          "name": "Ongoing",
+          "sequence": 30,
+          "model": "event.event",
+          "domain": "[('active', '=', True), ('is_ongoing', '=', True)]",
+          "default_enabled": false
+        },
+        {
+          "name": "Registered Attendees",
+          "sequence": 40,
+          "model": "event.registration",
+          "domain": "[('active', '=', True), ('state', 'in', ['open', 'done'])]",
+          "default_enabled": false
+        }
+      ]
+    }
+  ]
+}
+        </field>
+    </record>
+</odoo>
