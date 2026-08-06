@@ -1,0 +1,36 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_event
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_event
+#: model:boardkit.dashboard.template,description:boardkit_dashboard_event.template_event_overview
+msgid ""
+"\n"
+"            Events board for portfolio and attendance: upcoming and ongoing\n"
+"            events, registrations, attendance rate, cancelled attendees,\n"
+"            trends, stage and status analytics, and a recent events list.\n"
+"            Requires Events.\n"
+"        "
+msgstr ""
+
+#. module: boardkit_dashboard_event
+#: model:boardkit.dashboard,name:boardkit_dashboard_event.dashboard_demo
+#: model:boardkit.dashboard.template,name:boardkit_dashboard_event.template_event_overview
+msgid "Event Overview"
+msgstr ""
+
+#. module: boardkit_dashboard_event
+#: model:boardkit.dashboard,description:boardkit_dashboard_event.dashboard_demo
+msgid "Event portfolio, registrations, attendance and stage analytics."
+msgstr ""
