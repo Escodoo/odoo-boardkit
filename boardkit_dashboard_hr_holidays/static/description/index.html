@@ -1,456 +1,685 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
-<title>Boardkit Dashboard Time Off</title>
-<style type="text/css">
-
-/*
-:Author: David Goodger (goodger@python.org)
-:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
-:Copyright: This stylesheet has been placed in the public domain.
-
-Default cascading style sheet for the HTML output of Docutils.
-Despite the name, some widely supported CSS2 features are used.
-
-See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
-customize this style sheet.
-*/
-
-/* used to remove borders from tables and images */
-.borderless, table.borderless td, table.borderless th {
-  border: 0 }
-
-table.borderless td, table.borderless th {
-  /* Override padding for "table.docutils td" with "! important".
-     The right padding separates the table cells. */
-  padding: 0 0.5em 0 0 ! important }
-
-.first {
-  /* Override more specific margin styles with "! important". */
-  margin-top: 0 ! important }
-
-.last, .with-subtitle {
-  margin-bottom: 0 ! important }
-
-.hidden {
-  display: none }
-
-.subscript {
-  vertical-align: sub;
-  font-size: smaller }
-
-.superscript {
-  vertical-align: super;
-  font-size: smaller }
-
-a.toc-backref {
-  text-decoration: none ;
-  color: black }
-
-blockquote.epigraph {
-  margin: 2em 5em ; }
-
-dl.docutils dd {
-  margin-bottom: 0.5em }
-
-object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
-  overflow: hidden;
-}
-
-/* Uncomment (and remove this text!) to get bold-faced definition list terms
-dl.docutils dt {
-  font-weight: bold }
-*/
-
-div.abstract {
-  margin: 2em 5em }
-
-div.abstract p.topic-title {
-  font-weight: bold ;
-  text-align: center }
-
-div.admonition, div.attention, div.caution, div.danger, div.error,
-div.hint, div.important, div.note, div.tip, div.warning {
-  margin: 2em ;
-  border: medium outset ;
-  padding: 1em }
-
-div.admonition p.admonition-title, div.hint p.admonition-title,
-div.important p.admonition-title, div.note p.admonition-title,
-div.tip p.admonition-title {
-  font-weight: bold ;
-  font-family: sans-serif }
-
-div.attention p.admonition-title, div.caution p.admonition-title,
-div.danger p.admonition-title, div.error p.admonition-title,
-div.warning p.admonition-title, .code .error {
-  color: red ;
-  font-weight: bold ;
-  font-family: sans-serif }
-
-/* Uncomment (and remove this text!) to get reduced vertical space in
-   compound paragraphs.
-div.compound .compound-first, div.compound .compound-middle {
-  margin-bottom: 0.5em }
-
-div.compound .compound-last, div.compound .compound-middle {
-  margin-top: 0.5em }
-*/
-
-div.dedication {
-  margin: 2em 5em ;
-  text-align: center ;
-  font-style: italic }
-
-div.dedication p.topic-title {
-  font-weight: bold ;
-  font-style: normal }
-
-div.figure {
-  margin-left: 2em ;
-  margin-right: 2em }
-
-div.footer, div.header {
-  clear: both;
-  font-size: smaller }
-
-div.line-block {
-  display: block ;
-  margin-top: 1em ;
-  margin-bottom: 1em }
-
-div.line-block div.line-block {
-  margin-top: 0 ;
-  margin-bottom: 0 ;
-  margin-left: 1.5em }
-
-div.sidebar {
-  margin: 0 0 0.5em 1em ;
-  border: medium outset ;
-  padding: 1em ;
-  background-color: #ffffee ;
-  width: 40% ;
-  float: right ;
-  clear: right }
-
-div.sidebar p.rubric {
-  font-family: sans-serif ;
-  font-size: medium }
-
-div.system-messages {
-  margin: 5em }
-
-div.system-messages h1 {
-  color: red }
-
-div.system-message {
-  border: medium outset ;
-  padding: 1em }
-
-div.system-message p.system-message-title {
-  color: red ;
-  font-weight: bold }
-
-div.topic {
-  margin: 2em }
-
-h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
-h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
-  margin-top: 0.4em }
-
-h1.title {
-  text-align: center }
-
-h2.subtitle {
-  text-align: center }
-
-hr.docutils {
-  width: 75% }
-
-img.align-left, .figure.align-left, object.align-left, table.align-left {
-  clear: left ;
-  float: left ;
-  margin-right: 1em }
-
-img.align-right, .figure.align-right, object.align-right, table.align-right {
-  clear: right ;
-  float: right ;
-  margin-left: 1em }
-
-img.align-center, .figure.align-center, object.align-center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-table.align-center {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.align-left {
-  text-align: left }
-
-.align-center {
-  clear: both ;
-  text-align: center }
-
-.align-right {
-  text-align: right }
-
-/* reset inner alignment in figures */
-div.align-right {
-  text-align: inherit }
-
-/* div.align-center * { */
-/*   text-align: left } */
-
-.align-top    {
-  vertical-align: top }
-
-.align-middle {
-  vertical-align: middle }
-
-.align-bottom {
-  vertical-align: bottom }
-
-ol.simple, ul.simple {
-  margin-bottom: 1em }
-
-ol.arabic {
-  list-style: decimal }
-
-ol.loweralpha {
-  list-style: lower-alpha }
-
-ol.upperalpha {
-  list-style: upper-alpha }
-
-ol.lowerroman {
-  list-style: lower-roman }
-
-ol.upperroman {
-  list-style: upper-roman }
-
-p.attribution {
-  text-align: right ;
-  margin-left: 50% }
-
-p.caption {
-  font-style: italic }
-
-p.credits {
-  font-style: italic ;
-  font-size: smaller }
-
-p.label {
-  white-space: nowrap }
-
-p.rubric {
-  font-weight: bold ;
-  font-size: larger ;
-  color: maroon ;
-  text-align: center }
-
-p.sidebar-title {
-  font-family: sans-serif ;
-  font-weight: bold ;
-  font-size: larger }
-
-p.sidebar-subtitle {
-  font-family: sans-serif ;
-  font-weight: bold }
-
-p.topic-title {
-  font-weight: bold }
-
-pre.address {
-  margin-bottom: 0 ;
-  margin-top: 0 ;
-  font: inherit }
-
-pre.literal-block, pre.doctest-block, pre.math, pre.code {
-  margin-left: 2em ;
-  margin-right: 2em }
-
-pre.code .ln { color: gray; } /* line numbers */
-pre.code, code { background-color: #eeeeee }
-pre.code .comment, code .comment { color: #5C6576 }
-pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
-pre.code .literal.string, code .literal.string { color: #0C5404 }
-pre.code .name.builtin, code .name.builtin { color: #352B84 }
-pre.code .deleted, code .deleted { background-color: #DEB0A1}
-pre.code .inserted, code .inserted { background-color: #A3D289}
-
-span.classifier {
-  font-family: sans-serif ;
-  font-style: oblique }
-
-span.classifier-delimiter {
-  font-family: sans-serif ;
-  font-weight: bold }
-
-span.interpreted {
-  font-family: sans-serif }
-
-span.option {
-  white-space: nowrap }
-
-span.pre {
-  white-space: pre }
-
-span.problematic, pre.problematic {
-  color: red }
-
-span.section-subtitle {
-  /* font-size relative to parent (h1..h6 element) */
-  font-size: 80% }
-
-table.citation {
-  border-left: solid 1px gray;
-  margin-left: 1px }
-
-table.docinfo {
-  margin: 2em 4em }
-
-table.docutils {
-  margin-top: 0.5em ;
-  margin-bottom: 0.5em }
-
-table.footnote {
-  border-left: solid 1px black;
-  margin-left: 1px }
-
-table.docutils td, table.docutils th,
-table.docinfo td, table.docinfo th {
-  padding-left: 0.5em ;
-  padding-right: 0.5em ;
-  vertical-align: top }
-
-table.docutils th.field-name, table.docinfo th.docinfo-name {
-  font-weight: bold ;
-  text-align: left ;
-  white-space: nowrap ;
-  padding-left: 0 }
-
-/* "booktabs" style (no vertical lines) */
-table.docutils.booktabs {
-  border: 0px;
-  border-top: 2px solid;
-  border-bottom: 2px solid;
-  border-collapse: collapse;
-}
-table.docutils.booktabs * {
-  border: 0px;
-}
-table.docutils.booktabs th {
-  border-bottom: thin solid;
-  text-align: left;
-}
-
-h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
-h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
-  font-size: 100% }
-
-ul.auto-toc {
-  list-style-type: none }
-
-</style>
-</head>
-<body>
-<div class="document" id="boardkit-dashboard-time-off">
-<h1 class="title">Boardkit Dashboard Time Off</h1>
-
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!! This file is generated by oca-gen-addon-readme !!
-!! changes will be overwritten.                   !!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!! source digest: sha256:26a7b38174235d6628a81cdf1bba256bd93cca91baca75fb2c4b79e1f6c558d3
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/Escodoo/odoo-boardkit/tree/18.0/boardkit_dashboard_hr_holidays"><img alt="Escodoo/odoo-boardkit" src="https://img.shields.io/badge/github-Escodoo%2Fodoo--boardkit-lightgray.png?logo=github" /></a></p>
-<p>Time Off overview dashboard template for Boardkit.</p>
-<p>Adds a curated <strong>Time Off Overview</strong> template that managers can
-instantiate from <em>From template</em> in the Boards catalogue. The board is
-built on <tt class="docutils literal">hr.leave</tt> and lands unpublished so it can be reviewed before
-users see it.</p>
-<p>It focuses on leave request health: to-approve and second-approval
-backlogs, approved and refused counts, days off totals, approval rate,
-employees currently on leave, monthly trends, leave type and department
-breakdowns, and a recent requests list. Toggle filters cover my leaves,
-my team, to approve and approved.</p>
-<p><img alt="Time Off Overview" src="https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard_hr_holidays/static/description/images/boardkit-time-off-overview.png" /></p>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#usage" id="toc-entry-1">Usage</a></li>
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-2">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-3">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-4">Authors</a></li>
-<li><a class="reference internal" href="#contributors" id="toc-entry-5">Contributors</a></li>
-<li><a class="reference internal" href="#other-credits" id="toc-entry-6">Other credits</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-7">Maintainers</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="section" id="usage">
-<h1><a class="toc-backref" href="#toc-entry-1">Usage</a></h1>
-<p>Install this module (it auto-installs when Boardkit Dashboard and Time
-Off are both installed).</p>
-<p>As a Dashboard Manager, open <em>All Dashboards &gt; Boards</em>, click <em>From
-template</em>, and choose <strong>Time Off Overview</strong>. Optionally rename the board
-in the wizard.</p>
-<p>The board opens with the date filter on <em>This Month</em>. Live backlog tiles
-(To Approve, Second Approval, Currently On Leave) ignore that filter so
-they always show the current queue. Approved, refused and days-off
-metrics use <em>Start Date</em> and follow the date filter. Use the toggle
-filters (My Leaves, My Team, To Approve, Approved) to narrow the other
-cards.</p>
-<p>When installed with demo data, a published board is created from this
-template and placed first (sequence <tt class="docutils literal"><span class="pre">-1</span></tt>) under the related app menu.</p>
-</div>
-<div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-2">Bug Tracker</a></h1>
-<p>Bugs are tracked on <a class="reference external" href="https://github.com/Escodoo/odoo-boardkit/issues">GitHub Issues</a>.
-In case of trouble, please check there if your issue has already been reported.
-If you spotted it first, help us to smash it by providing a detailed and welcomed
-<a class="reference external" href="https://github.com/Escodoo/odoo-boardkit/issues/new?body=module:%20boardkit_dashboard_hr_holidays%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
-<p>Do not contact contributors directly about support or help with technical issues.</p>
-</div>
-<div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-3">Credits</a></h1>
-<div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-4">Authors</a></h2>
-<ul class="simple">
-<li>Escodoo</li>
-</ul>
-</div>
-<div class="section" id="contributors">
-<h2><a class="toc-backref" href="#toc-entry-5">Contributors</a></h2>
-<ul class="simple">
-<li><a class="reference external" href="https://www.escodoo.com.br">Escodoo</a>:<ul>
-<li>Marcel Savegnago &lt;<a class="reference external" href="mailto:marcel.savegnago&#64;escodoo.com.br">marcel.savegnago&#64;escodoo.com.br</a>&gt;</li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="section" id="other-credits">
-<h2><a class="toc-backref" href="#toc-entry-6">Other credits</a></h2>
-<p>The development of this module has been financially supported by:</p>
-<ul class="simple">
-<li>Escodoo - <a class="reference external" href="https://escodoo.com.br">https://escodoo.com.br</a></li>
-</ul>
-</div>
-<div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-7">Maintainers</a></h2>
-<p>Current maintainer:</p>
-<p><a class="reference external image-reference" href="https://github.com/marcelsavegnago"><img alt="marcelsavegnago" src="https://github.com/marcelsavegnago.png?size=40px" /></a></p>
-<p>This module is part of the <a class="reference external" href="https://github.com/Escodoo/odoo-boardkit/tree/18.0/boardkit_dashboard_hr_holidays">Escodoo/odoo-boardkit</a> project on GitHub.</p>
-<p>You are welcome to contribute.</p>
-</div>
-</div>
-</div>
-</body>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Boardkit Dashboard Time Off</title>
+    <style>
+
+      :root {
+        --bk-violet-950: #2e1065;
+        --bk-violet-900: #4c1d95;
+        --bk-violet-800: #5b21b6;
+        --bk-violet-700: #6d28d9;
+        --bk-violet-600: #7c3aed;
+        --bk-violet-500: #8b5cf6;
+        --bk-violet-400: #a78bfa;
+        --bk-violet-300: #c4b5fd;
+        --bk-violet-100: #ede9fe;
+        --bk-violet-50: #f5f3ff;
+        --bk-ink: #1e1b4b;
+        --bk-muted: #64748b;
+        --bk-line: #e2e8f0;
+        --bk-bg: #f8fafc;
+        --bk-white: #ffffff;
+        --bk-radius: 16px;
+        --bk-shadow: 0 12px 40px rgba(76, 29, 149, 0.12);
+      }
+
+      * { box-sizing: border-box; }
+
+      body.bk-store {
+        margin: 0;
+        padding: 0;
+        color: var(--bk-ink);
+        background: var(--bk-bg);
+        font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
+          "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.55;
+        font-size: 16px;
+      }
+
+      .bk-wrap {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 24px 16px 48px;
+      }
+
+      .bk-card {
+        background: var(--bk-white);
+        border-radius: 24px;
+        box-shadow: var(--bk-shadow);
+        overflow: hidden;
+      }
+
+      .bk-banner { display: block; width: 100%; height: auto; }
+
+      .bk-section {
+        padding: 40px 36px;
+        border-top: 1px solid var(--bk-line);
+      }
+
+      .bk-section:first-of-type { border-top: 0; }
+
+      .bk-eyebrow {
+        display: inline-block;
+        margin: 0 0 10px;
+        padding: 4px 12px;
+        border-radius: 999px;
+        background: var(--bk-violet-100);
+        color: var(--bk-violet-800);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      h1.bk-title {
+        margin: 0 0 12px;
+        font-size: clamp(1.75rem, 3vw, 2.35rem);
+        line-height: 1.15;
+        color: var(--bk-violet-950);
+      }
+
+      h2.bk-h2 {
+        margin: 0 0 10px;
+        font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+        color: var(--bk-violet-950);
+      }
+
+      .bk-lead {
+        margin: 0;
+        max-width: 48rem;
+        color: var(--bk-muted);
+        font-size: 1.05rem;
+      }
+
+      .bk-hero-text {
+        background: linear-gradient(
+          135deg,
+          var(--bk-violet-50) 0%,
+          var(--bk-white) 55%,
+          #eef2ff 100%
+        );
+      }
+
+      .bk-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 20px;
+      }
+
+      .bk-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: var(--bk-white);
+        border: 1px solid var(--bk-violet-300);
+        color: var(--bk-violet-900);
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .bk-pill-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--bk-violet-500);
+      }
+
+      .bk-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-top: 24px;
+      }
+
+      @media (min-width: 760px) {
+        .bk-grid-2 { grid-template-columns: 1fr 1fr; }
+      }
+
+      .bk-shot {
+        margin: 0;
+        background: var(--bk-violet-50);
+        border: 1px solid var(--bk-violet-100);
+        border-radius: var(--bk-radius);
+        overflow: hidden;
+      }
+
+      .bk-shot img { display: block; width: 100%; height: auto; }
+
+      .bk-shot figcaption {
+        padding: 12px 14px 14px;
+        font-size: 13px;
+        color: var(--bk-muted);
+      }
+
+      .bk-shot figcaption strong {
+        display: block;
+        margin-bottom: 2px;
+        color: var(--bk-violet-900);
+        font-size: 14px;
+      }
+
+      .bk-shot-wide { grid-column: 1 / -1; }
+
+      .bk-features {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+        margin-top: 24px;
+      }
+
+      @media (min-width: 700px) {
+        .bk-features { grid-template-columns: 1fr 1fr; }
+      }
+
+      @media (min-width: 980px) {
+        .bk-features { grid-template-columns: 1fr 1fr 1fr; }
+      }
+
+      .bk-feature {
+        padding: 18px 18px 16px;
+        border-radius: 14px;
+        border: 1px solid var(--bk-line);
+        background: linear-gradient(
+          180deg,
+          var(--bk-white) 0%,
+          var(--bk-violet-50) 100%
+        );
+      }
+
+      .bk-feature-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        background: linear-gradient(
+          135deg,
+          var(--bk-violet-700),
+          var(--bk-violet-500)
+        );
+        color: var(--bk-white);
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .bk-feature h3 {
+        margin: 0 0 6px;
+        font-size: 15px;
+        color: var(--bk-violet-950);
+      }
+
+      .bk-feature p {
+        margin: 0;
+        font-size: 13.5px;
+        color: var(--bk-muted);
+      }
+
+      .bk-palettes {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-top: 22px;
+      }
+
+      @media (min-width: 700px) {
+        .bk-palettes { grid-template-columns: 1fr 1fr; }
+      }
+
+      .bk-palette {
+        padding: 14px 14px 12px;
+        border-radius: 14px;
+        border: 1px solid var(--bk-line);
+        background: var(--bk-white);
+      }
+
+      .bk-palette-name {
+        margin: 0 0 10px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--bk-violet-900);
+      }
+
+      .bk-swatches {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .bk-swatch {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+      }
+
+      .bk-list {
+        margin: 18px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .bk-list li {
+        position: relative;
+        padding: 10px 0 10px 28px;
+        border-bottom: 1px solid var(--bk-line);
+        color: var(--bk-muted);
+        font-size: 14.5px;
+      }
+
+      .bk-list li:last-child { border-bottom: 0; }
+
+      .bk-list li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 16px;
+        width: 14px;
+        height: 14px;
+        border-radius: 4px;
+        background: linear-gradient(
+          135deg,
+          var(--bk-violet-600),
+          var(--bk-violet-400)
+        );
+      }
+
+      .bk-list li strong { color: var(--bk-violet-950); }
+
+      .bk-cta {
+        background: linear-gradient(
+          135deg,
+          var(--bk-violet-900) 0%,
+          var(--bk-violet-700) 55%,
+          var(--bk-violet-500) 100%
+        );
+        color: var(--bk-white);
+        text-align: center;
+      }
+
+      .bk-cta h2 {
+        margin: 0 0 10px;
+        color: var(--bk-white);
+        font-size: clamp(1.3rem, 2vw, 1.7rem);
+      }
+
+      .bk-cta p {
+        margin: 0 auto;
+        max-width: 40rem;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .bk-cta-meta {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .bk-cta-badge {
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.14);
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        color: var(--bk-white);
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .bk-note {
+        margin-top: 18px;
+        padding: 14px 16px;
+        border-radius: 12px;
+        background: var(--bk-violet-50);
+        border: 1px solid var(--bk-violet-100);
+        color: var(--bk-muted);
+        font-size: 13.5px;
+      }
+
+      .bk-note strong { color: var(--bk-violet-900); }
+
+      .bk-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 18px;
+      }
+
+      .bk-tag {
+        padding: 6px 11px;
+        border-radius: 999px;
+        background: var(--bk-violet-50);
+        border: 1px solid var(--bk-violet-100);
+        color: var(--bk-violet-900);
+        font-size: 12.5px;
+        font-weight: 600;
+      }
+
+      .bk-tag-muted {
+        background: var(--bk-white);
+        border-color: var(--bk-line);
+        color: var(--bk-muted);
+        font-weight: 500;
+      }
+
+      .bk-highlight {
+        margin-top: 18px;
+        padding: 16px 18px;
+        border-radius: 14px;
+        background: linear-gradient(
+          135deg,
+          var(--bk-violet-900),
+          var(--bk-violet-600)
+        );
+        color: var(--bk-white);
+      }
+
+      .bk-highlight strong {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 15px;
+      }
+
+      .bk-highlight p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 13.5px;
+      }
+
+      code {
+        font-size: 0.92em;
+        background: var(--bk-violet-50);
+        padding: 1px 5px;
+        border-radius: 4px;
+      }
+
+    </style>
+  </head>
+  <body class="bk-store">
+    <div class="bk-wrap">
+      <div class="bk-card">
+        <img
+          class="bk-banner"
+          src="banner.png"
+          alt="Boardkit Dashboard Time Off — BoardKit dashboard template for Odoo"
+        />
+
+        <section class="bk-section bk-hero-text">
+          <span class="bk-eyebrow">Escodoo · Template · HR</span>
+          <h1 class="bk-title">Boardkit Dashboard Time Off</h1>
+          <p class="bk-lead">
+            Adds a curated <strong>Time Off Overview</strong> template that managers can instantiate from <em>From template</em> in the Boards catalogue. The board is built on <code>hr.leave</code> and lands unpublished so it can be reviewed before users see it. It focuses on leave request health: to-approve and second-approval backlogs, approved and refused counts, days off totals, approval rate, employees currently on leave, monthly trends, leave type and department breakdowns, and a recent requests list. Toggle filters cover my…
+          </p>
+          <div class="bk-pills">
+            <span class="bk-pill"
+              ><span class="bk-pill-dot"></span>Built on hr.leave</span
+            >
+            <span class="bk-pill"
+              ><span class="bk-pill-dot"></span>From template wizard</span
+            >
+            <span class="bk-pill"
+              ><span class="bk-pill-dot"></span>BoardKit Dashboard</span
+            >
+            <span class="bk-pill"
+              ><span class="bk-pill-dot"></span>Auto-install with hr_holidays</span
+            >
+          </div>
+        </section>
+
+        <section class="bk-section">
+          <span class="bk-eyebrow">Screenshots</span>
+          <h2 class="bk-h2">Time Off Overview in action</h2>
+          <p class="bk-lead">
+            A curated board for this domain — same BoardKit engine, with palette
+            flexibility so visuals match your brand.
+          </p>
+
+          <div class="bk-grid-2">
+            <figure class="bk-shot bk-shot-wide">
+              <img
+                src="images/boardkit-time-off-overview.png"
+                alt="Time Off Overview dashboard with Boardkit Brand palette"
+              />
+              <figcaption>
+                <strong>Time Off Overview · Boardkit Brand</strong>
+                Time Off overview dashboard template for Boardkit on the BoardKit grid.
+              </figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="bk-section">
+          <span class="bk-eyebrow">BoardKit Dashboard</span>
+          <h2 class="bk-h2">Built on the BoardKit engine</h2>
+          <p class="bk-lead">
+            This module is a <strong>template pack</strong> for
+            <strong>BoardKit Dashboard</strong> — the open-source engine that
+            builds analytic boards on any Odoo model with tiles, KPIs, gauges,
+            charts, maps, lists, drill-down, filters, layouts and export.
+          </p>
+          <ul class="bk-list">
+            <li>
+              <strong>Install the core once</strong> — then add the template
+              modules you need; most auto-install when their app dependency is
+              present.
+            </li>
+            <li>
+              <strong>Same UX everywhere</strong> — date filters, ad-hoc
+              filters, publish workflow and personal layouts work the same
+              across Sales, CRM, HR, Accounting and OCA apps.
+            </li>
+            <li>
+              <strong>Or start blank</strong> — create a board from scratch on
+              any model if a template is not enough.
+            </li>
+          </ul>
+          <div class="bk-note">
+            <strong>Requires BoardKit Dashboard.</strong> Find it on the same
+            repository / Apps listing as
+            <code>boardkit_dashboard</code>.
+          </div>
+        </section>
+
+        <section class="bk-section">
+          <span class="bk-eyebrow">Template catalogue</span>
+          <h2 class="bk-h2">Many more boards ready to install</h2>
+          <p class="bk-lead">
+            BoardKit already ships curated templates across Odoo apps and OCA
+            projects. Install only what you use — each module adds boards you
+            can instantiate from <em>From template</em>.
+          </p>
+          <div class="bk-tags">
+            <span class="bk-tag">Sales</span>
+            <span class="bk-tag">CRM</span>
+            <span class="bk-tag">Purchase</span>
+            <span class="bk-tag">Inventory</span>
+            <span class="bk-tag">Manufacturing</span>
+            <span class="bk-tag">Project</span>
+            <span class="bk-tag">Repair</span>
+            <span class="bk-tag">Fleet</span>
+            <span class="bk-tag">Maintenance</span>
+            <span class="bk-tag">Invoicing</span>
+            <span class="bk-tag">HR &amp; Timesheets</span>
+            <span class="bk-tag">Attendance</span>
+            <span class="bk-tag">Time Off</span>
+            <span class="bk-tag">Expenses</span>
+            <span class="bk-tag">Recruitment</span>
+            <span class="bk-tag">Payroll</span>
+            <span class="bk-tag">Email Marketing</span>
+            <span class="bk-tag">Surveys</span>
+            <span class="bk-tag">Events</span>
+            <span class="bk-tag">My Day (Mail)</span>
+            <span class="bk-tag bk-tag-muted">Helpdesk (OCA)</span>
+            <span class="bk-tag bk-tag-muted">Field Service (OCA)</span>
+            <span class="bk-tag bk-tag-muted">Contract (OCA)</span>
+            <span class="bk-tag bk-tag-muted">Agreement (OCA)</span>
+            <span class="bk-tag bk-tag-muted">RMA (OCA)</span>
+            <span class="bk-tag bk-tag-muted">Purchase Request (OCA)</span>
+            <span class="bk-tag bk-tag-muted">Stock Request (OCA)</span>
+            <span class="bk-tag bk-tag-muted">Brazilian Fiscal (OCA)</span>
+          </div>
+          <div class="bk-note">
+            <strong>Growing catalogue.</strong> New template modules follow the
+            same pattern: curated items, toggle filters and a demo board when
+            demo data is installed.
+          </div>
+        </section>
+
+        <section class="bk-section">
+          <span class="bk-eyebrow">On the board</span>
+          <h2 class="bk-h2">What managers get out of the box</h2>
+          <div class="bk-features">
+            <div class="bk-feature">
+              <div class="bk-feature-icon">1</div>
+              <h3>To-approve</h3>
+              <p>To-approve.</p>
+            </div>
+            <div class="bk-feature">
+              <div class="bk-feature-icon">2</div>
+              <h3>Second-approval backlogs</h3>
+              <p>Second-approval backlogs.</p>
+            </div>
+            <div class="bk-feature">
+              <div class="bk-feature-icon">3</div>
+              <h3>Approved</h3>
+              <p>Approved.</p>
+            </div>
+            <div class="bk-feature">
+              <div class="bk-feature-icon">4</div>
+              <h3>Refused counts</h3>
+              <p>Refused counts.</p>
+            </div>
+            <div class="bk-feature">
+              <div class="bk-feature-icon">5</div>
+              <h3>Days off totals</h3>
+              <p>Days off totals.</p>
+            </div>
+            <div class="bk-feature">
+              <div class="bk-feature-icon">6</div>
+              <h3>Approval rate</h3>
+              <p>Approval rate.</p>
+            </div>
+          </div>
+
+          <ul class="bk-list">
+            <li>
+              <strong>From template</strong> — instantiate from the Boards
+              catalogue; the board lands unpublished until you review it.
+            </li>
+            <li>
+              <strong>Demo board</strong> — with demo data, a published board is
+              created and placed under the related app menu.
+            </li>
+            <li>
+              <strong>Fully editable</strong> — after instantiation, rearrange
+              the grid, add items or change measures like any BoardKit board.
+            </li>
+          </ul>
+
+          <div class="bk-note">
+            <strong>Security by design.</strong> Data is always read with the
+            current user's ACLs and record rules on <code>hr.leave</code>.
+          </div>
+        </section>
+
+        <section class="bk-section">
+          <span class="bk-eyebrow">Color systems</span>
+          <h2 class="bk-h2">Presets and fully custom palettes</h2>
+          <p class="bk-lead">
+            Every BoardKit board can use a built-in preset or a
+            <strong>custom color palette</strong> you define — your brand colors
+            on tiles and charts, without touching the template layout.
+          </p>
+
+          <div class="bk-highlight">
+            <strong>Custom palettes</strong>
+            <p>
+              Create named palettes with your own hex colors and assign them at
+              board or item level. Ideal for agency branding, multi-company
+              themes or domain-specific accents.
+            </p>
+          </div>
+
+          <div class="bk-palettes">
+            <div class="bk-palette">
+              <p class="bk-palette-name">Boardkit Brand</p>
+              <div class="bk-swatches">
+                <span class="bk-swatch" style="background: #4c1d95"></span>
+                <span class="bk-swatch" style="background: #6d28d9"></span>
+                <span class="bk-swatch" style="background: #8b5cf6"></span>
+                <span class="bk-swatch" style="background: #a78bfa"></span>
+                <span class="bk-swatch" style="background: #c4b5fd"></span>
+              </div>
+            </div>
+            <div class="bk-palette">
+              <p class="bk-palette-name">Ocean</p>
+              <div class="bk-swatches">
+                <span class="bk-swatch" style="background: #056bd9"></span>
+                <span class="bk-swatch" style="background: #3188e6"></span>
+                <span class="bk-swatch" style="background: #4ea7f2"></span>
+                <span class="bk-swatch" style="background: #00a78d"></span>
+                <span class="bk-swatch" style="background: #43c5b1"></span>
+              </div>
+            </div>
+            <div class="bk-palette">
+              <p class="bk-palette-name">Sunset</p>
+              <div class="bk-swatches">
+                <span class="bk-swatch" style="background: #ce4257"></span>
+                <span class="bk-swatch" style="background: #ea6175"></span>
+                <span class="bk-swatch" style="background: #f48935"></span>
+                <span class="bk-swatch" style="background: #f4a261"></span>
+                <span class="bk-swatch" style="background: #ffbc2c"></span>
+              </div>
+            </div>
+            <div class="bk-palette">
+              <p class="bk-palette-name">Royal · Vivid · Earth · Pastel · …</p>
+              <div class="bk-swatches">
+                <span class="bk-swatch" style="background: #2c3e90"></span>
+                <span class="bk-swatch" style="background: #e53935"></span>
+                <span class="bk-swatch" style="background: #b08968"></span>
+                <span class="bk-swatch" style="background: #7eb5e8"></span>
+                <span
+                  class="bk-swatch"
+                  style="
+                    background: linear-gradient(
+                      90deg,
+                      #4c1d95,
+                      #8b5cf6,
+                      #c4b5fd
+                    );
+                  "
+                  title="Custom"
+                ></span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bk-section bk-cta">
+          <h2>Open source · AGPL-3 · Odoo 18</h2>
+          <p>
+            Compatible with Odoo Community and Enterprise. Pair
+            <strong>BoardKit Dashboard</strong> with this template — and with
+            Sales, CRM, HR, Stock, Accounting, OCA apps and more from the same
+            suite.
+          </p>
+          <div class="bk-cta-meta">
+            <span class="bk-cta-badge">escodoo.com.br</span>
+            <span class="bk-cta-badge">AGPL-3</span>
+            <span class="bk-cta-badge">Depends on hr_holidays</span>
+            <span class="bk-cta-badge">Custom palettes</span>
+          </div>
+        </section>
+      </div>
+    </div>
+  </body>
 </html>
