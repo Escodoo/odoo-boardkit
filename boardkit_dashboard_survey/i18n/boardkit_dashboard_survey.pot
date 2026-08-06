@@ -1,0 +1,36 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_survey
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_survey
+#: model:boardkit.dashboard.template,description:boardkit_dashboard_survey.template_survey_overview
+msgid ""
+"\n"
+"            Surveys board for response delivery: active surveys, completed and\n"
+"            in-progress answers, success rate, overdue invitations, trends,\n"
+"            survey and status analytics, and a recent answers list. Requires\n"
+"            Surveys.\n"
+"        "
+msgstr ""
+
+#. module: boardkit_dashboard_survey
+#: model:boardkit.dashboard,name:boardkit_dashboard_survey.dashboard_demo
+#: model:boardkit.dashboard.template,name:boardkit_dashboard_survey.template_survey_overview
+msgid "Survey Overview"
+msgstr ""
+
+#. module: boardkit_dashboard_survey
+#: model:boardkit.dashboard,description:boardkit_dashboard_survey.dashboard_demo
+msgid "Survey portfolio, completions, success rate and answer analytics."
+msgstr ""
