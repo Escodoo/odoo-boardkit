@@ -25,6 +25,13 @@
         groups="boardkit_dashboard.group_dashboard_manager"
     />
     <menuitem
+        id="menu_dashboard_settings"
+        name="Settings"
+        parent="menu_dashboard_config"
+        action="boardkit_dashboard_config_settings_action"
+        sequence="10"
+    />
+    <menuitem
         id="menu_dashboard_palettes"
         parent="menu_dashboard_config"
         action="boardkit_dashboard_palette_action"

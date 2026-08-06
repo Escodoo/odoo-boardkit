@@ -8,3 +8,5 @@ from . import boardkit_dashboard_layout
 from . import boardkit_dashboard_palette
 from . import boardkit_dashboard_tag
 from . import boardkit_dashboard_template
+from . import res_company
+from . import res_config_settings
