@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="template_email_marketing_overview" model="boardkit.dashboard.template">
+        <field name="name">Email Marketing Overview</field>
+        <field name="key">email_marketing_overview</field>
+        <field name="sequence">36</field>
+        <field name="description">
+            Email marketing board for mailing delivery: drafts and queue,
+            sent campaigns, delivered and opened traces, open rate, bounce
+            backlog, send trends, campaign and status analytics, and a
+            recent mailings list. Requires Email Marketing.
+        </field>
+        <field
+            name="group_ids"
+            eval="[(4, ref('mass_mailing.group_mass_mailing_user'))]"
+        />
+        <field name="payload">
+{
+  "version": 1,
+  "dashboards": [
+    {
+      "name": "Email Marketing Overview",
+      "description": "Mailing delivery, engagement traces and campaign analytics.",
+      "tags": [
+        "Email Marketing"
+      ],
+      "date_filter": "this_month",
+      "refresh_interval": "0",
+      "items": [
+        {
+          "name": "Draft Mailings",
+          "item_type": "tile",
+          "model": "mailing.mailing",
+          "aggregation": "count",
+          "icon": "fa-pencil-square-o",
+          "domain": "[('active', '=', True), ('state', '=', 'draft')]",
+          "layout": {
+            "x": 0,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 0
+        },
+        {
+          "name": "In Queue",
+          "item_type": "tile",
+          "model": "mailing.mailing",
+          "aggregation": "count",
+          "icon": "fa-clock-o",
+          "domain": "[('active', '=', True), ('state', 'in', ['in_queue', 'sending'])]",
+          "layout": {
+            "x": 3,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 1
+        },
+        {
+          "name": "Sent Mailings",
+          "item_type": "tile",
+          "model": "mailing.mailing",
+          "aggregation": "count",
+          "icon": "fa-paper-plane",
+          "compare_previous_period": true,
+          "domain": "[('state', '=', 'done')]",
+          "date_field_id": "sent_date",
+          "layout": {
+            "x": 6,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 2
+        },
+        {
+          "name": "Delivered",
+          "item_type": "tile",
+          "model": "mailing.trace",
+          "aggregation": "count",
+          "icon": "fa-envelope",
+          "compare_previous_period": true,
+          "domain": "[('trace_status', 'in', ['sent', 'open', 'reply'])]",
+          "date_field_id": "sent_datetime",
+          "layout": {
+            "x": 9,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 3
+        },
+        {
+          "name": "Open Rate",
+          "item_type": "kpi",
+          "model": "mailing.trace",
+          "aggregation": "count",
+          "kpi_mode": "comparison",
+          "kpi_display": "percent",
+          "domain": "[('trace_status', 'in', ['open', 'reply'])]",
+          "model_2": "mailing.trace",
+          "aggregation_2": "count",
+          "domain_2": "[('trace_status', 'in', ['sent', 'open', 'reply', 'bounce'])]",
+          "date_field_id": "open_datetime",
+          "date_field_2_id": "sent_datetime",
+          "layout": {
+            "x": 0,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 4
+        },
+        {
+          "name": "Sent Target",
+          "item_type": "gauge",
+          "model": "mailing.mailing",
+          "aggregation": "count",
+          "target_enabled": true,
+          "target_value": 10,
+          "gauge_max": 15,
+          "domain": "[('state', '=', 'done')]",
+          "date_field_id": "sent_date",
+          "layout": {
+            "x": 3,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 5
+        },
+        {
+          "name": "Opened",
+          "item_type": "tile",
+          "model": "mailing.trace",
+          "aggregation": "count",
+          "icon": "fa-eye",
+          "compare_previous_period": true,
+          "domain": "[('trace_status', 'in', ['open', 'reply'])]",
+          "date_field_id": "open_datetime",
+          "layout": {
+            "x": 6,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 6
+        },
+        {
+          "name": "Bounced",
+          "item_type": "tile",
+          "model": "mailing.trace",
+          "aggregation": "count",
+          "icon": "fa-exclamation-triangle",
+          "domain": "[('trace_status', '=', 'bounce')]",
+          "layout": {
+            "x": 9,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 7
+        },
+        {
+          "name": "Delivered per Month",
+          "item_type": "area",
+          "model": "mailing.trace",
+          "aggregation": "count",
+          "group_by_field_id": "sent_datetime",
+          "group_by_granularity": "month",
+          "date_field_id": "sent_datetime",
+          "chart_sort": "label_asc",
+          "show_trend_line": true,
+          "domain": "[('trace_status', 'in', ['sent', 'open', 'reply'])]",
+          "layout": {
+            "x": 0,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 8
+        },
+        {
+          "name": "Top Mailings by Opens",
+          "item_type": "bar_horizontal",
+          "model": "mailing.trace",
+          "aggregation": "count",
+          "group_by_field_id": "mass_mailing_id",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "domain": "[('trace_status', 'in', ['open', 'reply'])]",
+          "date_field_id": "open_datetime",
+          "layout": {
+            "x": 6,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 9
+        },
+        {
+          "name": "Traces by Status",
+          "item_type": "doughnut",
+          "model": "mailing.trace",
+          "aggregation": "count",
+          "group_by_field_id": "trace_status",
+          "chart_sort": "value_desc",
+          "domain": "[]",
+          "date_field_id": "sent_datetime",
+          "layout": {
+            "x": 0,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 10
+        },
+        {
+          "name": "Sent by Campaign",
+          "item_type": "bar",
+          "model": "mailing.mailing",
+          "aggregation": "count",
+          "group_by_field_id": "campaign_id",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "domain": "[('state', '=', 'done')]",
+          "date_field_id": "sent_date",
+          "layout": {
+            "x": 6,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 11
+        },
+        {
+          "name": "Recent Mailings",
+          "item_type": "list",
+          "model": "mailing.mailing",
+          "list_type": "plain",
+          "sort_field_id": "sent_date",
+          "sort_field_model": "mailing.mailing",
+          "sort_dir": "desc",
+          "page_size": 10,
+          "list_columns": [
+            "subject",
+            "state",
+            "sent_date",
+            "schedule_date",
+            "user_id",
+            "campaign_id",
+            "mailing_model_id",
+            "favorite"
+          ],
+          "domain": "[('active', '=', True)]",
+          "date_field_id": "sent_date",
+          "layout": {
+            "x": 0,
+            "y": 12,
+            "w": 12,
+            "h": 5
+          },
+          "index": 12
+        }
+      ],
+      "filters": [
+        {
+          "name": "My Mailings",
+          "sequence": 10,
+          "model": "mailing.mailing",
+          "domain": "[('user_id', '=', uid)]",
+          "default_enabled": false
+        },
+        {
+          "name": "Sent",
+          "sequence": 20,
+          "model": "mailing.mailing",
+          "domain": "[('state', '=', 'done')]",
+          "default_enabled": false
+        },
+        {
+          "name": "In Queue",
+          "sequence": 30,
+          "model": "mailing.mailing",
+          "domain": "[('state', 'in', ['in_queue', 'sending'])]",
+          "default_enabled": false
+        },
+        {
+          "name": "Bounced Traces",
+          "sequence": 40,
+          "model": "mailing.trace",
+          "domain": "[('trace_status', '=', 'bounce')]",
+          "default_enabled": false
+        }
+      ]
+    }
+  ]
+}
+        </field>
+    </record>
+</odoo>
