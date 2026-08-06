@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="template_agreement_overview" model="boardkit.dashboard.template">
+        <field name="name">Agreement Overview</field>
+        <field name="key">agreement_overview</field>
+        <field name="sequence">54</field>
+        <field name="description">
+            Agreements board for commercial and purchase deals: active and
+            template counts, new signatures, expired endings, active rate,
+            trends and domain/type analytics. Requires Agreement.
+        </field>
+        <field name="group_ids" eval="[(4, ref('base.group_user'))]" />
+        <field name="payload">
+{
+  "version": 1,
+  "dashboards": [
+    {
+      "name": "Agreement Overview",
+      "description": "Agreement portfolio, signatures, expiries and type analytics.",
+      "tags": [
+        "Agreement"
+      ],
+      "date_filter": "this_month",
+      "refresh_interval": "0",
+      "items": [
+        {
+          "name": "Active Agreements",
+          "item_type": "tile",
+          "model": "agreement",
+          "aggregation": "count",
+          "icon": "fa-handshake-o",
+          "domain": "[('active', '=', True), ('is_template', '=', False)]",
+          "layout": {
+            "x": 0,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 0
+        },
+        {
+          "name": "New Signatures",
+          "item_type": "tile",
+          "model": "agreement",
+          "aggregation": "count",
+          "icon": "fa-pencil",
+          "compare_previous_period": true,
+          "domain": "[('is_template', '=', False), ('signature_date', '!=', False)]",
+          "date_field_id": "signature_date",
+          "layout": {
+            "x": 3,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 1
+        },
+        {
+          "name": "Templates",
+          "item_type": "tile",
+          "model": "agreement",
+          "aggregation": "count",
+          "icon": "fa-clone",
+          "domain": "[('active', '=', True), ('is_template', '=', True)]",
+          "layout": {
+            "x": 6,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 2
+        },
+        {
+          "name": "Without Partner",
+          "item_type": "tile",
+          "model": "agreement",
+          "aggregation": "count",
+          "icon": "fa-user-times",
+          "domain": "[('active', '=', True), ('is_template', '=', False), ('partner_id', '=', False)]",
+          "layout": {
+            "x": 9,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 3
+        },
+        {
+          "name": "Active Rate",
+          "item_type": "kpi",
+          "model": "agreement",
+          "aggregation": "count",
+          "kpi_mode": "comparison",
+          "kpi_display": "percent",
+          "domain": "[('active', '=', True), ('is_template', '=', False)]",
+          "model_2": "agreement",
+          "aggregation_2": "count",
+          "domain_2": "[('is_template', '=', False), '|', ('active', '=', True), ('active', '=', False)]",
+          "layout": {
+            "x": 0,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 4
+        },
+        {
+          "name": "Active Target",
+          "item_type": "gauge",
+          "model": "agreement",
+          "aggregation": "count",
+          "target_enabled": true,
+          "target_value": 20,
+          "gauge_max": 25,
+          "domain": "[('active', '=', True), ('is_template', '=', False)]",
+          "layout": {
+            "x": 3,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 5
+        },
+        {
+          "name": "Expired",
+          "item_type": "tile",
+          "model": "agreement",
+          "aggregation": "count",
+          "icon": "fa-exclamation-triangle",
+          "domain": "[('active', '=', True), ('is_template', '=', False), ('end_date', '!=', False), ('end_date', '&lt;', context_today())]",
+          "layout": {
+            "x": 6,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 6
+        },
+        {
+          "name": "Sale Domain",
+          "item_type": "tile",
+          "model": "agreement",
+          "aggregation": "count",
+          "icon": "fa-shopping-cart",
+          "domain": "[('active', '=', True), ('is_template', '=', False), ('domain', '=', 'sale')]",
+          "layout": {
+            "x": 9,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 7
+        },
+        {
+          "name": "Signatures per Month",
+          "item_type": "area",
+          "model": "agreement",
+          "aggregation": "count",
+          "group_by_field_id": "signature_date",
+          "group_by_granularity": "month",
+          "date_field_id": "signature_date",
+          "chart_sort": "label_asc",
+          "show_trend_line": true,
+          "domain": "[('is_template', '=', False), ('signature_date', '!=', False)]",
+          "layout": {
+            "x": 0,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 8
+        },
+        {
+          "name": "Active by Partner",
+          "item_type": "bar_horizontal",
+          "model": "agreement",
+          "aggregation": "count",
+          "group_by_field_id": "partner_id",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "domain": "[('active', '=', True), ('is_template', '=', False)]",
+          "layout": {
+            "x": 6,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 9
+        },
+        {
+          "name": "Active by Domain",
+          "item_type": "doughnut",
+          "model": "agreement",
+          "aggregation": "count",
+          "group_by_field_id": "domain",
+          "chart_sort": "value_desc",
+          "domain": "[('active', '=', True), ('is_template', '=', False)]",
+          "layout": {
+            "x": 0,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 10
+        },
+        {
+          "name": "Active by Type",
+          "item_type": "bar",
+          "model": "agreement",
+          "aggregation": "count",
+          "group_by_field_id": "agreement_type_id",
+          "chart_sort": "value_desc",
+          "domain": "[('active', '=', True), ('is_template', '=', False)]",
+          "layout": {
+            "x": 6,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 11
+        },
+        {
+          "name": "Recent Agreements",
+          "item_type": "list",
+          "model": "agreement",
+          "list_type": "plain",
+          "sort_field_id": "signature_date",
+          "sort_field_model": "agreement",
+          "sort_dir": "desc",
+          "page_size": 10,
+          "list_columns": [
+            "code",
+            "name",
+            "partner_id",
+            "agreement_type_id",
+            "domain",
+            "signature_date",
+            "start_date",
+            "end_date"
+          ],
+          "domain": "[('active', '=', True), ('is_template', '=', False)]",
+          "date_field_id": "signature_date",
+          "layout": {
+            "x": 0,
+            "y": 12,
+            "w": 12,
+            "h": 5
+          },
+          "index": 12
+        }
+      ],
+      "filters": [
+        {
+          "name": "Active",
+          "sequence": 10,
+          "model": "agreement",
+          "domain": "[('active', '=', True), ('is_template', '=', False)]",
+          "default_enabled": false
+        },
+        {
+          "name": "Sale",
+          "sequence": 20,
+          "model": "agreement",
+          "domain": "[('domain', '=', 'sale')]",
+          "default_enabled": false
+        },
+        {
+          "name": "Purchase",
+          "sequence": 30,
+          "model": "agreement",
+          "domain": "[('domain', '=', 'purchase')]",
+          "default_enabled": false
+        },
+        {
+          "name": "Expired",
+          "sequence": 40,
+          "model": "agreement",
+          "domain": "[('active', '=', True), ('is_template', '=', False), ('end_date', '!=', False), ('end_date', '&lt;', context_today())]",
+          "default_enabled": false
+        }
+      ]
+    }
+  ]
+}
+        </field>
+    </record>
+</odoo>
