@@ -1,0 +1,36 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_stock_request
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_stock_request
+#: model:boardkit.dashboard.template,description:boardkit_dashboard_stock_request.template_stock_request_overview
+msgid ""
+"\n"
+"            Stock request board for internal replenishment: draft and open\n"
+"            queues, requested quantities, completion rate, overdue expected\n"
+"            dates, trends, warehouse and product analytics, and a recent\n"
+"            requests list. Requires Stock Request.\n"
+"        "
+msgstr ""
+
+#. module: boardkit_dashboard_stock_request
+#: model:boardkit.dashboard,description:boardkit_dashboard_stock_request.dashboard_demo
+msgid "Internal stock demand, fulfilment progress and warehouse analytics."
+msgstr ""
+
+#. module: boardkit_dashboard_stock_request
+#: model:boardkit.dashboard,name:boardkit_dashboard_stock_request.dashboard_demo
+#: model:boardkit.dashboard.template,name:boardkit_dashboard_stock_request.template_stock_request_overview
+msgid "Stock Request Overview"
+msgstr ""
