@@ -1,689 +1,798 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
-<title>Boardkit Dashboard</title>
-<style type="text/css">
-
-/*
-:Author: David Goodger (goodger@python.org)
-:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
-:Copyright: This stylesheet has been placed in the public domain.
-
-Default cascading style sheet for the HTML output of Docutils.
-Despite the name, some widely supported CSS2 features are used.
-
-See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
-customize this style sheet.
-*/
-
-/* used to remove borders from tables and images */
-.borderless, table.borderless td, table.borderless th {
-  border: 0 }
-
-table.borderless td, table.borderless th {
-  /* Override padding for "table.docutils td" with "! important".
-     The right padding separates the table cells. */
-  padding: 0 0.5em 0 0 ! important }
-
-.first {
-  /* Override more specific margin styles with "! important". */
-  margin-top: 0 ! important }
-
-.last, .with-subtitle {
-  margin-bottom: 0 ! important }
-
-.hidden {
-  display: none }
-
-.subscript {
-  vertical-align: sub;
-  font-size: smaller }
-
-.superscript {
-  vertical-align: super;
-  font-size: smaller }
-
-a.toc-backref {
-  text-decoration: none ;
-  color: black }
-
-blockquote.epigraph {
-  margin: 2em 5em ; }
-
-dl.docutils dd {
-  margin-bottom: 0.5em }
-
-object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
-  overflow: hidden;
-}
-
-/* Uncomment (and remove this text!) to get bold-faced definition list terms
-dl.docutils dt {
-  font-weight: bold }
-*/
-
-div.abstract {
-  margin: 2em 5em }
-
-div.abstract p.topic-title {
-  font-weight: bold ;
-  text-align: center }
-
-div.admonition, div.attention, div.caution, div.danger, div.error,
-div.hint, div.important, div.note, div.tip, div.warning {
-  margin: 2em ;
-  border: medium outset ;
-  padding: 1em }
-
-div.admonition p.admonition-title, div.hint p.admonition-title,
-div.important p.admonition-title, div.note p.admonition-title,
-div.tip p.admonition-title {
-  font-weight: bold ;
-  font-family: sans-serif }
-
-div.attention p.admonition-title, div.caution p.admonition-title,
-div.danger p.admonition-title, div.error p.admonition-title,
-div.warning p.admonition-title, .code .error {
-  color: red ;
-  font-weight: bold ;
-  font-family: sans-serif }
-
-/* Uncomment (and remove this text!) to get reduced vertical space in
-   compound paragraphs.
-div.compound .compound-first, div.compound .compound-middle {
-  margin-bottom: 0.5em }
-
-div.compound .compound-last, div.compound .compound-middle {
-  margin-top: 0.5em }
-*/
-
-div.dedication {
-  margin: 2em 5em ;
-  text-align: center ;
-  font-style: italic }
-
-div.dedication p.topic-title {
-  font-weight: bold ;
-  font-style: normal }
-
-div.figure {
-  margin-left: 2em ;
-  margin-right: 2em }
-
-div.footer, div.header {
-  clear: both;
-  font-size: smaller }
-
-div.line-block {
-  display: block ;
-  margin-top: 1em ;
-  margin-bottom: 1em }
-
-div.line-block div.line-block {
-  margin-top: 0 ;
-  margin-bottom: 0 ;
-  margin-left: 1.5em }
-
-div.sidebar {
-  margin: 0 0 0.5em 1em ;
-  border: medium outset ;
-  padding: 1em ;
-  background-color: #ffffee ;
-  width: 40% ;
-  float: right ;
-  clear: right }
-
-div.sidebar p.rubric {
-  font-family: sans-serif ;
-  font-size: medium }
-
-div.system-messages {
-  margin: 5em }
-
-div.system-messages h1 {
-  color: red }
-
-div.system-message {
-  border: medium outset ;
-  padding: 1em }
-
-div.system-message p.system-message-title {
-  color: red ;
-  font-weight: bold }
-
-div.topic {
-  margin: 2em }
-
-h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
-h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
-  margin-top: 0.4em }
-
-h1.title {
-  text-align: center }
-
-h2.subtitle {
-  text-align: center }
-
-hr.docutils {
-  width: 75% }
-
-img.align-left, .figure.align-left, object.align-left, table.align-left {
-  clear: left ;
-  float: left ;
-  margin-right: 1em }
-
-img.align-right, .figure.align-right, object.align-right, table.align-right {
-  clear: right ;
-  float: right ;
-  margin-left: 1em }
-
-img.align-center, .figure.align-center, object.align-center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-table.align-center {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.align-left {
-  text-align: left }
-
-.align-center {
-  clear: both ;
-  text-align: center }
-
-.align-right {
-  text-align: right }
-
-/* reset inner alignment in figures */
-div.align-right {
-  text-align: inherit }
-
-/* div.align-center * { */
-/*   text-align: left } */
-
-.align-top    {
-  vertical-align: top }
-
-.align-middle {
-  vertical-align: middle }
-
-.align-bottom {
-  vertical-align: bottom }
-
-ol.simple, ul.simple {
-  margin-bottom: 1em }
-
-ol.arabic {
-  list-style: decimal }
-
-ol.loweralpha {
-  list-style: lower-alpha }
-
-ol.upperalpha {
-  list-style: upper-alpha }
-
-ol.lowerroman {
-  list-style: lower-roman }
-
-ol.upperroman {
-  list-style: upper-roman }
-
-p.attribution {
-  text-align: right ;
-  margin-left: 50% }
-
-p.caption {
-  font-style: italic }
-
-p.credits {
-  font-style: italic ;
-  font-size: smaller }
-
-p.label {
-  white-space: nowrap }
-
-p.rubric {
-  font-weight: bold ;
-  font-size: larger ;
-  color: maroon ;
-  text-align: center }
-
-p.sidebar-title {
-  font-family: sans-serif ;
-  font-weight: bold ;
-  font-size: larger }
-
-p.sidebar-subtitle {
-  font-family: sans-serif ;
-  font-weight: bold }
-
-p.topic-title {
-  font-weight: bold }
-
-pre.address {
-  margin-bottom: 0 ;
-  margin-top: 0 ;
-  font: inherit }
-
-pre.literal-block, pre.doctest-block, pre.math, pre.code {
-  margin-left: 2em ;
-  margin-right: 2em }
-
-pre.code .ln { color: gray; } /* line numbers */
-pre.code, code { background-color: #eeeeee }
-pre.code .comment, code .comment { color: #5C6576 }
-pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
-pre.code .literal.string, code .literal.string { color: #0C5404 }
-pre.code .name.builtin, code .name.builtin { color: #352B84 }
-pre.code .deleted, code .deleted { background-color: #DEB0A1}
-pre.code .inserted, code .inserted { background-color: #A3D289}
-
-span.classifier {
-  font-family: sans-serif ;
-  font-style: oblique }
-
-span.classifier-delimiter {
-  font-family: sans-serif ;
-  font-weight: bold }
-
-span.interpreted {
-  font-family: sans-serif }
-
-span.option {
-  white-space: nowrap }
-
-span.pre {
-  white-space: pre }
-
-span.problematic, pre.problematic {
-  color: red }
-
-span.section-subtitle {
-  /* font-size relative to parent (h1..h6 element) */
-  font-size: 80% }
-
-table.citation {
-  border-left: solid 1px gray;
-  margin-left: 1px }
-
-table.docinfo {
-  margin: 2em 4em }
-
-table.docutils {
-  margin-top: 0.5em ;
-  margin-bottom: 0.5em }
-
-table.footnote {
-  border-left: solid 1px black;
-  margin-left: 1px }
-
-table.docutils td, table.docutils th,
-table.docinfo td, table.docinfo th {
-  padding-left: 0.5em ;
-  padding-right: 0.5em ;
-  vertical-align: top }
-
-table.docutils th.field-name, table.docinfo th.docinfo-name {
-  font-weight: bold ;
-  text-align: left ;
-  white-space: nowrap ;
-  padding-left: 0 }
-
-/* "booktabs" style (no vertical lines) */
-table.docutils.booktabs {
-  border: 0px;
-  border-top: 2px solid;
-  border-bottom: 2px solid;
-  border-collapse: collapse;
-}
-table.docutils.booktabs * {
-  border: 0px;
-}
-table.docutils.booktabs th {
-  border-bottom: thin solid;
-  text-align: left;
-}
-
-h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
-h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
-  font-size: 100% }
-
-ul.auto-toc {
-  list-style-type: none }
-
-</style>
-</head>
-<body>
-<div class="document" id="boardkit-dashboard">
-<h1 class="title">Boardkit Dashboard</h1>
-
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!! This file is generated by oca-gen-addon-readme !!
-!! changes will be overwritten.                   !!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!! source digest: sha256:49a91301e5405a0ca3911f221557df7a7dcc84d28b3254fc7e7b6e0bfd3c515a
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/Escodoo/odoo-boardkit/tree/18.0/boardkit_dashboard"><img alt="Escodoo/odoo-boardkit" src="https://img.shields.io/badge/github-Escodoo%2Fodoo--boardkit-lightgray.png?logo=github" /></a></p>
-<p>Build configurable analytic dashboards on top of any Odoo model, without
-writing code.</p>
-<p><img alt="Boards Catalogue" src="https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-boards-catalogue.png" /></p>
-<p><img alt="CRM Pipeline" src="https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-crm-pipeline.png" /></p>
-<p><img alt="Contacts Overview" src="https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-contacts-overview.png" /></p>
-<p><img alt="Purchase Overview" src="https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-purchase-overview.png" /></p>
-<p><img alt="Timesheet Overview" src="https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-timesheet-overview.png" /></p>
-<p>Each dashboard is a grid of items rendered with native web assets (OWL
-and the Chart.js library bundled with Odoo):</p>
-<ul class="simple">
-<li><strong>Tile</strong>: a single aggregated value (count, sum or average) with icon
-and colors.</li>
-<li><strong>KPI</strong>: a value compared against a fixed target or against a second
-data source (sum, ratio or percentage), optionally compared with the
-previous period.</li>
-<li><strong>Gauge</strong>: a semicircular gauge for a single aggregated value, with
-optional target and configurable maximum.</li>
-<li><strong>Charts</strong>: bar, horizontal bar, line, area, pie, doughnut, polar
-area, radar, scatter, funnel and bullet, with group by (including date
-granularity), optional second dimension, multiple measures, record
-limit, sorting, and optional target, average and linear trend line
-overlays on cartesian charts.</li>
-<li><strong>Multi-level drill down</strong>: configure extra grouping levels per item
-so each click re-aggregates inside the card (with breadcrumbs) before
-opening the records.</li>
-<li><strong>Map</strong>: choropleth of values grouped by country (<tt class="docutils literal">res.country</tt>), or
-point markers from configurable latitude / longitude fields on any
-model (partners, tickets, field service orders, …). An optional
-focus country crops the outline and zooms the map. The built-in
-<strong>Contacts Overview</strong> template includes both a country map and a
-points map on <tt class="docutils literal">partner_latitude</tt> / <tt class="docutils literal">partner_longitude</tt>.</li>
-<li><strong>List</strong>: plain or grouped record lists with pagination and
-click-through to the records.</li>
-</ul>
-<p>Dashboard level features:</p>
-<ul class="simple">
-<li>Date range filter with presets (today, this month, quarter to date,
-last 30 days, …) or a custom range, applied to every item through
-its configured date field.</li>
-<li>Predefined domain filters that users can toggle from the dashboard.</li>
-<li>Ad-hoc filters: any user can pick a field, an operator and a value to
-filter the items on the fly, without configuration.</li>
-<li>Per-item data export as CSV or XLSX, honoring the active filters.</li>
-<li>Drag and resize grid layout: managers save the default layout, every
-user can keep a personal layout.</li>
-<li>Publish/unpublish workflow so managers can build boards privately
-before users see them; optional menu entry under any top-level menu,
-restricted by groups.</li>
-<li>Auto refresh interval with a per-user server-side data cache for wall
-screens, dashboard duplication and JSON export/import.</li>
-<li>Live preview in the item form while configuring, before saving.</li>
-<li>Responsive one-column layout on mobile viewports.</li>
-</ul>
-<p>Data is always read with the access rights of the current user: ACLs and
-record rules of the source models are enforced.</p>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#configuration" id="toc-entry-1">Configuration</a></li>
-<li><a class="reference internal" href="#usage" id="toc-entry-2">Usage</a></li>
-<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-3">Known issues / Roadmap</a></li>
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-4">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-5">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-6">Authors</a></li>
-<li><a class="reference internal" href="#contributors" id="toc-entry-7">Contributors</a></li>
-<li><a class="reference internal" href="#other-credits" id="toc-entry-8">Other credits</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-9">Maintainers</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="section" id="configuration">
-<h1><a class="toc-backref" href="#toc-entry-1">Configuration</a></h1>
-<ol class="arabic simple">
-<li>Assign users to the proper group in <em>Settings &gt; Users</em>:<ul>
-<li><em>Dashboard / User</em>: can open the Boardkit Dashboards app and any
-dashboard without an Allowed Groups restriction, and keep a
-personal layout.</li>
-<li><em>Dashboard / Manager</em>: can create and configure dashboards and
-items.</li>
-</ul>
-</li>
-<li>Go to <em>All Dashboards &gt; Boards</em> and create a dashboard (managers), or
-use <em>From template</em> in the toolbar to start from a curated board
-(also managers only). Template boards and blank boards both start
-unpublished so only managers can see them while building. Use
-<em>Publish</em> when the board is ready for users. Optionally set <em>Parent
-Menu</em> to also expose a menu entry, or enable <em>Show as App</em> to expose
-the dashboard as a top-level app in the main apps menu (using the
-Boardkit Dashboards module icon). Both entries exist only while the
-board is published. Restrict visibility with <em>Allowed Groups</em>: users
-in those groups can open that dashboard (for example under Helpdesk)
-without needing Dashboard User. Leave Allowed Groups empty so only
-Dashboard Users see it. Unpublished or archived dashboards are
-visible only to Dashboard Managers. Dashboards limited to a specific
-company cannot have a menu entry (open them from <em>All Dashboards</em> or
-a landing-page action instead).</li>
-<li>Optionally create or edit tags under <em>All Dashboards &gt; Configuration
-&gt; Tags</em> and set an <em>Icon</em> for each domain tag (template tags such as
-CRM and Purchase are seeded automatically). On each board form, set
-<em>Icon</em> to override the catalogue card icon, or leave it empty to
-inherit the first non-empty tag icon.</li>
-<li>Add items from the dashboard form or directly from the dashboard view
-with the <em>Add Item</em> button (managers only). The item form shows a
-live preview that updates as you change the configuration, before
-saving.</li>
-<li>To reuse a board from another database, use the <em>Import</em> button in
-the <em>All Dashboards &gt; Boards</em> toolbar (managers only) and select the
-JSON file exported from the dashboard action menu. Imported boards
-arrive unpublished and without a menu entry, so review them before
-publishing. Managers can also inspect or edit template payloads under
-<em>All Dashboards &gt; Configuration &gt; Templates</em>. On each template, set
-<em>Allowed Groups</em> to the lowest app group that should open boards
-created from it (managers already inherit implied user groups). Leave
-empty for generic templates that stay limited to Dashboard Users. For
-wall screens, set <em>Auto Refresh</em> on the board; item data is then
-cached server-side per user for up to that interval. Optionally lower
-the cap with system parameter
-<tt class="docutils literal">boardkit_dashboard.data_cache_max_ttl</tt> (seconds; <tt class="docutils literal">0</tt> disables
-the cache).</li>
-</ol>
-</div>
-<div class="section" id="usage">
-<h1><a class="toc-backref" href="#toc-entry-2">Usage</a></h1>
-<p>Open a published dashboard from <em>All Dashboards &gt; Boards</em> (click the
-card), from its optional menu entry when <em>Parent Menu</em> is configured, or
-from the main apps menu when <em>Show as App</em> is enabled.</p>
-<p>Managers can create a board from a template with the <em>From template</em>
-button in the Boards toolbar. The new board is unpublished so it can be
-reviewed before users see it. Optionally rename it in the wizard; leave
-the name empty to keep the template title. When the template has
-<em>Allowed Groups</em>, those groups are copied to the new board (who can open
-it / its menu). Tile data still respects the source model’s record
-rules. Leave the template groups empty to keep the board limited to
-Dashboard Users until a manager sets an audience.</p>
-<p>Core ships the <em>Contacts Overview</em> template (data-quality tiles, KPIs,
-country regions map, location points map on <tt class="docutils literal">partner_latitude</tt> /
-<tt class="docutils literal">partner_longitude</tt>, charts and a recent list). It uses only Contacts
-(<tt class="docutils literal">res.partner</tt>). When the module is installed with demo data, a
-published board is created from that same template (plus a few
-geolocalized sample partners for the points map), linked under the
-Contacts app menu with sequence <tt class="docutils literal"><span class="pre">-1</span></tt>. App-specific overview templates
-in <tt class="docutils literal">boardkit_dashboard_*</tt> modules follow the same demo pattern under
-their app menu (My Day is exposed as a top-level app).</p>
-<p>In the catalogue (kanban or list), or from the star next to the title
-when a dashboard is open, click the star to favorite it. Favorited
-dashboards appear first and can be filtered with <em>My Favorites</em> or the
-search panel <em>Favorites</em> section. Favorites are personal and do not
-affect other users.</p>
-<p>Unpublished boards show a draft style and a <em>Draft</em> ribbon; managers can
-publish directly from the card or the card menu. An empty catalogue
-shows a first-run hero with featured templates (when the matching
-template modules are installed).</p>
-<p>Catalogue cards show an icon from the board’s optional <em>Icon</em> field.
-Leave it empty to inherit the first tag icon set in <em>All Dashboards &gt;
-Configuration &gt; Tags</em>. Rename tags freely; the stored tag icon stays.
-With neither board nor tag icon, the catalogue uses a default grid icon.</p>
-<p>Dashboards with <em>Allowed Groups</em> can be opened by members of those
-groups even without the Dashboard User right (typical for menus under
-another app). Dashboards without Allowed Groups stay limited to
-Dashboard Users. The Boardkit Dashboards app itself still requires
-Dashboard User or Manager.</p>
-<p>When <em>Auto Refresh</em> is enabled, the server caches each item payload for
-up to the refresh interval (capped by the
-<tt class="docutils literal">boardkit_dashboard.data_cache_max_ttl</tt> system parameter, default 60
-seconds). The cache key includes the user, companies, item configuration
-and active filters, so access rights stay intact while wall-screen
-boards avoid recomputing the same queries on every tick.</p>
-<p>If a dashboard is missing or the current user cannot access it (for
-example a company-bound dashboard opened as a landing page outside that
-company), the client shows an empty state instead of an access error.</p>
-<p>On charts and grouped lists, the <em>Measures</em> list adds one series (or one
-column) per numeric field. Drag the handle to reorder them: the order of
-the list is the order the series are plotted, and it travels with the
-dashboard JSON export.</p>
-<p>When configuring a <strong>Map</strong> item:</p>
-<ul class="simple">
-<li>Choose <em>Regions</em> and a Group By field pointing to Countries for a
-choropleth world map.</li>
-<li>Choose <em>Points</em> and pick the Latitude / Longitude float fields of the
-source model to plot markers (for example <tt class="docutils literal">partner_latitude</tt> /
-<tt class="docutils literal">partner_longitude</tt> on contacts, or equivalent fields on tickets and
-field service orders). Records sharing the same coordinates are merged
-into one marker whose size reflects the record count, or the sum of
-the <em>Measure Field</em> when one is configured.</li>
-<li>Optionally set <em>Focus Country</em> to crop the outline and zoom the
-projection to that country (works in both modes). Clicking a point
-opens the underlying record when <em>Show Records</em> is enabled.</li>
-<li>Click the expand icon in the top bar to enter full screen (TV / kiosk
-mode). The Odoo navbar is hidden and the dashboard fills the screen.
-Press ESC or click the compress icon to exit. Auto-refresh keeps
-running while full screen is active.</li>
-<li>Use the date filter in the top bar to restrict every item that has a
-<em>Date Field</em> configured. Choose a preset or a custom range.</li>
-<li>Toggle predefined filters to restrict the items whose model matches
-the filter model.</li>
-<li>Use <em>Add Filter</em> to build an ad-hoc filter: pick a model, a field, an
-operator and a value. The filter applies to every item based on that
-model and shows up as a removable chip. Text filters on relational
-fields match the record display name.</li>
-<li>Your date range, predefined filters and ad-hoc filters are remembered
-between visits. Use <em>Reset My Filters</em> in the dashboard menu to go
-back to the board defaults, or <em>Copy Link</em> to share the current filter
-state with someone who can open the same dashboard (the link overrides
-their saved filters when opened).</li>
-<li>Enable <em>Compare to Previous Period</em> on a tile, KPI, or bar / line /
-area chart (with a <em>Date Field</em> and an active date range) to show how
-the figure moved versus the previous equivalent period. Tiles and KPIs
-show a delta badge; charts draw a dashed overlay.</li>
-<li>Click on a tile, a KPI, a chart section or a list row to open the
-underlying records. When the item has <em>Drill Down</em> levels configured,
-the first clicks re-aggregate the data inside the card (breadcrumbs
-let you go back); the click on the last level opens the records. The
-item form live preview supports the same chart-to-chart drill
-(including unsaved levels); opening the record list stays disabled
-there.</li>
-</ul>
-<p>Chart colors come from the item’s <em>Color Palette</em> (Appearance tab):</p>
-<ul class="simple">
-<li><em>Dashboard Default</em> (the initial value) follows the <em>Default Palette</em>
-configured on the dashboard form. Changing the dashboard default — or
-moving the item to another dashboard — restyles every item still using
-it. An empty dashboard default means the Odoo preset.</li>
-<li>Pick one of the built-in presets (Odoo, Ocean, Sunset, Electric,
-Pastel, Vivid, Earth, Royal) to override the dashboard default on a
-single item, or</li>
-<li>Pick <em>Custom</em> and select a palette created in <em>All Dashboards &gt;
-Configuration &gt; Color Palettes</em>, where managers define an ordered list
-of hex colors. Palettes used by a dashboard travel inside its JSON
-export and are recreated on import when missing.</li>
-</ul>
-<p>Tiles and KPIs are themed by the palette too: with <em>Background Style</em>
-set to <em>From Palette</em> (the default) the card uses the darkest palette
-color as background with an automatic contrasting font, and the KPI
-progress bar takes the first palette color. Switch it to <em>Manual</em> to
-pick the background and font colors by hand.</p>
-<ul class="simple">
-<li>Use <em>Export CSV</em> / <em>Export XLSX</em> in an item menu to download its data
-with the current filters applied. Lists export all rows, ignoring
-pagination.</li>
-<li>Any dashboard user can switch to <em>Edit Layout</em> mode to drag and resize
-items. Managers can save the default layout for everyone; regular
-users save a personal layout and can reset it back to the default one.</li>
-<li>Managers can export the dashboard configuration as JSON from the
-dashboard action menu. To bring it back, use the <em>Import</em> button in
-the <em>All Dashboards &gt; Boards</em> toolbar and pick the file. Imported
-boards arrive unpublished and without a menu entry, so review them and
-set <em>Parent Menu</em> or <em>Show as App</em> before sharing.</li>
-</ul>
-</div>
-<div class="section" id="known-issues-roadmap">
-<h1><a class="toc-backref" href="#toc-entry-3">Known issues / Roadmap</a></h1>
-<p>Planned next, in rough priority order:</p>
-<ul class="simple">
-<li><strong>Periodic KPI digest by email</strong>: scheduled summary of a board’s tiles
-and KPIs, computed with each recipient’s own access rights.</li>
-<li><strong>Threshold alerts</strong>: notify when an item’s value crosses a configured
-limit.</li>
-<li><strong>Print-friendly board</strong>: a print stylesheet that flattens the grid,
-plus a <em>Print</em> entry in the dashboard menu.</li>
-</ul>
-<p>Under consideration, no commitment yet:</p>
-<ul class="simple">
-<li><strong>Cross filtering</strong>: clicking a chart section filters the other items
-built on the same model.</li>
-<li><strong>Read-only public sharing</strong>: token-based access to a board for people
-without an Odoo user. Needs a dedicated security review before it can
-be considered.</li>
-<li><strong>Value history</strong>: optional snapshots of item values, to show trends
-and sparklines regardless of what the source model keeps.</li>
-<li><strong>Narrative board summary</strong>: a short written read of the current
-figures, generated from the same data the cards use.</li>
-</ul>
-</div>
-<div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-4">Bug Tracker</a></h1>
-<p>Bugs are tracked on <a class="reference external" href="https://github.com/Escodoo/odoo-boardkit/issues">GitHub Issues</a>.
-In case of trouble, please check there if your issue has already been reported.
-If you spotted it first, help us to smash it by providing a detailed and welcomed
-<a class="reference external" href="https://github.com/Escodoo/odoo-boardkit/issues/new?body=module:%20boardkit_dashboard%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
-<p>Do not contact contributors directly about support or help with technical issues.</p>
-</div>
-<div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-5">Credits</a></h1>
-<div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-6">Authors</a></h2>
-<ul class="simple">
-<li>Escodoo</li>
-</ul>
-</div>
-<div class="section" id="contributors">
-<h2><a class="toc-backref" href="#toc-entry-7">Contributors</a></h2>
-<ul class="simple">
-<li><a class="reference external" href="https://www.escodoo.com.br">Escodoo</a>:<ul>
-<li>Marcel Savegnago &lt;<a class="reference external" href="mailto:marcel.savegnago&#64;escodoo.com.br">marcel.savegnago&#64;escodoo.com.br</a>&gt;</li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="section" id="other-credits">
-<h2><a class="toc-backref" href="#toc-entry-8">Other credits</a></h2>
-<p>The development of this module has been financially supported by:</p>
-<ul class="simple">
-<li>Escodoo - <a class="reference external" href="https://escodoo.com.br">https://escodoo.com.br</a></li>
-</ul>
-</div>
-<div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-9">Maintainers</a></h2>
-<p>Current maintainer:</p>
-<p><a class="reference external image-reference" href="https://github.com/marcelsavegnago"><img alt="marcelsavegnago" src="https://github.com/marcelsavegnago.png?size=40px" /></a></p>
-<p>This module is part of the <a class="reference external" href="https://github.com/Escodoo/odoo-boardkit/tree/18.0/boardkit_dashboard">Escodoo/odoo-boardkit</a> project on GitHub.</p>
-<p>You are welcome to contribute.</p>
-</div>
-</div>
-</div>
-</body>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BoardKit Dashboard</title>
+    <style>
+      :root {
+        --bk-violet-950: #2e1065;
+        --bk-violet-900: #4c1d95;
+        --bk-violet-800: #5b21b6;
+        --bk-violet-700: #6d28d9;
+        --bk-violet-600: #7c3aed;
+        --bk-violet-500: #8b5cf6;
+        --bk-violet-400: #a78bfa;
+        --bk-violet-300: #c4b5fd;
+        --bk-violet-100: #ede9fe;
+        --bk-violet-50: #f5f3ff;
+        --bk-ink: #1e1b4b;
+        --bk-muted: #64748b;
+        --bk-line: #e2e8f0;
+        --bk-bg: #f8fafc;
+        --bk-white: #ffffff;
+        --bk-radius: 16px;
+        --bk-shadow: 0 12px 40px rgba(76, 29, 149, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body.bk-store {
+        margin: 0;
+        padding: 0;
+        color: var(--bk-ink);
+        background: var(--bk-bg);
+        font-family:
+          "Segoe UI",
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Helvetica Neue",
+          Arial,
+          sans-serif;
+        line-height: 1.55;
+        font-size: 16px;
+      }
+
+      .bk-wrap {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 24px 16px 48px;
+      }
+
+      .bk-card {
+        background: var(--bk-white);
+        border-radius: 24px;
+        box-shadow: var(--bk-shadow);
+        overflow: hidden;
+      }
+
+      .bk-banner {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .bk-section {
+        padding: 40px 36px;
+        border-top: 1px solid var(--bk-line);
+      }
+
+      .bk-section:first-of-type {
+        border-top: 0;
+      }
+
+      .bk-eyebrow {
+        display: inline-block;
+        margin: 0 0 10px;
+        padding: 4px 12px;
+        border-radius: 999px;
+        background: var(--bk-violet-100);
+        color: var(--bk-violet-800);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      h1.bk-title {
+        margin: 0 0 12px;
+        font-size: clamp(1.75rem, 3vw, 2.35rem);
+        line-height: 1.15;
+        color: var(--bk-violet-950);
+      }
+
+      h2.bk-h2 {
+        margin: 0 0 10px;
+        font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+        color: var(--bk-violet-950);
+      }
+
+      .bk-lead {
+        margin: 0;
+        max-width: 48rem;
+        color: var(--bk-muted);
+        font-size: 1.05rem;
+      }
+
+      .bk-hero-text {
+        background: linear-gradient(
+          135deg,
+          var(--bk-violet-50) 0%,
+          var(--bk-white) 55%,
+          #eef2ff 100%
+        );
+      }
+
+      .bk-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 20px;
+      }
+
+      .bk-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: var(--bk-white);
+        border: 1px solid var(--bk-violet-300);
+        color: var(--bk-violet-900);
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .bk-pill-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--bk-violet-500);
+      }
+
+      .bk-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-top: 24px;
+      }
+
+      @media (min-width: 760px) {
+        .bk-grid-2 {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      .bk-shot {
+        margin: 0;
+        background: var(--bk-violet-50);
+        border: 1px solid var(--bk-violet-100);
+        border-radius: var(--bk-radius);
+        overflow: hidden;
+      }
+
+      .bk-shot img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .bk-shot figcaption {
+        padding: 12px 14px 14px;
+        font-size: 13px;
+        color: var(--bk-muted);
+      }
+
+      .bk-shot figcaption strong {
+        display: block;
+        margin-bottom: 2px;
+        color: var(--bk-violet-900);
+        font-size: 14px;
+      }
+
+      .bk-shot-wide {
+        grid-column: 1 / -1;
+      }
+
+      .bk-features {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+        margin-top: 24px;
+      }
+
+      @media (min-width: 700px) {
+        .bk-features {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (min-width: 980px) {
+        .bk-features {
+          grid-template-columns: 1fr 1fr 1fr;
+        }
+      }
+
+      .bk-feature {
+        padding: 18px 18px 16px;
+        border-radius: 14px;
+        border: 1px solid var(--bk-line);
+        background: linear-gradient(
+          180deg,
+          var(--bk-white) 0%,
+          var(--bk-violet-50) 100%
+        );
+      }
+
+      .bk-feature-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        background: linear-gradient(
+          135deg,
+          var(--bk-violet-700),
+          var(--bk-violet-500)
+        );
+        color: var(--bk-white);
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      .bk-feature h3 {
+        margin: 0 0 6px;
+        font-size: 15px;
+        color: var(--bk-violet-950);
+      }
+
+      .bk-feature p {
+        margin: 0;
+        font-size: 13.5px;
+        color: var(--bk-muted);
+      }
+
+      .bk-palettes {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-top: 22px;
+      }
+
+      @media (min-width: 700px) {
+        .bk-palettes {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      .bk-palette {
+        padding: 14px 14px 12px;
+        border-radius: 14px;
+        border: 1px solid var(--bk-line);
+        background: var(--bk-white);
+      }
+
+      .bk-palette-name {
+        margin: 0 0 10px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--bk-violet-900);
+      }
+
+      .bk-swatches {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .bk-swatch {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+      }
+
+      .bk-list {
+        margin: 18px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .bk-list li {
+        position: relative;
+        padding: 10px 0 10px 28px;
+        border-bottom: 1px solid var(--bk-line);
+        color: var(--bk-muted);
+        font-size: 14.5px;
+      }
+
+      .bk-list li:last-child {
+        border-bottom: 0;
+      }
+
+      .bk-list li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 16px;
+        width: 14px;
+        height: 14px;
+        border-radius: 4px;
+        background: linear-gradient(
+          135deg,
+          var(--bk-violet-600),
+          var(--bk-violet-400)
+        );
+      }
+
+      .bk-list li strong {
+        color: var(--bk-violet-950);
+      }
+
+      .bk-cta {
+        background: linear-gradient(
+          135deg,
+          var(--bk-violet-900) 0%,
+          var(--bk-violet-700) 55%,
+          var(--bk-violet-500) 100%
+        );
+        color: var(--bk-white);
+        text-align: center;
+      }
+
+      .bk-cta h2 {
+        margin: 0 0 10px;
+        color: var(--bk-white);
+        font-size: clamp(1.3rem, 2vw, 1.7rem);
+      }
+
+      .bk-cta p {
+        margin: 0 auto;
+        max-width: 40rem;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .bk-cta-meta {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .bk-cta-badge {
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.14);
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        color: var(--bk-white);
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .bk-note {
+        margin-top: 18px;
+        padding: 14px 16px;
+        border-radius: 12px;
+        background: var(--bk-violet-50);
+        border: 1px solid var(--bk-violet-100);
+        color: var(--bk-muted);
+        font-size: 13.5px;
+      }
+
+      .bk-note strong {
+        color: var(--bk-violet-900);
+      }
+
+      .bk-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 18px;
+      }
+
+      .bk-tag {
+        padding: 6px 11px;
+        border-radius: 999px;
+        background: var(--bk-violet-50);
+        border: 1px solid var(--bk-violet-100);
+        color: var(--bk-violet-900);
+        font-size: 12.5px;
+        font-weight: 600;
+      }
+
+      .bk-tag-muted {
+        background: var(--bk-white);
+        border-color: var(--bk-line);
+        color: var(--bk-muted);
+        font-weight: 500;
+      }
+
+      .bk-highlight {
+        margin-top: 18px;
+        padding: 16px 18px;
+        border-radius: 14px;
+        background: linear-gradient(
+          135deg,
+          var(--bk-violet-900),
+          var(--bk-violet-600)
+        );
+        color: var(--bk-white);
+      }
+
+      .bk-highlight strong {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 15px;
+      }
+
+      .bk-highlight p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 13.5px;
+      }
+    </style>
+  </head>
+  <body class="bk-store">
+    <div class="bk-wrap">
+      <div class="bk-card">
+        <img
+          class="bk-banner"
+          src="banner.png"
+          alt="BoardKit Dashboard — open source dashboards, KPIs and charts for Odoo"
+        />
+
+        <section class="bk-section bk-hero-text">
+          <span class="bk-eyebrow">Escodoo · Open Source</span>
+          <h1 class="bk-title">BoardKit Dashboard</h1>
+          <p class="bk-lead">
+            Build configurable analytic dashboards on top of any Odoo model —
+            tiles, KPIs, gauges, charts, maps and lists — with native OWL and
+            Chart.js assets, without writing code.
+          </p>
+          <div class="bk-pills">
+            <span class="bk-pill"
+              ><span class="bk-pill-dot"></span>Any Odoo model</span
+            >
+            <span class="bk-pill"
+              ><span class="bk-pill-dot"></span>Drag &amp; resize grid</span
+            >
+            <span class="bk-pill"
+              ><span class="bk-pill-dot"></span>Multi-level drill-down</span
+            >
+            <span class="bk-pill"
+              ><span class="bk-pill-dot"></span>Respects ACLs &amp; record
+              rules</span
+            >
+          </div>
+        </section>
+
+        <section class="bk-section">
+          <span class="bk-eyebrow">Screenshots</span>
+          <h2 class="bk-h2">Real dashboards, real data</h2>
+          <p class="bk-lead">
+            The same BoardKit engine across domains — each board below uses a
+            different color palette to show how branding stays coherent while
+            visuals stay flexible.
+          </p>
+
+          <div class="bk-grid-2">
+            <figure class="bk-shot bk-shot-wide">
+              <img
+                src="images/boardkit-boards-catalogue.png"
+                alt="BoardKit boards catalogue"
+              />
+              <figcaption>
+                <strong>Boards catalogue</strong>
+                Publish boards, open them from menus, and manage personal or
+                default layouts.
+              </figcaption>
+            </figure>
+
+            <figure class="bk-shot">
+              <img
+                src="images/boardkit-contacts-overview.png"
+                alt="Contacts Overview dashboard with Boardkit Brand purple palette"
+              />
+              <figcaption>
+                <strong>Contacts Overview · Boardkit Brand</strong>
+                Purple brand palette with country and point maps on partners.
+              </figcaption>
+            </figure>
+
+            <figure class="bk-shot">
+              <img
+                src="images/boardkit-crm-pipeline.png"
+                alt="CRM Pipeline dashboard with Ocean palette"
+              />
+              <figcaption>
+                <strong>CRM Pipeline · Ocean</strong>
+                Funnel, revenue trends, country map and opportunity list.
+              </figcaption>
+            </figure>
+
+            <figure class="bk-shot">
+              <img
+                src="images/boardkit-sales-overview.png"
+                alt="Sales Overview dashboard with Sunset palette"
+              />
+              <figcaption>
+                <strong>Sales Overview · Sunset</strong>
+                KPIs, gauges, customer ranking and order status charts.
+              </figcaption>
+            </figure>
+
+            <figure class="bk-shot">
+              <img
+                src="images/boardkit-purchase-overview.png"
+                alt="Purchase Overview dashboard with Royal palette"
+              />
+              <figcaption>
+                <strong>Purchase Overview · Royal</strong>
+                RFQs, purchase orders and supplier analytics.
+              </figcaption>
+            </figure>
+
+            <figure class="bk-shot bk-shot-wide">
+              <img
+                src="images/boardkit-timesheet-overview.png"
+                alt="Timesheet Overview dashboard with Vivid palette"
+              />
+              <figcaption>
+                <strong>Timesheet Overview · Vivid</strong>
+                Hours logged, project breakdown and recent timesheet lines.
+              </figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="bk-section">
+          <span class="bk-eyebrow">Color systems</span>
+          <h2 class="bk-h2">Presets and fully custom palettes</h2>
+          <p class="bk-lead">
+            Pick a preset per board (or per item), or define a
+            <strong>custom color palette</strong> with your own hex colors. The
+            default Boardkit Brand keeps Escodoo purple across tiles and charts.
+          </p>
+
+          <div class="bk-highlight">
+            <strong>Custom palettes</strong>
+            <p>
+              Create named palettes for your brand or multi-company themes and
+              assign them at board or item level — no code, no layout changes.
+            </p>
+          </div>
+
+          <div class="bk-palettes">
+            <div class="bk-palette">
+              <p class="bk-palette-name">Boardkit Brand</p>
+              <div class="bk-swatches">
+                <span class="bk-swatch" style="background: #4c1d95"></span>
+                <span class="bk-swatch" style="background: #6d28d9"></span>
+                <span class="bk-swatch" style="background: #8b5cf6"></span>
+                <span class="bk-swatch" style="background: #a78bfa"></span>
+                <span class="bk-swatch" style="background: #c4b5fd"></span>
+              </div>
+            </div>
+            <div class="bk-palette">
+              <p class="bk-palette-name">Ocean</p>
+              <div class="bk-swatches">
+                <span class="bk-swatch" style="background: #056bd9"></span>
+                <span class="bk-swatch" style="background: #3188e6"></span>
+                <span class="bk-swatch" style="background: #4ea7f2"></span>
+                <span class="bk-swatch" style="background: #00a78d"></span>
+                <span class="bk-swatch" style="background: #43c5b1"></span>
+              </div>
+            </div>
+            <div class="bk-palette">
+              <p class="bk-palette-name">Sunset</p>
+              <div class="bk-swatches">
+                <span class="bk-swatch" style="background: #ce4257"></span>
+                <span class="bk-swatch" style="background: #ea6175"></span>
+                <span class="bk-swatch" style="background: #f48935"></span>
+                <span class="bk-swatch" style="background: #f4a261"></span>
+                <span class="bk-swatch" style="background: #ffbc2c"></span>
+              </div>
+            </div>
+            <div class="bk-palette">
+              <p class="bk-palette-name">Royal</p>
+              <div class="bk-swatches">
+                <span class="bk-swatch" style="background: #2c3e90"></span>
+                <span class="bk-swatch" style="background: #922b5b"></span>
+                <span class="bk-swatch" style="background: #14746f"></span>
+                <span class="bk-swatch" style="background: #b68a00"></span>
+                <span class="bk-swatch" style="background: #5e3a98"></span>
+              </div>
+            </div>
+            <div class="bk-palette">
+              <p class="bk-palette-name">Vivid</p>
+              <div class="bk-swatches">
+                <span class="bk-swatch" style="background: #1e88e5"></span>
+                <span class="bk-swatch" style="background: #e53935"></span>
+                <span class="bk-swatch" style="background: #00897b"></span>
+                <span class="bk-swatch" style="background: #fb8c00"></span>
+                <span class="bk-swatch" style="background: #8e24aa"></span>
+              </div>
+            </div>
+            <div class="bk-palette">
+              <p class="bk-palette-name">Also included</p>
+              <div class="bk-swatches">
+                <span
+                  class="bk-swatch"
+                  style="background: #4ea7f2"
+                  title="Odoo"
+                ></span>
+                <span
+                  class="bk-swatch"
+                  style="background: #00e5ff"
+                  title="Electric"
+                ></span>
+                <span
+                  class="bk-swatch"
+                  style="background: #7eb5e8"
+                  title="Pastel"
+                ></span>
+                <span
+                  class="bk-swatch"
+                  style="background: #b08968"
+                  title="Earth"
+                ></span>
+                <span
+                  class="bk-swatch"
+                  style="
+                    background: linear-gradient(
+                      90deg,
+                      #4c1d95,
+                      #8b5cf6,
+                      #c4b5fd
+                    );
+                  "
+                  title="Custom"
+                ></span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bk-section">
+          <span class="bk-eyebrow">Capabilities</span>
+          <h2 class="bk-h2">Everything you need on one board</h2>
+          <div class="bk-features">
+            <div class="bk-feature">
+              <div class="bk-feature-icon">1</div>
+              <h3>Tiles &amp; KPIs</h3>
+              <p>
+                Aggregated values with icons, targets, ratios and previous-period
+                comparison.
+              </p>
+            </div>
+            <div class="bk-feature">
+              <div class="bk-feature-icon">2</div>
+              <h3>Rich charts</h3>
+              <p>
+                Bar, line, area, pie, doughnut, funnel, radar, scatter, bullet
+                and more — with trend overlays.
+              </p>
+            </div>
+            <div class="bk-feature">
+              <div class="bk-feature-icon">3</div>
+              <h3>Maps</h3>
+              <p>
+                Choropleth by country or point markers from lat/lng fields on any
+                model.
+              </p>
+            </div>
+            <div class="bk-feature">
+              <div class="bk-feature-icon">4</div>
+              <h3>Drill-down</h3>
+              <p>
+                Extra grouping levels inside the card, with breadcrumbs, before
+                opening records.
+              </p>
+            </div>
+            <div class="bk-feature">
+              <div class="bk-feature-icon">5</div>
+              <h3>Smart filters</h3>
+              <p>
+                Date presets, predefined domains and ad-hoc filters any user can
+                add on the fly.
+              </p>
+            </div>
+            <div class="bk-feature">
+              <div class="bk-feature-icon">6</div>
+              <h3>Layouts that stick</h3>
+              <p>
+                Drag and resize the grid. Managers save the default; users keep a
+                personal layout.
+              </p>
+            </div>
+          </div>
+
+          <ul class="bk-list">
+            <li>
+              <strong>Gauge &amp; list items</strong> — semicircular gauges and
+              paginated record lists with click-through.
+            </li>
+            <li>
+              <strong>Export</strong> — per-item CSV / XLSX export honoring
+              active filters.
+            </li>
+            <li>
+              <strong>Publish workflow</strong> — build privately, then publish;
+              optional menu under any top-level app, restricted by groups.
+            </li>
+            <li>
+              <strong>Wall-ready</strong> — auto-refresh, server-side cache,
+              duplication and JSON import/export.
+            </li>
+            <li>
+              <strong>Live preview</strong> — see the item while configuring,
+              before saving.
+            </li>
+            <li>
+              <strong>Mobile</strong> — responsive one-column layout on small
+              viewports.
+            </li>
+          </ul>
+
+          <div class="bk-note">
+            <strong>Security by design.</strong> Data is always read with the
+            access rights of the current user: ACLs and record rules of the
+            source models are enforced.
+          </div>
+        </section>
+
+        <section class="bk-section">
+          <span class="bk-eyebrow">Template catalogue</span>
+          <h2 class="bk-h2">Ready-made boards for your apps</h2>
+          <p class="bk-lead">
+            Optional template modules auto-install with their app dependency and
+            add curated boards you can instantiate from
+            <em>From template</em> — or start from a blank board on any model.
+          </p>
+          <div class="bk-tags">
+            <span class="bk-tag">Sales</span>
+            <span class="bk-tag">CRM</span>
+            <span class="bk-tag">Purchase</span>
+            <span class="bk-tag">Inventory</span>
+            <span class="bk-tag">Manufacturing</span>
+            <span class="bk-tag">Project</span>
+            <span class="bk-tag">Repair</span>
+            <span class="bk-tag">Fleet</span>
+            <span class="bk-tag">Maintenance</span>
+            <span class="bk-tag">Invoicing</span>
+            <span class="bk-tag">HR &amp; Timesheets</span>
+            <span class="bk-tag">Attendance</span>
+            <span class="bk-tag">Time Off</span>
+            <span class="bk-tag">Expenses</span>
+            <span class="bk-tag">Recruitment</span>
+            <span class="bk-tag">Payroll</span>
+            <span class="bk-tag">Email Marketing</span>
+            <span class="bk-tag">Surveys</span>
+            <span class="bk-tag">Events</span>
+            <span class="bk-tag">My Day (Mail)</span>
+            <span class="bk-tag-muted bk-tag">Helpdesk (OCA)</span>
+            <span class="bk-tag-muted bk-tag">Field Service (OCA)</span>
+            <span class="bk-tag-muted bk-tag">Contract (OCA)</span>
+            <span class="bk-tag-muted bk-tag">Agreement (OCA)</span>
+            <span class="bk-tag-muted bk-tag">RMA (OCA)</span>
+            <span class="bk-tag-muted bk-tag">Purchase Request (OCA)</span>
+            <span class="bk-tag-muted bk-tag">Stock Request (OCA)</span>
+            <span class="bk-tag-muted bk-tag">Brazilian Fiscal (OCA)</span>
+          </div>
+        </section>
+
+        <section class="bk-section bk-cta">
+          <h2>Open source · AGPL-3 · Odoo 18</h2>
+          <p>
+            Compatible with Odoo Community and Enterprise. Install the core
+            engine, add the template modules you need, brand boards with custom
+            palettes — or build everything from scratch.
+          </p>
+          <div class="bk-cta-meta">
+            <span class="bk-cta-badge">escodoo.com.br</span>
+            <span class="bk-cta-badge">AGPL-3</span>
+            <span class="bk-cta-badge">Community &amp; Enterprise</span>
+            <span class="bk-cta-badge">Custom palettes</span>
+          </div>
+        </section>
+      </div>
+    </div>
+  </body>
 </html>
