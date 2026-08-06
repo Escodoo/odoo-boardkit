@@ -1,0 +1,36 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_rma
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_rma
+#: model:boardkit.dashboard.template,description:boardkit_dashboard_rma.template_rma_overview
+msgid ""
+"\n"
+"            RMA board for return merchandise authorization: drafts and open\n"
+"            pipeline, received and finished counts, completion rate, overdue\n"
+"            deadlines, trends, operation and team analytics, and a recent RMA\n"
+"            list. Requires RMA.\n"
+"        "
+msgstr ""
+
+#. module: boardkit_dashboard_rma
+#: model:boardkit.dashboard,name:boardkit_dashboard_rma.dashboard_demo
+#: model:boardkit.dashboard.template,name:boardkit_dashboard_rma.template_rma_overview
+msgid "RMA Overview"
+msgstr ""
+
+#. module: boardkit_dashboard_rma
+#: model:boardkit.dashboard,description:boardkit_dashboard_rma.dashboard_demo
+msgid "Return merchandise pipeline, completions and operation analytics."
+msgstr ""
