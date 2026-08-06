@@ -1,0 +1,35 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_agreement
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_agreement
+#: model:boardkit.dashboard.template,description:boardkit_dashboard_agreement.template_agreement_overview
+msgid ""
+"\n"
+"            Agreements board for commercial and purchase deals: active and\n"
+"            template counts, new signatures, expired endings, active rate,\n"
+"            trends and domain/type analytics. Requires Agreement.\n"
+"        "
+msgstr ""
+
+#. module: boardkit_dashboard_agreement
+#: model:boardkit.dashboard,name:boardkit_dashboard_agreement.dashboard_demo
+#: model:boardkit.dashboard.template,name:boardkit_dashboard_agreement.template_agreement_overview
+msgid "Agreement Overview"
+msgstr ""
+
+#. module: boardkit_dashboard_agreement
+#: model:boardkit.dashboard,description:boardkit_dashboard_agreement.dashboard_demo
+msgid "Agreement portfolio, signatures, expiries and type analytics."
+msgstr ""
