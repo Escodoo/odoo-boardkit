@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="template_purchase_request_overview" model="boardkit.dashboard.template">
+        <field name="name">Purchase Request Overview</field>
+        <field name="key">purchase_request_overview</field>
+        <field name="sequence">46</field>
+        <field name="description">
+            Purchase request board for internal demand: drafts and approval
+            queues, estimated cost, approval rate, overdue required dates,
+            trends, requester and status analytics, and a recent requests
+            list. Requires Purchase Request.
+        </field>
+        <field
+            name="group_ids"
+            eval="[(4, ref('purchase_request.group_purchase_request_user'))]"
+        />
+        <field name="payload">
+{
+  "version": 1,
+  "dashboards": [
+    {
+      "name": "Purchase Request Overview",
+      "description": "Internal purchase demand, approvals, estimated cost and requester analytics.",
+      "tags": [
+        "Purchase",
+        "Purchase Request"
+      ],
+      "date_filter": "this_month",
+      "refresh_interval": "0",
+      "items": [
+        {
+          "name": "Draft Requests",
+          "item_type": "tile",
+          "model": "purchase.request",
+          "aggregation": "count",
+          "icon": "fa-pencil-square-o",
+          "domain": "[('state', '=', 'draft')]",
+          "layout": {
+            "x": 0,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 0
+        },
+        {
+          "name": "To Approve",
+          "item_type": "tile",
+          "model": "purchase.request",
+          "aggregation": "count",
+          "icon": "fa-gavel",
+          "domain": "[('state', '=', 'to_approve')]",
+          "layout": {
+            "x": 3,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 1
+        },
+        {
+          "name": "Approved Cost",
+          "item_type": "tile",
+          "model": "purchase.request",
+          "aggregation": "sum",
+          "measure_field_id": "estimated_cost",
+          "icon": "fa-money",
+          "unit_type": "monetary",
+          "compare_previous_period": true,
+          "domain": "[('state', 'in', ['approved', 'in_progress', 'done'])]",
+          "date_field_id": "date_start",
+          "layout": {
+            "x": 6,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 2
+        },
+        {
+          "name": "In Progress",
+          "item_type": "tile",
+          "model": "purchase.request",
+          "aggregation": "count",
+          "icon": "fa-spinner",
+          "domain": "[('state', '=', 'in_progress')]",
+          "layout": {
+            "x": 9,
+            "y": 0,
+            "w": 3,
+            "h": 2
+          },
+          "index": 3
+        },
+        {
+          "name": "Approval Rate",
+          "item_type": "kpi",
+          "model": "purchase.request",
+          "aggregation": "count",
+          "kpi_mode": "comparison",
+          "kpi_display": "percent",
+          "domain": "[('state', 'in', ['approved', 'in_progress', 'done'])]",
+          "model_2": "purchase.request",
+          "aggregation_2": "count",
+          "domain_2": "[('state', 'in', ['approved', 'in_progress', 'done', 'rejected'])]",
+          "date_field_id": "date_start",
+          "date_field_2_id": "date_start",
+          "layout": {
+            "x": 0,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 4
+        },
+        {
+          "name": "Approved Target",
+          "item_type": "gauge",
+          "model": "purchase.request",
+          "aggregation": "count",
+          "target_enabled": true,
+          "target_value": 20,
+          "gauge_max": 25,
+          "domain": "[('state', 'in', ['approved', 'in_progress', 'done'])]",
+          "date_field_id": "date_start",
+          "layout": {
+            "x": 3,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 5
+        },
+        {
+          "name": "Done",
+          "item_type": "tile",
+          "model": "purchase.request",
+          "aggregation": "count",
+          "icon": "fa-check-square-o",
+          "compare_previous_period": true,
+          "domain": "[('state', '=', 'done')]",
+          "date_field_id": "date_start",
+          "layout": {
+            "x": 6,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 6
+        },
+        {
+          "name": "Rejected",
+          "item_type": "tile",
+          "model": "purchase.request",
+          "aggregation": "count",
+          "icon": "fa-ban",
+          "domain": "[('state', '=', 'rejected')]",
+          "layout": {
+            "x": 9,
+            "y": 2,
+            "w": 3,
+            "h": 2
+          },
+          "index": 7
+        },
+        {
+          "name": "Estimated Cost per Month",
+          "item_type": "area",
+          "model": "purchase.request",
+          "aggregation": "sum",
+          "measure_field_id": "estimated_cost",
+          "measures": [
+            "estimated_cost"
+          ],
+          "group_by_field_id": "date_start",
+          "group_by_granularity": "month",
+          "date_field_id": "date_start",
+          "chart_sort": "label_asc",
+          "show_trend_line": true,
+          "domain": "[('state', 'not in', ['rejected'])]",
+          "layout": {
+            "x": 0,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 8
+        },
+        {
+          "name": "Cost by Requester",
+          "item_type": "bar_horizontal",
+          "model": "purchase.request",
+          "aggregation": "sum",
+          "measure_field_id": "estimated_cost",
+          "measures": [
+            "estimated_cost"
+          ],
+          "group_by_field_id": "requested_by",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "domain": "[('state', 'in', ['approved', 'in_progress', 'done'])]",
+          "date_field_id": "date_start",
+          "layout": {
+            "x": 6,
+            "y": 4,
+            "w": 6,
+            "h": 4
+          },
+          "index": 9
+        },
+        {
+          "name": "Requests by Status",
+          "item_type": "doughnut",
+          "model": "purchase.request",
+          "aggregation": "count",
+          "group_by_field_id": "state",
+          "chart_sort": "value_desc",
+          "domain": "[]",
+          "date_field_id": "date_start",
+          "layout": {
+            "x": 0,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 10
+        },
+        {
+          "name": "Requests by Approver",
+          "item_type": "bar",
+          "model": "purchase.request",
+          "aggregation": "count",
+          "group_by_field_id": "assigned_to",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "domain": "[('state', 'in', ['to_approve', 'approved', 'in_progress', 'done'])]",
+          "date_field_id": "date_start",
+          "layout": {
+            "x": 6,
+            "y": 8,
+            "w": 6,
+            "h": 4
+          },
+          "index": 11
+        },
+        {
+          "name": "Recent Requests",
+          "item_type": "list",
+          "model": "purchase.request",
+          "list_type": "plain",
+          "sort_field_id": "date_start",
+          "sort_field_model": "purchase.request",
+          "sort_dir": "desc",
+          "page_size": 10,
+          "list_columns": [
+            "name",
+            "requested_by",
+            "assigned_to",
+            "estimated_cost",
+            "state",
+            "date_start",
+            "picking_type_id",
+            "company_id"
+          ],
+          "domain": "[('state', '!=', 'rejected')]",
+          "date_field_id": "date_start",
+          "layout": {
+            "x": 0,
+            "y": 12,
+            "w": 12,
+            "h": 5
+          },
+          "index": 12
+        }
+      ],
+      "filters": [
+        {
+          "name": "My Requests",
+          "sequence": 10,
+          "model": "purchase.request",
+          "domain": "[('requested_by', '=', uid)]",
+          "default_enabled": false
+        },
+        {
+          "name": "To Approve",
+          "sequence": 20,
+          "model": "purchase.request",
+          "domain": "[('state', '=', 'to_approve')]",
+          "default_enabled": false
+        },
+        {
+          "name": "Approved",
+          "sequence": 30,
+          "model": "purchase.request",
+          "domain": "[('state', 'in', ['approved', 'in_progress', 'done'])]",
+          "default_enabled": false
+        },
+        {
+          "name": "In Progress",
+          "sequence": 40,
+          "model": "purchase.request",
+          "domain": "[('state', '=', 'in_progress')]",
+          "default_enabled": false
+        }
+      ]
+    }
+  ]
+}
+        </field>
+    </record>
+</odoo>
