@@ -1,0 +1,36 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_contract
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_contract
+#: model:boardkit.dashboard.template,description:boardkit_dashboard_contract.template_contract_overview
+msgid ""
+"\n"
+"            Recurring contracts board for customer and supplier portfolios:\n"
+"            active counts, due-to-invoice backlog, endings, start trends,\n"
+"            type and recurrence analytics, and a recent contracts list.\n"
+"            Requires Contract.\n"
+"        "
+msgstr ""
+
+#. module: boardkit_dashboard_contract
+#: model:boardkit.dashboard,description:boardkit_dashboard_contract.dashboard_demo
+msgid "Active recurring contracts, invoicing queue and type analytics."
+msgstr ""
+
+#. module: boardkit_dashboard_contract
+#: model:boardkit.dashboard,name:boardkit_dashboard_contract.dashboard_demo
+#: model:boardkit.dashboard.template,name:boardkit_dashboard_contract.template_contract_overview
+msgid "Contract Overview"
+msgstr ""
