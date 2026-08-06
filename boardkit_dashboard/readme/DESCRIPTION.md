@@ -2,9 +2,11 @@ Build configurable analytic dashboards on top of any Odoo model, without writing
 
 ![Boards Catalogue](../static/description/images/boardkit-boards-catalogue.png)
 
+![Contacts Overview](../static/description/images/boardkit-contacts-overview.png)
+
 ![CRM Pipeline](../static/description/images/boardkit-crm-pipeline.png)
 
-![Contacts Overview](../static/description/images/boardkit-contacts-overview.png)
+![Sales Overview](../static/description/images/boardkit-sales-overview.png)
 
 ![Purchase Overview](../static/description/images/boardkit-purchase-overview.png)
 
