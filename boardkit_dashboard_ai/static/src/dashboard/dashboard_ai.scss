@@ -42,6 +42,17 @@
             align-self: stretch;
             background: var(--o-view-background-color, #ffffff);
             border: 1px solid var(--o-gray-200, #e7e7e7);
+
+            .o_boardkit_dashboard_ai_message_copy {
+                padding: 0.1rem 0.35rem;
+                line-height: 1;
+                opacity: 0.65;
+
+                &:hover,
+                &:focus {
+                    opacity: 1;
+                }
+            }
         }
 
         .o_boardkit_dashboard_ai_content {

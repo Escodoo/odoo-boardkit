@@ -101,25 +101,43 @@ patch(BoardkitDashboardAction.prototype, {
         }
     },
 
-    async copyAiBody() {
-        if (!this.canCopyAiBody) {
+    _aiMessagePlainText(message) {
+        if (!message) {
+            return "";
+        }
+        return message.isHtml
+            ? this._aiHtmlToPlainText(message.text)
+            : (message.text || "").trim();
+    },
+
+    async _copyTextToClipboard(text) {
+        const value = (text || "").trim();
+        if (!value) {
             return;
         }
-        const parts = this.state.aiMessages.map((message) => {
-            const label = message.role === "user" ? _t("You") : _t("AI");
-            const body = message.isHtml
-                ? this._aiHtmlToPlainText(message.text)
-                : message.text;
-            return `${label}:\n${body}`;
-        });
         try {
-            await browser.navigator.clipboard.writeText(parts.join("\n\n"));
+            await browser.navigator.clipboard.writeText(value);
             this.notification.add(_t("Copied to clipboard."), {type: "success"});
         } catch {
             this.notification.add(_t("Could not copy to the clipboard."), {
                 type: "danger",
             });
         }
+    },
+
+    async copyAiMessage(message) {
+        await this._copyTextToClipboard(this._aiMessagePlainText(message));
+    },
+
+    async copyAiBody() {
+        if (!this.canCopyAiBody) {
+            return;
+        }
+        const parts = this.state.aiMessages.map((message) => {
+            const label = message.role === "user" ? _t("You") : _t("AI");
+            return `${label}:\n${this._aiMessagePlainText(message)}`;
+        });
+        await this._copyTextToClipboard(parts.join("\n\n"));
     },
 
     async _applyAiChatActions(actions) {

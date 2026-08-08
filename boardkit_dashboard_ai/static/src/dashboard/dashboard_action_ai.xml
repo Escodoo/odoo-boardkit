@@ -77,17 +77,35 @@
                             t-att-class="message.role === 'user' ? 'o_boardkit_dashboard_ai_message_user' : 'o_boardkit_dashboard_ai_message_assistant'"
                         >
                             <div
-                                class="o_boardkit_dashboard_ai_message_role small text-muted mb-1"
+                                class="o_boardkit_dashboard_ai_message_role small text-muted mb-1 d-flex align-items-center gap-1"
                             >
-                                <t t-if="message.role === 'user'">You</t>
-                                <t t-else="">AI</t>
+                                <span class="flex-grow-1">
+                                    <t t-if="message.role === 'user'">You</t>
+                                    <t t-else="">AI</t>
+                                </span>
+                                <button
+                                    t-if="message.role === 'assistant'"
+                                    class="btn btn-sm btn-light o_boardkit_dashboard_ai_message_copy"
+                                    title="Copy to clipboard"
+                                    t-on-click="() => this.copyAiMessage(message)"
+                                >
+                                    <i
+                                        class="fa fa-clipboard"
+                                        role="img"
+                                        aria-label="Copy"
+                                    />
+                                </button>
                             </div>
                             <div
                                 t-if="message.isHtml"
                                 class="o_boardkit_dashboard_ai_content"
                                 t-out="message.html"
                             />
-                            <div t-else="" class="o_boardkit_dashboard_ai_content" t-esc="message.text" />
+                            <div
+                                t-else=""
+                                class="o_boardkit_dashboard_ai_content"
+                                t-esc="message.text"
+                            />
                         </div>
                     </t>
                     <div
