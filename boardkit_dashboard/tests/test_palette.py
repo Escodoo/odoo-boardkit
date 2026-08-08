@@ -221,9 +221,7 @@ class TestPalette(BoardkitDashboardCommon):
 
     def test_company_default_change_does_not_update_existing(self):
         self.env.company.boardkit_default_color_palette = "ocean"
-        dashboard = self.env["boardkit.dashboard"].create(
-            {"name": "Snapshot Palette"}
-        )
+        dashboard = self.env["boardkit.dashboard"].create({"name": "Snapshot Palette"})
         self.assertEqual(dashboard.default_color_palette, "ocean")
         self.env.company.boardkit_default_color_palette = "sunset"
         self.assertEqual(dashboard.default_color_palette, "ocean")
@@ -280,9 +278,7 @@ class TestPalette(BoardkitDashboardCommon):
         defaults = (
             self.env["boardkit.dashboard"]
             .with_context(default_company_id=other_company.id)
-            .default_get(
-                ["default_color_palette", "default_palette_id", "company_id"]
-            )
+            .default_get(["default_color_palette", "default_palette_id", "company_id"])
         )
         self.assertEqual(defaults.get("company_id"), other_company.id)
         self.assertEqual(defaults.get("default_color_palette"), "custom")
@@ -295,9 +291,7 @@ class TestPalette(BoardkitDashboardCommon):
                 "boardkit_default_palette_id": self.palette.id,
             }
         )
-        defaults = self.env["boardkit.dashboard"].default_get(
-            ["default_color_palette"]
-        )
+        defaults = self.env["boardkit.dashboard"].default_get(["default_color_palette"])
         self.assertEqual(defaults.get("default_color_palette"), "custom")
         self.assertNotIn("default_palette_id", defaults)
 

@@ -48,7 +48,7 @@ class ResConfigSettings(models.TransientModel):
         )
 
     def set_values(self):
-        super().set_values()
+        res = super().set_values()
         for settings in self:
             palette_key = settings.boardkit_default_color_palette or False
             settings.company_id.write(
@@ -61,3 +61,4 @@ class ResConfigSettings(models.TransientModel):
                     ),
                 }
             )
+        return res
