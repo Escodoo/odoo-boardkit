@@ -187,3 +187,200 @@ class TestPalette(BoardkitDashboardCommon):
         config = item._get_config()
         self.assertEqual(config["background_style"], "manual")
         self.assertEqual(config["background_color"], "#123123")
+
+    def test_company_default_palette_applied_on_create(self):
+        self.env.company.boardkit_default_color_palette = "ocean"
+        dashboard = self.env["boardkit.dashboard"].create(
+            {"name": "Inherits Company Default"}
+        )
+        self.assertEqual(dashboard.default_color_palette, "ocean")
+        self.assertFalse(dashboard.default_palette_id)
+
+    def test_company_default_custom_palette_applied_on_create(self):
+        self.env.company.write(
+            {
+                "boardkit_default_color_palette": "custom",
+                "boardkit_default_palette_id": self.palette.id,
+            }
+        )
+        dashboard = self.env["boardkit.dashboard"].create(
+            {"name": "Inherits Company Custom"}
+        )
+        self.assertEqual(dashboard.default_color_palette, "custom")
+        self.assertEqual(dashboard.default_palette_id, self.palette)
+
+    def test_explicit_palette_overrides_company_default(self):
+        self.env.company.boardkit_default_color_palette = "ocean"
+        dashboard = self.env["boardkit.dashboard"].create(
+            {
+                "name": "Explicit Palette",
+                "default_color_palette": "pastel",
+            }
+        )
+        self.assertEqual(dashboard.default_color_palette, "pastel")
+
+    def test_company_default_change_does_not_update_existing(self):
+        self.env.company.boardkit_default_color_palette = "ocean"
+        dashboard = self.env["boardkit.dashboard"].create({"name": "Snapshot Palette"})
+        self.assertEqual(dashboard.default_color_palette, "ocean")
+        self.env.company.boardkit_default_color_palette = "sunset"
+        self.assertEqual(dashboard.default_color_palette, "ocean")
+
+    def test_copy_keeps_source_palette_not_company_default(self):
+        self.env.company.boardkit_default_color_palette = "ocean"
+        source = self.env["boardkit.dashboard"].create(
+            {
+                "name": "Source Palette",
+                "default_color_palette": "pastel",
+            }
+        )
+        self.env.company.boardkit_default_color_palette = "sunset"
+        copy = source.copy()
+        self.assertEqual(copy.default_color_palette, "pastel")
+
+    def test_company_default_custom_requires_palette(self):
+        with self.assertRaises(ValidationError):
+            self.env.company.boardkit_default_color_palette = "custom"
+
+    def test_default_get_uses_company_default_palette(self):
+        self.env.company.write(
+            {
+                "boardkit_default_color_palette": "custom",
+                "boardkit_default_palette_id": self.palette.id,
+            }
+        )
+        defaults = self.env["boardkit.dashboard"].default_get(
+            ["default_color_palette", "default_palette_id"]
+        )
+        self.assertEqual(defaults.get("default_color_palette"), "custom")
+        self.assertEqual(defaults.get("default_palette_id"), self.palette.id)
+
+    def test_default_get_keeps_explicit_default_palette(self):
+        """Do not overwrite a palette already provided by context/defaults."""
+        self.env.company.boardkit_default_color_palette = "ocean"
+        defaults = (
+            self.env["boardkit.dashboard"]
+            .with_context(default_default_color_palette="pastel")
+            .default_get(["default_color_palette", "default_palette_id"])
+        )
+        self.assertEqual(defaults.get("default_color_palette"), "pastel")
+
+    def test_default_get_uses_company_id_from_defaults(self):
+        """When defaults include company_id, use that company's palette."""
+        other_company = self.env["res.company"].create({"name": "Palette Other Co"})
+        other_company.write(
+            {
+                "boardkit_default_color_palette": "custom",
+                "boardkit_default_palette_id": self.palette.id,
+            }
+        )
+        self.env.company.boardkit_default_color_palette = "ocean"
+        defaults = (
+            self.env["boardkit.dashboard"]
+            .with_context(default_company_id=other_company.id)
+            .default_get(["default_color_palette", "default_palette_id", "company_id"])
+        )
+        self.assertEqual(defaults.get("company_id"), other_company.id)
+        self.assertEqual(defaults.get("default_color_palette"), "custom")
+        self.assertEqual(defaults.get("default_palette_id"), self.palette.id)
+
+    def test_default_get_palette_without_palette_id_field(self):
+        self.env.company.write(
+            {
+                "boardkit_default_color_palette": "custom",
+                "boardkit_default_palette_id": self.palette.id,
+            }
+        )
+        defaults = self.env["boardkit.dashboard"].default_get(["default_color_palette"])
+        self.assertEqual(defaults.get("default_color_palette"), "custom")
+        self.assertNotIn("default_palette_id", defaults)
+
+    def test_create_uses_company_id_palette_default(self):
+        other_company = self.env["res.company"].create({"name": "Create Palette Co"})
+        other_company.write(
+            {
+                "boardkit_default_color_palette": "custom",
+                "boardkit_default_palette_id": self.palette.id,
+            }
+        )
+        self.env.company.boardkit_default_color_palette = "ocean"
+        dashboard = self.env["boardkit.dashboard"].create(
+            {
+                "name": "Company Scoped Palette",
+                "company_id": other_company.id,
+            }
+        )
+        self.assertEqual(dashboard.default_color_palette, "custom")
+        self.assertEqual(dashboard.default_palette_id, self.palette)
+
+    def test_settings_save_custom_palette_atomically(self):
+        """Settings must write palette key + Many2one together.
+
+        Related inverses update company field-by-field and trip the company
+        constraint when Custom is stored before the palette id.
+        """
+        settings = self.env["res.config.settings"].create(
+            {
+                "boardkit_default_color_palette": "custom",
+                "boardkit_default_palette_id": self.palette.id,
+            }
+        )
+        settings.set_values()
+        self.assertEqual(self.env.company.boardkit_default_color_palette, "custom")
+        self.assertEqual(self.env.company.boardkit_default_palette_id, self.palette)
+
+    def test_settings_get_values_loads_company_palette(self):
+        self.env.company.write(
+            {
+                "boardkit_default_color_palette": "custom",
+                "boardkit_default_palette_id": self.palette.id,
+            }
+        )
+        values = self.env["res.config.settings"].get_values()
+        self.assertEqual(values["boardkit_default_color_palette"], "custom")
+        self.assertEqual(values["boardkit_default_palette_id"], self.palette.id)
+
+    def test_settings_save_preset_clears_custom_palette(self):
+        self.env.company.write(
+            {
+                "boardkit_default_color_palette": "custom",
+                "boardkit_default_palette_id": self.palette.id,
+            }
+        )
+        settings = self.env["res.config.settings"].create(
+            {"boardkit_default_color_palette": "ocean"}
+        )
+        settings.set_values()
+        self.assertEqual(self.env.company.boardkit_default_color_palette, "ocean")
+        self.assertFalse(self.env.company.boardkit_default_palette_id)
+
+    def test_settings_onchange_company_loads_palette(self):
+        other_company = self.env["res.company"].create({"name": "Boardkit Other Co"})
+        other_company.write(
+            {
+                "boardkit_default_color_palette": "custom",
+                "boardkit_default_palette_id": self.palette.id,
+            }
+        )
+        settings = self.env["res.config.settings"].new(
+            {
+                "company_id": other_company.id,
+                "boardkit_default_color_palette": "ocean",
+                "boardkit_default_palette_id": False,
+            }
+        )
+        settings._onchange_company_id_boardkit_palette()
+        self.assertEqual(settings.boardkit_default_color_palette, "custom")
+        self.assertEqual(settings.boardkit_default_palette_id, self.palette)
+
+    def test_settings_onchange_company_clears_palette_without_company(self):
+        settings = self.env["res.config.settings"].new(
+            {
+                "company_id": False,
+                "boardkit_default_color_palette": "ocean",
+                "boardkit_default_palette_id": self.palette.id,
+            }
+        )
+        settings._onchange_company_id_boardkit_palette()
+        self.assertFalse(settings.boardkit_default_color_palette)
+        self.assertFalse(settings.boardkit_default_palette_id)

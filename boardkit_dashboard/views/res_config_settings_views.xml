@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field
+            name="name"
+        >res.config.settings.view.form.inherit.boardkit.dashboard</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="50" />
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app
+                    data-string="Boardkit Dashboards"
+                    string="Boardkit Dashboards"
+                    name="boardkit_dashboard"
+                    groups="boardkit_dashboard.group_dashboard_manager"
+                >
+                    <block title="Color Palette" name="boardkit_color_palette">
+                        <setting
+                            id="boardkit_default_color_palette_setting"
+                            string="Default Palette"
+                            help="Applied to new dashboards created for this company. Existing dashboards keep their own palette."
+                            company_dependent="1"
+                        >
+                            <field name="boardkit_default_color_palette" />
+                            <div
+                                class="content-group"
+                                invisible="boardkit_default_color_palette != 'custom'"
+                            >
+                                <div class="mt16">
+                                    <label
+                                        for="boardkit_default_palette_id"
+                                        string="Custom Palette"
+                                        class="o_light_label"
+                                    />
+                                    <field
+                                        name="boardkit_default_palette_id"
+                                        required="boardkit_default_color_palette == 'custom'"
+                                        options="{'no_create': True}"
+                                    />
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record
+        id="boardkit_dashboard_config_settings_action"
+        model="ir.actions.act_window"
+    >
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'boardkit_dashboard'}</field>
+    </record>
+</odoo>
