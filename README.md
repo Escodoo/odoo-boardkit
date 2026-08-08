@@ -51,6 +51,8 @@ Sales, CRM, Inventory, Accounting, HR, Helpdesk and more.
 - **Templates**: start from curated industry boards; each template can carry
   allowed groups so app users open boards without the Dashboard User right
 - **Security first**: item queries always run as the signed-in user
+- **Optional AI** (`boardkit_dashboard_ai`): narrative summaries, tile explanations
+  and NL board generation via OCA `ai.bridge` + Escodoo Agno
 
 ### Requirements
 
@@ -58,6 +60,8 @@ Sales, CRM, Inventory, Accounting, HR, Helpdesk and more.
 - Core module depends on `web` and `web_tour`
 - Template addons depend on their respective business apps (and OCA modules where
   noted, e.g. Helpdesk / Field Service)
+- AI addon additionally needs `ai_oca_bridge`, `ai_agno_connector` and the Agno
+  service (`/bridge/boardkit/*`)
 
 ### Installation
 
