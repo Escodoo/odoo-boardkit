@@ -6,6 +6,7 @@ import logging
 import re
 
 from odoo import _, api, fields, models
+from odoo.addons.boardkit_dashboard.tools.date_ranges import DATE_RANGE_PRESETS
 from odoo.exceptions import AccessError, UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
@@ -25,6 +26,24 @@ _BRIDGE_CHAT = "boardkit_dashboard_ai.ai_bridge_boardkit_chat"
 
 _AI_CHAT_HISTORY_LIMIT = 10
 _AI_CHAT_MESSAGE_MAX_LEN = 2000
+_AI_CHAT_CUSTOM_FILTER_OPS = frozenset(
+    {
+        "=",
+        "!=",
+        ">",
+        ">=",
+        "<",
+        "<=",
+        "like",
+        "ilike",
+        "not like",
+        "not ilike",
+        "in",
+        "not in",
+        "child_of",
+        "parent_of",
+    }
+)
 
 
 class BoardkitDashboard(models.Model):
@@ -113,7 +132,7 @@ class BoardkitDashboard(models.Model):
         if len(text) > _AI_CHAT_MESSAGE_MAX_LEN:
             text = text[:_AI_CHAT_MESSAGE_MAX_LEN]
         snapshot = self._prepare_ai_snapshot(params)
-        return self._run_boardkit_bridge(
+        result = self._run_boardkit_bridge(
             _BRIDGE_CHAT,
             record=self,
             snapshot=snapshot,
@@ -121,6 +140,12 @@ class BoardkitDashboard(models.Model):
             message=text,
             history=self._normalize_ai_chat_history(history),
         )
+        actions = self._sanitize_ai_chat_actions(result.get("actions"))
+        return {
+            "body": result.get("body") or "",
+            "body_is_html": bool(result.get("body_is_html", True)),
+            "actions": actions,
+        }
 
     @api.model
     def _normalize_ai_chat_history(self, history):
@@ -140,6 +165,90 @@ class BoardkitDashboard(models.Model):
             if len(content) > _AI_CHAT_MESSAGE_MAX_LEN:
                 content = content[:_AI_CHAT_MESSAGE_MAX_LEN]
             cleaned.append({"role": role, "content": content})
+        return cleaned
+
+    def _sanitize_ai_chat_actions(self, actions):
+        """Validate AI filter actions against this board before the OWL client runs them."""
+        self.ensure_one()
+        if not isinstance(actions, list):
+            return []
+        allowed_presets = dict(DATE_RANGE_PRESETS)
+        known_filter_ids = set(self.filter_ids.ids)
+        allowed_models = set(self.item_ids.mapped("model_name"))
+        cleaned = []
+        for entry in actions[:5]:
+            if not isinstance(entry, dict) or entry.get("type") != "apply_filters":
+                continue
+            filters = entry.get("filters")
+            if not isinstance(filters, dict):
+                continue
+            sanitized = {}
+            preset = filters.get("date_preset")
+            if isinstance(preset, str) and preset in allowed_presets:
+                sanitized["date_preset"] = preset
+                if preset == "custom":
+                    date_from = filters.get("date_from")
+                    date_to = filters.get("date_to")
+                    if not (
+                        isinstance(date_from, str)
+                        and isinstance(date_to, str)
+                        and date_from
+                        and date_to
+                    ):
+                        # Incomplete custom range: drop the date change.
+                        sanitized.pop("date_preset", None)
+                    else:
+                        sanitized["date_from"] = date_from
+                        sanitized["date_to"] = date_to
+            if "filter_ids" in filters:
+                ids = []
+                for value in filters.get("filter_ids") or []:
+                    try:
+                        filter_id = int(value)
+                    except (TypeError, ValueError):
+                        continue
+                    if filter_id in known_filter_ids:
+                        ids.append(filter_id)
+                sanitized["filter_ids"] = ids
+            if "custom_filters" in filters:
+                sanitized["custom_filters"] = self._sanitize_ai_custom_filters(
+                    filters.get("custom_filters"), allowed_models
+                )
+            if sanitized:
+                cleaned.append({"type": "apply_filters", "filters": sanitized})
+        return cleaned
+
+    @api.model
+    def _sanitize_ai_custom_filters(self, custom_filters, allowed_models):
+        if not isinstance(custom_filters, list):
+            return []
+        cleaned = []
+        for entry in custom_filters[:10]:
+            if not isinstance(entry, dict):
+                continue
+            model = entry.get("model")
+            field_name = entry.get("field")
+            operator = entry.get("operator")
+            if (
+                not isinstance(model, str)
+                or model not in allowed_models
+                or not isinstance(field_name, str)
+                or not field_name
+                or operator not in _AI_CHAT_CUSTOM_FILTER_OPS
+            ):
+                continue
+            cleaned.append(
+                {
+                    "model": model,
+                    "field": field_name,
+                    "operator": operator,
+                    "value": entry.get("value"),
+                    "label": entry.get("label") or False,
+                    "modelLabel": entry.get("modelLabel")
+                    or entry.get("model_label")
+                    or False,
+                }
+            )
         return cleaned
 
     def export_config(self):
@@ -198,11 +307,18 @@ class BoardkitDashboard(models.Model):
         items = []
         for item in self.item_ids.sorted("sequence"):
             items.append(self._compact_item_payload(item, params))
+        date_presets = [
+            {"key": key, "label": label}
+            for key, label in self._fields["date_filter"]._description_selection(
+                self.env
+            )
+        ]
         return {
             "id": self.id,
             "name": self.name,
             "description": self.description or False,
             "date_filter": self.date_filter,
+            "date_presets": date_presets,
             "filters": [
                 {
                     "id": board_filter.id,

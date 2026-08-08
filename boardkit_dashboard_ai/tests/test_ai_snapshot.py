@@ -127,6 +127,7 @@ class TestBoardkitAiSnapshot(TransactionCase):
                 ],
             )
         self.assertIn("overdue", result["body"])
+        self.assertEqual(result["actions"], [])
         self.assertTrue(
             captured["xmlid"].endswith("ai_bridge_boardkit_chat")
             or captured["xmlid"]
@@ -141,6 +142,73 @@ class TestBoardkitAiSnapshot(TransactionCase):
             ],
         )
         self.assertIn("items", captured["kwargs"]["snapshot"])
+        self.assertTrue(captured["kwargs"]["snapshot"]["date_presets"])
+
+    def test_ai_chat_sanitizes_filter_actions(self):
+        board_filter = (
+            self.env["boardkit.dashboard.filter"]
+            .with_user(self.manager)
+            .create(
+                {
+                    "name": "Companies",
+                    "dashboard_id": self.dashboard.id,
+                    "model_id": self.env.ref("base.model_res_partner").id,
+                    "domain": "[('is_company', '=', True)]",
+                }
+            )
+        )
+
+        def _fake_run(xmlid, record=None, **kwargs):
+            return {
+                "body": "<p>Applied this month.</p>",
+                "body_is_html": True,
+                "actions": [
+                    {
+                        "type": "apply_filters",
+                        "filters": {
+                            "date_preset": "this_month",
+                            "filter_ids": [board_filter.id, 999999],
+                            "custom_filters": [
+                                {
+                                    "model": "res.partner",
+                                    "field": "name",
+                                    "operator": "ilike",
+                                    "value": "Acme",
+                                },
+                                {
+                                    "model": "sale.order",
+                                    "field": "amount_total",
+                                    "operator": ">",
+                                    "value": 1,
+                                },
+                                {
+                                    "model": "res.partner",
+                                    "field": "name",
+                                    "operator": "; drop table",
+                                    "value": "x",
+                                },
+                            ],
+                        },
+                    },
+                    {"type": "delete_board", "filters": {}},
+                ],
+            }
+
+        with patch.object(
+            type(self.env["boardkit.dashboard"]),
+            "_run_boardkit_bridge",
+            side_effect=_fake_run,
+        ):
+            result = self.dashboard.with_user(self.manager).action_ai_chat(
+                {}, "Filter this month and companies", []
+            )
+        self.assertEqual(len(result["actions"]), 1)
+        filters = result["actions"][0]["filters"]
+        self.assertEqual(filters["date_preset"], "this_month")
+        self.assertEqual(filters["filter_ids"], [board_filter.id])
+        self.assertEqual(len(filters["custom_filters"]), 1)
+        self.assertEqual(filters["custom_filters"][0]["model"], "res.partner")
+        self.assertEqual(filters["custom_filters"][0]["operator"], "ilike")
 
     def test_normalize_ai_chat_history(self):
         Dashboard = self.env["boardkit.dashboard"]

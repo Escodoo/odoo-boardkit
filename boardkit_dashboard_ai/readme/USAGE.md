@@ -5,6 +5,10 @@ On the board form, keep **Enable AI** checked. Open the dashboard and click
 currently shown. Answers use the active date/filter context. If you change
 filters while chatting, the next answer uses the updated context.
 
+You can also ask the assistant to change filters, for example “show this month”
+or “enable the Companies filter”. When the request maps to a known date preset
+or board filter, the dashboard filters update and the cards reload.
+
 ### Insights
 
 Click **Insights** to append a narrative read of the current cards to the same

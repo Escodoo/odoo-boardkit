@@ -17,4 +17,5 @@ class AiBridgeExecution(models.Model):
             "body_is_html": bool(response.get("body_is_html", True)),
             "payload": response.get("payload"),
             "name": response.get("name") or False,
+            "actions": response.get("actions") or [],
         }

@@ -122,6 +122,28 @@ patch(BoardkitDashboardAction.prototype, {
         }
     },
 
+    async _applyAiChatActions(actions) {
+        if (!Array.isArray(actions) || !actions.length || !this.state.board) {
+            return;
+        }
+        let filtersApplied = false;
+        for (const action of actions) {
+            if (action?.type !== "apply_filters" || !action.filters) {
+                continue;
+            }
+            this.applyFilterState(action.filters, this.state.board);
+            filtersApplied = true;
+        }
+        if (!filtersApplied) {
+            return;
+        }
+        // Reload cards without persisting personal saved filters from AI.
+        this.state.filterStamp += 1;
+        this.state.aiContextUpdated = false;
+        await this.loadItemsData();
+        this.notification.add(_t("Dashboard filters updated."), {type: "info"});
+    },
+
     async sendAiChatMessage() {
         if (!this.canSendAiChat || !this.state.board?.id) {
             return;
@@ -140,6 +162,7 @@ patch(BoardkitDashboardAction.prototype, {
                 "action_ai_chat",
                 [[this.state.board.id], this.buildParams(), question, history]
             );
+            await this._applyAiChatActions(result?.actions);
             this._appendAiMessage(
                 "assistant",
                 result?.body || _t("No response was returned."),
