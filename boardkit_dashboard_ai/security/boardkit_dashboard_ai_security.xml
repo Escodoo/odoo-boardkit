@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="group_dashboard_ai_user" model="res.groups">
+        <field name="name">Use AI on Dashboards</field>
+        <field name="category_id" ref="boardkit_dashboard.module_category_dashboard" />
+        <field
+            name="implied_ids"
+            eval="[(4, ref('boardkit_dashboard.group_dashboard_user'))]"
+        />
+        <field
+            name="comment"
+        >Allow summarizing boards and explaining tiles with AI.</field>
+    </record>
+
+    <record id="boardkit_dashboard.group_dashboard_manager" model="res.groups">
+        <field
+            name="implied_ids"
+            eval="[(4, ref('group_dashboard_ai_user'))]"
+        />
+    </record>
+</odoo>

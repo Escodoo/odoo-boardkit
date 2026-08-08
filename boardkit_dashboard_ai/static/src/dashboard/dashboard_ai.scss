@@ -1,0 +1,60 @@
+// Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+// License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
+.o_boardkit_dashboard {
+    position: relative;
+
+    .o_boardkit_dashboard_ai_panel {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 5;
+        // Avoid min(rem, vw): libsass cannot mix those units.
+        width: 24rem;
+        max-width: 92%;
+        box-shadow: -0.25rem 0 0.75rem rgba(0, 0, 0, 0.08);
+
+        .o_boardkit_dashboard_ai_context_banner {
+            background: var(--o-gray-100, #f4f4f4);
+            color: var(--o-gray-700, #595959);
+        }
+
+        .o_boardkit_dashboard_ai_message {
+            border-radius: 0.5rem;
+            padding: 0.65rem 0.75rem;
+            font-size: 0.925rem;
+            line-height: 1.45;
+        }
+
+        .o_boardkit_dashboard_ai_message_user {
+            align-self: flex-end;
+            max-width: 92%;
+            background: var(--o-brand-primary, #714b67);
+            color: #fff;
+
+            .o_boardkit_dashboard_ai_message_role {
+                color: rgba(255, 255, 255, 0.75);
+            }
+        }
+
+        .o_boardkit_dashboard_ai_message_assistant {
+            align-self: stretch;
+            background: var(--o-view-background-color, #ffffff);
+            border: 1px solid var(--o-gray-200, #e7e7e7);
+        }
+
+        .o_boardkit_dashboard_ai_content {
+            p:last-child,
+            ul:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        .o_boardkit_dashboard_ai_composer {
+            .o_boardkit_dashboard_ai_input {
+                resize: none;
+            }
+        }
+    }
+}

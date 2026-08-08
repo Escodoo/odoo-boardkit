@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_boardkit_dashboard_ai_generate_wizard_user,boardkit.dashboard.ai.generate.wizard.user,model_boardkit_dashboard_ai_generate_wizard,boardkit_dashboard.group_dashboard_manager,1,1,1,1

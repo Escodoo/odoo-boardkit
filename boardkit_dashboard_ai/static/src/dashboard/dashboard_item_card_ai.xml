@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t
+        t-name="boardkit_dashboard.ItemCard"
+        t-inherit="boardkit_dashboard.ItemCard"
+        t-inherit-mode="extension"
+    >
+        <xpath expr="//DropdownItem[contains(., 'Export XLSX')]" position="after">
+            <DropdownItem
+                t-if="props.aiEnabled and props.onExplainAi"
+                onSelected.bind="onExplainAi"
+            >Explain with AI</DropdownItem>
+        </xpath>
+    </t>
+</templates>
