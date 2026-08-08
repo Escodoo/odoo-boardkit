@@ -27,9 +27,11 @@ writing code.
 
 |Boards Catalogue|
 
+|Contacts Overview|
+
 |CRM Pipeline|
 
-|Contacts Overview|
+|Sales Overview|
 
 |Purchase Overview|
 
@@ -85,8 +87,9 @@ Data is always read with the access rights of the current user: ACLs and
 record rules of the source models are enforced.
 
 .. |Boards Catalogue| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-boards-catalogue.png
-.. |CRM Pipeline| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-crm-pipeline.png
 .. |Contacts Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-contacts-overview.png
+.. |CRM Pipeline| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-crm-pipeline.png
+.. |Sales Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-sales-overview.png
 .. |Purchase Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-purchase-overview.png
 .. |Timesheet Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-timesheet-overview.png
 
@@ -106,7 +109,13 @@ Configuration
    - *Dashboard / Manager*: can create and configure dashboards and
      items.
 
-2. Go to *All Dashboards > Boards* and create a dashboard (managers), or
+2. Optionally set the company default color palette under *All
+   Dashboards > Configuration > Settings*. New dashboards created
+   without an explicit palette inherit that default as a snapshot.
+   Changing the company default later does not update existing boards;
+   only boards created afterwards use the new value. Leave the setting
+   empty to keep the Odoo preset as the implicit fallback.
+3. Go to *All Dashboards > Boards* and create a dashboard (managers), or
    use *From template* in the toolbar to start from a curated board
    (also managers only). Template boards and blank boards both start
    unpublished so only managers can see them while building. Use
@@ -121,16 +130,16 @@ Configuration
    visible only to Dashboard Managers. Dashboards limited to a specific
    company cannot have a menu entry (open them from *All Dashboards* or
    a landing-page action instead).
-3. Optionally create or edit tags under *All Dashboards > Configuration
+4. Optionally create or edit tags under *All Dashboards > Configuration
    > Tags* and set an *Icon* for each domain tag (template tags such as
    CRM and Purchase are seeded automatically). On each board form, set
    *Icon* to override the catalogue card icon, or leave it empty to
    inherit the first non-empty tag icon.
-4. Add items from the dashboard form or directly from the dashboard view
+5. Add items from the dashboard form or directly from the dashboard view
    with the *Add Item* button (managers only). The item form shows a
    live preview that updates as you change the configuration, before
    saving.
-5. To reuse a board from another database, use the *Import* button in
+6. To reuse a board from another database, use the *Import* button in
    the *All Dashboards > Boards* toolbar (managers only) and select the
    JSON file exported from the dashboard action menu. Imported boards
    arrive unpublished and without a menu entry, so review them before
