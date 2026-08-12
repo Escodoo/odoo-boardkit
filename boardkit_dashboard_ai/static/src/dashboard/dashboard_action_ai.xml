@@ -77,7 +77,7 @@
                             t-att-class="message.role === 'user' ? 'o_boardkit_dashboard_ai_message_user' : 'o_boardkit_dashboard_ai_message_assistant'"
                         >
                             <div
-                                class="o_boardkit_dashboard_ai_message_role small text-muted mb-1 d-flex align-items-center gap-1"
+                                class="o_boardkit_dashboard_ai_message_role small mb-1 d-flex align-items-center gap-1"
                             >
                                 <span class="flex-grow-1">
                                     <t t-if="message.role === 'user'">You</t>

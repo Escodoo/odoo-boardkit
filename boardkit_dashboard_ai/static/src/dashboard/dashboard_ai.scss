@@ -43,6 +43,10 @@
             background: var(--o-view-background-color, #ffffff);
             border: 1px solid var(--o-gray-200, #e7e7e7);
 
+            .o_boardkit_dashboard_ai_message_role {
+                color: var(--o-gray-600, #6c757d);
+            }
+
             .o_boardkit_dashboard_ai_message_copy {
                 padding: 0.1rem 0.35rem;
                 line-height: 1;
