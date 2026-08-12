@@ -322,8 +322,8 @@ Under consideration, no commitment yet:
   be considered.
 - **Value history**: optional snapshots of item values, to show trends
   and sparklines regardless of what the source model keeps.
-- **Narrative board summary**: a short written read of the current
-  figures, generated from the same data the cards use.
+- **Narrative board summary**: shipped in optional addon
+  ``boardkit_dashboard_ai`` (Agno bridge + Summarize panel).
 
 Bug Tracker
 ===========
