@@ -11,5 +11,11 @@ changing the core module:
   unpublished board via `import_config`
 - **Per-dashboard toggle** (`Enable AI`) so each board can opt in or out
 
-Requires the OCA `ai_oca_bridge` stack, Escodoo `ai_agno_connector`, and the
-companion Agno service (`/bridge/boardkit/*` endpoints).
+Requires:
+
+- The OCA `ai_oca_bridge` stack
+- Escodoo `ai_agno_connector` from
+  [ai-addons](https://github.com/Escodoo/ai-addons)
+- The companion Agno service from
+  [agno-odoo](https://github.com/Escodoo/agno-odoo)
+  (`/bridge/boardkit/*` endpoints)

@@ -40,20 +40,49 @@ without changing the core module:
 - **Per-dashboard toggle** (``Enable AI``) so each board can opt in or
   out
 
-Requires the OCA ``ai_oca_bridge`` stack, Escodoo ``ai_agno_connector``,
-and the companion Agno service (``/bridge/boardkit/*`` endpoints).
+Requires:
+
+- The OCA ``ai_oca_bridge`` stack
+- Escodoo ``ai_agno_connector`` from
+  `ai-addons <https://github.com/Escodoo/ai-addons>`_
+- The companion Agno service from
+  `agno-odoo <https://github.com/Escodoo/agno-odoo>`_
+  (``/bridge/boardkit/*`` endpoints)
 
 **Table of contents**
 
 .. contents::
    :local:
 
+Installation
+============
+
+This module is not standalone. Besides ``boardkit_dashboard``, install
+and run:
+
+- `ai-addons <https://github.com/Escodoo/ai-addons>`_ — Odoo addons, at
+  least ``ai_agno_connector`` (which pulls the OCA ``ai_oca_bridge``
+  stack and Escodoo helpers such as ``ai_oca_bridge_provider`` and
+  ``ai_oca_bridge_request_timeout``).
+- `agno-odoo <https://github.com/Escodoo/agno-odoo>`_ — companion Agno
+  service that serves the ``/bridge/boardkit/*`` endpoints used for
+  chat, insights, tile explanations and board generation.
+
+Clone both repositories into the addons / services path of the
+deployment (Doodba ``repos.yaml`` / Compose) before installing
+``boardkit_dashboard_ai``.
+
 Configuration
 =============
 
-1. Install ``boardkit_dashboard_ai`` (and its AI dependencies).
-2. Ensure the Agno service is running and reachable at the bridge URLs
-   (default ``http://agno:8000``).
+1. Install ``boardkit_dashboard_ai`` together with its AI dependencies
+   from `ai-addons <https://github.com/Escodoo/ai-addons>`_
+   (``ai_agno_connector`` and the OCA ``ai_oca_bridge`` stack it depends
+   on).
+2. Deploy and run the companion Agno service from
+   `agno-odoo <https://github.com/Escodoo/agno-odoo>`_. It must be
+   reachable at the bridge URLs (default ``http://agno:8000``) and
+   expose ``/bridge/boardkit/*``.
 3. Set the bridge auth token:
 
    - Prefer ``agno_bridge_auth_token`` in Odoo conf (expanded from

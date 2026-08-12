@@ -1,6 +1,10 @@
-1. Install `boardkit_dashboard_ai` (and its AI dependencies).
-2. Ensure the Agno service is running and reachable at the bridge URLs
-   (default `http://agno:8000`).
+1. Install `boardkit_dashboard_ai` together with its AI dependencies from
+   [ai-addons](https://github.com/Escodoo/ai-addons) (`ai_agno_connector` and
+   the OCA `ai_oca_bridge` stack it depends on).
+2. Deploy and run the companion Agno service from
+   [agno-odoo](https://github.com/Escodoo/agno-odoo). It must be reachable at
+   the bridge URLs (default `http://agno:8000`) and expose
+   `/bridge/boardkit/*`.
 3. Set the bridge auth token:
    - Prefer `agno_bridge_auth_token` in Odoo conf (expanded from Doodba env), or
    - Set ICP `boardkit_dashboard_ai.bridge_auth_token`.
