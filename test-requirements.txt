@@ -1,1 +1,4 @@
 xsdata
+odoo-addon-ai_oca_bridge_provider @ git+https://github.com/Escodoo/ai-addons@18.0#subdirectory=ai_oca_bridge_provider
+odoo-addon-ai_oca_bridge_request_timeout @ git+https://github.com/Escodoo/ai-addons@18.0#subdirectory=ai_oca_bridge_request_timeout
+odoo-addon-ai_agno_connector @ git+https://github.com/Escodoo/ai-addons@18.0#subdirectory=ai_agno_connector
