@@ -143,7 +143,9 @@
         </xpath>
         <xpath expr="//DashboardItemCard" position="attributes">
             <attribute name="aiEnabled">state.board.ai_enabled</attribute>
-            <attribute name="onExplainAi">((itemId) => this.explainItemWithAi(itemId))</attribute>
+            <attribute
+                name="onExplainAi"
+            >((itemId) => this.explainItemWithAi(itemId))</attribute>
         </xpath>
     </t>
 </templates>

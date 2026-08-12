@@ -6,8 +6,9 @@ import logging
 import re
 
 from odoo import _, api, fields, models
-from odoo.addons.boardkit_dashboard.tools.date_ranges import DATE_RANGE_PRESETS
 from odoo.exceptions import AccessError, UserError, ValidationError
+
+from odoo.addons.boardkit_dashboard.tools.date_ranges import DATE_RANGE_PRESETS
 
 _logger = logging.getLogger(__name__)
 
@@ -168,7 +169,7 @@ class BoardkitDashboard(models.Model):
         return cleaned
 
     def _sanitize_ai_chat_actions(self, actions):
-        """Validate AI filter actions against this board before the OWL client runs them."""
+        """Validate AI filter actions against this board before OWL runs them."""
         self.ensure_one()
         if not isinstance(actions, list):
             return []
@@ -449,7 +450,7 @@ class BoardkitDashboard(models.Model):
         """
         if domain in (None, False, ""):
             return "[]"
-        if isinstance(domain, (list, tuple)):
+        if isinstance(domain, list | tuple):
             return repr(self._ai_domain_pythonize(domain))
         if not isinstance(domain, str):
             return "[]"
@@ -458,7 +459,7 @@ class BoardkitDashboard(models.Model):
             parsed = json.loads(text)
         except json.JSONDecodeError:
             parsed = None
-        if isinstance(parsed, (list, tuple)):
+        if isinstance(parsed, list | tuple):
             return repr(self._ai_domain_pythonize(parsed))
         # Already a Python-like domain string; still fix bare JSON/Python tokens.
         text = re.sub(r"\btrue\b", "True", text, flags=re.IGNORECASE)

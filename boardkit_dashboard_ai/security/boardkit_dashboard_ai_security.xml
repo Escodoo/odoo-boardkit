@@ -13,9 +13,6 @@
     </record>
 
     <record id="boardkit_dashboard.group_dashboard_manager" model="res.groups">
-        <field
-            name="implied_ids"
-            eval="[(4, ref('group_dashboard_ai_user'))]"
-        />
+        <field name="implied_ids" eval="[(4, ref('group_dashboard_ai_user'))]" />
     </record>
 </odoo>

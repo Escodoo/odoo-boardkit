@@ -1,10 +1,10 @@
 // Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 // License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import {markup, useEffect} from "@odoo/owl";
 import {BoardkitDashboardAction} from "@boardkit_dashboard/dashboard/dashboard_action";
 import {_t} from "@web/core/l10n/translation";
 import {browser} from "@web/core/browser/browser";
-import {markup, useEffect} from "@odoo/owl";
 import {patch} from "@web/core/utils/patch";
 
 let aiMessageSeq = 0;
@@ -175,11 +175,12 @@ patch(BoardkitDashboardAction.prototype, {
         this.state.aiLoading = true;
         try {
             const history = this._buildAiHistoryPayload().slice(0, -1);
-            const result = await this.orm.call(
-                "boardkit.dashboard",
-                "action_ai_chat",
-                [[this.state.board.id], this.buildParams(), question, history]
-            );
+            const result = await this.orm.call("boardkit.dashboard", "action_ai_chat", [
+                [this.state.board.id],
+                this.buildParams(),
+                question,
+                history,
+            ]);
             await this._applyAiChatActions(result?.actions);
             this._appendAiMessage(
                 "assistant",
@@ -197,7 +198,11 @@ patch(BoardkitDashboardAction.prototype, {
     },
 
     async summarizeWithAi() {
-        if (!this.state.board?.id || !this.state.board.ai_enabled || this.state.aiLoading) {
+        if (
+            !this.state.board?.id ||
+            !this.state.board.ai_enabled ||
+            this.state.aiLoading
+        ) {
             return;
         }
         this.state.aiPanelOpen = true;
@@ -226,10 +231,16 @@ patch(BoardkitDashboardAction.prototype, {
     },
 
     async explainItemWithAi(itemId) {
-        if (!this.state.board?.id || !this.state.board.ai_enabled || this.state.aiLoading) {
+        if (
+            !this.state.board?.id ||
+            !this.state.board.ai_enabled ||
+            this.state.aiLoading
+        ) {
             return;
         }
-        const item = (this.state.board.items || []).find((entry) => entry.id === itemId);
+        const item = (this.state.board.items || []).find(
+            (entry) => entry.id === itemId
+        );
         this.state.aiPanelOpen = true;
         this.state.aiTitle = _t("Board chat");
         this.state.aiContextUpdated = false;

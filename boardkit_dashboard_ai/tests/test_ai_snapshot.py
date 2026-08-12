@@ -41,15 +41,19 @@ class TestBoardkitAiSnapshot(TransactionCase):
                 }
             )
         )
-        cls.item = cls.env["boardkit.dashboard.item"].with_user(cls.manager).create(
-            {
-                "name": "Partner Count",
-                "dashboard_id": cls.dashboard.id,
-                "item_type": "tile",
-                "model_id": cls.env.ref("base.model_res_partner").id,
-                "domain": "[('is_company', '=', True)]",
-                "aggregation": "count",
-            }
+        cls.item = (
+            cls.env["boardkit.dashboard.item"]
+            .with_user(cls.manager)
+            .create(
+                {
+                    "name": "Partner Count",
+                    "dashboard_id": cls.dashboard.id,
+                    "item_type": "tile",
+                    "model_id": cls.env.ref("base.model_res_partner").id,
+                    "domain": "[('is_company', '=', True)]",
+                    "aggregation": "count",
+                }
+            )
         )
 
     def test_prepare_ai_snapshot_includes_item_data(self):
@@ -130,8 +134,7 @@ class TestBoardkitAiSnapshot(TransactionCase):
         self.assertEqual(result["actions"], [])
         self.assertTrue(
             captured["xmlid"].endswith("ai_bridge_boardkit_chat")
-            or captured["xmlid"]
-            == "boardkit_dashboard_ai.ai_bridge_boardkit_chat"
+            or captured["xmlid"] == "boardkit_dashboard_ai.ai_bridge_boardkit_chat"
         )
         self.assertEqual(captured["kwargs"]["message"], "Why is overdue high?")
         self.assertEqual(

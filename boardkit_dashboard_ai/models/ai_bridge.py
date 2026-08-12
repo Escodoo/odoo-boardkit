@@ -35,11 +35,9 @@ class AiBridge(models.Model):
         """Prepare a Boardkit-specific payload for the Agno service."""
         self.ensure_one()
         # ai.bridge.execution._execute passes model=/res_id=; keep res_model alias.
-        model_name = (
-            res_model or model or (record._name if record else False) or False
-        )
-        record_id = res_id if res_id not in (None, False) else (
-            record.id if record else False
+        model_name = res_model or model or (record._name if record else False) or False
+        record_id = (
+            res_id if res_id not in (None, False) else (record.id if record else False)
         )
         return json.loads(
             json.dumps(
