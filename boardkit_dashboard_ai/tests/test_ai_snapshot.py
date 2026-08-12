@@ -6,6 +6,7 @@ from unittest.mock import MagicMock, patch
 from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase, new_test_user
+from odoo.tools import mute_logger
 
 
 @tagged("post_install", "-at_install")
@@ -619,15 +620,18 @@ class TestBoardkitAiSnapshot(TransactionCase):
         execution.state = "error"
         execution.error = "timeout"
         execution._execute.return_value = {}
-        with patch.object(
-            type(self.env["ai.bridge.execution"]),
-            "create",
-            return_value=execution,
+        with (
+            mute_logger("odoo.addons.boardkit_dashboard_ai.models.boardkit_dashboard"),
+            patch.object(
+                type(self.env["ai.bridge.execution"]),
+                "create",
+                return_value=execution,
+            ),
+            self.assertRaises(UserError),
         ):
-            with self.assertRaises(UserError):
-                dashboard._run_boardkit_bridge(
-                    "boardkit_dashboard_ai.ai_bridge_boardkit_summary"
-                )
+            dashboard._run_boardkit_bridge(
+                "boardkit_dashboard_ai.ai_bridge_boardkit_summary"
+            )
         execution.state = "done"
         execution._execute.return_value = {"body": "ok"}
         with patch.object(
