@@ -618,11 +618,20 @@ class TestBoardkitAiSnapshot(TransactionCase):
             dashboard._run_boardkit_bridge("boardkit_dashboard_ai.missing_bridge")
         bridge = self.env.ref("boardkit_dashboard_ai.ai_bridge_boardkit_summary")
         bridge.active = False
-        with self.assertRaises(UserError):
+        with self.assertRaises(UserError) as err:
             dashboard._run_boardkit_bridge(
                 "boardkit_dashboard_ai.ai_bridge_boardkit_summary"
             )
+        self.assertIn("is not active", str(err.exception))
         bridge.active = True
+        original_groups = bridge.group_ids
+        bridge.group_ids = self.env.ref("base.group_system")
+        with self.assertRaises(UserError) as err:
+            dashboard._run_boardkit_bridge(
+                "boardkit_dashboard_ai.ai_bridge_boardkit_summary"
+            )
+        self.assertIn("not allowed", str(err.exception))
+        bridge.group_ids = original_groups
         execution = MagicMock()
         execution.state = "error"
         execution.error = "timeout"

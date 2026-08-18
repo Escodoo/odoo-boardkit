@@ -606,10 +606,10 @@ class BoardkitDashboard(models.Model):
         bridge = self.env.ref(xmlid, raise_if_not_found=False)
         if not bridge:
             raise UserError(_("The Boardkit AI bridge is not configured."))
-        if not bridge.active or (
-            bridge.group_ids and not self.env.user.groups_id & bridge.group_ids
-        ):
+        if not bridge.active:
             raise UserError(_("%s is not active.", bridge.name))
+        if bridge.group_ids and not self.env.user.groups_id & bridge.group_ids:
+            raise UserError(_("You are not allowed to use %s.", bridge.name))
         target = record if record is not None else self
         model_name = res_model or (target._name if target else "boardkit.dashboard")
         record_id = res_id if res_id is not None else (target.id if target else 0)
