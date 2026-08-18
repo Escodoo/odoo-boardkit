@@ -7,8 +7,9 @@ wizard.
 
 The board opens with the date filter on _This Month_. Open backlog tiles (Open,
 High Priority, Late Requests, Unassigned) ignore that filter so they always show
-the current queue. Completed metrics use _Actual End_ and follow the date
-filter. Use the toggle filters (My Orders, Open, Late, High Priority) to narrow
-the other cards.
+the current queue. Completed metrics use _Actual End_, which technicians fill in
+manually, and follow the date filter; the completion rate measures the orders
+created in the period instead. Use the toggle filters (My Orders, Open, Late,
+High Priority) to narrow the other cards.
 
 When installed with demo data, a published board is created from this template and placed first (sequence `-1`) under the related app menu.
