@@ -147,6 +147,11 @@ class BoardkitTemplateSmokeMixin:
             self.assertIn(name, items_by_name)
             item = items_by_name[name]
             self._assert_item_fields_resolved(item, item_data)
+            self._assert_domain_values(dashboard, item.model_name, item.domain)
+            if item.model_2_name:
+                self._assert_domain_values(
+                    dashboard, item.model_2_name, item.domain_2
+                )
             data = item.get_data()
             self.assertNotIn(
                 "error",
@@ -183,5 +188,35 @@ class BoardkitTemplateSmokeMixin:
             name = filter_data["name"]
             record = dashboard.filter_ids.filtered(lambda f, n=name: f.name == n)
             self.assertEqual(len(record), 1, f"{dashboard.name}: filter {name}")
-            # Raises when the domain does not evaluate against the filter model.
-            dashboard._eval_domain(record.domain, record.model_id.model)
+            self._assert_domain_values(
+                dashboard, record.model_id.model, record.domain
+            )
+
+    def _assert_domain_values(self, dashboard, model_name, domain_str):
+        """Reject selection values the model does not declare.
+
+        The ORM accepts an unknown selection value and silently returns an
+        empty set, so a typo or a state renamed upstream turns into a tile
+        that always reads zero.
+        """
+        if not model_name:
+            return
+        # Raises when the domain does not evaluate against the model.
+        domain = dashboard._eval_domain(domain_str, model_name)
+        model = self.env[model_name]
+        for leaf in domain:
+            if isinstance(leaf, str) or len(leaf) != 3:
+                continue
+            field_name, operator, value = leaf
+            field = model._fields.get(field_name)
+            if not field or field.type != "selection":
+                continue
+            if operator not in ("=", "!=", "in", "not in"):
+                continue
+            allowed = dict(model.fields_get([field_name])[field_name]["selection"])
+            values = value if isinstance(value, list | tuple) else [value]
+            unknown = [v for v in values if v is not False and v not in allowed]
+            self.assertFalse(
+                unknown,
+                f"{model_name}.{field_name} has no such value(s): {unknown}",
+            )
