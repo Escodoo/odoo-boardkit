@@ -5,10 +5,10 @@
         <field name="key">time_off_overview</field>
         <field name="sequence">87</field>
         <field name="description">
-            Time Off board for leave requests: to-approve backlog, approved
-            and refused counts, days off totals, approval rate, people
-            currently away, trends and type/department analytics. Requires
-            Time Off.
+            Time Off board for leave requests: to-approve backlog in requests
+            and days, approved and refused counts, days off totals, approval
+            rate, people currently away, trends and type/department analytics.
+            Requires Time Off.
         </field>
         <field
             name="group_ids"
@@ -105,7 +105,7 @@
           "domain": "[('state', '=', 'validate')]",
           "model_2": "hr.leave",
           "aggregation_2": "count",
-          "domain_2": "[('state', 'in', ['validate', 'refuse'])]",
+          "domain_2": "[('state', '!=', 'cancel')]",
           "date_field_id": "date_from",
           "date_field_2_id": "date_from",
           "layout": {
@@ -117,15 +117,13 @@
           "index": 4
         },
         {
-          "name": "Approved Target",
-          "item_type": "gauge",
+          "name": "Days To Approve",
+          "item_type": "tile",
           "model": "hr.leave",
-          "aggregation": "count",
-          "target_enabled": true,
-          "target_value": 20,
-          "gauge_max": 25,
-          "domain": "[('state', '=', 'validate')]",
-          "date_field_id": "date_from",
+          "aggregation": "sum",
+          "measure_field_id": "number_of_days",
+          "icon": "fa-hourglass-half",
+          "domain": "[('state', 'in', ['confirm', 'validate1'])]",
           "layout": {
             "x": 3,
             "y": 2,
@@ -239,7 +237,6 @@
           "group_by_field_id": "state",
           "chart_sort": "value_desc",
           "domain": "[]",
-          "date_field_id": "date_from",
           "layout": {
             "x": 6,
             "y": 8,
