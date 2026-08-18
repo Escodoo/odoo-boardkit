@@ -3,9 +3,13 @@
 
 from odoo.tests import TransactionCase, tagged
 
+from odoo.addons.boardkit_dashboard.tests.common import BoardkitTemplateSmokeMixin
+
 
 @tagged("post_install", "-at_install")
-class TestContractDashboardTemplates(TransactionCase):
+class TestContractDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase):
+    template_xmlids = ("boardkit_dashboard_contract.template_contract_overview",)
+
     def test_create_from_template_contract_overview(self):
         template = self.env.ref(
             "boardkit_dashboard_contract.template_contract_overview"
@@ -20,8 +24,8 @@ class TestContractDashboardTemplates(TransactionCase):
             dashboard.group_ids,
             self.env.ref("account.group_account_invoice"),
         )
-        self.assertEqual(len(dashboard.item_ids), 13)
-        self.assertTrue(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
+        self.assertEqual(len(dashboard.item_ids), 12)
+        self.assertFalse(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
             all(item.model_name == "contract.contract" for item in dashboard.item_ids)
@@ -43,6 +47,8 @@ class TestContractDashboardTemplates(TransactionCase):
         self.assertEqual(type_chart.group_by_field_id.name, "contract_type")
 
         recent = dashboard.item_ids.filtered(lambda i: i.name == "Recent Contracts")
+        # A portfolio list cut by the period would hide the running contracts.
+        self.assertFalse(recent.date_field_id)
         column_names = recent.list_column_ids.mapped("field_id.name")
         self.assertIn("recurring_next_date", column_names)
         self.assertIn("contract_type", column_names)
