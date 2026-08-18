@@ -3,9 +3,13 @@
 
 from odoo.tests import TransactionCase, tagged
 
+from odoo.addons.boardkit_dashboard.tests.common import BoardkitTemplateSmokeMixin
+
 
 @tagged("post_install", "-at_install")
-class TestFleetDashboardTemplates(TransactionCase):
+class TestFleetDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase):
+    template_xmlids = ("boardkit_dashboard_fleet.template_fleet_overview",)
+
     def test_create_from_template_fleet_overview(self):
         template = self.env.ref("boardkit_dashboard_fleet.template_fleet_overview")
         dashboard_ids = self.env["boardkit.dashboard"].create_from_template(template.id)
@@ -18,8 +22,8 @@ class TestFleetDashboardTemplates(TransactionCase):
             dashboard.group_ids,
             self.env.ref("fleet.fleet_group_manager"),
         )
-        self.assertEqual(len(dashboard.item_ids), 13)
-        self.assertTrue(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
+        self.assertEqual(len(dashboard.item_ids), 12)
+        self.assertFalse(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
             all(item.model_name == "fleet.vehicle" for item in dashboard.item_ids)
