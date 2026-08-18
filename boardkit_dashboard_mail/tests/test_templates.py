@@ -3,9 +3,13 @@
 
 from odoo.tests import TransactionCase, tagged
 
+from odoo.addons.boardkit_dashboard.tests.common import BoardkitTemplateSmokeMixin
+
 
 @tagged("post_install", "-at_install")
-class TestMailDashboardTemplates(TransactionCase):
+class TestMailDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase):
+    template_xmlids = ("boardkit_dashboard_mail.template_my_day",)
+
     def test_create_from_template_my_day(self):
         template = self.env.ref("boardkit_dashboard_mail.template_my_day")
         dashboard_ids = self.env["boardkit.dashboard"].create_from_template(template.id)
@@ -41,6 +45,9 @@ class TestMailDashboardTemplates(TransactionCase):
         self.assertEqual(overdue_rate.kpi_mode, "comparison")
         self.assertEqual(overdue_rate.kpi_display, "percent")
         self.assertEqual(overdue_rate.model_name, "mail.activity")
+        # Both sides state the same population, like the rest of the board.
+        self.assertIn("('active', '=', True)", overdue_rate.domain)
+        self.assertIn("('active', '=', True)", overdue_rate.domain_2)
 
         meetings = dashboard.item_ids.filtered(lambda i: i.name == "Next Meetings")
         self.assertEqual(meetings.item_type, "list")
