@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ================================
 Boardkit Dashboard Stock Request
 ================================
@@ -35,10 +31,10 @@ Request <https://github.com/OCA/stock-logistics-request>`__ project and
 lands unpublished so it can be reviewed before users see it.
 
 It focuses on internal replenishment health: drafts and open queues,
-requested quantities (with period comparison), completion rate, overdue
-expected dates, quantity trends, top products, status and warehouse
-breakdowns, and a recent requests list. Toggle filters cover my
-requests, in progress, done and overdue.
+confirmed requests (with period comparison), completion rate, overdue
+expected dates, request trends, top products by quantity, status and
+warehouse breakdowns, and a recent requests list. Toggle filters cover
+my requests, in progress, done and overdue.
 
 |Stock Request Overview|
 
@@ -61,9 +57,11 @@ board in the wizard.
 
 The board opens with the date filter on *This Month*. Open backlog tiles
 (Draft Requests, In Progress, Overdue, Cancelled) ignore that filter so
-they always show the current queue. Requested quantity and done metrics
-use *Expected Date* and follow the date filter. Use the toggle filters
-(My Requests, In Progress, Done, Overdue) to narrow the other cards.
+they always show the current queue. Request volume and done metrics use
+*Expected Date* and follow the date filter. Quantities are only shown
+grouped by product, since each request carries its own unit of measure
+and summing them together is meaningless. Use the toggle filters (My
+Requests, In Progress, Done, Overdue) to narrow the other cards.
 
 When installed with demo data, a published board is created from this
 template and placed first (sequence ``-1``) under the related app menu.
