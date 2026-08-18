@@ -3,9 +3,13 @@
 
 from odoo.tests import TransactionCase, tagged
 
+from odoo.addons.boardkit_dashboard.tests.common import BoardkitTemplateSmokeMixin
+
 
 @tagged("post_install", "-at_install")
-class TestRmaDashboardTemplates(TransactionCase):
+class TestRmaDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase):
+    template_xmlids = ("boardkit_dashboard_rma.template_rma_overview",)
+
     def test_create_from_template_rma_overview(self):
         template = self.env.ref("boardkit_dashboard_rma.template_rma_overview")
         dashboard_ids = self.env["boardkit.dashboard"].create_from_template(template.id)
@@ -18,8 +22,8 @@ class TestRmaDashboardTemplates(TransactionCase):
             dashboard.group_ids,
             self.env.ref("rma.rma_group_user_all"),
         )
-        self.assertEqual(len(dashboard.item_ids), 13)
-        self.assertTrue(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
+        self.assertEqual(len(dashboard.item_ids), 12)
+        self.assertFalse(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(all(item.model_name == "rma" for item in dashboard.item_ids))
 
@@ -34,6 +38,8 @@ class TestRmaDashboardTemplates(TransactionCase):
         self.assertEqual(rate.kpi_mode, "comparison")
         self.assertEqual(rate.kpi_display, "percent")
         self.assertEqual(rate.model_2_name, "rma")
+        # RMAs still in the pipeline belong to the denominator.
+        self.assertEqual(rate.domain_2, "[]")
 
         status_chart = dashboard.item_ids.filtered(lambda i: i.name == "RMAs by Status")
         self.assertEqual(status_chart.item_type, "doughnut")
