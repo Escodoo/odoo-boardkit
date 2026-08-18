@@ -1,6 +1,7 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import ast
 import json
 import logging
 import re
@@ -461,7 +462,13 @@ class BoardkitDashboard(models.Model):
             parsed = None
         if isinstance(parsed, list | tuple):
             return repr(self._ai_domain_pythonize(parsed))
-        # Already a Python-like domain string; still fix bare JSON/Python tokens.
+        try:
+            parsed = ast.literal_eval(text)
+        except (ValueError, SyntaxError, TypeError, MemoryError):
+            parsed = None
+        if isinstance(parsed, list | tuple):
+            return repr(self._ai_domain_pythonize(parsed))
+        # Last resort for mixed JSON/Python tokens that neither parser accepted.
         text = re.sub(r"\btrue\b", "True", text, flags=re.IGNORECASE)
         text = re.sub(r"\bfalse\b", "False", text, flags=re.IGNORECASE)
         # Unset checks: null/None → False (never leave None in domain RHS).

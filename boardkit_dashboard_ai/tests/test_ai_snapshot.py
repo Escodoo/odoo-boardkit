@@ -320,6 +320,11 @@ class TestBoardkitAiSnapshot(TransactionCase):
             Dashboard._normalize_ai_domain("[('lost_reason_id', '=', None)]"),
             "[('lost_reason_id', '=', False)]",
         )
+        # String literals must keep words such as "true" / "false" / "null".
+        self.assertEqual(
+            Dashboard._normalize_ai_domain("[('name', 'ilike', 'true north')]"),
+            "[('name', 'ilike', 'true north')]",
+        )
         self.assertEqual(
             Dashboard._normalize_ai_domain([["lost_reason_id", "=", None]]),
             "[['lost_reason_id', '=', False]]",
