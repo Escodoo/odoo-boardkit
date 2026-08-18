@@ -122,10 +122,10 @@
           "aggregation": "count",
           "kpi_mode": "comparison",
           "kpi_display": "percent",
-          "domain": "[('user_id', '=', uid), ('date_deadline', '&lt;', context_today())]",
+          "domain": "[('user_id', '=', uid), ('active', '=', True), ('date_deadline', '&lt;', context_today())]",
           "model_2": "mail.activity",
           "aggregation_2": "count",
-          "domain_2": "[('user_id', '=', uid)]",
+          "domain_2": "[('user_id', '=', uid), ('active', '=', True)]",
           "layout": {
             "x": 6,
             "y": 2,
