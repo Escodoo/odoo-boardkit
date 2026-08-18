@@ -92,3 +92,26 @@ class TestBoardkitAiBridges(TransactionCase):
         self.assertEqual(processed["name"], "Board")
         self.assertEqual(processed["payload"]["dashboards"], [])
         self.assertEqual(len(processed["actions"]), 1)
+
+    def test_process_response_boardkit_sanitizes_html(self):
+        execution = self.env["ai.bridge.execution"].new({})
+        processed = execution._process_response_boardkit(
+            {
+                "body": "<p>Safe</p><script>alert(1)</script>",
+                "body_is_html": True,
+            }
+        )
+        self.assertIn("<p>Safe</p>", processed["body"])
+        self.assertNotIn("<script>", processed["body"])
+        self.assertTrue(processed["body_is_html"])
+
+    def test_process_response_boardkit_plain_text(self):
+        execution = self.env["ai.bridge.execution"].new({})
+        processed = execution._process_response_boardkit(
+            {
+                "body": "<b>plain</b>",
+                "body_is_html": False,
+            }
+        )
+        self.assertEqual(processed["body"], "<b>plain</b>")
+        self.assertFalse(processed["body_is_html"])

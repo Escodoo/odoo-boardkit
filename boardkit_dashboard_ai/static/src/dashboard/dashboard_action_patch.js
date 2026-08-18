@@ -185,7 +185,7 @@ patch(BoardkitDashboardAction.prototype, {
             this._appendAiMessage(
                 "assistant",
                 result?.body || _t("No response was returned."),
-                {html: true}
+                {html: result?.body_is_html !== false}
             );
         } catch (error) {
             this.notification.add(
@@ -218,7 +218,7 @@ patch(BoardkitDashboardAction.prototype, {
             this._appendAiMessage(
                 "assistant",
                 result?.body || _t("No summary was returned."),
-                {html: true}
+                {html: result?.body_is_html !== false}
             );
         } catch (error) {
             this.notification.add(
@@ -257,7 +257,7 @@ patch(BoardkitDashboardAction.prototype, {
             this._appendAiMessage(
                 "assistant",
                 result?.body || _t("No explanation was returned."),
-                {html: true}
+                {html: result?.body_is_html !== false}
             );
         } catch (error) {
             this.notification.add(
