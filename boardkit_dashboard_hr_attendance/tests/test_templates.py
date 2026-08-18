@@ -3,9 +3,13 @@
 
 from odoo.tests import TransactionCase, tagged
 
+from odoo.addons.boardkit_dashboard.tests.common import BoardkitTemplateSmokeMixin
+
 
 @tagged("post_install", "-at_install")
-class TestAttendanceDashboardTemplates(TransactionCase):
+class TestAttendanceDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase):
+    template_xmlids = ("boardkit_dashboard_hr_attendance.template_attendance_overview",)
+
     def test_create_from_template_attendance_overview(self):
         template = self.env.ref(
             "boardkit_dashboard_hr_attendance.template_attendance_overview"
@@ -38,6 +42,13 @@ class TestAttendanceDashboardTemplates(TransactionCase):
 
         overtime = dashboard.item_ids.filtered(lambda i: i.name == "Overtime Hours")
         self.assertEqual(overtime.measure_field_id.name, "overtime_hours")
+        # Missing time is stored as negative overtime and would offset the sum.
+        self.assertIn("('overtime_hours', '>', 0)", overtime.domain)
+
+        validated = dashboard.item_ids.filtered(
+            lambda i: i.name == "Validated Overtime"
+        )
+        self.assertIn("approved", validated.domain)
 
         by_dept = dashboard.item_ids.filtered(lambda i: i.name == "Hours by Department")
         self.assertEqual(by_dept.item_type, "bar_horizontal")

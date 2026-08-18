@@ -7,7 +7,9 @@
         <field name="description">
             Attendance board for check-ins and hours: currently checked-in
             staff, worked and overtime hours, approvals, trends and
-            department/employee analytics. Requires Attendances.
+            department/employee analytics. Overtime figures only count extra
+            hours actually worked, since Odoo also stores missing time as
+            negative overtime. Requires Attendances.
         </field>
         <field
             name="group_ids"
@@ -85,7 +87,7 @@
           "measure_field_id": "overtime_hours",
           "icon": "fa-hourglass-end",
           "compare_previous_period": true,
-          "domain": "[]",
+          "domain": "[('overtime_hours', '&gt;', 0)]",
           "date_field_id": "check_in",
           "layout": {
             "x": 9,
@@ -103,7 +105,7 @@
           "measure_field_id": "overtime_hours",
           "kpi_mode": "comparison",
           "kpi_display": "percent",
-          "domain": "[]",
+          "domain": "[('overtime_hours', '&gt;', 0)]",
           "model_2": "hr.attendance",
           "aggregation_2": "sum",
           "measure_field_2_id": "worked_hours",
@@ -140,7 +142,7 @@
           "aggregation": "sum",
           "measure_field_id": "validated_overtime_hours",
           "icon": "fa-check-circle",
-          "domain": "[]",
+          "domain": "[('overtime_status', '=', 'approved')]",
           "date_field_id": "check_in",
           "layout": {
             "x": 9,
