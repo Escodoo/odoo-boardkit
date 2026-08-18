@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ========================
 Boardkit Dashboard Event
 ========================
@@ -63,7 +59,8 @@ The board opens with the date filter on *This Month*. Open backlog tiles
 (Upcoming Events, Ongoing Events, Cancelled) ignore that filter so they
 always show the current portfolio. Finished events use *End Date*;
 registrations use *Creation Date* / *Attended Date* and follow the date
-filter. Use the toggle filters (My Events, Upcoming, Ongoing, Registered
+filter, and the attendance rate measures the attendees registered in the
+period. Use the toggle filters (My Events, Upcoming, Ongoing, Registered
 Attendees) to narrow the other cards.
 
 When installed with demo data, a published board is created from this
