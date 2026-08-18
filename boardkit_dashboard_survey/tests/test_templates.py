@@ -3,9 +3,13 @@
 
 from odoo.tests import TransactionCase, tagged
 
+from odoo.addons.boardkit_dashboard.tests.common import BoardkitTemplateSmokeMixin
+
 
 @tagged("post_install", "-at_install")
-class TestSurveyDashboardTemplates(TransactionCase):
+class TestSurveyDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase):
+    template_xmlids = ("boardkit_dashboard_survey.template_survey_overview",)
+
     def test_create_from_template_survey_overview(self):
         template = self.env.ref("boardkit_dashboard_survey.template_survey_overview")
         dashboard_ids = self.env["boardkit.dashboard"].create_from_template(template.id)
@@ -18,8 +22,8 @@ class TestSurveyDashboardTemplates(TransactionCase):
             dashboard.group_ids,
             self.env.ref("survey.group_survey_user"),
         )
-        self.assertEqual(len(dashboard.item_ids), 13)
-        self.assertTrue(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
+        self.assertEqual(len(dashboard.item_ids), 12)
+        self.assertFalse(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
             all(
@@ -39,6 +43,12 @@ class TestSurveyDashboardTemplates(TransactionCase):
         self.assertEqual(rate.kpi_mode, "comparison")
         self.assertEqual(rate.kpi_display, "percent")
         self.assertEqual(rate.model_2_name, "survey.user_input")
+        # Answers to surveys without scoring can never be marked as passed.
+        self.assertIn("scoring_type", rate.domain)
+        self.assertIn("scoring_type", rate.domain_2)
+
+        passed = dashboard.item_ids.filtered(lambda i: i.name == "Passed")
+        self.assertIn("scoring_type", passed.domain)
 
         status_chart = dashboard.item_ids.filtered(
             lambda i: i.name == "Answers by Status"
