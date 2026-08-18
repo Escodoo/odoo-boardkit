@@ -4,11 +4,13 @@
 from odoo.exceptions import AccessError, ValidationError
 from odoo.tests import tagged
 
-from .common import BoardkitDashboardCommon
+from .common import BoardkitDashboardCommon, BoardkitTemplateSmokeMixin
 
 
 @tagged("post_install", "-at_install")
-class TestDashboardTemplates(BoardkitDashboardCommon):
+class TestDashboardTemplates(BoardkitTemplateSmokeMixin, BoardkitDashboardCommon):
+    template_xmlids = ("boardkit_dashboard.template_contacts_overview",)
+
     def test_create_from_template_unpublished_with_items(self):
         template = self.env.ref("boardkit_dashboard.template_contacts_overview")
         dashboard_ids = self.env["boardkit.dashboard"].create_from_template(template.id)

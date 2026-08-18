@@ -87,3 +87,101 @@ class BoardkitDashboardCommon(TransactionCase):
     @classmethod
     def _field(cls, model_name, field_name):
         return cls.env["ir.model.fields"]._get(model_name, field_name)
+
+
+class BoardkitTemplateSmokeMixin:
+    """Create every declared template and render all of its items.
+
+    Template payloads are resolved silently: ``_import_prepare_vals`` turns an
+    unknown field name into ``False`` instead of raising, and ``get_data``
+    traps exceptions in an ``error`` payload. A template pointing at a missing
+    or non-stored field therefore installs and creates a board without any
+    warning, so each template module declares its records in
+    ``template_xmlids`` and this mixin checks both resolution and rendering.
+    """
+
+    template_xmlids = ()
+
+    # Odoo's test loader only collects methods declared in the test class
+    # itself unless this flag is set.
+    allow_inherited_tests_method = True
+
+    # Payload keys holding a field name, resolved by ``_import_prepare_vals``
+    # against the item model or the KPI comparison model.
+    _SMOKE_FIELD_KEYS = (
+        "date_field_id",
+        "group_by_field_id",
+        "subgroup_by_field_id",
+        "measure_field_id",
+        "measure_x_field_id",
+        "measure_y_field_id",
+        "latitude_field_id",
+        "longitude_field_id",
+        "date_field_2_id",
+        "measure_field_2_id",
+    )
+
+    def test_template_payload_resolves_and_renders(self):
+        self.assertTrue(
+            self.template_xmlids,
+            "Declare the template xmlids to smoke test.",
+        )
+        for xmlid in self.template_xmlids:
+            template = self.env.ref(xmlid)
+            dashboards = self.env["boardkit.dashboard"].browse(
+                self.env["boardkit.dashboard"].create_from_template(template.id)
+            )
+            boards = template.payload["dashboards"]
+            self.assertEqual(len(dashboards), len(boards))
+            for dashboard, board_data in zip(dashboards, boards, strict=True):
+                with self.subTest(template=xmlid, board=dashboard.name):
+                    self._assert_items_render(dashboard, board_data)
+                    self._assert_filters_evaluate(dashboard, board_data)
+
+    def _assert_items_render(self, dashboard, board_data):
+        items_by_name = {item.name: item for item in dashboard.item_ids}
+        payload_items = board_data.get("items", [])
+        self.assertEqual(len(items_by_name), len(payload_items))
+        for item_data in payload_items:
+            name = item_data["name"]
+            self.assertIn(name, items_by_name)
+            item = items_by_name[name]
+            self._assert_item_fields_resolved(item, item_data)
+            data = item.get_data()
+            self.assertNotIn(
+                "error",
+                data,
+                f"{dashboard.name} / {name} failed to render: {data.get('error')}",
+            )
+
+    def _assert_item_fields_resolved(self, item, item_data):
+        label = f"{item.dashboard_id.name} / {item.name}"
+        for key in self._SMOKE_FIELD_KEYS:
+            expected = item_data.get(key)
+            if expected:
+                self.assertEqual(item[key].name, expected, f"{label}: {key}")
+        expected_measures = item_data.get("measures") or []
+        if expected_measures:
+            self.assertEqual(
+                item._ordered_measure_fields().mapped("name"),
+                expected_measures,
+                f"{label}: measures",
+            )
+        expected_columns = item_data.get("list_columns") or []
+        if expected_columns:
+            self.assertEqual(
+                item.list_column_ids.mapped("field_id.name"),
+                expected_columns,
+                f"{label}: list_columns",
+            )
+        expected_sort = item_data.get("sort_field_id")
+        if expected_sort:
+            self.assertEqual(item.sort_field_id.name, expected_sort, f"{label}: sort")
+
+    def _assert_filters_evaluate(self, dashboard, board_data):
+        for filter_data in board_data.get("filters", []):
+            name = filter_data["name"]
+            record = dashboard.filter_ids.filtered(lambda f, n=name: f.name == n)
+            self.assertEqual(len(record), 1, f"{dashboard.name}: filter {name}")
+            # Raises when the domain does not evaluate against the filter model.
+            dashboard._eval_domain(record.domain, record.model_id.model)
