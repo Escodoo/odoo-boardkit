@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ===========================
 Boardkit Dashboard Contract
 ===========================
@@ -60,11 +56,11 @@ template*, and choose **Contract Overview**. Optionally rename the board
 in the wizard.
 
 The board opens with the date filter on *This Month*. Open backlog tiles
-(Active Contracts, Customer/Supplier Contracts, Due to Invoice, Ended)
-ignore that filter so they always show the current portfolio. New
-contract metrics use *Start Date* and follow the date filter. Use the
-toggle filters (My Contracts, Active, Customer, Due to Invoice) to
-narrow the other cards.
+(Active Contracts, Customer/Supplier Contracts, Due to Invoice, Past End
+Date) ignore that filter so they always show the current portfolio, and
+so does the recent contracts list. New contract metrics use *Start Date*
+and follow the date filter. Use the toggle filters (My Contracts,
+Active, Customer, Due to Invoice) to narrow the other cards.
 
 When installed with demo data, a published board is created from this
 template and placed first (sequence ``-1``) under the related app menu.
