@@ -3,9 +3,15 @@
 
 from odoo.tests import TransactionCase, tagged
 
+from odoo.addons.boardkit_dashboard.tests.common import BoardkitTemplateSmokeMixin
+
 
 @tagged("post_install", "-at_install")
-class TestFieldServiceDashboardTemplates(TransactionCase):
+class TestFieldServiceDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase):
+    template_xmlids = (
+        "boardkit_dashboard_fieldservice.template_fieldservice_overview",
+    )
+
     def test_create_from_template_fieldservice_overview(self):
         template = self.env.ref(
             "boardkit_dashboard_fieldservice.template_fieldservice_overview"
@@ -48,6 +54,10 @@ class TestFieldServiceDashboardTemplates(TransactionCase):
         rate = dashboard.item_ids.filtered(lambda i: i.name == "Completion Rate")
         self.assertEqual(rate.kpi_mode, "comparison")
         self.assertEqual(rate.kpi_display, "percent")
+        # A rate needs both sides on the same cohort, and the actual end date is
+        # only filled on closed orders.
+        self.assertEqual(rate.date_field_id.name, "create_date")
+        self.assertEqual(rate.date_field_2_id.name, "create_date")
 
         funnel = dashboard.item_ids.filtered(lambda i: i.name == "Pipeline Funnel")
         self.assertEqual(funnel.item_type, "funnel")

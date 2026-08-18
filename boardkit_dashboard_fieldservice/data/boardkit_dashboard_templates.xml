@@ -7,8 +7,10 @@
         <field name="description">
             Field Service board for order delivery: open and completed counts,
             high-priority and late backlogs, completion rate, unassigned
-            orders, trends, team/stage analytics and location map. Requires Field
-            Service.
+            orders, trends, team/stage analytics and location map. Completed
+            volume follows the actual end date, which technicians fill in
+            manually, while the completion rate follows the orders created in
+            the period. Requires Field Service.
         </field>
         <field name="group_ids" eval="[(4, ref('fieldservice.group_fsm_user'))]" />
         <field name="payload">
@@ -97,7 +99,7 @@
           "model_2": "fsm.order",
           "aggregation_2": "count",
           "domain_2": "[]",
-          "date_field_id": "date_end",
+          "date_field_id": "create_date",
           "date_field_2_id": "create_date",
           "layout": {
             "x": 0,
