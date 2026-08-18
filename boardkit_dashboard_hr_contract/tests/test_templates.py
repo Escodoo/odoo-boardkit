@@ -3,9 +3,15 @@
 
 from odoo.tests import TransactionCase, tagged
 
+from odoo.addons.boardkit_dashboard.tests.common import BoardkitTemplateSmokeMixin
+
 
 @tagged("post_install", "-at_install")
-class TestContractDashboardTemplates(TransactionCase):
+class TestContractDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase):
+    template_xmlids = (
+        "boardkit_dashboard_hr_contract.template_employee_contracts_overview",
+    )
+
     def test_create_from_template_employee_contracts_overview(self):
         template = self.env.ref(
             "boardkit_dashboard_hr_contract.template_employee_contracts_overview"
@@ -29,6 +35,13 @@ class TestContractDashboardTemplates(TransactionCase):
 
         running = dashboard.item_ids.filtered(lambda i: i.name == "Running Contracts")
         self.assertFalse(running.date_field_id)
+        # Offboarded employees keep their contracts, so the workforce figures
+        # have to exclude them.
+        self.assertIn("employee_id.active", running.domain)
+
+        coverage = dashboard.item_ids.filtered(lambda i: i.name == "Contract Coverage")
+        self.assertEqual(coverage.model_2_name, "hr.employee")
+        self.assertEqual(coverage.kpi_display, "percent")
 
         new_contracts = dashboard.item_ids.filtered(lambda i: i.name == "New Contracts")
         self.assertEqual(new_contracts.date_field_id.name, "date_start")
@@ -40,6 +53,7 @@ class TestContractDashboardTemplates(TransactionCase):
         avg_wage = dashboard.item_ids.filtered(lambda i: i.name == "Avg Wage")
         self.assertEqual(avg_wage.aggregation, "avg")
         self.assertEqual(avg_wage.measure_field_id.name, "wage")
+        self.assertEqual(avg_wage.unit_type, "monetary")
 
         by_dept = dashboard.item_ids.filtered(
             lambda i: i.name == "Running by Department"
