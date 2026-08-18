@@ -149,9 +149,7 @@ class BoardkitTemplateSmokeMixin:
             self._assert_item_fields_resolved(item, item_data)
             self._assert_domain_values(dashboard, item.model_name, item.domain)
             if item.model_2_name:
-                self._assert_domain_values(
-                    dashboard, item.model_2_name, item.domain_2
-                )
+                self._assert_domain_values(dashboard, item.model_2_name, item.domain_2)
             data = item.get_data()
             self.assertNotIn(
                 "error",
@@ -159,12 +157,28 @@ class BoardkitTemplateSmokeMixin:
                 f"{dashboard.name} / {name} failed to render: {data.get('error')}",
             )
 
+    # Payload keys the ORM has to aggregate in SQL, unlike the date fields
+    # which only feed search domains.
+    _SMOKE_AGGREGATED_KEYS = (
+        "group_by_field_id",
+        "subgroup_by_field_id",
+        "measure_field_id",
+        "measure_x_field_id",
+        "measure_y_field_id",
+        "latitude_field_id",
+        "longitude_field_id",
+    )
+
     def _assert_item_fields_resolved(self, item, item_data):
         label = f"{item.dashboard_id.name} / {item.name}"
         for key in self._SMOKE_FIELD_KEYS:
             expected = item_data.get(key)
             if expected:
                 self.assertEqual(item[key].name, expected, f"{label}: {key}")
+        for key in self._SMOKE_AGGREGATED_KEYS:
+            expected = item_data.get(key)
+            if expected:
+                self._assert_aggregatable(item.model_name, expected, f"{label}: {key}")
         expected_measures = item_data.get("measures") or []
         if expected_measures:
             self.assertEqual(
@@ -172,6 +186,8 @@ class BoardkitTemplateSmokeMixin:
                 expected_measures,
                 f"{label}: measures",
             )
+            for name in expected_measures:
+                self._assert_aggregatable(item.model_name, name, f"{label}: measures")
         expected_columns = item_data.get("list_columns") or []
         if expected_columns:
             self.assertEqual(
@@ -183,14 +199,38 @@ class BoardkitTemplateSmokeMixin:
         if expected_sort:
             self.assertEqual(item.sort_field_id.name, expected_sort, f"{label}: sort")
 
+    def _assert_aggregatable(self, model_name, field_name, label):
+        """Reject fields the ORM cannot group or sum in SQL.
+
+        Read groups resolve a related field by joining its path, but a plain
+        computed field has no column to aggregate and only fails once the
+        table holds records, which no template test would notice.
+        """
+        model = self.env[model_name]
+        field = model._fields.get(field_name)
+        while field is not None and not field.store and field.related:
+            model, field = self._traverse_related(model, field.related)
+        self.assertTrue(
+            field is not None and field.store,
+            f"{label}: {model_name}.{field_name} cannot be aggregated in SQL",
+        )
+
+    def _traverse_related(self, model, related_path):
+        """Walk a related path and return the model and field it ends on."""
+        *steps, last = related_path.split(".")
+        for step in steps:
+            parent = model._fields.get(step)
+            if parent is None or not parent.store:
+                return model, None
+            model = self.env[parent.comodel_name]
+        return model, model._fields.get(last)
+
     def _assert_filters_evaluate(self, dashboard, board_data):
         for filter_data in board_data.get("filters", []):
             name = filter_data["name"]
             record = dashboard.filter_ids.filtered(lambda f, n=name: f.name == n)
             self.assertEqual(len(record), 1, f"{dashboard.name}: filter {name}")
-            self._assert_domain_values(
-                dashboard, record.model_id.model, record.domain
-            )
+            self._assert_domain_values(dashboard, record.model_id.model, record.domain)
 
     def _assert_domain_values(self, dashboard, model_name, domain_str):
         """Reject selection values the model does not declare.
