@@ -100,7 +100,7 @@
           "domain": "[('state', 'in', ['approved', 'done'])]",
           "model_2": "hr.expense",
           "aggregation_2": "count",
-          "domain_2": "[('state', 'in', ['approved', 'done', 'refused'])]",
+          "domain_2": "[('state', 'in', ['submitted', 'approved', 'done', 'refused'])]",
           "date_field_id": "date",
           "date_field_2_id": "date",
           "layout": {
@@ -119,7 +119,7 @@
           "measure_field_id": "total_amount",
           "icon": "fa-credit-card",
           "unit_type": "monetary",
-          "domain": "[('payment_mode', '=', 'own_account'), ('state', 'in', ['submitted', 'approved'])]",
+          "domain": "[('payment_mode', '=', 'own_account'), ('state', 'in', ['reported', 'submitted', 'approved'])]",
           "layout": {
             "x": 6,
             "y": 2,
