@@ -55,9 +55,10 @@ in the wizard.
 
 The board opens with the date filter on *This Month*. Open backlog tiles
 (Open, Urgent, Late, Under Repair, Parts Late) ignore that filter so
-they always show the current queue. Repaired metrics use *Scheduled
-Date* and follow the date filter. Use the toggle filters (My Orders,
-Open, Late, Urgent) to narrow the other cards.
+they always show the current queue. Repair orders have no completion
+date, so repaired volume and the repair rate follow the orders created
+in the period. Use the toggle filters (My Orders, Open, Late, Urgent) to
+narrow the other cards.
 
 When installed with demo data, a published board is created from this
 template and placed first (sequence ``-1``) under the related app menu.
