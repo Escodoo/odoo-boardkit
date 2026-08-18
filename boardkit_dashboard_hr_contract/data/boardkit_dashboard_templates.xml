@@ -9,9 +9,11 @@
         <field name="sequence">96</field>
         <field name="description">
             Employee contracts board for workforce agreements: running and
-            draft counts, new and expired contracts, average wage, overdue
-            endings, start trends and department/type analytics. Requires
-            Contracts.
+            draft counts, new and expired contracts, average wage, contract
+            coverage of the active workforce, overdue endings, start trends and
+            department/type analytics. Workforce figures only count contracts
+            of active employees, while the overdue and open-ended alerts keep
+            the whole portfolio. Requires Contracts.
         </field>
         <field
             name="group_ids"
@@ -37,7 +39,7 @@
           "model": "hr.contract",
           "aggregation": "count",
           "icon": "fa-file-text-o",
-          "domain": "[('state', '=', 'open')]",
+          "domain": "[('state', '=', 'open'), ('employee_id.active', '=', True)]",
           "layout": {
             "x": 0,
             "y": 0,
@@ -96,16 +98,16 @@
           "index": 3
         },
         {
-          "name": "Running Rate",
+          "name": "Contract Coverage",
           "item_type": "kpi",
           "model": "hr.contract",
           "aggregation": "count",
           "kpi_mode": "comparison",
           "kpi_display": "percent",
-          "domain": "[('state', '=', 'open')]",
-          "model_2": "hr.contract",
+          "domain": "[('state', '=', 'open'), ('employee_id.active', '=', True)]",
+          "model_2": "hr.employee",
           "aggregation_2": "count",
-          "domain_2": "[('state', 'in', ['draft', 'open', 'close', 'cancel'])]",
+          "domain_2": "[('active', '=', True)]",
           "layout": {
             "x": 0,
             "y": 2,
@@ -121,7 +123,8 @@
           "aggregation": "avg",
           "measure_field_id": "wage",
           "icon": "fa-money",
-          "domain": "[('state', '=', 'open')]",
+          "unit_type": "monetary",
+          "domain": "[('state', '=', 'open'), ('employee_id.active', '=', True)]",
           "layout": {
             "x": 3,
             "y": 2,
@@ -187,7 +190,7 @@
           "group_by_field_id": "department_id",
           "chart_sort": "value_desc",
           "record_limit": 10,
-          "domain": "[('state', '=', 'open')]",
+          "domain": "[('state', '=', 'open'), ('employee_id.active', '=', True)]",
           "layout": {
             "x": 6,
             "y": 4,
@@ -203,7 +206,7 @@
           "aggregation": "count",
           "group_by_field_id": "contract_type_id",
           "chart_sort": "value_desc",
-          "domain": "[('state', '=', 'open')]",
+          "domain": "[('state', '=', 'open'), ('employee_id.active', '=', True)]",
           "layout": {
             "x": 0,
             "y": 8,
@@ -220,7 +223,6 @@
           "group_by_field_id": "state",
           "chart_sort": "value_desc",
           "domain": "[]",
-          "date_field_id": "date_start",
           "layout": {
             "x": 6,
             "y": 8,
