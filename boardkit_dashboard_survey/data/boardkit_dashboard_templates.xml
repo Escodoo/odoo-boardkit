@@ -7,8 +7,10 @@
         <field name="description">
             Surveys board for response delivery: active surveys, completed and
             in-progress answers, success rate, overdue invitations, trends,
-            survey and status analytics, and a recent answers list. Requires
-            Surveys.
+            survey and status analytics, and a recent answers list. The success
+            rate and the passed tile only count answers to scored surveys,
+            since a plain questionnaire never marks an answer as passed.
+            Requires Surveys.
         </field>
         <field name="group_ids" eval="[(4, ref('survey.group_survey_user'))]" />
         <field name="payload">
@@ -93,37 +95,19 @@
           "aggregation": "count",
           "kpi_mode": "comparison",
           "kpi_display": "percent",
-          "domain": "[('test_entry', '=', False), ('state', '=', 'done'), ('scoring_success', '=', True)]",
+          "domain": "[('test_entry', '=', False), ('state', '=', 'done'), ('survey_id.scoring_type', '!=', 'no_scoring'), ('scoring_success', '=', True)]",
           "model_2": "survey.user_input",
           "aggregation_2": "count",
-          "domain_2": "[('test_entry', '=', False), ('state', '=', 'done')]",
+          "domain_2": "[('test_entry', '=', False), ('state', '=', 'done'), ('survey_id.scoring_type', '!=', 'no_scoring')]",
           "date_field_id": "end_datetime",
           "date_field_2_id": "end_datetime",
           "layout": {
             "x": 0,
             "y": 2,
-            "w": 3,
+            "w": 6,
             "h": 2
           },
           "index": 4
-        },
-        {
-          "name": "Completed Target",
-          "item_type": "gauge",
-          "model": "survey.user_input",
-          "aggregation": "count",
-          "target_enabled": true,
-          "target_value": 40,
-          "gauge_max": 50,
-          "domain": "[('test_entry', '=', False), ('state', '=', 'done')]",
-          "date_field_id": "end_datetime",
-          "layout": {
-            "x": 3,
-            "y": 2,
-            "w": 3,
-            "h": 2
-          },
-          "index": 5
         },
         {
           "name": "Passed",
@@ -132,7 +116,7 @@
           "aggregation": "count",
           "icon": "fa-trophy",
           "compare_previous_period": true,
-          "domain": "[('test_entry', '=', False), ('state', '=', 'done'), ('scoring_success', '=', True)]",
+          "domain": "[('test_entry', '=', False), ('state', '=', 'done'), ('survey_id.scoring_type', '!=', 'no_scoring'), ('scoring_success', '=', True)]",
           "date_field_id": "end_datetime",
           "layout": {
             "x": 6,
@@ -140,7 +124,7 @@
             "w": 3,
             "h": 2
           },
-          "index": 6
+          "index": 5
         },
         {
           "name": "Overdue Invitations",
@@ -155,7 +139,7 @@
             "w": 3,
             "h": 2
           },
-          "index": 7
+          "index": 6
         },
         {
           "name": "Completed per Month",
@@ -174,7 +158,7 @@
             "w": 6,
             "h": 4
           },
-          "index": 8
+          "index": 7
         },
         {
           "name": "Top Surveys by Completions",
@@ -192,7 +176,7 @@
             "w": 6,
             "h": 4
           },
-          "index": 9
+          "index": 8
         },
         {
           "name": "Answers by Status",
@@ -202,14 +186,13 @@
           "group_by_field_id": "state",
           "chart_sort": "value_desc",
           "domain": "[('test_entry', '=', False)]",
-          "date_field_id": "create_date",
           "layout": {
             "x": 0,
             "y": 8,
             "w": 6,
             "h": 4
           },
-          "index": 10
+          "index": 9
         },
         {
           "name": "Surveys by Type",
@@ -225,7 +208,7 @@
             "w": 6,
             "h": 4
           },
-          "index": 11
+          "index": 10
         },
         {
           "name": "Recent Answers",
@@ -254,7 +237,7 @@
             "w": 12,
             "h": 5
           },
-          "index": 12
+          "index": 11
         }
       ],
       "filters": [
@@ -276,7 +259,7 @@
           "name": "Passed",
           "sequence": 30,
           "model": "survey.user_input",
-          "domain": "[('test_entry', '=', False), ('state', '=', 'done'), ('scoring_success', '=', True)]",
+          "domain": "[('test_entry', '=', False), ('state', '=', 'done'), ('survey_id.scoring_type', '!=', 'no_scoring'), ('scoring_success', '=', True)]",
           "default_enabled": false
         },
         {
