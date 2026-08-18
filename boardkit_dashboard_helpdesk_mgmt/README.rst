@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ===========================
 Boardkit Dashboard Helpdesk
 ===========================
@@ -61,7 +57,8 @@ in the wizard.
 The board opens with the date filter on *This Month*. Open backlog tiles
 (Open, High Priority, Unattended, Unassigned) ignore that filter so they
 always show the current queue. Closed metrics use *Closed Date* and
-follow the date filter. Use the toggle filters (My Tickets, Open,
+follow the date filter, while the closure rate measures the tickets
+received in the period. Use the toggle filters (My Tickets, Open,
 Unattended, High Priority) to narrow the other cards.
 
 When installed with demo data, a published board is created from this
