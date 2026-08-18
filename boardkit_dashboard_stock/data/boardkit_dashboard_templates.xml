@@ -7,7 +7,9 @@
         <field name="description">
             Inventory board for warehouse transfers: ready and waiting
             queues, done volume, late transfers, completion rate, incoming and
-            outgoing backlogs, trends and operation-type analytics. Requires
+            outgoing backlogs, trends and operation-type analytics. The
+            completion rate follows the transfers scheduled in the period,
+            because cancelled transfers never get an effective date. Requires
             Inventory.
         </field>
         <field name="group_ids" eval="[(4, ref('stock.group_stock_user'))]" />
@@ -77,7 +79,7 @@
           "model": "stock.picking",
           "aggregation": "count",
           "icon": "fa-exclamation-triangle",
-          "domain": "[('state', 'in', ['assigned', 'waiting', 'confirmed']), ('has_deadline_issue', '=', True)]",
+          "domain": "[('state', 'in', ['assigned', 'waiting', 'confirmed']), ('scheduled_date', '&lt;', context_today())]",
           "layout": {
             "x": 6,
             "y": 2,
@@ -96,34 +98,16 @@
           "domain": "[('state', '=', 'done')]",
           "model_2": "stock.picking",
           "aggregation_2": "count",
-          "domain_2": "[('state', 'in', ['done', 'cancel'])]",
-          "date_field_id": "date_done",
-          "date_field_2_id": "date_done",
+          "domain_2": "[('state', '!=', 'cancel')]",
+          "date_field_id": "scheduled_date",
+          "date_field_2_id": "scheduled_date",
           "layout": {
             "x": 0,
             "y": 2,
-            "w": 3,
+            "w": 6,
             "h": 2
           },
           "index": 4
-        },
-        {
-          "name": "Completion Target",
-          "item_type": "gauge",
-          "aggregation": "count",
-          "target_enabled": true,
-          "target_value": 80,
-          "gauge_max": 100,
-          "layout": {
-            "x": 3,
-            "y": 2,
-            "w": 3,
-            "h": 2
-          },
-          "index": 5,
-          "model": "stock.picking",
-          "domain": "[('state', '=', 'done')]",
-          "date_field_id": "date_done"
         },
         {
           "name": "Incoming Backlog",
@@ -138,7 +122,7 @@
             "w": 2,
             "h": 2
           },
-          "index": 6
+          "index": 5
         },
         {
           "name": "Outgoing Backlog",
@@ -153,7 +137,7 @@
             "w": 2,
             "h": 2
           },
-          "index": 7
+          "index": 6
         },
         {
           "name": "Done Transfers per Month",
@@ -172,7 +156,7 @@
             "w": 6,
             "h": 4
           },
-          "index": 8
+          "index": 7
         },
         {
           "name": "Transfers by Operation Type",
@@ -190,7 +174,7 @@
             "w": 6,
             "h": 4
           },
-          "index": 9
+          "index": 8
         },
         {
           "name": "Transfers by Status",
@@ -200,14 +184,13 @@
           "group_by_field_id": "state",
           "chart_sort": "value_desc",
           "domain": "[]",
-          "date_field_id": "scheduled_date",
           "layout": {
             "x": 0,
             "y": 8,
             "w": 6,
             "h": 4
           },
-          "index": 10
+          "index": 9
         },
         {
           "name": "Transfers by Responsible",
@@ -224,7 +207,7 @@
             "w": 6,
             "h": 4
           },
-          "index": 11
+          "index": 10
         },
         {
           "name": "Recent Transfers",
@@ -252,7 +235,7 @@
             "w": 12,
             "h": 5
           },
-          "index": 12
+          "index": 11
         }
       ],
       "filters": [
@@ -274,7 +257,7 @@
           "name": "Late",
           "sequence": 30,
           "model": "stock.picking",
-          "domain": "[('has_deadline_issue', '=', True), ('state', 'not in', ['done', 'cancel'])]",
+          "domain": "[('scheduled_date', '&lt;', context_today()), ('state', 'not in', ['done', 'cancel'])]",
           "default_enabled": false
         },
         {
