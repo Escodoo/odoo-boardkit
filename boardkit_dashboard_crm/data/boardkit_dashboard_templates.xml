@@ -6,9 +6,9 @@
         <field name="sequence">30</field>
         <field name="description">
             Pipeline board for opportunities: open and won counts, expected and
-            won revenue, win rate, overdue closings, stage funnel, source and
-            salesperson breakdowns, country map and a recent opportunities list.
-            Requires CRM.
+            won revenue, win rate, overdue closings, stage funnel, monthly won
+            revenue, open revenue per salesperson, country map and a recent
+            opportunities list. Requires CRM.
         </field>
         <field
             name="group_ids"
@@ -207,7 +207,7 @@
           "index": 9
         },
         {
-          "name": "Revenue by Salesperson",
+          "name": "Open Revenue by Salesperson",
           "item_type": "bar",
           "model": "crm.lead",
           "aggregation": "sum",
@@ -218,7 +218,7 @@
           "group_by_field_id": "user_id",
           "chart_sort": "value_desc",
           "record_limit": 10,
-          "domain": "[('type', '=', 'opportunity'), ('active', '=', True)]",
+          "domain": "[('type', '=', 'opportunity'), ('active', '=', True), ('probability', '&lt;', 100)]",
           "layout": {
             "x": 6,
             "y": 9,
