@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ==================================
 Boardkit Dashboard Email Marketing
 ==================================
@@ -59,11 +55,13 @@ template*, and choose **Email Marketing Overview**. Optionally rename
 the board in the wizard.
 
 The board opens with the date filter on *This Month*. Open backlog tiles
-(Draft Mailings, In Queue, Bounced) ignore that filter so they always
-show the current queue. Sent mailings use *Sent Date*; engagement traces
-use *Sent On* / *Opened On* and follow the date filter. Use the toggle
-filters (My Mailings, Sent, In Queue, Bounced Traces) to narrow the
-other cards.
+(Draft Mailings, In Queue) ignore that filter so they always show the
+current queue, and so does the recent mailings list, since a mailing
+only gets a send date once it goes out. Sent mailings use *Sent Date*;
+engagement traces use *Sent On* / *Opened On* and follow the date
+filter, and the open rate counts the messages delivered in the period.
+Use the toggle filters (My Mailings, Sent, In Queue, Bounced Traces) to
+narrow the other cards.
 
 When installed with demo data, a published board is created from this
 template and placed first (sequence ``-1``) under the related app menu.
