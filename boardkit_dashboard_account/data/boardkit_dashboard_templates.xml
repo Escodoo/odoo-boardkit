@@ -6,9 +6,11 @@
         <field name="sequence">50</field>
         <field name="description">
             Finance-oriented invoicing board: billed amount, outstanding and
-            overdue AR, credit notes, collection rate, amount trends, payment
-            status, top customers and a recent invoices list. Requires
-            Invoicing.
+            overdue AR, credit notes, collected amount, collection rate, amount
+            trends, payment status, top customers and a recent invoices list.
+            Aggregates use the signed company-currency amounts, so figures can
+            be compared across currencies and credit notes count as negative.
+            Requires Invoicing.
         </field>
         <field name="group_ids" eval="[(4, ref('account.group_account_invoice'))]" />
         <field name="payload">{
@@ -28,7 +30,7 @@
           "item_type": "tile",
           "model": "account.move",
           "aggregation": "sum",
-          "measure_field_id": "amount_total",
+          "measure_field_id": "amount_total_signed",
           "icon": "fa-money",
           "unit_type": "monetary",
           "compare_previous_period": true,
@@ -47,7 +49,7 @@
           "item_type": "tile",
           "model": "account.move",
           "aggregation": "sum",
-          "measure_field_id": "amount_residual",
+          "measure_field_id": "amount_residual_signed",
           "icon": "fa-balance-scale",
           "unit_type": "monetary",
           "domain": "[('move_type', '=', 'out_invoice'), ('state', '=', 'posted'), ('payment_state', 'in', ('not_paid', 'partial'))]",
@@ -64,7 +66,7 @@
           "item_type": "tile",
           "model": "account.move",
           "aggregation": "sum",
-          "measure_field_id": "amount_residual",
+          "measure_field_id": "amount_residual_signed",
           "icon": "fa-exclamation-triangle",
           "unit_type": "monetary",
           "domain": "[('move_type', '=', 'out_invoice'), ('state', '=', 'posted'), ('payment_state', 'in', ('not_paid', 'partial')), ('invoice_date_due', '&lt;', context_today())]",
@@ -81,7 +83,7 @@
           "item_type": "tile",
           "model": "account.move",
           "aggregation": "sum",
-          "measure_field_id": "amount_total",
+          "measure_field_id": "amount_total_signed",
           "icon": "fa-reply",
           "unit_type": "monetary",
           "domain": "[('move_type', '=', 'out_refund'), ('state', '=', 'posted')]",
@@ -98,14 +100,12 @@
           "name": "Collection Rate",
           "item_type": "kpi",
           "model": "account.move",
-          "aggregation": "sum",
-          "measure_field_id": "amount_total",
+          "aggregation": "count",
           "kpi_mode": "comparison",
           "kpi_display": "percent",
-          "domain": "[('move_type', '=', 'out_invoice'), ('state', '=', 'posted'), ('payment_state', '=', 'paid')]",
+          "domain": "[('move_type', '=', 'out_invoice'), ('state', '=', 'posted'), ('payment_state', 'in', ('paid', 'in_payment'))]",
           "model_2": "account.move",
-          "aggregation_2": "sum",
-          "measure_field_2_id": "amount_total",
+          "aggregation_2": "count",
           "domain_2": "[('move_type', '=', 'out_invoice'), ('state', '=', 'posted')]",
           "date_field_id": "invoice_date",
           "date_field_2_id": "invoice_date",
@@ -118,24 +118,23 @@
           "index": 4
         },
         {
-          "name": "Collection Target",
-          "item_type": "gauge",
+          "name": "Collected",
+          "item_type": "tile",
+          "model": "account.move",
           "aggregation": "sum",
-          "target_enabled": true,
-          "target_value": 500000,
-          "gauge_max": 600000,
+          "measure_field_id": "amount_total_signed",
+          "icon": "fa-check-circle",
+          "unit_type": "monetary",
+          "compare_previous_period": true,
+          "domain": "[('move_type', '=', 'out_invoice'), ('state', '=', 'posted'), ('payment_state', 'in', ('paid', 'in_payment'))]",
+          "date_field_id": "invoice_date",
           "layout": {
             "x": 3,
             "y": 2,
             "w": 3,
             "h": 2
           },
-          "index": 5,
-          "model": "account.move",
-          "measure_field_id": "amount_total",
-          "unit_type": "monetary",
-          "domain": "[('move_type', '=', 'out_invoice'), ('state', '=', 'posted'), ('payment_state', '=', 'paid')]",
-          "date_field_id": "invoice_date"
+          "index": 5
         },
         {
           "name": "Draft Invoices",
@@ -174,9 +173,9 @@
           "item_type": "area",
           "model": "account.move",
           "aggregation": "sum",
-          "measure_field_id": "amount_total",
+          "measure_field_id": "amount_total_signed",
           "measures": [
-            "amount_total"
+            "amount_total_signed"
           ],
           "group_by_field_id": "invoice_date",
           "group_by_granularity": "month",
@@ -197,9 +196,9 @@
           "item_type": "bar_horizontal",
           "model": "account.move",
           "aggregation": "sum",
-          "measure_field_id": "amount_total",
+          "measure_field_id": "amount_total_signed",
           "measures": [
-            "amount_total"
+            "amount_total_signed"
           ],
           "group_by_field_id": "partner_id",
           "chart_sort": "value_desc",
@@ -236,9 +235,9 @@
           "item_type": "bar",
           "model": "account.move",
           "aggregation": "sum",
-          "measure_field_id": "amount_total",
+          "measure_field_id": "amount_total_signed",
           "measures": [
-            "amount_total"
+            "amount_total_signed"
           ],
           "group_by_field_id": "invoice_user_id",
           "chart_sort": "value_desc",
