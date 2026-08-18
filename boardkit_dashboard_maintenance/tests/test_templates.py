@@ -3,9 +3,13 @@
 
 from odoo.tests import TransactionCase, tagged
 
+from odoo.addons.boardkit_dashboard.tests.common import BoardkitTemplateSmokeMixin
+
 
 @tagged("post_install", "-at_install")
-class TestMaintenanceDashboardTemplates(TransactionCase):
+class TestMaintenanceDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase):
+    template_xmlids = ("boardkit_dashboard_maintenance.template_maintenance_overview",)
+
     def test_create_from_template_maintenance_overview(self):
         template = self.env.ref(
             "boardkit_dashboard_maintenance.template_maintenance_overview"
@@ -20,8 +24,8 @@ class TestMaintenanceDashboardTemplates(TransactionCase):
             dashboard.group_ids,
             self.env.ref("maintenance.group_equipment_manager"),
         )
-        self.assertEqual(len(dashboard.item_ids), 13)
-        self.assertTrue(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
+        self.assertEqual(len(dashboard.item_ids), 12)
+        self.assertFalse(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
             all(item.model_name == "maintenance.request" for item in dashboard.item_ids)
@@ -37,6 +41,9 @@ class TestMaintenanceDashboardTemplates(TransactionCase):
         rate = dashboard.item_ids.filtered(lambda i: i.name == "Completion Rate")
         self.assertEqual(rate.kpi_mode, "comparison")
         self.assertEqual(rate.kpi_display, "percent")
+        # Both sides follow the requests opened in the period.
+        self.assertEqual(rate.date_field_id.name, "request_date")
+        self.assertEqual(rate.date_field_2_id.name, "request_date")
 
         funnel = dashboard.item_ids.filtered(lambda i: i.name == "Pipeline Funnel")
         self.assertEqual(funnel.item_type, "funnel")
