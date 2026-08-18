@@ -3,9 +3,13 @@
 
 from odoo.tests import TransactionCase, tagged
 
+from odoo.addons.boardkit_dashboard.tests.common import BoardkitTemplateSmokeMixin
+
 
 @tagged("post_install", "-at_install")
-class TestPayrollDashboardTemplates(TransactionCase):
+class TestPayrollDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase):
+    template_xmlids = ("boardkit_dashboard_payroll.template_payroll_overview",)
+
     def test_create_from_template_payroll_overview(self):
         template = self.env.ref("boardkit_dashboard_payroll.template_payroll_overview")
         dashboard_ids = self.env["boardkit.dashboard"].create_from_template(template.id)
@@ -18,8 +22,8 @@ class TestPayrollDashboardTemplates(TransactionCase):
             dashboard.group_ids,
             self.env.ref("payroll.group_payroll_user"),
         )
-        self.assertEqual(len(dashboard.item_ids), 13)
-        self.assertTrue(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
+        self.assertEqual(len(dashboard.item_ids), 12)
+        self.assertFalse(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
             all(item.model_name == "hr.payslip" for item in dashboard.item_ids)
@@ -35,6 +39,8 @@ class TestPayrollDashboardTemplates(TransactionCase):
         rate = dashboard.item_ids.filtered(lambda i: i.name == "Done Rate")
         self.assertEqual(rate.kpi_mode, "comparison")
         self.assertEqual(rate.kpi_display, "percent")
+        # Payslips still waiting belong to the denominator too.
+        self.assertEqual(rate.domain_2, "[]")
 
         by_struct = dashboard.item_ids.filtered(lambda i: i.name == "Done by Structure")
         self.assertEqual(by_struct.item_type, "bar_horizontal")
