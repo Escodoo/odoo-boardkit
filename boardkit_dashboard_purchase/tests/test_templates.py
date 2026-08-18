@@ -41,9 +41,7 @@ class TestPurchaseDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase
         rfqs = dashboard.item_ids.filtered(lambda i: i.name == "RFQs")
         self.assertFalse(rfqs.date_field_id)
 
-        average = dashboard.item_ids.filtered(
-            lambda i: i.name == "Average Order Value"
-        )
+        average = dashboard.item_ids.filtered(lambda i: i.name == "Average Order Value")
         self.assertEqual(average.aggregation, "avg")
         self.assertEqual(average.date_field_id.name, "date_approve")
 
