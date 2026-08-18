@@ -3,9 +3,13 @@
 
 from odoo.tests import TransactionCase, tagged
 
+from odoo.addons.boardkit_dashboard.tests.common import BoardkitTemplateSmokeMixin
+
 
 @tagged("post_install", "-at_install")
-class TestCrmDashboardTemplates(TransactionCase):
+class TestCrmDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase):
+    template_xmlids = ("boardkit_dashboard_crm.template_crm_pipeline",)
+
     def test_create_from_template_crm_pipeline(self):
         template = self.env.ref("boardkit_dashboard_crm.template_crm_pipeline")
         dashboard_ids = self.env["boardkit.dashboard"].create_from_template(template.id)
@@ -43,6 +47,13 @@ class TestCrmDashboardTemplates(TransactionCase):
         self.assertEqual(win_rate.kpi_mode, "comparison")
         self.assertEqual(win_rate.kpi_display, "percent")
         self.assertEqual(win_rate.model_2_name, "crm.lead")
+        self.assertEqual(win_rate.date_field_id, win_rate.date_field_2_id)
+
+        by_user = dashboard.item_ids.filtered(
+            lambda i: i.name == "Open Revenue by Salesperson"
+        )
+        # Expected revenue is only meaningful while the deal is open.
+        self.assertIn("probability", by_user.domain)
 
         funnel = dashboard.item_ids.filtered(lambda i: i.name == "Pipeline Funnel")
         self.assertEqual(funnel.item_type, "funnel")
