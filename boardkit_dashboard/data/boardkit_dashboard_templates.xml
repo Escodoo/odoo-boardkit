@@ -6,7 +6,9 @@
         <field name="sequence">10</field>
         <field name="description">
             Contacts board with tiles, KPI, country and location maps, charts
-            and a latest-contacts list. Uses only Contacts (res.partner).
+            and a latest-contacts list. Uses only Contacts (res.partner). The
+            location map and the geolocation items stay empty until contacts
+            are geolocalized.
         </field>
         <field name="payload">
 {
@@ -18,7 +20,7 @@
       "tags": [
         "Contacts"
       ],
-      "date_filter": "none",
+      "date_filter": "this_year",
       "refresh_interval": "0",
       "default_color_palette": "custom",
       "default_palette": "Boardkit Brand",
@@ -126,13 +128,13 @@
           "index": 5
         },
         {
-          "name": "Contacts Target",
-          "item_type": "kpi",
+          "name": "New Contacts",
+          "item_type": "tile",
           "model": "res.partner",
           "aggregation": "count",
-          "kpi_mode": "target",
-          "target_enabled": true,
-          "target_value": 100,
+          "icon": "fa-user-plus",
+          "compare_previous_period": true,
+          "date_field_id": "create_date",
           "domain": "[]",
           "layout": {
             "x": 0,
