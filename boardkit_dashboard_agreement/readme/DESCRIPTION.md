@@ -6,7 +6,7 @@ from the [OCA Agreement](https://github.com/OCA/agreement) project and lands
 unpublished so it can be reviewed before users see it.
 
 It focuses on agreement portfolio health: active deals and templates, new
-signatures (with period comparison), active rate, expired endings, sale-domain
+signatures (with period comparison), active rate, agreements past their end date, sale-domain
 counts, signature trends, partner concentration, domain and type breakdowns,
 and a recent agreements list. Toggle filters cover active, sale, purchase and
 expired agreements.
