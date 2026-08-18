@@ -6,7 +6,7 @@
         <field name="sequence">46</field>
         <field name="description">
             Purchase request board for internal demand: drafts and approval
-            queues, estimated cost, approval rate, overdue required dates,
+            queues, estimated cost, approved and done volumes, approval rate,
             trends, requester and status analytics, and a recent requests
             list. Requires Purchase Request.
         </field>
@@ -102,7 +102,7 @@
           "domain": "[('state', 'in', ['approved', 'in_progress', 'done'])]",
           "model_2": "purchase.request",
           "aggregation_2": "count",
-          "domain_2": "[('state', 'in', ['approved', 'in_progress', 'done', 'rejected'])]",
+          "domain_2": "[]",
           "date_field_id": "date_start",
           "date_field_2_id": "date_start",
           "layout": {
@@ -114,13 +114,12 @@
           "index": 4
         },
         {
-          "name": "Approved Target",
-          "item_type": "gauge",
+          "name": "Approved",
+          "item_type": "tile",
           "model": "purchase.request",
           "aggregation": "count",
-          "target_enabled": true,
-          "target_value": 20,
-          "gauge_max": 25,
+          "icon": "fa-thumbs-up",
+          "compare_previous_period": true,
           "domain": "[('state', 'in', ['approved', 'in_progress', 'done'])]",
           "date_field_id": "date_start",
           "layout": {
@@ -216,7 +215,6 @@
           "group_by_field_id": "state",
           "chart_sort": "value_desc",
           "domain": "[]",
-          "date_field_id": "date_start",
           "layout": {
             "x": 0,
             "y": 8,
