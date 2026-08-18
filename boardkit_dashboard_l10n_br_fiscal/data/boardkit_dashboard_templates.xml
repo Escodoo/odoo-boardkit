@@ -6,9 +6,11 @@
         <field name="sequence">53</field>
         <field name="description">
             Brazilian fiscal board for electronic documents: drafts and
-            pending transmission, authorized totals, rejection and cancel
-            rates, amount trends, document type and operation analytics,
-            and a recent documents list. Requires Brazilian Fiscal.
+            pending transmission, authorized outbound and inbound totals,
+            authorization rate, amount trends, e-doc state and operation
+            analytics, and a recent documents list. Amounts are split by
+            fiscal operation type so inbound and outbound documents are never
+            summed together. Requires Brazilian Fiscal.
         </field>
         <field name="group_ids" eval="[(4, ref('l10n_br_fiscal.group_user'))]" />
         <field name="payload">
@@ -58,7 +60,7 @@
           "index": 1
         },
         {
-          "name": "Authorized Total",
+          "name": "Authorized Outbound Total",
           "item_type": "tile",
           "model": "l10n_br_fiscal.document",
           "aggregation": "sum",
@@ -66,7 +68,7 @@
           "icon": "fa-money",
           "unit_type": "monetary",
           "compare_previous_period": true,
-          "domain": "[('state_edoc', '=', 'autorizada')]",
+          "domain": "[('state_edoc', '=', 'autorizada'), ('fiscal_operation_type', '=', 'out')]",
           "date_field_id": "document_date",
           "layout": {
             "x": 6,
@@ -101,7 +103,7 @@
           "domain": "[('state_edoc', '=', 'autorizada')]",
           "model_2": "l10n_br_fiscal.document",
           "aggregation_2": "count",
-          "domain_2": "[('state_edoc', 'in', ['autorizada', 'cancelada', 'denegada', 'rejeitada', 'inutilizada'])]",
+          "domain_2": "[('state_edoc', '!=', 'em_digitacao')]",
           "date_field_id": "document_date",
           "date_field_2_id": "document_date",
           "layout": {
@@ -113,14 +115,15 @@
           "index": 4
         },
         {
-          "name": "Authorized Target",
-          "item_type": "gauge",
+          "name": "Authorized Inbound Total",
+          "item_type": "tile",
           "model": "l10n_br_fiscal.document",
-          "aggregation": "count",
-          "target_enabled": true,
-          "target_value": 40,
-          "gauge_max": 50,
-          "domain": "[('state_edoc', '=', 'autorizada')]",
+          "aggregation": "sum",
+          "measure_field_id": "fiscal_amount_total",
+          "icon": "fa-download",
+          "unit_type": "monetary",
+          "compare_previous_period": true,
+          "domain": "[('state_edoc', '=', 'autorizada'), ('fiscal_operation_type', '=', 'in')]",
           "date_field_id": "document_date",
           "layout": {
             "x": 3,
@@ -176,7 +179,7 @@
           "date_field_id": "document_date",
           "chart_sort": "label_asc",
           "show_trend_line": true,
-          "domain": "[('state_edoc', '=', 'autorizada')]",
+          "domain": "[('state_edoc', '=', 'autorizada'), ('fiscal_operation_type', '=', 'out')]",
           "layout": {
             "x": 0,
             "y": 4,
@@ -186,7 +189,7 @@
           "index": 8
         },
         {
-          "name": "Top Partners by Amount",
+          "name": "Top Partners by Outbound Amount",
           "item_type": "bar_horizontal",
           "model": "l10n_br_fiscal.document",
           "aggregation": "sum",
@@ -197,7 +200,7 @@
           "group_by_field_id": "partner_id",
           "chart_sort": "value_desc",
           "record_limit": 10,
-          "domain": "[('state_edoc', '=', 'autorizada')]",
+          "domain": "[('state_edoc', '=', 'autorizada'), ('fiscal_operation_type', '=', 'out')]",
           "date_field_id": "document_date",
           "layout": {
             "x": 6,
@@ -215,7 +218,6 @@
           "group_by_field_id": "state_edoc",
           "chart_sort": "value_desc",
           "domain": "[]",
-          "date_field_id": "document_date",
           "layout": {
             "x": 0,
             "y": 8,
@@ -290,14 +292,14 @@
           "name": "Outbound",
           "sequence": 30,
           "model": "l10n_br_fiscal.document",
-          "domain": "[('fiscal_operation_type', 'in', ['sale', 'sale_refund', 'return_out'])]",
+          "domain": "[('fiscal_operation_type', '=', 'out')]",
           "default_enabled": false
         },
         {
           "name": "Inbound",
           "sequence": 40,
           "model": "l10n_br_fiscal.document",
-          "domain": "[('fiscal_operation_type', 'in', ['purchase', 'purchase_refund', 'return_in'])]",
+          "domain": "[('fiscal_operation_type', '=', 'in')]",
           "default_enabled": false
         }
       ]
