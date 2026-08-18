@@ -3,9 +3,13 @@
 
 from odoo.tests import TransactionCase, tagged
 
+from odoo.addons.boardkit_dashboard.tests.common import BoardkitTemplateSmokeMixin
+
 
 @tagged("post_install", "-at_install")
-class TestHolidaysDashboardTemplates(TransactionCase):
+class TestHolidaysDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase):
+    template_xmlids = ("boardkit_dashboard_hr_holidays.template_time_off_overview",)
+
     def test_create_from_template_time_off_overview(self):
         template = self.env.ref(
             "boardkit_dashboard_hr_holidays.template_time_off_overview"
@@ -21,7 +25,7 @@ class TestHolidaysDashboardTemplates(TransactionCase):
             self.env.ref("hr_holidays.group_hr_holidays_user"),
         )
         self.assertEqual(len(dashboard.item_ids), 13)
-        self.assertTrue(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
+        self.assertFalse(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
             all(item.model_name == "hr.leave" for item in dashboard.item_ids)
@@ -39,6 +43,14 @@ class TestHolidaysDashboardTemplates(TransactionCase):
         approval = dashboard.item_ids.filtered(lambda i: i.name == "Approval Rate")
         self.assertEqual(approval.kpi_mode, "comparison")
         self.assertEqual(approval.kpi_display, "percent")
+        # Pending requests belong to the denominator, only cancelled ones do not.
+        self.assertEqual(approval.domain_2, "[('state', '!=', 'cancel')]")
+
+        pending_days = dashboard.item_ids.filtered(
+            lambda i: i.name == "Days To Approve"
+        )
+        self.assertEqual(pending_days.measure_field_id.name, "number_of_days")
+        self.assertFalse(pending_days.date_field_id)
 
         by_type = dashboard.item_ids.filtered(lambda i: i.name == "Days by Type")
         self.assertEqual(by_type.item_type, "bar_horizontal")
