@@ -56,8 +56,9 @@ board in the wizard.
 The board opens with the date filter on *This Month*. Open backlog tiles
 (Open, High Priority, Overdue, Unassigned) ignore that filter so they
 always show the current queue. Done metrics use *Close Date* and follow
-the date filter. Use the toggle filters (My Requests, Open, Overdue,
-High Priority) to narrow the other cards.
+the date filter, while the completion rate measures the requests opened
+in the period. Use the toggle filters (My Requests, Open, Overdue, High
+Priority) to narrow the other cards.
 
 When installed with demo data, a published board is created from this
 template and placed first (sequence ``-1``) under the related app menu.
