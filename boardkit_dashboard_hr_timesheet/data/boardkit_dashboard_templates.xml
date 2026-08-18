@@ -7,7 +7,9 @@
         <field name="description">
             Timesheet board for project time: hours logged, line counts,
             average hours, today total, task coverage, cost amount, daily
-            trends and project/employee analytics. Requires Timesheets.
+            trends and project/employee analytics. The cost tile follows the
+            analytic sign convention, so logged time shows as a negative
+            amount. Requires Timesheets.
         </field>
         <field
             name="group_ids"

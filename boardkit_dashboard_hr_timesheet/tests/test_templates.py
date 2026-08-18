@@ -3,9 +3,13 @@
 
 from odoo.tests import TransactionCase, tagged
 
+from odoo.addons.boardkit_dashboard.tests.common import BoardkitTemplateSmokeMixin
+
 
 @tagged("post_install", "-at_install")
-class TestHrTimesheetDashboardTemplates(TransactionCase):
+class TestHrTimesheetDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase):
+    template_xmlids = ("boardkit_dashboard_hr_timesheet.template_timesheet_overview",)
+
     def test_create_from_template_timesheet_overview(self):
         template = self.env.ref(
             "boardkit_dashboard_hr_timesheet.template_timesheet_overview"
