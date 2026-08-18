@@ -489,33 +489,19 @@ class BoardkitDashboard(models.Model):
         return value
 
     _AI_AGGREGATIONS = frozenset({"count", "sum", "avg"})
-    _AI_ITEM_TYPES = frozenset(
-        {
-            "tile",
-            "kpi",
-            "bar",
-            "bar_horizontal",
-            "line",
-            "area",
-            "pie",
-            "doughnut",
-            "polar",
-            "radar",
-            "scatter",
-            "funnel",
-            "gauge",
-            "bullet",
-            "map",
-            "list",
-        }
-    )
+
+    @api.model
+    def _ai_item_types(self):
+        """Return item types from the core selection, not a local copy."""
+        field = self.env["boardkit.dashboard.item"]._fields["item_type"]
+        return {key for key, _label in field._description_selection(self.env)}
 
     @api.model
     def _normalize_ai_item(self, item):
         """Fill required item fields LLMs often omit or null out."""
         item = dict(item or {})
         item_type = item.get("item_type") or "tile"
-        if item_type not in self._AI_ITEM_TYPES:
+        if item_type not in self._ai_item_types():
             # Common LLM alias.
             if item_type in ("chart", "graph"):
                 item_type = "bar"

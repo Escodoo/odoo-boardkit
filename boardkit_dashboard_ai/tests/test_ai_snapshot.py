@@ -359,6 +359,8 @@ class TestBoardkitAiSnapshot(TransactionCase):
 
     def test_normalize_ai_item_defaults_aggregation(self):
         Dashboard = self.env["boardkit.dashboard"]
+        self.assertIn("tile", Dashboard._ai_item_types())
+        self.assertIn("bar", Dashboard._ai_item_types())
         item = Dashboard._normalize_ai_item(
             {
                 "name": "Won",
