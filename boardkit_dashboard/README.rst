@@ -173,7 +173,9 @@ Dashboard Users until a manager sets an audience.
 Core ships the *Contacts Overview* template (data-quality tiles, KPIs,
 country regions map, location points map on ``partner_latitude`` /
 ``partner_longitude``, charts and a recent list). It uses only Contacts
-(``res.partner``). When the module is installed with demo data, a
+(``res.partner``). The items built on ``partner_latitude`` /
+``partner_longitude`` stay empty until the contacts are geolocalized
+(*Contacts > Action > Geolocalize*). When the module is installed with demo data, a
 published board is created from that same template (plus a few
 geolocalized sample partners for the points map), linked under the
 Contacts app menu with sequence ``-1``. App-specific overview templates
