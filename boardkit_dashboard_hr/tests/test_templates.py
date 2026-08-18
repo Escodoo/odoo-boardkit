@@ -3,9 +3,13 @@
 
 from odoo.tests import TransactionCase, tagged
 
+from odoo.addons.boardkit_dashboard.tests.common import BoardkitTemplateSmokeMixin
+
 
 @tagged("post_install", "-at_install")
-class TestHrDashboardTemplates(TransactionCase):
+class TestHrDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase):
+    template_xmlids = ("boardkit_dashboard_hr.template_employees_overview",)
+
     def test_create_from_template_employees_overview(self):
         template = self.env.ref("boardkit_dashboard_hr.template_employees_overview")
         dashboard_ids = self.env["boardkit.dashboard"].create_from_template(template.id)
