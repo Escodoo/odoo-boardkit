@@ -38,9 +38,7 @@ class TestSaleDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase):
         quotations = dashboard.item_ids.filtered(lambda i: i.name == "Quotations")
         self.assertFalse(quotations.date_field_id)
 
-        average = dashboard.item_ids.filtered(
-            lambda i: i.name == "Average Order Value"
-        )
+        average = dashboard.item_ids.filtered(lambda i: i.name == "Average Order Value")
         self.assertEqual(average.aggregation, "avg")
         self.assertEqual(average.measure_field_id.name, "amount_untaxed")
         self.assertTrue(average.compare_previous_period)
