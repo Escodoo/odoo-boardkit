@@ -16,3 +16,6 @@
 6. Configure a chat LLM (env `LLM_*` on Agno and/or Odoo Settings → Agno AI BYOK).
 7. Upgrade the module after pulling so the Boardkit Chat bridge
    (`/bridge/boardkit/chat`) is created and receives the auth token.
+8. The Boardkit bridges use a `request_timeout` of 120–180 seconds. Raise
+   Odoo's `limit_time_real` (and the HTTP proxy timeout, if any) above that
+   value so a long LLM call is not killed before the bridge answers.

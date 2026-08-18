@@ -26,6 +26,9 @@
         "views/boardkit_dashboard_ai_generate_wizard_views.xml",
         "views/boardkit_dashboard_ai_menus.xml",
     ],
+    "images": [
+        "static/description/banner.png",
+    ],
     "assets": {
         "web.assets_backend": [
             "boardkit_dashboard_ai/static/src/dashboard/**/*",
