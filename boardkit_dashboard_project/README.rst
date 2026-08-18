@@ -55,9 +55,11 @@ in the wizard.
 
 The board opens with the date filter on *This Month*. Open backlog tiles
 (Open, High Priority, Overdue, Unassigned, Waiting) ignore that filter
-so they always show the current queue. Done metrics use *Ending Date*
-and follow the date filter. Use the toggle filters (My Tasks, Open,
-Overdue, High Priority) to narrow the other cards.
+so they always show the current queue. Done metrics use *Ending Date*,
+which Odoo fills when a task reaches a folded stage, and follow the date
+filter; the completion rate measures the tasks created in the period
+instead. Use the toggle filters (My Tasks, Open, Overdue, High Priority)
+to narrow the other cards.
 
 When installed with demo data, a published board is created from this
 template and placed first (sequence ``-1``) under the related app menu.
