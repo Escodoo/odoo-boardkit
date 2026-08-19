@@ -6,6 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-19 01:45+0000\n"
+"PO-Revision-Date: 2026-08-19 01:45+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -606,6 +608,17 @@ msgstr ""
 #. module: boardkit_dashboard
 #: model:boardkit.dashboard,description:boardkit_dashboard.dashboard_demo
 msgid "Contacts with geo maps, KPIs, charts and a recent list."
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_item__map_relation_field_id
+msgid "Coordinates From"
+msgstr ""
+
+#. module: boardkit_dashboard
+#. odoo-python
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+msgid "Coordinates From must be a stored many2one field on item %(name)s."
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -1308,6 +1321,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_item_view_form
 msgid ""
 "For Map regions mode, select a field that points to Countries (res.country)."
+" When Coordinates From is set, pick that field on the related model."
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -1391,6 +1405,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_item__group_by_granularity
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_item_drill__group_by_granularity
 msgid "Group By Granularity"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_item__group_by_model_id
+msgid "Group By Model"
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -1841,6 +1860,11 @@ msgid "Map"
 msgstr ""
 
 #. module: boardkit_dashboard
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_item__map_field_model_id
+msgid "Map Field Model"
+msgstr ""
+
+#. module: boardkit_dashboard
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard__icon__fa-map-marker
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard_tag__icon__fa-map-marker
 msgid "Map Marker"
@@ -2162,6 +2186,14 @@ msgstr ""
 msgid ""
 "Optional country used to crop the map outline and zoom the projection. "
 "Applies to both Regions and Points modes."
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.model.fields,help:boardkit_dashboard.field_boardkit_dashboard_item__map_relation_field_id
+msgid ""
+"Optional many2one on the source model. When set, the map reads its latitude,"
+" longitude and country fields from the related model, for example partner_id"
+" to plot leads on the contact coordinates."
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -2780,8 +2812,18 @@ msgid "Tasks"
 msgstr ""
 
 #. module: boardkit_dashboard
+#: model:ir.model.fields,help:boardkit_dashboard.field_boardkit_dashboard_item__group_by_model_id
+msgid "Technical model that owns the Group By field."
+msgstr ""
+
+#. module: boardkit_dashboard
 #: model:ir.model.fields,help:boardkit_dashboard.field_boardkit_dashboard_item__sort_model_id
 msgid "Technical model that owns the Sort By field."
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.model.fields,help:boardkit_dashboard.field_boardkit_dashboard_item__map_field_model_id
+msgid "Technical model that owns the map coordinate fields."
 msgstr ""
 
 #. module: boardkit_dashboard
