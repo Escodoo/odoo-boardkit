@@ -115,6 +115,7 @@ class BoardkitTemplateSmokeMixin:
         "measure_field_id",
         "measure_x_field_id",
         "measure_y_field_id",
+        "map_relation_field_id",
         "latitude_field_id",
         "longitude_field_id",
         "date_field_2_id",
@@ -165,6 +166,7 @@ class BoardkitTemplateSmokeMixin:
         "measure_field_id",
         "measure_x_field_id",
         "measure_y_field_id",
+        "map_relation_field_id",
         "latitude_field_id",
         "longitude_field_id",
     )
@@ -178,7 +180,9 @@ class BoardkitTemplateSmokeMixin:
         for key in self._SMOKE_AGGREGATED_KEYS:
             expected = item_data.get(key)
             if expected:
-                self._assert_aggregatable(item.model_name, expected, f"{label}: {key}")
+                # Map coordinates and country may live on a related model.
+                model_name = item[key].model or item.model_name
+                self._assert_aggregatable(model_name, expected, f"{label}: {key}")
         expected_measures = item_data.get("measures") or []
         if expected_measures:
             self.assertEqual(
