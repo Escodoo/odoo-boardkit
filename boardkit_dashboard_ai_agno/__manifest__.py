@@ -2,8 +2,8 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 {
-    "name": "Boardkit Dashboard AI",
-    "summary": "Board chat, insights, tile explanations and NL board generation",
+    "name": "Boardkit Dashboard AI (Agno)",
+    "summary": "Board chat, insights, tile explanations and NL generation via Agno",
     "category": "Productivity",
     "version": "18.0.1.0.0",
     "website": "https://github.com/Escodoo/odoo-boardkit",
@@ -19,19 +19,19 @@
         "ai_agno_connector",
     ],
     "data": [
-        "security/boardkit_dashboard_ai_security.xml",
+        "security/boardkit_dashboard_ai_agno_security.xml",
         "security/ir.model.access.csv",
         "data/ai_bridge_data.xml",
         "views/boardkit_dashboard_views.xml",
         "views/boardkit_dashboard_ai_generate_wizard_views.xml",
-        "views/boardkit_dashboard_ai_menus.xml",
+        "views/boardkit_dashboard_ai_agno_menus.xml",
     ],
     "images": [
         "static/description/banner.png",
     ],
     "assets": {
         "web.assets_backend": [
-            "boardkit_dashboard_ai/static/src/dashboard/**/*",
+            "boardkit_dashboard_ai_agno/static/src/dashboard/**/*",
         ],
     },
     "post_init_hook": "post_init_hook",

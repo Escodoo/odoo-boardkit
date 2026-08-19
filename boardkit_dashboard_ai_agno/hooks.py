@@ -8,13 +8,13 @@ from odoo.addons.ai_agno_connector.token_utils import (
     ensure_token,
 )
 
-ICP_KEY = "boardkit_dashboard_ai.bridge_auth_token"
+ICP_KEY = "boardkit_dashboard_ai_agno.bridge_auth_token"
 
 _BRIDGE_XMLIDS = (
-    "boardkit_dashboard_ai.ai_bridge_boardkit_summary",
-    "boardkit_dashboard_ai.ai_bridge_boardkit_explain",
-    "boardkit_dashboard_ai.ai_bridge_boardkit_generate",
-    "boardkit_dashboard_ai.ai_bridge_boardkit_chat",
+    "boardkit_dashboard_ai_agno.ai_bridge_boardkit_summary",
+    "boardkit_dashboard_ai_agno.ai_bridge_boardkit_explain",
+    "boardkit_dashboard_ai_agno.ai_bridge_boardkit_generate",
+    "boardkit_dashboard_ai_agno.ai_bridge_boardkit_chat",
 )
 
 

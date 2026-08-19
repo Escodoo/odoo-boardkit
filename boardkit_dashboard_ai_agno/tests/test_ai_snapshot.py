@@ -21,7 +21,7 @@ class TestBoardkitAiSnapshot(TransactionCase):
             groups=(
                 "base.group_user,"
                 "boardkit_dashboard.group_dashboard_manager,"
-                "boardkit_dashboard_ai.group_dashboard_ai_user"
+                "boardkit_dashboard_ai_agno.group_dashboard_ai_user"
             ),
         )
         cls.user_no_ai = new_test_user(
@@ -35,7 +35,7 @@ class TestBoardkitAiSnapshot(TransactionCase):
             groups=(
                 "base.group_user,"
                 "boardkit_dashboard.group_dashboard_user,"
-                "boardkit_dashboard_ai.group_dashboard_ai_user"
+                "boardkit_dashboard_ai_agno.group_dashboard_ai_user"
             ),
         )
         cls.dashboard = (
@@ -144,7 +144,7 @@ class TestBoardkitAiSnapshot(TransactionCase):
         self.assertEqual(result["actions"], [])
         self.assertTrue(
             captured["xmlid"].endswith("ai_bridge_boardkit_chat")
-            or captured["xmlid"] == "boardkit_dashboard_ai.ai_bridge_boardkit_chat"
+            or captured["xmlid"] == "boardkit_dashboard_ai_agno.ai_bridge_boardkit_chat"
         )
         self.assertEqual(captured["kwargs"]["message"], "Why is overdue high?")
         self.assertEqual(
@@ -428,7 +428,8 @@ class TestBoardkitAiSnapshot(TransactionCase):
         self.assertEqual(summary["body"], "<p>Summary</p>")
         self.assertTrue(
             captured["xmlid"].endswith("ai_bridge_boardkit_explain")
-            or captured["xmlid"] == "boardkit_dashboard_ai.ai_bridge_boardkit_explain"
+            or captured["xmlid"]
+            == "boardkit_dashboard_ai_agno.ai_bridge_boardkit_explain"
         )
         self.assertEqual(explain["body"], "<p>Summary</p>")
         self.assertEqual(captured["kwargs"]["item"]["id"], self.item.id)
@@ -615,12 +616,12 @@ class TestBoardkitAiSnapshot(TransactionCase):
     def test_run_boardkit_bridge_errors_and_success(self):
         dashboard = self.dashboard.with_user(self.manager)
         with self.assertRaises(UserError):
-            dashboard._run_boardkit_bridge("boardkit_dashboard_ai.missing_bridge")
-        bridge = self.env.ref("boardkit_dashboard_ai.ai_bridge_boardkit_summary")
+            dashboard._run_boardkit_bridge("boardkit_dashboard_ai_agno.missing_bridge")
+        bridge = self.env.ref("boardkit_dashboard_ai_agno.ai_bridge_boardkit_summary")
         bridge.active = False
         with self.assertRaises(UserError) as err:
             dashboard._run_boardkit_bridge(
-                "boardkit_dashboard_ai.ai_bridge_boardkit_summary"
+                "boardkit_dashboard_ai_agno.ai_bridge_boardkit_summary"
             )
         self.assertIn("is not active", str(err.exception))
         bridge.active = True
@@ -628,7 +629,7 @@ class TestBoardkitAiSnapshot(TransactionCase):
         bridge.group_ids = self.env.ref("base.group_system")
         with self.assertRaises(UserError) as err:
             dashboard._run_boardkit_bridge(
-                "boardkit_dashboard_ai.ai_bridge_boardkit_summary"
+                "boardkit_dashboard_ai_agno.ai_bridge_boardkit_summary"
             )
         self.assertIn("not allowed", str(err.exception))
         bridge.group_ids = original_groups
@@ -637,7 +638,9 @@ class TestBoardkitAiSnapshot(TransactionCase):
         execution.error = "timeout"
         execution._execute.return_value = {}
         with (
-            mute_logger("odoo.addons.boardkit_dashboard_ai.models.boardkit_dashboard"),
+            mute_logger(
+                "odoo.addons.boardkit_dashboard_ai_agno.models.boardkit_dashboard"
+            ),
             patch.object(
                 type(self.env["ai.bridge.execution"]),
                 "create",
@@ -646,7 +649,7 @@ class TestBoardkitAiSnapshot(TransactionCase):
             self.assertRaises(UserError),
         ):
             dashboard._run_boardkit_bridge(
-                "boardkit_dashboard_ai.ai_bridge_boardkit_summary"
+                "boardkit_dashboard_ai_agno.ai_bridge_boardkit_summary"
             )
         execution.state = "done"
         execution._execute.return_value = {"body": "ok"}
@@ -656,7 +659,7 @@ class TestBoardkitAiSnapshot(TransactionCase):
             return_value=execution,
         ):
             result = dashboard._run_boardkit_bridge(
-                "boardkit_dashboard_ai.ai_bridge_boardkit_summary",
+                "boardkit_dashboard_ai_agno.ai_bridge_boardkit_summary",
                 record=dashboard,
             )
         self.assertEqual(result["body"], "ok")

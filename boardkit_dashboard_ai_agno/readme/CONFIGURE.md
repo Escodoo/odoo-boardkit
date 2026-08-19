@@ -1,4 +1,4 @@
-1. Install `boardkit_dashboard_ai` together with its AI dependencies from
+1. Install `boardkit_dashboard_ai_agno` together with its AI dependencies from
    [ai-addons](https://github.com/Escodoo/ai-addons) (`ai_agno_connector` and
    the OCA `ai_oca_bridge` stack it depends on).
 2. Deploy and run the companion Agno service from
@@ -7,7 +7,7 @@
    `/bridge/boardkit/*`.
 3. Set the bridge auth token:
    - Prefer `agno_bridge_auth_token` in Odoo conf (expanded from Doodba env), or
-   - Set ICP `boardkit_dashboard_ai.bridge_auth_token`.
+   - Set ICP `boardkit_dashboard_ai_agno.bridge_auth_token`.
 4. Grant **Dashboard / Use AI on Dashboards** to users who may chat, summarize or
    explain boards. Dashboard managers inherit this group and can also open
    **Generate with AI**.

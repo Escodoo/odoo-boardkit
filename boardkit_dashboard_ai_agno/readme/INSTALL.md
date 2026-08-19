@@ -8,4 +8,4 @@ This module is not standalone. Besides `boardkit_dashboard`, install and run:
   insights, tile explanations and board generation.
 
 Clone both repositories into the addons / services path of the deployment
-(Doodba `repos.yaml` / Compose) before installing `boardkit_dashboard_ai`.
+(Doodba `repos.yaml` / Compose) before installing `boardkit_dashboard_ai_agno`.

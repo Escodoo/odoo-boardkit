@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
     <!--
-        auth_token left empty: set ICP boardkit_dashboard_ai.bridge_auth_token
+        auth_token left empty: set ICP boardkit_dashboard_ai_agno.bridge_auth_token
         before install, or rely on odoo.conf agno_bridge_auth_token (post_init_hook).
     -->
     <record id="ai_bridge_boardkit_summary" model="ai.bridge">
@@ -23,7 +23,7 @@
         <field name="url">http://agno:8000/bridge/boardkit/summary</field>
         <field
             name="group_ids"
-            eval="[(4, ref('boardkit_dashboard_ai.group_dashboard_ai_user'))]"
+            eval="[(4, ref('boardkit_dashboard_ai_agno.group_dashboard_ai_user'))]"
         />
     </record>
 
@@ -46,7 +46,7 @@
         <field name="url">http://agno:8000/bridge/boardkit/explain</field>
         <field
             name="group_ids"
-            eval="[(4, ref('boardkit_dashboard_ai.group_dashboard_ai_user'))]"
+            eval="[(4, ref('boardkit_dashboard_ai_agno.group_dashboard_ai_user'))]"
         />
     </record>
 
@@ -94,7 +94,7 @@
         <field name="url">http://agno:8000/bridge/boardkit/chat</field>
         <field
             name="group_ids"
-            eval="[(4, ref('boardkit_dashboard_ai.group_dashboard_ai_user'))]"
+            eval="[(4, ref('boardkit_dashboard_ai_agno.group_dashboard_ai_user'))]"
         />
     </record>
 </odoo>

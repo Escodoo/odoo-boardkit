@@ -13,7 +13,7 @@ from odoo.addons.boardkit_dashboard.tools.date_ranges import DATE_RANGE_PRESETS
 
 _logger = logging.getLogger(__name__)
 
-AI_USER_GROUP = "boardkit_dashboard_ai.group_dashboard_ai_user"
+AI_USER_GROUP = "boardkit_dashboard_ai_agno.group_dashboard_ai_user"
 MANAGER_GROUP = "boardkit_dashboard.group_dashboard_manager"
 
 # Keep Agno prompts small and focused on readable figures.
@@ -21,10 +21,10 @@ _MAX_SERIES_POINTS = 24
 _MAX_LIST_ROWS = 10
 _MAX_MAP_ENTRIES = 20
 
-_BRIDGE_SUMMARY = "boardkit_dashboard_ai.ai_bridge_boardkit_summary"
-_BRIDGE_EXPLAIN = "boardkit_dashboard_ai.ai_bridge_boardkit_explain"
-_BRIDGE_GENERATE = "boardkit_dashboard_ai.ai_bridge_boardkit_generate"
-_BRIDGE_CHAT = "boardkit_dashboard_ai.ai_bridge_boardkit_chat"
+_BRIDGE_SUMMARY = "boardkit_dashboard_ai_agno.ai_bridge_boardkit_summary"
+_BRIDGE_EXPLAIN = "boardkit_dashboard_ai_agno.ai_bridge_boardkit_explain"
+_BRIDGE_GENERATE = "boardkit_dashboard_ai_agno.ai_bridge_boardkit_generate"
+_BRIDGE_CHAT = "boardkit_dashboard_ai_agno.ai_bridge_boardkit_chat"
 
 _AI_CHAT_HISTORY_LIMIT = 10
 _AI_CHAT_MESSAGE_MAX_LEN = 2000
