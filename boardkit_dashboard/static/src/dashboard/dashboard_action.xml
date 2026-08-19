@@ -276,10 +276,16 @@
                         t-ref="grid"
                     >
                         <div
+                            t-if="state.dragSlot"
+                            class="o_boardkit_dashboard_drop_placeholder"
+                            t-att-style="getDragSlotStyle()"
+                        />
+                        <div
                             t-foreach="state.board.items"
                             t-as="item"
                             t-key="item.id"
                             class="o_boardkit_dashboard_cell"
+                            t-att-class="isDraggingItem(item.id) ? 'o_dragging' : ''"
                             t-att-style="getItemStyle(item.id)"
                         >
                             <DashboardItemCard

@@ -88,6 +88,10 @@ export class BoardkitDashboardAction extends Component {
             filterStamp: 0,
             hasSavedFilters: false,
             isFullscreen: false,
+            // Pixel box of the card that follows the pointer while moving.
+            dragFloat: null,
+            // Grid slot reserved for the drop, shown as a dashed placeholder.
+            dragSlot: null,
         });
         this.sharedFilterState = this.readSharedFilterState();
         this.saveFiltersDebounced = useDebounced(
@@ -658,6 +662,22 @@ export class BoardkitDashboardAction extends Component {
     }
 
     getItemStyle(itemId) {
+        const float = this.state.dragFloat;
+        if (float && float.id === String(itemId)) {
+            // Keep the original pixel size so Chart.js does not rebuild the
+            // canvas on every hop. The card is taken out of the grid flow.
+            return (
+                `position:fixed;` +
+                `left:${float.left}px;` +
+                `top:${float.top}px;` +
+                `width:${float.width}px;` +
+                `height:${float.height}px;` +
+                `z-index:30;` +
+                `margin:0;` +
+                `grid-column:auto;` +
+                `grid-row:auto;`
+            );
+        }
         const geometry = this.state.layout[String(itemId)];
         if (!geometry) {
             return "";
@@ -673,6 +693,23 @@ export class BoardkitDashboardAction extends Component {
         );
     }
 
+    getDragSlotStyle() {
+        const slot = this.state.dragSlot;
+        if (!slot) {
+            return "";
+        }
+        return (
+            `grid-column: ${slot.x + 1} / span ${slot.w};` +
+            `grid-row: ${slot.y + 1} / span ${slot.h};`
+        );
+    }
+
+    isDraggingItem(itemId) {
+        return Boolean(
+            this.state.dragFloat && this.state.dragFloat.id === String(itemId)
+        );
+    }
+
     get isMobileViewport() {
         return browser.innerWidth <= MOBILE_MAX_WIDTH;
     }
@@ -685,6 +722,8 @@ export class BoardkitDashboardAction extends Component {
         event.stopPropagation();
         const rect = this.gridRef.el.getBoundingClientRect();
         const scrollTop = this.contentRef.el?.scrollTop || 0;
+        const cell = event.currentTarget?.closest(".o_boardkit_dashboard_cell");
+        const cellRect = cell?.getBoundingClientRect();
         this.drag = {
             itemId: String(itemId),
             mode,
@@ -698,6 +737,18 @@ export class BoardkitDashboardAction extends Component {
             orig: {...this.state.layout[String(itemId)]},
             stepX: (rect.width + GRID_GAP) / GRID_COLS,
         };
+        if (mode === "move" && cellRect) {
+            this.drag.grabX = event.clientX - cellRect.left;
+            this.drag.grabY = event.clientY - cellRect.top;
+            this.state.dragFloat = {
+                id: String(itemId),
+                left: cellRect.left,
+                top: cellRect.top,
+                width: cellRect.width,
+                height: cellRect.height,
+            };
+            this.state.dragSlot = {...this.drag.orig};
+        }
         window.addEventListener("pointermove", this.onDragPointerMove);
         window.addEventListener("pointerup", this.onDragPointerUp);
         this.scheduleDragScroll();
@@ -731,11 +782,22 @@ export class BoardkitDashboardAction extends Component {
         if (drag.mode === "move") {
             geometry.x = clamp(drag.orig.x + deltaX, 0, GRID_COLS - geometry.w);
             geometry.y = Math.max(0, drag.orig.y + deltaY);
+            // The live card follows the pointer; only the drop slot hops
+            // through the grid. Relayouting the card itself would resize the
+            // Chart.js canvas and clip funnels/maps mid-drag.
+            if (this.state.dragFloat) {
+                this.state.dragFloat = {
+                    ...this.state.dragFloat,
+                    left: drag.pointerX - drag.grabX,
+                    top: drag.pointerY - drag.grabY,
+                };
+            }
+            this.state.dragSlot = geometry;
         } else {
             geometry.w = clamp(drag.orig.w + deltaX, 2, GRID_COLS - geometry.x);
             geometry.h = Math.max(2, drag.orig.h + deltaY);
+            this.state.layout = {...this.state.layout, [drag.itemId]: geometry};
         }
-        this.state.layout = {...this.state.layout, [drag.itemId]: geometry};
     }
 
     scheduleDragScroll() {
@@ -799,8 +861,16 @@ export class BoardkitDashboardAction extends Component {
 
     onDragPointerUp() {
         if (this.drag) {
+            if (this.drag.mode === "move" && this.state.dragSlot) {
+                this.state.layout = {
+                    ...this.state.layout,
+                    [this.drag.itemId]: this.state.dragSlot,
+                };
+            }
             this.resolveCollisions(this.drag.itemId);
         }
+        this.state.dragFloat = null;
+        this.state.dragSlot = null;
         this.unbindDragListeners();
         this.drag = null;
     }
@@ -861,6 +931,8 @@ export class BoardkitDashboardAction extends Component {
         if (this.savedLayout) {
             this.state.layout = this.savedLayout;
         }
+        this.state.dragFloat = null;
+        this.state.dragSlot = null;
         this.state.editMode = false;
     }
 
