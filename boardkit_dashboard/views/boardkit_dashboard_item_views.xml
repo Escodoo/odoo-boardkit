@@ -24,6 +24,8 @@
                                     <field name="group_by_ttype" invisible="1" />
                                     <field name="subgroup_by_ttype" invisible="1" />
                                     <field name="sort_model_id" invisible="1" />
+                                    <field name="group_by_model_id" invisible="1" />
+                                    <field name="map_field_model_id" invisible="1" />
                                 </group>
                                 <group name="source">
                                     <field
@@ -138,11 +140,16 @@
                                                 invisible="item_type != 'map'"
                                             />
                                             <field
+                                                name="map_relation_field_id"
+                                                options="{'no_create': True}"
+                                                invisible="item_type != 'map'"
+                                            />
+                                            <field
                                                 name="group_by_field_id"
                                                 options="{'no_create': True}"
                                                 required="item_type in ['funnel', 'bullet'] or (item_type == 'map' and map_mode == 'regions')"
                                                 invisible="item_type == 'map' and map_mode == 'points'"
-                                                help="For Map regions mode, select a field that points to Countries (res.country)."
+                                                help="For Map regions mode, select a field that points to Countries (res.country). When Coordinates From is set, pick that field on the related model."
                                             />
                                             <field
                                                 name="sort_field_id"
