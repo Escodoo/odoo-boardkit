@@ -62,6 +62,10 @@ When configuring a **Map** item:
   equivalent fields on tickets and field service orders). Records sharing the same
   coordinates are merged into one marker whose size reflects the record count, or the
   sum of the _Measure Field_ when one is configured.
+- Set _Coordinates From_ when the source model has no geolocation of its own but points
+  at a model that has, for example `partner_id` on leads or on tickets. The Latitude /
+  Longitude fields (and the Regions Group By country) are then picked on the related
+  model, and every record sharing the same related record lands on a single marker.
 - Optionally set _Focus Country_ to crop the outline and zoom the projection to that
   country (works in both modes). Clicking a point opens the underlying record when
   _Show Records_ is enabled.

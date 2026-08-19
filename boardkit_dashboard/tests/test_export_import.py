@@ -578,6 +578,67 @@ class TestExportImport(BoardkitDashboardCommon):
         self.assertEqual(data["mode"], "points")
         self.assertEqual(len(data["points"]), 3)
 
+    def test_map_relation_export_import(self):
+        child = self.env["res.partner"].create(
+            {
+                "name": "Dash Child BR",
+                "parent_id": self.partners[0].id,
+                "type": "invoice",
+            }
+        )
+        item = self._create_item(
+            name="Map Points Relation",
+            item_type="map",
+            map_mode="points",
+            domain=f"[('id', 'in', {child.ids})]",
+            map_relation_field_id=self._field("res.partner", "parent_id").id,
+            latitude_field_id=self._field("res.partner", "partner_latitude").id,
+            longitude_field_id=self._field("res.partner", "partner_longitude").id,
+        )
+        payload = self.dashboard.export_config()
+        exported = next(
+            entry
+            for entry in payload["dashboards"][0]["items"]
+            if entry["name"] == item.name
+        )
+        self.assertEqual(exported["map_relation_field_id"], "parent_id")
+        self.assertEqual(exported["map_field_model"], "res.partner")
+        new_ids = self.env["boardkit.dashboard"].import_config(payload)
+        imported = self.env["boardkit.dashboard"].browse(new_ids)
+        imported_item = imported.item_ids.filtered(lambda rec: rec.name == item.name)
+        self.assertEqual(imported_item.map_relation_field_id.name, "parent_id")
+        self.assertEqual(imported_item.latitude_field_id.name, "partner_latitude")
+        data = imported_item.get_data()
+        self.assertEqual(len(data["points"]), 1)
+        self.assertAlmostEqual(data["points"][0]["latitude"], 10.0)
+
+    def test_import_legacy_payload_without_map_field_model(self):
+        # Older exports resolved every field name on the item model.
+        payload = {
+            "version": 1,
+            "dashboards": [
+                {
+                    "name": "Legacy Map",
+                    "items": [
+                        {
+                            "name": "Points",
+                            "item_type": "map",
+                            "map_mode": "points",
+                            "model": "res.partner",
+                            "aggregation": "count",
+                            "latitude_field_id": "partner_latitude",
+                            "longitude_field_id": "partner_longitude",
+                        }
+                    ],
+                }
+            ],
+        }
+        new_ids = self.env["boardkit.dashboard"].import_config(payload)
+        item = self.env["boardkit.dashboard"].browse(new_ids).item_ids
+        self.assertFalse(item.map_relation_field_id)
+        self.assertEqual(item.latitude_field_id.name, "partner_latitude")
+        self.assertEqual(item.longitude_field_id.name, "partner_longitude")
+
 
 @tagged("post_install", "-at_install")
 class TestImportHttp(HttpCase):

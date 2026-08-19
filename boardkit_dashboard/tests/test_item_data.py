@@ -684,6 +684,167 @@ class TestItemData(BoardkitDashboardCommon):
             )
         self.assertIn("Latitude", str(error.exception))
 
+    def _create_children(self, values):
+        """Contacts whose parent holds the geolocation.
+
+        The invoice type keeps the address sync from overwriting the country,
+        so the parent country is the only one a relation map can report.
+        """
+        return self.env["res.partner"].create(
+            [dict(vals, type="invoice") for vals in values]
+        )
+
+    def test_map_points_through_relation(self):
+        self.manager.partner_id.write(
+            {"partner_latitude": 12.5, "partner_longitude": -45.5}
+        )
+        item = self._create_item(
+            name="Map Points Relation",
+            model_id=self.env.ref("base.model_res_users").id,
+            item_type="map",
+            map_mode="points",
+            domain=f"[('id', 'in', {[self.manager.id, self.user.id]})]",
+            map_relation_field_id=self._field("res.users", "partner_id").id,
+            latitude_field_id=self._field("res.partner", "partner_latitude").id,
+            longitude_field_id=self._field("res.partner", "partner_longitude").id,
+        )
+        data = item.get_data()
+        self.assertEqual(data["mode"], "points")
+        # The other user has no coordinates on its partner.
+        self.assertEqual(len(data["points"]), 1)
+        point = data["points"][0]
+        self.assertAlmostEqual(point["latitude"], 12.5)
+        self.assertAlmostEqual(point["longitude"], -45.5)
+        self.assertEqual(point["count"], 1)
+        self.assertIn(["id", "in", [self.manager.id]], point["domain"])
+
+    def test_map_points_through_relation_merges_shared_parent(self):
+        children = self._create_children(
+            [
+                {"name": "Dash Child BR A", "parent_id": self.partners[0].id},
+                {"name": "Dash Child BR B", "parent_id": self.partners[0].id},
+                {"name": "Dash Child US", "parent_id": self.partners[2].id},
+            ]
+        )
+        item = self._create_item(
+            name="Map Points Relation Merge",
+            item_type="map",
+            map_mode="points",
+            domain=f"[('id', 'in', {children.ids})]",
+            map_relation_field_id=self._field("res.partner", "parent_id").id,
+            latitude_field_id=self._field("res.partner", "partner_latitude").id,
+            longitude_field_id=self._field("res.partner", "partner_longitude").id,
+        )
+        data = item.get_data()
+        self.assertEqual(len(data["points"]), 2)
+        merged = max(data["points"], key=lambda point: point["count"])
+        self.assertEqual(merged["count"], 2)
+        self.assertAlmostEqual(merged["latitude"], 10.0)
+        self.assertAlmostEqual(merged["longitude"], -46.63)
+        merged_ids = [
+            leaf[2] for leaf in merged["domain"] if leaf[0] == "id" and leaf[1] == "in"
+        ][-1]
+        self.assertEqual(set(merged_ids), set(children[:2].ids))
+
+    def test_map_regions_through_relation(self):
+        country_ar = self.env.ref("base.ar")
+        children = self._create_children(
+            [
+                {
+                    "name": "Dash Child BR A",
+                    "parent_id": self.partners[0].id,
+                    "country_id": country_ar.id,
+                },
+                {
+                    "name": "Dash Child BR B",
+                    "parent_id": self.partners[1].id,
+                    "country_id": country_ar.id,
+                },
+                {
+                    "name": "Dash Child US",
+                    "parent_id": self.partners[2].id,
+                    "country_id": country_ar.id,
+                },
+            ]
+        )
+        item = self._create_item(
+            name="Map Regions Relation",
+            item_type="map",
+            map_mode="regions",
+            domain=f"[('id', 'in', {children.ids})]",
+            map_relation_field_id=self._field("res.partner", "parent_id").id,
+            group_by_field_id=self._field("res.partner", "country_id").id,
+        )
+        data = item.get_data()
+        self.assertEqual(data["mode"], "regions")
+        by_code = {region["code"]: region["value"] for region in data["regions"]}
+        # The countries come from the parents, not from the contacts themselves.
+        self.assertEqual(by_code, {"BR": 2, "US": 1})
+        brazil = next(region for region in data["regions"] if region["code"] == "BR")
+        self.assertIn(
+            ["parent_id.country_id", "=", self.country_br.id], brazil["domain"]
+        )
+
+    def test_map_regions_through_relation_average_is_weighted(self):
+        children = self._create_children(
+            [
+                {
+                    "name": "Dash Child BR A",
+                    "parent_id": self.partners[0].id,
+                    "partner_latitude": 10.0,
+                },
+                {
+                    "name": "Dash Child BR B",
+                    "parent_id": self.partners[1].id,
+                    "partner_latitude": 20.0,
+                },
+                {
+                    "name": "Dash Child BR C",
+                    "parent_id": self.partners[1].id,
+                    "partner_latitude": 30.0,
+                },
+            ]
+        )
+        item = self._create_item(
+            name="Map Regions Relation Average",
+            item_type="map",
+            map_mode="regions",
+            aggregation="avg",
+            domain=f"[('id', 'in', {children.ids})]",
+            map_relation_field_id=self._field("res.partner", "parent_id").id,
+            group_by_field_id=self._field("res.partner", "country_id").id,
+            measure_ids=[
+                (0, 0, {"field_id": self._field("res.partner", "partner_latitude").id})
+            ],
+        )
+        data = item.get_data()
+        brazil = next(region for region in data["regions"] if region["code"] == "BR")
+        # Mean of the three contacts, not the mean of the two parent averages.
+        self.assertAlmostEqual(brazil["value"], 20.0)
+
+    def test_map_relation_rejects_field_from_other_model(self):
+        parent_field = self._field("res.partner", "parent_id")
+        with self.assertRaises(ValidationError) as error:
+            self._create_item(
+                name="Map Relation Broken Coordinates",
+                item_type="map",
+                map_mode="points",
+                map_relation_field_id=parent_field.id,
+                latitude_field_id=self._field("res.currency", "rounding").id,
+                longitude_field_id=self._field("res.partner", "partner_longitude").id,
+            )
+        self.assertIn("rounding", str(error.exception))
+        with self.assertRaises(ValidationError) as error:
+            self._create_item(
+                name="Map Relation Broken Country",
+                model_id=self.env.ref("base.model_res_users").id,
+                item_type="map",
+                map_mode="regions",
+                map_relation_field_id=self._field("res.users", "partner_id").id,
+                group_by_field_id=self._field("res.users", "country_id").id,
+            )
+        self.assertIn("country_id", str(error.exception))
+
     @staticmethod
     def _custom_params(field, operator, value, model="res.partner"):
         return {

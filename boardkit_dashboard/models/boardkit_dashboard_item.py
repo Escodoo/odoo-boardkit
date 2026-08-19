@@ -45,6 +45,14 @@ GROUPABLE_FIELD_DOMAIN = (
     " ('ttype', 'not in', ['binary', 'one2many', 'many2many', 'html'])]"
 )
 
+# Group By domain: charts and lists use the source model; a regions map with a
+# relation field uses the related model, so partner_id.country_id can be picked.
+GROUP_BY_FIELD_DOMAIN = (
+    "[('model_id', '=', group_by_model_id), ('name', '!=', 'id'),"
+    " ('store', '=', True),"
+    " ('ttype', 'not in', ['binary', 'one2many', 'many2many', 'html'])]"
+)
+
 NUMERIC_FIELD_DOMAIN = (
     "[('model_id', '=', model_id), ('name', '!=', 'id'), ('store', '=', True),"
     " ('ttype', 'in', ['integer', 'float', 'monetary'])]"
@@ -55,9 +63,14 @@ NUMERIC_FIELD_2_DOMAIN = (
     " ('ttype', 'in', ['integer', 'float', 'monetary'])]"
 )
 
+# Coordinate domain: the map may read its float fields from a related model.
 FLOAT_FIELD_DOMAIN = (
-    "[('model_id', '=', model_id), ('name', '!=', 'id'), ('store', '=', True),"
-    " ('ttype', '=', 'float')]"
+    "[('model_id', '=', map_field_model_id), ('name', '!=', 'id'),"
+    " ('store', '=', True), ('ttype', '=', 'float')]"
+)
+
+MAP_RELATION_FIELD_DOMAIN = (
+    "[('model_id', '=', model_id), ('ttype', '=', 'many2one'), ('store', '=', True)]"
 )
 
 # Sort By domain: list uses the source model; funnel many2one group-by uses
@@ -177,6 +190,7 @@ PREVIEW_DEPENDS = (
     "drill_level_ids.sequence",
     "map_focus_country_id",
     "map_mode",
+    "map_relation_field_id",
     "measure_field_2_id",
     "measure_field_id",
     "measure_ids.field_id",
@@ -271,10 +285,15 @@ class BoardkitDashboardItem(models.Model):
     date_to = fields.Datetime(string="End Date")
 
     # Grouping and measures
+    group_by_model_id = fields.Many2one(
+        comodel_name="ir.model",
+        compute="_compute_group_by_model_id",
+        help="Technical model that owns the Group By field.",
+    )
     group_by_field_id = fields.Many2one(
         comodel_name="ir.model.fields",
         string="Group By",
-        domain=GROUPABLE_FIELD_DOMAIN,
+        domain=GROUP_BY_FIELD_DOMAIN,
     )
     group_by_ttype = fields.Selection(
         related="group_by_field_id.ttype", string="Group By Type"
@@ -429,6 +448,19 @@ class BoardkitDashboardItem(models.Model):
         required=True,
         help="Regions choropleth by country, or one marker per record using "
         "configurable latitude and longitude fields.",
+    )
+    map_relation_field_id = fields.Many2one(
+        comodel_name="ir.model.fields",
+        string="Coordinates From",
+        domain=MAP_RELATION_FIELD_DOMAIN,
+        help="Optional many2one on the source model. When set, the map reads "
+        "its latitude, longitude and country fields from the related model, "
+        "for example partner_id to plot leads on the contact coordinates.",
+    )
+    map_field_model_id = fields.Many2one(
+        comodel_name="ir.model",
+        compute="_compute_map_field_model_id",
+        help="Technical model that owns the map coordinate fields.",
     )
     latitude_field_id = fields.Many2one(
         comodel_name="ir.model.fields",
@@ -587,6 +619,29 @@ class BoardkitDashboardItem(models.Model):
             else:
                 rec.sort_model_id = rec.model_id
 
+    @api.depends(
+        "model_id",
+        "item_type",
+        "map_relation_field_id",
+        "map_relation_field_id.relation",
+    )
+    def _compute_map_field_model_id(self):
+        IrModel = self.env["ir.model"]
+        for rec in self:
+            relation = rec.map_relation_field_id
+            if rec.item_type == "map" and relation and relation.relation:
+                rec.map_field_model_id = IrModel._get(relation.relation)
+            else:
+                rec.map_field_model_id = rec.model_id
+
+    @api.depends("model_id", "item_type", "map_mode", "map_field_model_id")
+    def _compute_group_by_model_id(self):
+        for rec in self:
+            if rec.item_type == "map" and rec.map_mode == "regions":
+                rec.group_by_model_id = rec.map_field_model_id
+            else:
+                rec.group_by_model_id = rec.model_id
+
     @api.constrains("date_filter", "date_from", "date_to")
     def _check_custom_dates(self):
         for rec in self:
@@ -612,6 +667,7 @@ class BoardkitDashboardItem(models.Model):
         "sort_field_id",
         "latitude_field_id",
         "longitude_field_id",
+        "map_relation_field_id",
     )
     def _check_fields_belong_to_model(self):
         for rec in self:
@@ -619,15 +675,20 @@ class BoardkitDashboardItem(models.Model):
                 rec.model_id,
                 [
                     rec.date_field_id,
-                    rec.group_by_field_id,
                     rec.subgroup_by_field_id,
                     rec.measure_field_id,
                     rec.measure_x_field_id,
                     rec.measure_y_field_id,
-                    rec.latitude_field_id,
-                    rec.longitude_field_id,
+                    rec.map_relation_field_id,
                 ],
             )
+            # Coordinates and the regions country may live on the related model.
+            rec._assert_fields_model(
+                rec.map_field_model_id,
+                [rec.latitude_field_id, rec.longitude_field_id],
+            )
+            if rec.group_by_field_id:
+                rec._assert_fields_model(rec.group_by_model_id, [rec.group_by_field_id])
             if rec.sort_field_id:
                 rec._assert_fields_model(rec.sort_model_id, [rec.sort_field_id])
             if rec.model_2_id:
@@ -642,11 +703,21 @@ class BoardkitDashboardItem(models.Model):
         "latitude_field_id",
         "longitude_field_id",
         "group_by_field_id",
+        "map_relation_field_id",
     )
     def _check_map_configuration(self):
         for rec in self:
             if rec.item_type != "map":
                 continue
+            relation = rec.map_relation_field_id
+            if relation and (relation.ttype != "many2one" or not relation.store):
+                raise ValidationError(
+                    _(
+                        "Coordinates From must be a stored many2one field on "
+                        "item %(name)s.",
+                        name=rec.name,
+                    )
+                )
             if rec.map_mode == "points":
                 if not rec.latitude_field_id or not rec.longitude_field_id:
                     raise ValidationError(
@@ -723,8 +794,26 @@ class BoardkitDashboardItem(models.Model):
                 "drill_level_ids": [(5, 0, 0)],
                 "sort_field_id": False,
                 "action_id": False,
+                "map_relation_field_id": False,
+                "latitude_field_id": False,
+                "longitude_field_id": False,
             }
         )
+
+    @api.onchange("map_relation_field_id", "map_mode", "item_type")
+    def _onchange_clear_incompatible_map_fields(self):
+        # Coordinates and the regions country follow the resolved map model.
+        if self.map_field_model_id:
+            for field_name in ("latitude_field_id", "longitude_field_id"):
+                field = self[field_name]
+                if field and field.model_id != self.map_field_model_id:
+                    self[field_name] = False
+        if (
+            self.group_by_field_id
+            and self.group_by_model_id
+            and self.group_by_field_id.model_id != self.group_by_model_id
+        ):
+            self.group_by_field_id = False
 
     @api.onchange("group_by_field_id", "item_type")
     def _onchange_clear_incompatible_sort_field(self):
@@ -1343,6 +1432,24 @@ class BoardkitDashboardItem(models.Model):
             return self._get_map_points_data(params)
         return self._get_map_regions_data(params)
 
+    def _map_relation_prefix(self):
+        """Return the many2one leading to the map fields, or an empty string."""
+        self.ensure_one()
+        return self.map_relation_field_id.name or ""
+
+    @staticmethod
+    def _map_field_path(prefix, name):
+        return f"{prefix}.{name}" if prefix else name
+
+    @staticmethod
+    def _map_prefix_leaves(prefix, leaves):
+        """Rewrite domain leaves so they traverse the relation field."""
+        if not prefix:
+            return leaves
+        return [
+            (f"{prefix}.{name}", operator, value) for name, operator, value in leaves
+        ]
+
     def _get_map_regions_data(self, params):
         if not self.group_by_field_id:
             raise ValidationError(_("Configure the Group By field for the map."))
@@ -1353,11 +1460,16 @@ class BoardkitDashboardItem(models.Model):
             )
         model = self._source_model()
         base_domain = self._build_domain(params)
-        measures = self._chart_measures()[:1]
-        measure_spec, __ = measures[0]
-        rows = model._read_group(base_domain, [group_field.name], [measure_spec])
+        prefix = self._map_relation_prefix()
+        if prefix:
+            totals = self._map_regions_through_relation(
+                model, base_domain, prefix, group_field
+            )
+        else:
+            measure_spec, __ = self._chart_measures()[0]
+            totals = model._read_group(base_domain, [group_field.name], [measure_spec])
         regions = []
-        for raw, value in rows:
+        for raw, value in totals:
             if not raw:
                 continue
             label, leaves = self._format_group_value(group_field, None, raw)
@@ -1369,7 +1481,9 @@ class BoardkitDashboardItem(models.Model):
                     "code": code,
                     "label": label,
                     "value": value or 0,
-                    "domain": self._serialize_domain(base_domain + leaves),
+                    "domain": self._serialize_domain(
+                        base_domain + self._map_prefix_leaves(prefix, leaves)
+                    ),
                 }
             )
         if self.record_limit and self.record_limit > 0:
@@ -1378,6 +1492,65 @@ class BoardkitDashboardItem(models.Model):
             ]
         return {"type": "map", "mode": "regions", "regions": regions}
 
+    def _map_regions_through_relation(self, model, domain, prefix, group_field):
+        """Return ``[(country, value)]`` for a regions map behind a relation.
+
+        _read_group cannot group by a path, so the records are aggregated per
+        related record and folded per country afterwards.
+        """
+        aggregates = self._map_regions_aggregates()
+        rows = model._read_group(domain, [prefix], aggregates)
+        country_by_related = self._map_related_countries(rows, group_field)
+        weighted = len(aggregates) > 1
+        totals = {}
+        for row in rows:
+            country_id = country_by_related.get(row[0].id) if row[0] else False
+            if not country_id:
+                continue
+            value, weight = totals.get(country_id, (0, 0))
+            totals[country_id] = (
+                value + (row[1] or 0),
+                weight + ((row[2] or 0) if weighted else 0),
+            )
+        Country = self.env["res.country"]
+        return [
+            (
+                Country.browse(country_id),
+                (value / weight if weight else 0) if weighted else value,
+            )
+            for country_id, (value, weight) in totals.items()
+        ]
+
+    def _map_regions_aggregates(self):
+        """Aggregates that can be folded per country.
+
+        Averages are asked as a sum and a count so the fold can compute a
+        weighted mean; averaging per-relation averages would skew the result.
+        """
+        if self.aggregation != "avg":
+            return [self._chart_measures()[0][0]]
+        measures = self._ordered_measure_fields() or self.measure_field_id
+        if not measures:
+            raise ValidationError(_("Configure at least one measure for this chart."))
+        name = measures[0].name
+        return [f"{name}:sum", f"{name}:count"]
+
+    def _map_related_countries(self, rows, group_field):
+        """Return ``{related_record_id: country_id}`` for the grouped rows.
+
+        Read with search_read so the comodel record rules drop inaccessible
+        records instead of raising and breaking the whole dashboard.
+        """
+        related_ids = [row[0].id for row in rows if row[0]]
+        related_model = self.env[self.map_relation_field_id.relation]
+        countries = {}
+        for row in related_model.search_read(
+            [("id", "in", related_ids)], [group_field.name]
+        ):
+            country = row.get(group_field.name)
+            countries[row["id"]] = country[0] if country else False
+        return countries
+
     def _get_map_points_data(self, params):
         if not self.latitude_field_id or not self.longitude_field_id:
             raise ValidationError(
@@ -1385,19 +1558,25 @@ class BoardkitDashboardItem(models.Model):
             )
         lat_name = self.latitude_field_id.name
         lon_name = self.longitude_field_id.name
+        prefix = self._map_relation_prefix()
         model = self._source_model()
         base_domain = self._build_domain(params)
         # Float fields default to 0.0 when empty; skip the (0, 0) null island.
-        domain = base_domain + ["|", (lat_name, "!=", 0.0), (lon_name, "!=", 0.0)]
+        domain = base_domain + [
+            "|",
+            (self._map_field_path(prefix, lat_name), "!=", 0.0),
+            (self._map_field_path(prefix, lon_name), "!=", 0.0),
+        ]
         measure = self.measure_field_id or self._ordered_measure_fields()[:1]
-        fields_to_read = ["display_name", lat_name, lon_name]
+        fields_to_read = ["display_name"]
+        fields_to_read += [prefix] if prefix else [lat_name, lon_name]
         if measure:
             fields_to_read.append(measure.name)
         records = model.search_read(domain, fields_to_read, limit=MAP_MAX_RECORDS)
+        coordinates = self._map_point_coordinates(records, prefix, lat_name, lon_name)
         groups = {}
         for record in records:
-            latitude = record.get(lat_name) or 0.0
-            longitude = record.get(lon_name) or 0.0
+            latitude, longitude = coordinates.get(record["id"]) or (0.0, 0.0)
             if not latitude and not longitude:
                 continue
             # Records sharing coordinates are merged into a single marker, so
@@ -1441,6 +1620,38 @@ class BoardkitDashboardItem(models.Model):
             "points": points,
             "truncated": len(records) >= MAP_MAX_RECORDS,
         }
+
+    def _map_point_coordinates(self, records, prefix, lat_name, lon_name):
+        """Return ``{source_record_id: (latitude, longitude)}``.
+
+        Coordinates reached through a relation field cannot be read by
+        search_read, which does not traverse paths. They are read with
+        search_read on the comodel so its record rules only drop inaccessible
+        markers, instead of raising an access error that would take the whole
+        dashboard down.
+        """
+        if not prefix:
+            return {
+                record["id"]: (
+                    record.get(lat_name) or 0.0,
+                    record.get(lon_name) or 0.0,
+                )
+                for record in records
+            }
+        related_ids = {record[prefix][0] for record in records if record.get(prefix)}
+        related_model = self.env[self.map_relation_field_id.relation]
+        by_related = {
+            row["id"]: (row.get(lat_name) or 0.0, row.get(lon_name) or 0.0)
+            for row in related_model.search_read(
+                [("id", "in", list(related_ids))], [lat_name, lon_name]
+            )
+        }
+        coordinates = {}
+        for record in records:
+            related = record.get(prefix)
+            if related and related[0] in by_related:
+                coordinates[record["id"]] = by_related[related[0]]
+        return coordinates
 
     def _get_kpi_data(self, params):
         value, __, domain = self._aggregate_value(params)
@@ -2258,15 +2469,21 @@ class BoardkitDashboardItem(models.Model):
     ]
     _EXPORT_FIELD_M2O = [
         ("date_field_id", "model_id"),
-        ("group_by_field_id", "model_id"),
         ("subgroup_by_field_id", "model_id"),
         ("measure_field_id", "model_id"),
         ("measure_x_field_id", "model_id"),
         ("measure_y_field_id", "model_id"),
-        ("latitude_field_id", "model_id"),
-        ("longitude_field_id", "model_id"),
+        ("map_relation_field_id", "model_id"),
         ("date_field_2_id", "model_2_id"),
         ("measure_field_2_id", "model_2_id"),
+    ]
+    # Fields that may live on a related model, so the owning model travels
+    # with them: the funnel Sort By, and the map coordinates and country.
+    _EXPORT_FIELD_M2O_WITH_MODEL = [
+        ("sort_field_id", "sort_field_model"),
+        ("group_by_field_id", "group_by_field_model"),
+        ("latitude_field_id", "map_field_model"),
+        ("longitude_field_id", "map_field_model"),
     ]
 
     def _export_config(self):
@@ -2282,9 +2499,10 @@ class BoardkitDashboardItem(models.Model):
         data["measures"] = self._ordered_measure_fields().mapped("name")
         data["map_focus_country_id"] = self.map_focus_country_id.code or False
         data["palette"] = self.palette_id.name or False
-        # Sort By may live on the related group-by model (e.g. stage.sequence).
-        data["sort_field_id"] = self.sort_field_id.name or False
-        data["sort_field_model"] = self.sort_field_id.model or False
+        for field_name, model_key in self._EXPORT_FIELD_M2O_WITH_MODEL:
+            field = self[field_name]
+            data[field_name] = field.name or False
+            data[model_key] = field.model or data.get(model_key) or False
         data["list_columns"] = self.list_column_ids.mapped("field_id.name")
         data["drill_levels"] = [
             {
@@ -2361,12 +2579,12 @@ class BoardkitDashboardItem(models.Model):
         for field_name, model_field in self._EXPORT_FIELD_M2O:
             source = model if model_field == "model_id" else model_2
             vals[field_name] = self._import_field_id(source, data.get(field_name))
-        sort_model = self.env["ir.model"]._get(
-            data.get("sort_field_model") or data.get("model") or ""
-        )
-        vals["sort_field_id"] = self._import_field_id(
-            sort_model, data.get("sort_field_id")
-        )
+        # Older payloads have no owning model, so they resolve on the item model.
+        for field_name, model_key in self._EXPORT_FIELD_M2O_WITH_MODEL:
+            field_model = self.env["ir.model"]._get(
+                data.get(model_key) or data.get("model") or ""
+            )
+            vals[field_name] = self._import_field_id(field_model, data.get(field_name))
         focus_code = data.get("map_focus_country_id")
         if focus_code:
             country = self.env["res.country"].search(
