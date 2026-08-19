@@ -273,6 +273,7 @@
                         t-else=""
                         class="o_boardkit_dashboard_grid"
                         t-att-class="state.editMode ? 'o_edit_mode' : ''"
+                        t-att-style="getGridStyle()"
                         t-ref="grid"
                     >
                         <div

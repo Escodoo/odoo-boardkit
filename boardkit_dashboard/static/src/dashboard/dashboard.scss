@@ -57,6 +57,12 @@
         }
     }
 
+    .o_boardkit_dashboard_content {
+        // Scroll anchoring would compensate every row the drop slot travels,
+        // scrolling the board on its own and cascading the slot to the edge.
+        overflow-anchor: none;
+    }
+
     .o_boardkit_dashboard_grid {
         display: grid;
         grid-template-columns: repeat(12, 1fr);
