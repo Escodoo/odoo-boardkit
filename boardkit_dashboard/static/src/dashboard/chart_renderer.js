@@ -1,11 +1,12 @@
 // Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 // License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-import {Component, onWillStart, useEffect, useRef} from "@odoo/owl";
-import {loadBundle} from "@web/core/assets";
-import {_t} from "@web/core/l10n/translation";
+import {Component, onWillStart, useEffect, useRef, useState} from "@odoo/owl";
 import {alpha2ToNumeric, numericToAlpha2} from "./country_codes";
 import {formatItemValue, getPaletteColor, hexToRGBA} from "./utils";
+import {_t} from "@web/core/l10n/translation";
+import {browser} from "@web/core/browser/browser";
+import {loadBundle} from "@web/core/assets";
 
 const CHART_TYPE_MAP = {
     bar: "bar",
@@ -28,6 +29,13 @@ const CARTESIAN = ["bar", "bar_horizontal", "line", "area", "scatter"];
 const TARGET_LINE_TYPES = ["bar", "bar_horizontal", "line", "area"];
 const OVERLAY_LINE_TYPES = TARGET_LINE_TYPES;
 const EXTENSION_TYPES = ["funnel", "map"];
+
+// The geo projection is fitted to the outline, so 1 is the "whole map" zoom.
+const MAP_MIN_ZOOM = 1;
+const MAP_MAX_ZOOM = 12;
+const MAP_ZOOM_STEP = 1.3;
+// Pointer travel (px) above which a press is a pan instead of a drill-down.
+const MAP_PAN_THRESHOLD = 3;
 
 let extensionsLoaded = false;
 
@@ -279,6 +287,14 @@ export class ChartRenderer extends Component {
         this.chart = null;
         this.world = null;
         this.renderToken = 0;
+        // Zoom / pan of a map item is a transient view state: it is kept out of
+        // the reactive state so panning does not re-render the component, and
+        // is reset whenever the chart is rebuilt.
+        this.mapView = {scale: MAP_MIN_ZOOM, offset: [0, 0]};
+        this.mapViewFrame = null;
+        this.mapPan = null;
+        this.suppressMapClick = false;
+        this.state = useState({mapZoomed: false});
         onWillStart(() => ensureChartExtensions(this.props.config.type));
         useEffect(
             () => {
@@ -287,9 +303,19 @@ export class ChartRenderer extends Component {
             },
             () => [this.props.data, this.props.config]
         );
+        useEffect(
+            (el, type) => {
+                if (!el || type !== "map") {
+                    return undefined;
+                }
+                return this.bindMapInteractions(el);
+            },
+            () => [this.canvasRef.el, this.props.config.type]
+        );
     }
 
     destroyChart() {
+        this.cancelMapViewUpdate();
         if (this.chart) {
             this.chart.destroy();
             this.chart = null;
@@ -301,6 +327,7 @@ export class ChartRenderer extends Component {
         // so the required Chart.js extensions are awaited on every render.
         const token = ++this.renderToken;
         this.destroyChart();
+        this.resetMapView(false);
         if (!this.canvasRef.el || !this.props.data) {
             return;
         }
@@ -677,6 +704,7 @@ export class ChartRenderer extends Component {
                     projection: {
                         axis: "x",
                         projection: "equalEarth",
+                        ...this.mapProjectionView(),
                     },
                     color: {
                         axis: "x",
@@ -753,6 +781,7 @@ export class ChartRenderer extends Component {
                     projection: {
                         axis: "x",
                         projection: "equalEarth",
+                        ...this.mapProjectionView(),
                     },
                     size: {
                         axis: "x",
@@ -764,6 +793,198 @@ export class ChartRenderer extends Component {
                 onClick: (event) => this.onBubbleMapClicked(event),
             },
         };
+    }
+
+    mapProjectionView() {
+        return {
+            projectionScale: this.mapView.scale,
+            projectionOffset: [...this.mapView.offset],
+        };
+    }
+
+    bindMapInteractions(canvas) {
+        const onWheel = this.onMapWheel.bind(this);
+        const onPointerDown = this.onMapPointerDown.bind(this);
+        const onPointerMove = this.onMapPointerMove.bind(this);
+        const onPointerUp = this.onMapPointerUp.bind(this);
+        // Chart.js registers its own passive wheel listener, so stopping the
+        // dashboard from scrolling requires an explicit non-passive one.
+        canvas.addEventListener("wheel", onWheel, {passive: false});
+        canvas.addEventListener("pointerdown", onPointerDown);
+        canvas.addEventListener("pointermove", onPointerMove);
+        canvas.addEventListener("pointerup", onPointerUp);
+        canvas.addEventListener("pointercancel", onPointerUp);
+        return () => {
+            canvas.removeEventListener("wheel", onWheel);
+            canvas.removeEventListener("pointerdown", onPointerDown);
+            canvas.removeEventListener("pointermove", onPointerMove);
+            canvas.removeEventListener("pointerup", onPointerUp);
+            canvas.removeEventListener("pointercancel", onPointerUp);
+            this.mapPan = null;
+        };
+    }
+
+    onMapWheel(event) {
+        // A bare wheel keeps scrolling the dashboard; zooming is opt-in with the
+        // modifier key so a map never traps the page scroll.
+        if (!this.chart || (!event.ctrlKey && !event.metaKey)) {
+            return;
+        }
+        event.preventDefault();
+        const rect = this.canvasRef.el.getBoundingClientRect();
+        this.zoomMapAt(event.deltaY < 0 ? MAP_ZOOM_STEP : 1 / MAP_ZOOM_STEP, {
+            x: event.clientX - rect.left,
+            y: event.clientY - rect.top,
+        });
+    }
+
+    onMapPointerDown(event) {
+        if (!this.chart || event.button !== 0) {
+            return;
+        }
+        this.mapPan = {
+            pointerId: event.pointerId,
+            x: event.clientX,
+            y: event.clientY,
+            moved: false,
+        };
+        this.suppressMapClick = false;
+        event.target.setPointerCapture?.(event.pointerId);
+    }
+
+    onMapPointerMove(event) {
+        const pan = this.mapPan;
+        if (!pan || pan.pointerId !== event.pointerId) {
+            return;
+        }
+        const deltaX = event.clientX - pan.x;
+        const deltaY = event.clientY - pan.y;
+        if (!pan.moved && Math.hypot(deltaX, deltaY) < MAP_PAN_THRESHOLD) {
+            return;
+        }
+        pan.moved = true;
+        pan.x = event.clientX;
+        pan.y = event.clientY;
+        this.mapView.offset = [
+            this.mapView.offset[0] + deltaX,
+            this.mapView.offset[1] + deltaY,
+        ];
+        this.applyMapView();
+    }
+
+    onMapPointerUp(event) {
+        const pan = this.mapPan;
+        if (!pan || pan.pointerId !== event.pointerId) {
+            return;
+        }
+        this.mapPan = null;
+        event.target.releasePointerCapture?.(event.pointerId);
+        // The click event fired right after a drag must not drill down.
+        this.suppressMapClick = pan.moved;
+    }
+
+    consumeMapClickGuard() {
+        const suppressed = this.suppressMapClick;
+        this.suppressMapClick = false;
+        return suppressed;
+    }
+
+    zoomMapAt(factor, anchor) {
+        const projection = this.chart?.scales?.projection?.projection;
+        if (!projection) {
+            return;
+        }
+        const current = this.mapView.scale;
+        const next = Math.min(Math.max(current * factor, MAP_MIN_ZOOM), MAP_MAX_ZOOM);
+        if (next === current) {
+            return;
+        }
+        const ratio = next / current;
+        const offset = this.mapView.offset;
+        // The projection translation already includes the current offset, so
+        // removing it gives the auto-fit origin the map is built around. Keeping
+        // the anchor point still is then an affine correction of the offset.
+        const [translateX, translateY] = projection.translate();
+        const originX = translateX - offset[0];
+        const originY = translateY - offset[1];
+        this.mapView.scale = next;
+        this.mapView.offset = [
+            (anchor.x - originX) * (1 - ratio) + ratio * offset[0],
+            (anchor.y - originY) * (1 - ratio) + ratio * offset[1],
+        ];
+        this.applyMapView();
+    }
+
+    zoomMapBy(factor) {
+        const area = this.chart?.chartArea;
+        if (!area) {
+            return;
+        }
+        this.zoomMapAt(factor, {
+            x: (area.left + area.right) / 2,
+            y: (area.top + area.bottom) / 2,
+        });
+    }
+
+    zoomInMap() {
+        this.zoomMapBy(MAP_ZOOM_STEP);
+    }
+
+    zoomOutMap() {
+        this.zoomMapBy(1 / MAP_ZOOM_STEP);
+    }
+
+    resetMapView(apply = true) {
+        this.cancelMapViewUpdate();
+        this.mapView = {scale: MAP_MIN_ZOOM, offset: [0, 0]};
+        if (apply) {
+            this.applyMapView();
+            return;
+        }
+        this.state.mapZoomed = false;
+    }
+
+    cancelMapViewUpdate() {
+        if (this.mapViewFrame) {
+            browser.cancelAnimationFrame(this.mapViewFrame);
+            this.mapViewFrame = null;
+        }
+    }
+
+    applyMapView() {
+        this.state.mapZoomed =
+            this.mapView.scale !== MAP_MIN_ZOOM ||
+            this.mapView.offset[0] !== 0 ||
+            this.mapView.offset[1] !== 0;
+        // Pointer moves fire faster than the geo features can be rasterized, so
+        // the projection update is coalesced into the next frame.
+        if (this.mapViewFrame) {
+            return;
+        }
+        this.mapViewFrame = browser.requestAnimationFrame(() => {
+            this.mapViewFrame = null;
+            this._applyMapView();
+        });
+    }
+
+    _applyMapView() {
+        const projectionOptions = this.chart?.options?.scales?.projection;
+        if (!projectionOptions) {
+            return;
+        }
+        Object.assign(projectionOptions, this.mapProjectionView());
+        // The geo scale only reports changed bounds when the canvas is resized,
+        // and the controller relies on that flag to drop the rasterized
+        // features. Without an explicit invalidation the map would be redrawn
+        // with the previous projection.
+        const meta = this.chart.getDatasetMeta(0);
+        if (meta?.dataset) {
+            meta.dataset.cache = undefined;
+        }
+        for (const element of meta?.data || []) {
+            element.cache = undefined;
+        }
+        this.chart.update("none");
     }
 
     onChartClicked(event) {
@@ -794,7 +1015,11 @@ export class ChartRenderer extends Component {
     }
 
     onMapClicked(event) {
-        if (!this.chart || !this.props.onSectionClicked) {
+        if (
+            this.consumeMapClickGuard() ||
+            !this.chart ||
+            !this.props.onSectionClicked
+        ) {
             return;
         }
         const elements = this.chart.getElementsAtEventForMode(
@@ -820,7 +1045,11 @@ export class ChartRenderer extends Component {
     }
 
     onBubbleMapClicked(event) {
-        if (!this.chart || !this.props.onSectionClicked) {
+        if (
+            this.consumeMapClickGuard() ||
+            !this.chart ||
+            !this.props.onSectionClicked
+        ) {
             return;
         }
         const elements = this.chart.getElementsAtEventForMode(

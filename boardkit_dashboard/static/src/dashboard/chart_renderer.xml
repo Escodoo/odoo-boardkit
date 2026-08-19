@@ -3,6 +3,38 @@
     <t t-name="boardkit_dashboard.ChartRenderer">
         <div class="o_boardkit_dashboard_chart" t-att-data-type="props.config.type">
             <canvas t-ref="canvas" />
+            <div
+                t-if="props.config.type === 'map'"
+                class="o_boardkit_dashboard_map_zoom btn-group-vertical"
+                role="group"
+                aria-label="Map zoom"
+            >
+                <button
+                    class="btn btn-light btn-sm"
+                    title="Zoom in (Ctrl + mouse wheel)"
+                    aria-label="Zoom in"
+                    t-on-click.stop="zoomInMap"
+                >
+                    <i class="fa fa-plus" role="img" />
+                </button>
+                <button
+                    class="btn btn-light btn-sm"
+                    title="Zoom out (Ctrl + mouse wheel)"
+                    aria-label="Zoom out"
+                    t-on-click.stop="zoomOutMap"
+                >
+                    <i class="fa fa-minus" role="img" />
+                </button>
+                <button
+                    class="btn btn-light btn-sm"
+                    title="Reset the map view"
+                    aria-label="Reset the map view"
+                    t-att-disabled="!state.mapZoomed"
+                    t-on-click.stop="() => this.resetMapView()"
+                >
+                    <i class="fa fa-undo" role="img" />
+                </button>
+            </div>
         </div>
     </t>
 </templates>
