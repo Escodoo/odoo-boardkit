@@ -29,6 +29,10 @@ import {useSetupAction} from "@web/search/action_hook";
 const GRID_COLS = 12;
 const GRID_ROW_HEIGHT = 56;
 const GRID_GAP = 12;
+// Auto-scroll while dragging: how close to the scroller edge the pointer must
+// be to trigger it, and the top speed in pixels per animation frame.
+const DRAG_SCROLL_EDGE = 48;
+const DRAG_SCROLL_SPEED = 18;
 // Matches Odoo ui.isSmall / Bootstrap md breakpoint.
 const MOBILE_MAX_WIDTH = 767.98;
 const FULLSCREEN_BODY_CLASS = "o_boardkit_dashboard_fullscreen";
@@ -61,9 +65,11 @@ export class BoardkitDashboardAction extends Component {
         this.dialogService = useService("dialog");
         this.notification = useService("notification");
         this.gridRef = useRef("grid");
+        this.contentRef = useRef("content");
         this.refreshTimer = null;
         this.loadToken = 0;
         this.drag = null;
+        this.dragScrollFrame = null;
         this.savedLayout = null;
         this.onDragPointerMove = this.onDragPointerMove.bind(this);
         this.onDragPointerUp = this.onDragPointerUp.bind(this);
@@ -678,26 +684,48 @@ export class BoardkitDashboardAction extends Component {
         event.preventDefault();
         event.stopPropagation();
         const rect = this.gridRef.el.getBoundingClientRect();
+        const scrollTop = this.contentRef.el?.scrollTop || 0;
         this.drag = {
             itemId: String(itemId),
             mode,
             startX: event.clientX,
             startY: event.clientY,
+            pointerX: event.clientX,
+            pointerY: event.clientY,
+            startScrollTop: scrollTop,
+            lastScrollTop: scrollTop,
+            blockedShift: 0,
             orig: {...this.state.layout[String(itemId)]},
             stepX: (rect.width + GRID_GAP) / GRID_COLS,
         };
         window.addEventListener("pointermove", this.onDragPointerMove);
         window.addEventListener("pointerup", this.onDragPointerUp);
+        this.scheduleDragScroll();
     }
 
     onDragPointerMove(event) {
+        if (!this.drag) {
+            return;
+        }
+        this.drag.pointerX = event.clientX;
+        this.drag.pointerY = event.clientY;
+        this.applyDragGeometry();
+    }
+
+    /**
+     * Place the dragged item from the last known pointer position, counting how
+     * far the scroller travelled since the drag started: the pointer may stay
+     * still while the auto-scroll brings the target row into view.
+     */
+    applyDragGeometry() {
         const drag = this.drag;
         if (!drag) {
             return;
         }
-        const deltaX = Math.round((event.clientX - drag.startX) / drag.stepX);
+        const scrollDelta = (this.contentRef.el?.scrollTop || 0) - drag.startScrollTop;
+        const deltaX = Math.round((drag.pointerX - drag.startX) / drag.stepX);
         const deltaY = Math.round(
-            (event.clientY - drag.startY) / (GRID_ROW_HEIGHT + GRID_GAP)
+            (drag.pointerY - drag.startY + scrollDelta) / (GRID_ROW_HEIGHT + GRID_GAP)
         );
         const geometry = {...drag.orig};
         if (drag.mode === "move") {
@@ -708,6 +736,65 @@ export class BoardkitDashboardAction extends Component {
             geometry.h = Math.max(2, drag.orig.h + deltaY);
         }
         this.state.layout = {...this.state.layout, [drag.itemId]: geometry};
+    }
+
+    scheduleDragScroll() {
+        this.dragScrollFrame = browser.requestAnimationFrame(() =>
+            this.onDragScrollFrame()
+        );
+    }
+
+    /**
+     * Pixels to scroll on this frame, growing as the pointer gets closer to the
+     * scroller edge. Negative scrolls up.
+     */
+    dragScrollSpeed(rect, pointerY) {
+        const overTop = DRAG_SCROLL_EDGE - (pointerY - rect.top);
+        if (overTop > 0) {
+            return -DRAG_SCROLL_SPEED * clamp(overTop / DRAG_SCROLL_EDGE, 0, 1);
+        }
+        const overBottom = DRAG_SCROLL_EDGE - (rect.bottom - pointerY);
+        if (overBottom > 0) {
+            return DRAG_SCROLL_SPEED * clamp(overBottom / DRAG_SCROLL_EDGE, 0, 1);
+        }
+        return 0;
+    }
+
+    /**
+     * Scroll the grid while the pointer rests near an edge, so an item can
+     * travel further than the visible area without being dropped on the way.
+     */
+    onDragScrollFrame() {
+        this.dragScrollFrame = null;
+        const drag = this.drag;
+        const scroller = this.contentRef.el;
+        if (!drag || !scroller) {
+            return;
+        }
+        const rect = scroller.getBoundingClientRect();
+        const speed = this.dragScrollSpeed(rect, drag.pointerY);
+        // Also catches wheel scrolling done in the middle of a drag.
+        let moved = scroller.scrollTop !== drag.lastScrollTop;
+        if (speed) {
+            const before = scroller.scrollTop;
+            scroller.scrollTop = before + speed;
+            moved = moved || scroller.scrollTop !== before;
+            // Downwards the grid has no rows left to reveal until the item
+            // creates them, so move the grab reference instead. Capped to one
+            // viewport to keep a held pointer from pushing the item away.
+            const missed = speed - (scroller.scrollTop - before);
+            if (missed > 0 && drag.blockedShift < rect.height) {
+                const shift = Math.min(missed, rect.height - drag.blockedShift);
+                drag.blockedShift += shift;
+                drag.startY -= shift;
+                moved = true;
+            }
+        }
+        if (moved) {
+            this.applyDragGeometry();
+        }
+        drag.lastScrollTop = scroller.scrollTop;
+        this.scheduleDragScroll();
     }
 
     onDragPointerUp() {
@@ -721,6 +808,10 @@ export class BoardkitDashboardAction extends Component {
     unbindDragListeners() {
         window.removeEventListener("pointermove", this.onDragPointerMove);
         window.removeEventListener("pointerup", this.onDragPointerUp);
+        if (this.dragScrollFrame) {
+            browser.cancelAnimationFrame(this.dragScrollFrame);
+            this.dragScrollFrame = null;
+        }
     }
 
     resolveCollisions(movedId) {
