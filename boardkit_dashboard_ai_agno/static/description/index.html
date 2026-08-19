@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Boardkit Dashboard AI</title>
+  </head>
+  <body>
+    <section
+      class="oe_container"
+      style="font-family: Helvetica, Arial, sans-serif; color: #334155"
+    >
+      <div class="row">
+        <div class="col-md-12">
+          <div
+            class="bg-white"
+            style="
+              border-radius: 20px;
+              box-shadow: 0 8px 30px rgba(76, 29, 149, 0.12);
+              overflow: hidden;
+              border: 1px solid #ede9fe;
+            "
+          >
+            <!-- Banner -->
+            <div class="text-center">
+              <img
+                class="img img-responsive img-fluid"
+                src="banner.png"
+                alt="Boardkit Dashboard AI — chat, insights and NL board generation for Odoo"
+                style="width: 100%; display: block"
+              />
+            </div>
+
+            <!-- Contact strip -->
+            <div
+              class="row"
+              style="
+                background-color: #2e1065;
+                margin-left: 0;
+                margin-right: 0;
+                padding: 18px 20px;
+              "
+            >
+              <div class="col-md-8" style="padding-top: 6px; padding-bottom: 6px">
+                <p
+                  style="
+                    margin: 0;
+                    color: #c4b5fd;
+                    font-size: 12px;
+                    font-weight: 700;
+                    letter-spacing: 0.08em;
+                    text-transform: uppercase;
+                  "
+                >
+                  Escodoo · AI · BoardKit
+                </p>
+                <p
+                  style="
+                    margin: 4px 0 0 0;
+                    color: #ffffff;
+                    font-size: 15px;
+                    font-weight: 500;
+                  "
+                >
+                  Need help getting started? We are happy to help.
+                </p>
+              </div>
+              <div
+                class="col-md-4 text-md-right text-center"
+                style="padding-top: 6px; padding-bottom: 6px"
+              >
+                <a
+                  href="mailto:contato@escodoo.com.br"
+                  style="
+                    display: inline-block;
+                    padding: 12px 20px;
+                    border-radius: 8px;
+                    background-color: #8b5cf6;
+                    color: #ffffff;
+                    font-size: 14px;
+                    font-weight: 700;
+                    text-decoration: none;
+                  "
+                  >contato@escodoo.com.br</a
+                >
+              </div>
+            </div>
+
+            <!-- Hero -->
+            <div style="padding: 40px 28px 28px 28px; text-align: center">
+              <img
+                src="icon.png"
+                alt="BoardKit"
+                style="width: 72px; height: 72px; margin-bottom: 14px"
+              />
+              <h1
+                style="
+                  margin: 0 0 12px 0;
+                  color: #2e1065;
+                  font-size: 34px;
+                  font-weight: 700;
+                  line-height: 1.15;
+                "
+              >
+                BoardKit
+                <span style="color: #7c3aed">AI</span>
+              </h1>
+              <p
+                style="
+                  margin: 0 auto 22px auto;
+                  max-width: 720px;
+                  color: #64748b;
+                  font-size: 16px;
+                  line-height: 1.6;
+                "
+              >
+                Optional Agno-powered intelligence on top of
+                <strong style="color: #2e1065">BoardKit Dashboard</strong>
+                — without changing the core engine. Chat with the figures on
+                any board, generate an insights narrative, explain a single
+                tile, or turn a natural-language description into an unpublished
+                board you can review before users see it. Each dashboard opts
+                in with <strong style="color: #2e1065">Enable AI</strong>.
+              </p>
+              <p style="margin: 0">
+                <span
+                  style="
+                    display: inline-block;
+                    margin: 4px;
+                    padding: 8px 14px;
+                    border-radius: 999px;
+                    background-color: #f5f3ff;
+                    border: 1px solid #c4b5fd;
+                    color: #4c1d95;
+                    font-size: 13px;
+                    font-weight: 600;
+                  "
+                  >Board chat</span
+                >
+                <span
+                  style="
+                    display: inline-block;
+                    margin: 4px;
+                    padding: 8px 14px;
+                    border-radius: 999px;
+                    background-color: #f5f3ff;
+                    border: 1px solid #c4b5fd;
+                    color: #4c1d95;
+                    font-size: 13px;
+                    font-weight: 600;
+                  "
+                  >Insights</span
+                >
+                <span
+                  style="
+                    display: inline-block;
+                    margin: 4px;
+                    padding: 8px 14px;
+                    border-radius: 999px;
+                    background-color: #f5f3ff;
+                    border: 1px solid #c4b5fd;
+                    color: #4c1d95;
+                    font-size: 13px;
+                    font-weight: 600;
+                  "
+                  >Explain this tile</span
+                >
+                <span
+                  style="
+                    display: inline-block;
+                    margin: 4px;
+                    padding: 8px 14px;
+                    border-radius: 999px;
+                    background-color: #f5f3ff;
+                    border: 1px solid #c4b5fd;
+                    color: #4c1d95;
+                    font-size: 13px;
+                    font-weight: 600;
+                  "
+                  >Generate with AI</span
+                >
+              </p>
+            </div>
+
+            <!-- How it works -->
+            <div
+              style="
+                background-color: #f5f3ff;
+                padding: 36px 28px 12px 28px;
+                text-align: center;
+                border-top: 1px solid #ede9fe;
+              "
+            >
+              <p
+                style="
+                  margin: 0 0 8px 0;
+                  color: #7c3aed;
+                  font-size: 12px;
+                  font-weight: 700;
+                  letter-spacing: 0.08em;
+                  text-transform: uppercase;
+                "
+              >
+                On the dashboard
+              </p>
+              <h2
+                style="
+                  margin: 0 0 10px 0;
+                  color: #2e1065;
+                  font-size: 28px;
+                  font-weight: 700;
+                "
+              >
+                Ask the board, in plain language
+              </h2>
+              <p
+                style="
+                  margin: 0 auto 8px auto;
+                  max-width: 640px;
+                  color: #64748b;
+                  font-size: 15px;
+                  line-height: 1.55;
+                "
+              >
+                Answers use the figures currently shown — including the active
+                date preset and board filters. Ask the assistant to switch to
+                this month or enable a known filter and the cards reload.
+              </p>
+            </div>
+            <div style="padding: 24px 24px 32px 24px">
+              <div class="row" style="margin-left: 0; margin-right: 0">
+                <div class="col-md-6" style="padding: 10px">
+                  <div
+                    style="
+                      background-color: #ffffff;
+                      border: 1px solid #ede9fe;
+                      border-radius: 16px;
+                      padding: 22px 20px;
+                      height: 100%;
+                    "
+                  >
+                    <p
+                      style="
+                        margin: 0 0 8px 0;
+                        color: #7c3aed;
+                        font-size: 12px;
+                        font-weight: 700;
+                        letter-spacing: 0.08em;
+                        text-transform: uppercase;
+                      "
+                    >
+                      Ask AI
+                    </p>
+                    <h3
+                      style="
+                        margin: 0 0 8px 0;
+                        color: #2e1065;
+                        font-size: 18px;
+                        font-weight: 700;
+                      "
+                    >
+                      Side-panel chat
+                    </h3>
+                    <p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.55">
+                      Open the dashboard and click <strong style="color: #2e1065">Ask AI</strong>.
+                      A side panel keeps the thread while you explore figures,
+                      copy answers, and follow up after filter changes.
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-6" style="padding: 10px">
+                  <div
+                    style="
+                      background-color: #ffffff;
+                      border: 1px solid #ede9fe;
+                      border-radius: 16px;
+                      padding: 22px 20px;
+                      height: 100%;
+                    "
+                  >
+                    <p
+                      style="
+                        margin: 0 0 8px 0;
+                        color: #7c3aed;
+                        font-size: 12px;
+                        font-weight: 700;
+                        letter-spacing: 0.08em;
+                        text-transform: uppercase;
+                      "
+                    >
+                      Generate with AI
+                    </p>
+                    <h3
+                      style="
+                        margin: 0 0 8px 0;
+                        color: #2e1065;
+                        font-size: 18px;
+                        font-weight: 700;
+                      "
+                    >
+                      From a description to a board
+                    </h3>
+                    <p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.55">
+                      Dashboard → Configuration →
+                      <strong style="color: #2e1065">Generate with AI</strong>.
+                      Describe the board in plain language. Created boards land
+                      unpublished so you can review items before publishing.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- BoardKit engine -->
+            <div style="padding: 36px 28px; border-top: 1px solid #ede9fe">
+              <p
+                style="
+                  margin: 0 0 8px 0;
+                  color: #7c3aed;
+                  font-size: 12px;
+                  font-weight: 700;
+                  letter-spacing: 0.08em;
+                  text-transform: uppercase;
+                  text-align: center;
+                "
+              >
+                BoardKit Dashboard
+              </p>
+              <h2
+                style="
+                  margin: 0 0 12px 0;
+                  color: #2e1065;
+                  font-size: 28px;
+                  font-weight: 700;
+                  text-align: center;
+                "
+              >
+                Built on the BoardKit engine
+              </h2>
+              <p
+                style="
+                  margin: 0 auto 18px auto;
+                  max-width: 680px;
+                  color: #64748b;
+                  font-size: 15px;
+                  line-height: 1.55;
+                  text-align: center;
+                "
+              >
+                This module is an <strong style="color: #2e1065">AI companion</strong>
+                for <strong style="color: #2e1065">BoardKit Dashboard</strong> —
+                the open-source engine that builds analytic boards on any Odoo
+                model with tiles, KPIs, gauges, charts, maps, lists, drill-down,
+                filters, layouts and export.
+              </p>
+              <div
+                class="row"
+                style="
+                  margin-left: 0;
+                  margin-right: 0;
+                  background-color: #f8fafc;
+                  border: 1px solid #e2e8f0;
+                  border-radius: 16px;
+                  padding: 8px;
+                "
+              >
+                <div class="col-md-4" style="padding: 14px 16px">
+                  <p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.5">
+                    <strong style="color: #2e1065">Install the core once</strong>
+                    — then add this AI module when the Agno bridge is available.
+                    Template packs keep working unchanged.
+                  </p>
+                </div>
+                <div class="col-md-4" style="padding: 14px 16px">
+                  <p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.5">
+                    <strong style="color: #2e1065">Same UX everywhere</strong> —
+                    chat, insights and explain run on any BoardKit board with
+                    Enable AI turned on.
+                  </p>
+                </div>
+                <div class="col-md-4" style="padding: 14px 16px">
+                  <p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.5">
+                    <strong style="color: #2e1065">Or start from language</strong>
+                    — describe a board instead of building every tile by hand,
+                    then refine the unpublished result.
+                  </p>
+                </div>
+              </div>
+              <div
+                class="row"
+                style="
+                  margin-left: 0;
+                  margin-right: 0;
+                  margin-top: 16px;
+                "
+              >
+                <div class="col-md-6" style="padding: 8px 8px 8px 0">
+                  <a
+                    href="https://github.com/Escodoo/ai-addons"
+                    style="text-decoration: none; display: block"
+                  >
+                    <div
+                      style="
+                        padding: 16px 18px;
+                        border-radius: 12px;
+                        background-color: #f5f3ff;
+                        border: 1px solid #ede9fe;
+                        height: 100%;
+                      "
+                    >
+                      <p
+                        style="
+                          margin: 0 0 6px 0;
+                          color: #7c3aed;
+                          font-size: 11px;
+                          font-weight: 700;
+                          letter-spacing: 0.08em;
+                          text-transform: uppercase;
+                        "
+                      >
+                        Required · Odoo addons
+                      </p>
+                      <p
+                        style="
+                          margin: 0 0 6px 0;
+                          color: #4c1d95;
+                          font-size: 16px;
+                          font-weight: 700;
+                        "
+                      >
+                        Escodoo / ai-addons
+                      </p>
+                      <p style="margin: 0; color: #64748b; font-size: 13px; line-height: 1.5">
+                        Install <strong style="color: #4c1d95">ai_agno_connector</strong>
+                        from this repository (OCA
+                        <strong style="color: #4c1d95">ai_oca_bridge</strong>
+                        stack included).
+                      </p>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-md-6" style="padding: 8px 0 8px 8px">
+                  <a
+                    href="https://github.com/Escodoo/agno-odoo"
+                    style="text-decoration: none; display: block"
+                  >
+                    <div
+                      style="
+                        padding: 16px 18px;
+                        border-radius: 12px;
+                        background-color: #f5f3ff;
+                        border: 1px solid #ede9fe;
+                        height: 100%;
+                      "
+                    >
+                      <p
+                        style="
+                          margin: 0 0 6px 0;
+                          color: #7c3aed;
+                          font-size: 11px;
+                          font-weight: 700;
+                          letter-spacing: 0.08em;
+                          text-transform: uppercase;
+                        "
+                      >
+                        Required · Agno service
+                      </p>
+                      <p
+                        style="
+                          margin: 0 0 6px 0;
+                          color: #4c1d95;
+                          font-size: 16px;
+                          font-weight: 700;
+                        "
+                      >
+                        Escodoo / agno-odoo
+                      </p>
+                      <p style="margin: 0; color: #64748b; font-size: 13px; line-height: 1.5">
+                        Companion Agno service that exposes
+                        <strong style="color: #4c1d95">/bridge/boardkit/*</strong>
+                        for chat, insights, explain and generate.
+                      </p>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Features -->
+            <div
+              style="
+                padding: 40px 28px;
+                background-color: #f8fafc;
+                border-top: 1px solid #ede9fe;
+              "
+            >
+              <div style="text-align: center; margin-bottom: 28px">
+                <p
+                  style="
+                    margin: 0 0 8px 0;
+                    color: #7c3aed;
+                    font-size: 12px;
+                    font-weight: 700;
+                    letter-spacing: 0.08em;
+                    text-transform: uppercase;
+                  "
+                >
+                  AI capabilities
+                </p>
+                <h2
+                  style="
+                    margin: 0 0 10px 0;
+                    color: #2e1065;
+                    font-size: 28px;
+                    font-weight: 700;
+                  "
+                >
+                  What managers get out of the box
+                </h2>
+              </div>
+              <div class="row" style="margin-left: 0; margin-right: 0">
+                <div class="col-md-4" style="padding: 10px">
+                  <div
+                    style="
+                      background-color: #ffffff;
+                      border: 1px solid #e2e8f0;
+                      border-radius: 16px;
+                      padding: 22px 18px;
+                      height: 100%;
+                      border-top: 4px solid #7c3aed;
+                    "
+                  >
+                    <p
+                      style="
+                        margin: 0 0 12px 0;
+                        width: 40px;
+                        height: 40px;
+                        line-height: 40px;
+                        text-align: center;
+                        border-radius: 12px;
+                        background-color: #6d28d9;
+                        color: #ffffff;
+                        font-size: 16px;
+                        font-weight: 700;
+                      "
+                    >
+                      1
+                    </p>
+                    <h3
+                      style="
+                        margin: 0 0 8px 0;
+                        color: #2e1065;
+                        font-size: 17px;
+                        font-weight: 700;
+                      "
+                    >
+                      Board chat
+                    </h3>
+                    <p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.5">
+                      Ask questions about the visible figures. When requested,
+                      apply known date presets or board filters and reload the cards.
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-4" style="padding: 10px">
+                  <div
+                    style="
+                      background-color: #ffffff;
+                      border: 1px solid #e2e8f0;
+                      border-radius: 16px;
+                      padding: 22px 18px;
+                      height: 100%;
+                      border-top: 4px solid #7c3aed;
+                    "
+                  >
+                    <p
+                      style="
+                        margin: 0 0 12px 0;
+                        width: 40px;
+                        height: 40px;
+                        line-height: 40px;
+                        text-align: center;
+                        border-radius: 12px;
+                        background-color: #6d28d9;
+                        color: #ffffff;
+                        font-size: 16px;
+                        font-weight: 700;
+                      "
+                    >
+                      2
+                    </p>
+                    <h3
+                      style="
+                        margin: 0 0 8px 0;
+                        color: #2e1065;
+                        font-size: 17px;
+                        font-weight: 700;
+                      "
+                    >
+                      Insights
+                    </h3>
+                    <p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.5">
+                      Append a narrative read of the current cards to the same
+                      chat panel, then keep asking follow-up questions.
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-4" style="padding: 10px">
+                  <div
+                    style="
+                      background-color: #ffffff;
+                      border: 1px solid #e2e8f0;
+                      border-radius: 16px;
+                      padding: 22px 18px;
+                      height: 100%;
+                      border-top: 4px solid #7c3aed;
+                    "
+                  >
+                    <p
+                      style="
+                        margin: 0 0 12px 0;
+                        width: 40px;
+                        height: 40px;
+                        line-height: 40px;
+                        text-align: center;
+                        border-radius: 12px;
+                        background-color: #6d28d9;
+                        color: #ffffff;
+                        font-size: 16px;
+                        font-weight: 700;
+                      "
+                    >
+                      3
+                    </p>
+                    <h3
+                      style="
+                        margin: 0 0 8px 0;
+                        color: #2e1065;
+                        font-size: 17px;
+                        font-weight: 700;
+                      "
+                    >
+                      Explain this tile
+                    </h3>
+                    <p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.5">
+                      Open the card menu and choose Explain with AI. The
+                      explanation is added to the board chat thread.
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-4" style="padding: 10px">
+                  <div
+                    style="
+                      background-color: #ffffff;
+                      border: 1px solid #e2e8f0;
+                      border-radius: 16px;
+                      padding: 22px 18px;
+                      height: 100%;
+                      border-top: 4px solid #7c3aed;
+                    "
+                  >
+                    <p
+                      style="
+                        margin: 0 0 12px 0;
+                        width: 40px;
+                        height: 40px;
+                        line-height: 40px;
+                        text-align: center;
+                        border-radius: 12px;
+                        background-color: #6d28d9;
+                        color: #ffffff;
+                        font-size: 16px;
+                        font-weight: 700;
+                      "
+                    >
+                      4
+                    </p>
+                    <h3
+                      style="
+                        margin: 0 0 8px 0;
+                        color: #2e1065;
+                        font-size: 17px;
+                        font-weight: 700;
+                      "
+                    >
+                      Generate with AI
+                    </h3>
+                    <p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.5">
+                      Turn a natural-language description into an unpublished
+                      board via import_config, ready for review.
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-4" style="padding: 10px">
+                  <div
+                    style="
+                      background-color: #ffffff;
+                      border: 1px solid #e2e8f0;
+                      border-radius: 16px;
+                      padding: 22px 18px;
+                      height: 100%;
+                      border-top: 4px solid #7c3aed;
+                    "
+                  >
+                    <p
+                      style="
+                        margin: 0 0 12px 0;
+                        width: 40px;
+                        height: 40px;
+                        line-height: 40px;
+                        text-align: center;
+                        border-radius: 12px;
+                        background-color: #6d28d9;
+                        color: #ffffff;
+                        font-size: 16px;
+                        font-weight: 700;
+                      "
+                    >
+                      5
+                    </p>
+                    <h3
+                      style="
+                        margin: 0 0 8px 0;
+                        color: #2e1065;
+                        font-size: 17px;
+                        font-weight: 700;
+                      "
+                    >
+                      Per-dashboard toggle
+                    </h3>
+                    <p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.5">
+                      Enable AI on the board form so each dashboard can opt in
+                      or out. On by default; users still need the AI group.
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-4" style="padding: 10px">
+                  <div
+                    style="
+                      background-color: #ffffff;
+                      border: 1px solid #e2e8f0;
+                      border-radius: 16px;
+                      padding: 22px 18px;
+                      height: 100%;
+                      border-top: 4px solid #7c3aed;
+                    "
+                  >
+                    <p
+                      style="
+                        margin: 0 0 12px 0;
+                        width: 40px;
+                        height: 40px;
+                        line-height: 40px;
+                        text-align: center;
+                        border-radius: 12px;
+                        background-color: #6d28d9;
+                        color: #ffffff;
+                        font-size: 16px;
+                        font-weight: 700;
+                      "
+                    >
+                      6
+                    </p>
+                    <h3
+                      style="
+                        margin: 0 0 8px 0;
+                        color: #2e1065;
+                        font-size: 17px;
+                        font-weight: 700;
+                      "
+                    >
+                      Filter-aware context
+                    </h3>
+                    <p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.5">
+                      Answers use the active date and filter context. Change
+                      filters while chatting and the next answer uses them.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="row"
+                style="
+                  margin-left: 0;
+                  margin-right: 0;
+                  margin-top: 18px;
+                  background-color: #ffffff;
+                  border: 1px solid #e2e8f0;
+                  border-radius: 16px;
+                  padding: 8px;
+                "
+              >
+                <div class="col-md-4" style="padding: 12px 18px">
+                  <p style="margin: 0; color: #64748b; font-size: 14px">
+                    <strong style="color: #2e1065">Use AI on Dashboards</strong>
+                    — grant the group to users who may chat, summarize or
+                    explain. Managers inherit it and can generate boards.
+                  </p>
+                </div>
+                <div class="col-md-4" style="padding: 12px 18px">
+                  <p style="margin: 0; color: #64748b; font-size: 14px">
+                    <strong style="color: #2e1065">Unpublished by design</strong>
+                    — generated boards stay private until you review items and
+                    publish them.
+                  </p>
+                </div>
+                <div class="col-md-4" style="padding: 12px 18px">
+                  <p style="margin: 0; color: #64748b; font-size: 14px">
+                    <strong style="color: #2e1065">Security by design</strong> —
+                    ACLs and record rules of the source models are always
+                    enforced on the figures sent to the bridge.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Palettes -->
+            <div
+              style="
+                padding: 40px 28px;
+                border-top: 1px solid #ede9fe;
+                text-align: center;
+              "
+            >
+              <p
+                style="
+                  margin: 0 0 8px 0;
+                  color: #7c3aed;
+                  font-size: 12px;
+                  font-weight: 700;
+                  letter-spacing: 0.08em;
+                  text-transform: uppercase;
+                "
+              >
+                Color systems
+              </p>
+              <h2
+                style="
+                  margin: 0 0 10px 0;
+                  color: #2e1065;
+                  font-size: 28px;
+                  font-weight: 700;
+                "
+              >
+                Presets and fully custom palettes
+              </h2>
+              <p
+                style="
+                  margin: 0 auto 22px auto;
+                  max-width: 640px;
+                  color: #64748b;
+                  font-size: 15px;
+                  line-height: 1.55;
+                "
+              >
+                AI runs on the same boards you already brand. Pick a preset per
+                board or item — or define a
+                <strong style="color: #2e1065">custom color palette</strong>
+                with your own hex colors. No code and no layout changes.
+              </p>
+              <div
+                style="
+                  background-color: #4c1d95;
+                  border-radius: 16px;
+                  padding: 22px 24px;
+                  margin: 0 auto 24px auto;
+                  max-width: 820px;
+                  text-align: left;
+                "
+              >
+                <p
+                  style="
+                    margin: 0 0 6px 0;
+                    color: #ffffff;
+                    font-size: 18px;
+                    font-weight: 700;
+                  "
+                >
+                  Custom palettes
+                </p>
+                <p style="margin: 0; color: #e9d5ff; font-size: 14px; line-height: 1.55">
+                  Create named palettes for your brand or multi-company themes
+                  and assign them at board or item level. Ideal for agencies and
+                  white-label deployments.
+                </p>
+              </div>
+              <div class="row" style="margin-left: 0; margin-right: 0">
+                <div class="col-md-3 col-sm-6" style="padding: 8px">
+                  <div style="border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px 12px; background-color: #ffffff; height: 100%">
+                    <p style="margin: 0 0 12px 0; color: #4c1d95; font-size: 13px; font-weight: 700">Boardkit Brand</p>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #4c1d95; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #6d28d9; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #8b5cf6; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #a78bfa; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #c4b5fd; margin: 0 3px"></span>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-6" style="padding: 8px">
+                  <div style="border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px 12px; background-color: #ffffff; height: 100%">
+                    <p style="margin: 0 0 12px 0; color: #4c1d95; font-size: 13px; font-weight: 700">Ocean</p>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #056bd9; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #3188e6; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #4ea7f2; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #00a78d; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #43c5b1; margin: 0 3px"></span>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-6" style="padding: 8px">
+                  <div style="border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px 12px; background-color: #ffffff; height: 100%">
+                    <p style="margin: 0 0 12px 0; color: #4c1d95; font-size: 13px; font-weight: 700">Sunset</p>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #ce4257; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #ea6175; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #f48935; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #f4a261; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #ffbc2c; margin: 0 3px"></span>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-6" style="padding: 8px">
+                  <div style="border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px 12px; background-color: #ffffff; height: 100%">
+                    <p style="margin: 0 0 12px 0; color: #4c1d95; font-size: 13px; font-weight: 700">More presets</p>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #2c3e90; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #e53935; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #b08968; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #7eb5e8; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #00e5ff; margin: 0 3px"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Catalogue -->
+            <div style="padding: 40px 28px; text-align: center; border-top: 1px solid #ede9fe">
+              <p
+                style="
+                  margin: 0 0 8px 0;
+                  color: #7c3aed;
+                  font-size: 12px;
+                  font-weight: 700;
+                  letter-spacing: 0.08em;
+                  text-transform: uppercase;
+                "
+              >
+                Template catalogue
+              </p>
+              <h2
+                style="
+                  margin: 0 0 10px 0;
+                  color: #2e1065;
+                  font-size: 28px;
+                  font-weight: 700;
+                "
+              >
+                Works with every BoardKit board
+              </h2>
+              <p
+                style="
+                  margin: 0 auto 22px auto;
+                  max-width: 640px;
+                  color: #64748b;
+                  font-size: 15px;
+                  line-height: 1.55;
+                "
+              >
+                Chat, insights and explain run on any published board — including
+                curated templates across Odoo apps and OCA projects. Install only
+                the packs you use.
+              </p>
+              <p style="margin: 0; line-height: 2.1">
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #4c1d95; border: 1px solid #8b5cf6; color: #ffffff; font-size: 12px; font-weight: 600">AI</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Sales</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">CRM</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Purchase</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Inventory</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Manufacturing</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Project</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Repair</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Fleet</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Maintenance</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Invoicing</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">HR &amp; Timesheets</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Attendance</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Time Off</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Expenses</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Recruitment</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Payroll</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Email Marketing</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Surveys</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Events</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">My Day</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #ffffff; border: 1px solid #cbd5e1; color: #64748b; font-size: 12px; font-weight: 500">Helpdesk (OCA)</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #ffffff; border: 1px solid #cbd5e1; color: #64748b; font-size: 12px; font-weight: 500">Field Service (OCA)</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #ffffff; border: 1px solid #cbd5e1; color: #64748b; font-size: 12px; font-weight: 500">Contract (OCA)</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #ffffff; border: 1px solid #cbd5e1; color: #64748b; font-size: 12px; font-weight: 500">Agreement (OCA)</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #ffffff; border: 1px solid #cbd5e1; color: #64748b; font-size: 12px; font-weight: 500">RMA (OCA)</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #ffffff; border: 1px solid #cbd5e1; color: #64748b; font-size: 12px; font-weight: 500">Purchase Request (OCA)</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #ffffff; border: 1px solid #cbd5e1; color: #64748b; font-size: 12px; font-weight: 500">Stock Request (OCA)</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #ffffff; border: 1px solid #cbd5e1; color: #64748b; font-size: 12px; font-weight: 500">Brazilian Fiscal (OCA)</span>
+              </p>
+            </div>
+
+            <!-- Final CTA -->
+            <div
+              style="
+                background-color: #2e1065;
+                padding: 40px 28px;
+                text-align: center;
+              "
+            >
+              <h2
+                style="
+                  margin: 0 0 12px 0;
+                  color: #ffffff;
+                  font-size: 26px;
+                  font-weight: 700;
+                "
+              >
+                Open source · AGPL-3 · Odoo 18
+              </h2>
+              <p
+                style="
+                  margin: 0 auto 22px auto;
+                  max-width: 620px;
+                  color: #ddd6fe;
+                  font-size: 15px;
+                  line-height: 1.6;
+                "
+              >
+                Compatible with Odoo Community and Enterprise. Pair
+                <strong style="color: #ffffff">BoardKit Dashboard</strong> with
+                this AI companion, plus
+                <strong style="color: #ffffff">ai-addons</strong> and the
+                <strong style="color: #ffffff">agno-odoo</strong> service.
+              </p>
+              <p style="margin: 0 0 18px 0">
+                <span style="display: inline-block; margin: 4px; padding: 8px 14px; border-radius: 999px; background-color: #4c1d95; border: 1px solid #8b5cf6; color: #ffffff; font-size: 13px; font-weight: 600">AGPL-3</span>
+                <span style="display: inline-block; margin: 4px; padding: 8px 14px; border-radius: 999px; background-color: #4c1d95; border: 1px solid #8b5cf6; color: #ffffff; font-size: 13px; font-weight: 600">ai-addons</span>
+                <span style="display: inline-block; margin: 4px; padding: 8px 14px; border-radius: 999px; background-color: #4c1d95; border: 1px solid #8b5cf6; color: #ffffff; font-size: 13px; font-weight: 600">agno-odoo</span>
+              </p>
+              <a
+                href="mailto:contato@escodoo.com.br"
+                style="
+                  display: inline-block;
+                  padding: 14px 28px;
+                  border-radius: 10px;
+                  background-color: #ffffff;
+                  color: #4c1d95;
+                  font-size: 15px;
+                  font-weight: 700;
+                  text-decoration: none;
+                "
+                >Contact Escodoo — contato@escodoo.com.br</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

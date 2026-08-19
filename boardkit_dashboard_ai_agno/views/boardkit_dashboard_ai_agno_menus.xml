@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <menuitem
+        id="menu_dashboard_ai_generate"
+        name="Generate with AI"
+        parent="boardkit_dashboard.menu_dashboard_config"
+        action="action_boardkit_dashboard_ai_generate"
+        sequence="5"
+        groups="boardkit_dashboard.group_dashboard_manager"
+    />
+</odoo>
