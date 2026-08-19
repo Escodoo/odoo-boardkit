@@ -51,7 +51,7 @@ Sales, CRM, Inventory, Accounting, HR, Helpdesk and more.
 - **Templates**: start from curated industry boards; each template can carry
   allowed groups so app users open boards without the Dashboard User right
 - **Security first**: item queries always run as the signed-in user
-- **Optional AI** (`boardkit_dashboard_ai`): narrative summaries, tile explanations
+- **Optional AI** (`boardkit_dashboard_ai_agno`): narrative summaries, tile explanations
   and NL board generation via OCA `ai.bridge` + Escodoo Agno
 
 ### Requirements
