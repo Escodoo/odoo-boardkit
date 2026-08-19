@@ -240,7 +240,10 @@
                     corner, then save.
                 </div>
                 <!-- Grid -->
-                <div class="o_boardkit_dashboard_content flex-grow-1 overflow-auto p-3">
+                <div
+                    class="o_boardkit_dashboard_content flex-grow-1 overflow-auto p-3"
+                    t-ref="content"
+                >
                     <div
                         t-if="!state.board.items.length"
                         class="d-flex h-100 align-items-center justify-content-center text-center"
