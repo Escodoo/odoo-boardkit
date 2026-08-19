@@ -242,6 +242,14 @@ When configuring a **Map** item:
   projection to that country (works in both modes). Clicking a point
   opens the underlying record when *Show Records* is enabled.
 
+- Once the map is displayed, hover it to reveal the zoom controls in its
+  top right corner, hold Ctrl (Cmd on macOS) and use the mouse wheel to
+  zoom on the pointer, and drag the map to move it around. The reset
+  button restores the original framing. This zoom is a temporary view:
+  it is not saved on the item and resets when the data is refreshed or a
+  filter changes. Set *Focus Country* instead to make a closer framing
+  the default.
+
 - Click the expand icon in the top bar to enter full screen (TV / kiosk
   mode). The Odoo navbar is hidden and the dashboard fills the screen.
   Press ESC or click the compress icon to exit. Auto-refresh keeps

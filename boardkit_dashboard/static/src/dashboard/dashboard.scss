@@ -196,6 +196,42 @@
             -webkit-user-drag: none;
         }
 
+        // Zoom controls stay discreet until the map is hovered or focused.
+        .o_boardkit_dashboard_map_zoom {
+            position: absolute;
+            top: 0.25rem;
+            right: 0.25rem;
+            z-index: 1;
+            opacity: 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            transition: opacity 0.15s ease-in-out;
+
+            .btn {
+                padding: 0.1rem 0.4rem;
+                line-height: 1.3;
+            }
+        }
+
+        &:hover .o_boardkit_dashboard_map_zoom,
+        &:focus-within .o_boardkit_dashboard_map_zoom {
+            opacity: 1;
+        }
+
+        // Touch devices never hover, so the controls must stay visible there.
+        @media (hover: none) {
+            .o_boardkit_dashboard_map_zoom {
+                opacity: 1;
+            }
+        }
+
+        &[data-type="map"] canvas {
+            cursor: grab;
+
+            &:active {
+                cursor: grabbing;
+            }
+        }
+
         // Semicircle gauges and equalEarth maps look letterboxed in a tall
         // square; constrain their box to a matching aspect ratio and center.
         &[data-type="gauge"],
