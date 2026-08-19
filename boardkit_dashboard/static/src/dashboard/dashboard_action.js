@@ -29,11 +29,10 @@ import {useSetupAction} from "@web/search/action_hook";
 const GRID_COLS = 12;
 const GRID_ROW_HEIGHT = 56;
 const GRID_GAP = 12;
-// Auto-scroll while dragging. A narrow edge and a low top speed keep a slot
-// just inside the viewport droppable; speed then eases in toward the rim.
-const DRAG_SCROLL_EDGE = 24;
+// Auto-scroll while dragging. Speed eases in across the edge band, so entering
+// it barely creeps and only the last pixels run at the (low) top speed.
+const DRAG_SCROLL_EDGE = 40;
 const DRAG_SCROLL_SPEED = 5;
-const DRAG_SCROLL_BLOCKED_CAP = (GRID_ROW_HEIGHT + GRID_GAP) * 3;
 // Matches Odoo ui.isSmall / Bootstrap md breakpoint.
 const MOBILE_MAX_WIDTH = 767.98;
 const FULLSCREEN_BODY_CLASS = "o_boardkit_dashboard_fullscreen";
@@ -93,6 +92,8 @@ export class BoardkitDashboardAction extends Component {
             dragFloat: null,
             // Grid slot reserved for the drop, shown as a dashed placeholder.
             dragSlot: null,
+            // Grid height held while dragging, in pixels. See getGridStyle.
+            dragMinHeight: 0,
         });
         this.sharedFilterState = this.readSharedFilterState();
         this.saveFiltersDebounced = useDebounced(
@@ -694,6 +695,17 @@ export class BoardkitDashboardAction extends Component {
         );
     }
 
+    /**
+     * While dragging, the grid keeps the height it had when the drag started.
+     * Otherwise lifting the bottom-most item shrinks the scrollable content,
+     * the browser clamps scrollTop and the whole board jumps under the pointer.
+     */
+    getGridStyle() {
+        return this.state.dragMinHeight
+            ? `min-height:${this.state.dragMinHeight}px;`
+            : "";
+    }
+
     getDragSlotStyle() {
         const slot = this.state.dragSlot;
         if (!slot) {
@@ -725,6 +737,7 @@ export class BoardkitDashboardAction extends Component {
         const scrollTop = this.contentRef.el?.scrollTop || 0;
         const cell = event.currentTarget?.closest(".o_boardkit_dashboard_cell");
         const cellRect = cell?.getBoundingClientRect();
+        const bottoms = Object.values(this.state.layout).map((geo) => geo.y + geo.h);
         this.drag = {
             itemId: String(itemId),
             mode,
@@ -734,10 +747,14 @@ export class BoardkitDashboardAction extends Component {
             pointerY: event.clientY,
             startScrollTop: scrollTop,
             lastScrollTop: scrollTop,
-            blockedShift: 0,
             orig: {...this.state.layout[String(itemId)]},
             stepX: (rect.width + GRID_GAP) / GRID_COLS,
+            // Lowest row a move may reach: right below the current content. A
+            // slot past it would grow the grid, which would let the auto-scroll
+            // reveal more room, which would push the slot again, and so on.
+            maxY: bottoms.length ? Math.max(...bottoms) : 0,
         };
+        this.state.dragMinHeight = this.gridRef.el.offsetHeight;
         if (mode === "move" && cellRect) {
             this.drag.grabX = event.clientX - cellRect.left;
             this.drag.grabY = event.clientY - cellRect.top;
@@ -782,7 +799,7 @@ export class BoardkitDashboardAction extends Component {
         const geometry = {...drag.orig};
         if (drag.mode === "move") {
             geometry.x = clamp(drag.orig.x + deltaX, 0, GRID_COLS - geometry.w);
-            geometry.y = Math.max(0, drag.orig.y + deltaY);
+            geometry.y = clamp(drag.orig.y + deltaY, 0, drag.maxY);
             // The live card follows the pointer; only the drop slot hops
             // through the grid. Relayouting the card itself would resize the
             // Chart.js canvas and clip funnels/maps mid-drag.
@@ -847,19 +864,6 @@ export class BoardkitDashboardAction extends Component {
             const before = scroller.scrollTop;
             scroller.scrollTop = before + speed;
             moved = moved || scroller.scrollTop !== before;
-            // Downwards the grid has no rows left to reveal until the item
-            // creates them, so move the grab reference instead. Capped to a
-            // few rows so a held pointer cannot skip the intended slot.
-            const missed = speed - (scroller.scrollTop - before);
-            if (missed > 0 && drag.blockedShift < DRAG_SCROLL_BLOCKED_CAP) {
-                const shift = Math.min(
-                    missed,
-                    DRAG_SCROLL_BLOCKED_CAP - drag.blockedShift
-                );
-                drag.blockedShift += shift;
-                drag.startY -= shift;
-                moved = true;
-            }
         }
         if (moved) {
             this.applyDragGeometry();
@@ -880,6 +884,7 @@ export class BoardkitDashboardAction extends Component {
         }
         this.state.dragFloat = null;
         this.state.dragSlot = null;
+        this.state.dragMinHeight = 0;
         this.unbindDragListeners();
         this.drag = null;
     }
@@ -942,6 +947,7 @@ export class BoardkitDashboardAction extends Component {
         }
         this.state.dragFloat = null;
         this.state.dragSlot = null;
+        this.state.dragMinHeight = 0;
         this.state.editMode = false;
     }
 
