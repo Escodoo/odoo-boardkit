@@ -29,10 +29,11 @@ import {useSetupAction} from "@web/search/action_hook";
 const GRID_COLS = 12;
 const GRID_ROW_HEIGHT = 56;
 const GRID_GAP = 12;
-// Auto-scroll while dragging: how close to the scroller edge the pointer must
-// be to trigger it, and the top speed in pixels per animation frame.
-const DRAG_SCROLL_EDGE = 48;
-const DRAG_SCROLL_SPEED = 18;
+// Auto-scroll while dragging. A narrow edge and a low top speed keep a slot
+// just inside the viewport droppable; speed then eases in toward the rim.
+const DRAG_SCROLL_EDGE = 24;
+const DRAG_SCROLL_SPEED = 5;
+const DRAG_SCROLL_BLOCKED_CAP = (GRID_ROW_HEIGHT + GRID_GAP) * 3;
 // Matches Odoo ui.isSmall / Bootstrap md breakpoint.
 const MOBILE_MAX_WIDTH = 767.98;
 const FULLSCREEN_BODY_CLASS = "o_boardkit_dashboard_fullscreen";
@@ -807,17 +808,22 @@ export class BoardkitDashboardAction extends Component {
     }
 
     /**
-     * Pixels to scroll on this frame, growing as the pointer gets closer to the
-     * scroller edge. Negative scrolls up.
+     * Pixels to scroll on this frame. Quadratic easing so a pointer just
+     * inside the rim creeps, and only the last few pixels run at full speed.
+     * Negative scrolls up.
      */
     dragScrollSpeed(rect, pointerY) {
+        const intensity = (overhang) => {
+            const ratio = clamp(overhang / DRAG_SCROLL_EDGE, 0, 1);
+            return DRAG_SCROLL_SPEED * ratio * ratio;
+        };
         const overTop = DRAG_SCROLL_EDGE - (pointerY - rect.top);
         if (overTop > 0) {
-            return -DRAG_SCROLL_SPEED * clamp(overTop / DRAG_SCROLL_EDGE, 0, 1);
+            return -intensity(overTop);
         }
         const overBottom = DRAG_SCROLL_EDGE - (rect.bottom - pointerY);
         if (overBottom > 0) {
-            return DRAG_SCROLL_SPEED * clamp(overBottom / DRAG_SCROLL_EDGE, 0, 1);
+            return intensity(overBottom);
         }
         return 0;
     }
@@ -842,11 +848,14 @@ export class BoardkitDashboardAction extends Component {
             scroller.scrollTop = before + speed;
             moved = moved || scroller.scrollTop !== before;
             // Downwards the grid has no rows left to reveal until the item
-            // creates them, so move the grab reference instead. Capped to one
-            // viewport to keep a held pointer from pushing the item away.
+            // creates them, so move the grab reference instead. Capped to a
+            // few rows so a held pointer cannot skip the intended slot.
             const missed = speed - (scroller.scrollTop - before);
-            if (missed > 0 && drag.blockedShift < rect.height) {
-                const shift = Math.min(missed, rect.height - drag.blockedShift);
+            if (missed > 0 && drag.blockedShift < DRAG_SCROLL_BLOCKED_CAP) {
+                const shift = Math.min(
+                    missed,
+                    DRAG_SCROLL_BLOCKED_CAP - drag.blockedShift
+                );
                 drag.blockedShift += shift;
                 drag.startY -= shift;
                 moved = true;
