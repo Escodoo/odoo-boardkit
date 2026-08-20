@@ -33,6 +33,12 @@
         "web.assets_backend": [
             "boardkit_dashboard_ai_agno/static/src/dashboard/**/*",
         ],
+        "web.assets_unit_tests": [
+            "boardkit_dashboard_ai_agno/static/tests/dashboard_ai.test.js",
+        ],
+        "web.assets_tests": [
+            "boardkit_dashboard_ai_agno/static/tests/tours/**/*",
+        ],
     },
     "post_init_hook": "post_init_hook",
     "installable": True,
