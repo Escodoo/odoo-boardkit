@@ -1,7 +1,7 @@
 // Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 // License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-import {markup, useEffect} from "@odoo/owl";
+import {markup, useEffect, useRef} from "@odoo/owl";
 import {BoardkitDashboardAction} from "@boardkit_dashboard/dashboard/dashboard_action";
 import {_t} from "@web/core/l10n/translation";
 import {browser} from "@web/core/browser/browser";
@@ -20,11 +20,12 @@ patch(BoardkitDashboardAction.prototype, {
         Object.assign(this.state, {
             aiPanelOpen: false,
             aiLoading: false,
-            aiTitle: _t("Board chat"),
             aiMessages: [],
             aiDraft: "",
             aiContextUpdated: false,
         });
+        this.aiPanelBodyRef = useRef("aiPanelBody");
+        this.aiDraftInputRef = useRef("aiDraftInput");
         useEffect(
             () => {
                 if (this.state.aiPanelOpen && this.state.aiMessages.length) {
@@ -32,6 +33,28 @@ patch(BoardkitDashboardAction.prototype, {
                 }
             },
             () => [this.state.filterStamp]
+        );
+        useEffect(
+            () => {
+                const body = this.aiPanelBodyRef.el;
+                if (body) {
+                    body.scrollTop = body.scrollHeight;
+                }
+            },
+            () => [
+                this.state.aiPanelOpen,
+                this.state.aiMessages.length,
+                this.state.aiLoading,
+            ]
+        );
+        useEffect(
+            () => {
+                const input = this.aiDraftInputRef.el;
+                if (this.state.aiPanelOpen && input && !this.state.aiLoading) {
+                    input.focus();
+                }
+            },
+            () => [this.state.aiPanelOpen]
         );
     },
 
@@ -45,6 +68,10 @@ patch(BoardkitDashboardAction.prototype, {
                 !this.state.aiLoading &&
                 (this.state.aiDraft || "").trim()
         );
+    },
+
+    get canClearAiChat() {
+        return Boolean(!this.state.aiLoading && this.state.aiMessages.length);
     },
 
     _aiHtmlToPlainText(html) {
@@ -68,12 +95,16 @@ patch(BoardkitDashboardAction.prototype, {
     },
 
     _buildAiHistoryPayload() {
-        return this.state.aiMessages.slice(-10).map((message) => ({
-            role: message.role,
-            content: message.isHtml
-                ? this._aiHtmlToPlainText(message.text)
-                : message.text,
-        }));
+        // Drop the question just appended; it is sent separately as `message`.
+        return this.state.aiMessages
+            .slice(0, -1)
+            .slice(-10)
+            .map((message) => ({
+                role: message.role,
+                content: message.isHtml
+                    ? this._aiHtmlToPlainText(message.text)
+                    : message.text,
+            }));
     },
 
     openAiChat() {
@@ -81,16 +112,18 @@ patch(BoardkitDashboardAction.prototype, {
             return;
         }
         this.state.aiPanelOpen = true;
-        this.state.aiTitle = _t("Board chat");
         this.state.aiContextUpdated = false;
     },
 
     closeAiPanel() {
         this.state.aiPanelOpen = false;
-        this.state.aiLoading = false;
-        this.state.aiTitle = _t("Board chat");
+    },
+
+    clearAiChat() {
+        if (!this.canClearAiChat) {
+            return;
+        }
         this.state.aiMessages = [];
-        this.state.aiDraft = "";
         this.state.aiContextUpdated = false;
     },
 
@@ -169,12 +202,11 @@ patch(BoardkitDashboardAction.prototype, {
         const question = this.state.aiDraft.trim();
         this.state.aiDraft = "";
         this.state.aiPanelOpen = true;
-        this.state.aiTitle = _t("Board chat");
         this.state.aiContextUpdated = false;
         this._appendAiMessage("user", question);
         this.state.aiLoading = true;
         try {
-            const history = this._buildAiHistoryPayload().slice(0, -1);
+            const history = this._buildAiHistoryPayload();
             const result = await this.orm.call("boardkit.dashboard", "action_ai_chat", [
                 [this.state.board.id],
                 this.buildParams(),
@@ -206,7 +238,6 @@ patch(BoardkitDashboardAction.prototype, {
             return;
         }
         this.state.aiPanelOpen = true;
-        this.state.aiTitle = _t("Board chat");
         this.state.aiContextUpdated = false;
         this.state.aiLoading = true;
         try {
@@ -242,7 +273,6 @@ patch(BoardkitDashboardAction.prototype, {
             (entry) => entry.id === itemId
         );
         this.state.aiPanelOpen = true;
-        this.state.aiTitle = _t("Board chat");
         this.state.aiContextUpdated = false;
         if (item?.name) {
             this._appendAiMessage("user", _t("Explain: %s", item.name));

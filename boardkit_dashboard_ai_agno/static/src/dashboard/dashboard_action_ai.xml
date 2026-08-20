@@ -34,11 +34,13 @@
             <aside
                 t-if="state.aiPanelOpen"
                 class="o_boardkit_dashboard_ai_panel border-start bg-view d-flex flex-column"
+                role="complementary"
+                aria-label="Board chat"
             >
                 <div
                     class="o_boardkit_dashboard_ai_panel_header d-flex align-items-center gap-2 px-3 py-2 border-bottom"
                 >
-                    <h6 class="mb-0 text-truncate flex-grow-1" t-esc="state.aiTitle" />
+                    <h6 class="mb-0 text-truncate flex-grow-1">Board chat</h6>
                     <button
                         class="btn btn-sm btn-light"
                         title="Copy to clipboard"
@@ -46,6 +48,14 @@
                         t-on-click="copyAiBody"
                     >
                         <i class="fa fa-clipboard" role="img" aria-label="Copy" />
+                    </button>
+                    <button
+                        class="btn btn-sm btn-light"
+                        title="Clear conversation"
+                        t-att-disabled="!canClearAiChat"
+                        t-on-click="clearAiChat"
+                    >
+                        <i class="fa fa-trash" role="img" aria-label="Clear" />
                     </button>
                     <button
                         class="btn btn-sm btn-light"
@@ -63,6 +73,7 @@
                 </div>
                 <div
                     class="o_boardkit_dashboard_ai_panel_body flex-grow-1 overflow-auto p-3 d-flex flex-column gap-2"
+                    t-ref="aiPanelBody"
                 >
                     <div
                         t-if="!state.aiMessages.length and !state.aiLoading"
@@ -127,6 +138,7 @@
                             placeholder="Ask about the data on this board…"
                             t-att-disabled="state.aiLoading"
                             t-model="state.aiDraft"
+                            t-ref="aiDraftInput"
                             t-on-keydown="onAiDraftKeydown"
                         />
                         <button

@@ -3,7 +3,8 @@
 On the board form, keep **Enable AI** checked. Open the dashboard and click
 **Ask AI**. A side panel opens where you can ask questions about the figures
 currently shown. Answers use the active date/filter context. If you change
-filters while chatting, the next answer uses the updated context.
+filters while chatting, the next answer uses the updated context. Closing the
+panel keeps the conversation; use the trash control to clear it.
 
 You can also ask the assistant to change filters, for example “show this month”
 or “enable the Companies filter”. When the request maps to a known date preset
