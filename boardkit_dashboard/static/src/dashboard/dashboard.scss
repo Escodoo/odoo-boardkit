@@ -2,7 +2,7 @@
 // License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 .o_boardkit_dashboard {
-    background-color: var(--o-webclient-background-color, #f9fafb);
+    background-color: $o-webclient-background-color;
 
     .o_boardkit_dashboard_topbar {
         position: relative;
@@ -13,7 +13,7 @@
         gap: 0.5rem;
         padding: 0.5rem 1rem;
         // Keep the bar opaque so scrolling cards never show through it.
-        background-color: var(--o-view-background-color, #ffffff);
+        background-color: $o-view-background-color;
 
         .o_boardkit_dashboard_topbar_title {
             margin-right: 0.25rem;
@@ -22,12 +22,12 @@
             .o_boardkit_dashboard_favorite {
                 flex: 0 0 auto;
                 line-height: 1;
-                color: var(--o-color-warning, #f0ad4e);
+                color: $o-warning;
                 text-decoration: none;
 
                 &:hover,
                 &:focus {
-                    color: var(--o-color-warning, #f0ad4e);
+                    color: $o-warning;
                     opacity: 0.85;
                 }
             }
@@ -703,7 +703,7 @@
         font-weight: 700;
         letter-spacing: -0.02em;
         margin-bottom: 0.4rem;
-        color: var(--o-color-text, #212529);
+        color: $o-gray-900;
     }
 
     .o_boardkit_dashboard_catalogue_empty_subtitle {
@@ -766,7 +766,7 @@
         padding: 0.95rem 1rem;
         border: 1px solid rgba(0, 0, 0, 0.08);
         border-radius: 0.65rem;
-        background: var(--o-view-background-color, #fff);
+        background: $o-view-background-color;
         text-align: start;
         cursor: pointer;
         transition:
@@ -818,7 +818,7 @@
     .o_boardkit_dashboard_catalogue_empty_card_name {
         font-size: 0.98rem;
         font-weight: 600;
-        color: var(--o-color-text, #212529);
+        color: $o-gray-900;
     }
 
     .o_boardkit_dashboard_catalogue_empty_card_desc {
