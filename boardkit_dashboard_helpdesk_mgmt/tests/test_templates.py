@@ -3,9 +3,13 @@
 
 from odoo.tests import TransactionCase, tagged
 
+from odoo.addons.boardkit_dashboard.tests.common import BoardkitTemplateSmokeMixin
+
 
 @tagged("post_install", "-at_install")
-class TestHelpdeskDashboardTemplates(TransactionCase):
+class TestHelpdeskDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase):
+    template_xmlids = ("boardkit_dashboard_helpdesk_mgmt.template_helpdesk_overview",)
+
     def test_create_from_template_helpdesk_overview(self):
         template = self.env.ref(
             "boardkit_dashboard_helpdesk_mgmt.template_helpdesk_overview"
@@ -20,8 +24,8 @@ class TestHelpdeskDashboardTemplates(TransactionCase):
             dashboard.group_ids,
             self.env.ref("helpdesk_mgmt.group_helpdesk_user"),
         )
-        self.assertEqual(len(dashboard.item_ids), 13)
-        self.assertTrue(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
+        self.assertEqual(len(dashboard.item_ids), 12)
+        self.assertFalse(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
             all(item.model_name == "helpdesk.ticket" for item in dashboard.item_ids)
@@ -37,6 +41,9 @@ class TestHelpdeskDashboardTemplates(TransactionCase):
         closure = dashboard.item_ids.filtered(lambda i: i.name == "Closure Rate")
         self.assertEqual(closure.kpi_mode, "comparison")
         self.assertEqual(closure.kpi_display, "percent")
+        # A rate needs both sides on the same cohort of tickets.
+        self.assertEqual(closure.date_field_id.name, "create_date")
+        self.assertEqual(closure.date_field_2_id.name, "create_date")
 
         funnel = dashboard.item_ids.filtered(lambda i: i.name == "Pipeline Funnel")
         self.assertEqual(funnel.item_type, "funnel")

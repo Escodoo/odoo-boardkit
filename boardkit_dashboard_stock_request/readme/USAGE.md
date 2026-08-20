@@ -7,9 +7,11 @@ wizard.
 
 The board opens with the date filter on _This Month_. Open backlog tiles (Draft
 Requests, In Progress, Overdue, Cancelled) ignore that filter so they always
-show the current queue. Requested quantity and done metrics use _Expected Date_
-and follow the date filter. Use the toggle filters (My Requests, In Progress,
-Done, Overdue) to narrow the other cards.
+show the current queue. Request volume and done metrics use _Expected Date_ and
+follow the date filter. Quantities are only shown grouped by product, since each
+request carries its own unit of measure and summing them together is
+meaningless. Use the toggle filters (My Requests, In Progress, Done, Overdue) to
+narrow the other cards.
 
 When installed with demo data, a published board is created from this template
 and placed first (sequence `-1`) under the related app menu.

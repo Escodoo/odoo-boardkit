@@ -173,9 +173,11 @@ Dashboard Users until a manager sets an audience.
 Core ships the *Contacts Overview* template (data-quality tiles, KPIs,
 country regions map, location points map on ``partner_latitude`` /
 ``partner_longitude``, charts and a recent list). It uses only Contacts
-(``res.partner``). When the module is installed with demo data, a
-published board is created from that same template (plus a few
-geolocalized sample partners for the points map), linked under the
+(``res.partner``). The items built on ``partner_latitude`` /
+``partner_longitude`` stay empty until the contacts are geolocalized
+(*Contacts > Action > Geolocalize*). When the module is installed with
+demo data, a published board is created from that same template (plus a
+few geolocalized sample partners for the points map), linked under the
 Contacts app menu with sequence ``-1``. App-specific overview templates
 in ``boardkit_dashboard_*`` modules follow the same demo pattern under
 their app menu (My Day is exposed as a top-level app).
@@ -230,9 +232,23 @@ When configuring a **Map** item:
   into one marker whose size reflects the record count, or the sum of
   the *Measure Field* when one is configured.
 
+- Set *Coordinates From* when the source model has no geolocation of its
+  own but points at a model that has, for example ``partner_id`` on
+  leads or on tickets. The Latitude / Longitude fields (and the Regions
+  Group By country) are then picked on the related model, and every
+  record sharing the same related record lands on a single marker.
+
 - Optionally set *Focus Country* to crop the outline and zoom the
   projection to that country (works in both modes). Clicking a point
   opens the underlying record when *Show Records* is enabled.
+
+- Once the map is displayed, hover it to reveal the zoom controls in its
+  top right corner, hold Ctrl (Cmd on macOS) and use the mouse wheel to
+  zoom on the pointer, and drag the map to move it around. The reset
+  button restores the original framing. This zoom is a temporary view:
+  it is not saved on the item and resets when the data is refreshed or a
+  filter changes. Set *Focus Country* instead to make a closer framing
+  the default.
 
 - Click the expand icon in the top bar to enter full screen (TV / kiosk
   mode). The Odoo navbar is hidden and the dashboard fills the screen.
@@ -322,8 +338,8 @@ Under consideration, no commitment yet:
   be considered.
 - **Value history**: optional snapshots of item values, to show trends
   and sparklines regardless of what the source model keeps.
-- **Narrative board summary**: a short written read of the current
-  figures, generated from the same data the cards use.
+- **Narrative board summary**: shipped in optional addon
+  ``boardkit_dashboard_ai_agno`` (Agno bridge + Summarize panel).
 
 Bug Tracker
 ===========

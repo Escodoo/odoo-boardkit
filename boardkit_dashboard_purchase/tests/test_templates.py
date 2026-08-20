@@ -3,9 +3,13 @@
 
 from odoo.tests import TransactionCase, tagged
 
+from odoo.addons.boardkit_dashboard.tests.common import BoardkitTemplateSmokeMixin
+
 
 @tagged("post_install", "-at_install")
-class TestPurchaseDashboardTemplates(TransactionCase):
+class TestPurchaseDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase):
+    template_xmlids = ("boardkit_dashboard_purchase.template_purchase_overview",)
+
     def test_create_from_template_purchase_overview(self):
         template = self.env.ref(
             "boardkit_dashboard_purchase.template_purchase_overview"
@@ -21,7 +25,7 @@ class TestPurchaseDashboardTemplates(TransactionCase):
             self.env.ref("purchase.group_purchase_user"),
         )
         self.assertEqual(len(dashboard.item_ids), 13)
-        self.assertTrue(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
+        self.assertFalse(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
             all(item.model_name == "purchase.order" for item in dashboard.item_ids)
@@ -37,18 +41,27 @@ class TestPurchaseDashboardTemplates(TransactionCase):
         rfqs = dashboard.item_ids.filtered(lambda i: i.name == "RFQs")
         self.assertFalse(rfqs.date_field_id)
 
+        average = dashboard.item_ids.filtered(lambda i: i.name == "Average Order Value")
+        self.assertEqual(average.aggregation, "avg")
+        self.assertEqual(average.date_field_id.name, "date_approve")
+
         confirmation = dashboard.item_ids.filtered(
             lambda i: i.name == "Confirmation Rate"
         )
         self.assertEqual(confirmation.kpi_mode, "comparison")
         self.assertEqual(confirmation.kpi_display, "percent")
         self.assertEqual(confirmation.model_2_name, "purchase.order")
+        # date_order is the RFQ deadline, so the rate follows the creation
+        # cohort on both sides instead.
+        self.assertEqual(confirmation.date_field_id.name, "create_date")
+        self.assertEqual(confirmation.date_field_2_id.name, "create_date")
 
         status_chart = dashboard.item_ids.filtered(
             lambda i: i.name == "Orders by Status"
         )
         self.assertEqual(status_chart.item_type, "doughnut")
         self.assertEqual(status_chart.group_by_field_id.name, "state")
+        self.assertFalse(status_chart.date_field_id)
 
         recent = dashboard.item_ids.filtered(lambda i: i.name == "Recent Orders")
         column_names = recent.list_column_ids.mapped("field_id.name")

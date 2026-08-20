@@ -1,0 +1,75 @@
+// Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+// License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
+.o_boardkit_dashboard {
+    position: relative;
+
+    .o_boardkit_dashboard_ai_panel {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 5;
+        // Avoid min(rem, vw): libsass cannot mix those units.
+        width: 24rem;
+        max-width: 92%;
+        box-shadow: -0.25rem 0 0.75rem rgba(0, 0, 0, 0.08);
+
+        .o_boardkit_dashboard_ai_context_banner {
+            background: $o-gray-100;
+            color: $o-gray-700;
+        }
+
+        .o_boardkit_dashboard_ai_message {
+            border-radius: 0.5rem;
+            padding: 0.65rem 0.75rem;
+            font-size: 0.925rem;
+            line-height: 1.45;
+        }
+
+        .o_boardkit_dashboard_ai_message_user {
+            align-self: flex-end;
+            max-width: 92%;
+            background: $o-brand-primary;
+            color: color-contrast($o-brand-primary);
+
+            .o_boardkit_dashboard_ai_message_role {
+                opacity: 0.75;
+            }
+        }
+
+        .o_boardkit_dashboard_ai_message_assistant {
+            align-self: stretch;
+            background: $o-view-background-color;
+            border: 1px solid $o-gray-200;
+
+            .o_boardkit_dashboard_ai_message_role {
+                color: $o-gray-600;
+            }
+
+            .o_boardkit_dashboard_ai_message_copy {
+                padding: 0.1rem 0.35rem;
+                line-height: 1;
+                opacity: 0.65;
+
+                &:hover,
+                &:focus {
+                    opacity: 1;
+                }
+            }
+        }
+
+        .o_boardkit_dashboard_ai_content {
+            p:last-child,
+            ul:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        .o_boardkit_dashboard_ai_composer {
+            .o_boardkit_dashboard_ai_input {
+                resize: none;
+            }
+        }
+    }
+}

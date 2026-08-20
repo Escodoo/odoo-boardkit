@@ -2,7 +2,7 @@
 // License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 .o_boardkit_dashboard {
-    background-color: var(--o-webclient-background-color, #f9fafb);
+    background-color: $o-webclient-background-color;
 
     .o_boardkit_dashboard_topbar {
         position: relative;
@@ -13,7 +13,7 @@
         gap: 0.5rem;
         padding: 0.5rem 1rem;
         // Keep the bar opaque so scrolling cards never show through it.
-        background-color: var(--o-view-background-color, #ffffff);
+        background-color: $o-view-background-color;
 
         .o_boardkit_dashboard_topbar_title {
             margin-right: 0.25rem;
@@ -22,12 +22,12 @@
             .o_boardkit_dashboard_favorite {
                 flex: 0 0 auto;
                 line-height: 1;
-                color: var(--o-color-warning, #f0ad4e);
+                color: $o-warning;
                 text-decoration: none;
 
                 &:hover,
                 &:focus {
-                    color: var(--o-color-warning, #f0ad4e);
+                    color: $o-warning;
                     opacity: 0.85;
                 }
             }
@@ -57,6 +57,12 @@
         }
     }
 
+    .o_boardkit_dashboard_content {
+        // Scroll anchoring would compensate every row the drop slot travels,
+        // scrolling the board on its own and cascading the slot to the edge.
+        overflow-anchor: none;
+    }
+
     .o_boardkit_dashboard_grid {
         display: grid;
         grid-template-columns: repeat(12, 1fr);
@@ -77,6 +83,24 @@
         min-width: 0;
         min-height: 0;
         overflow: hidden;
+
+        &.o_dragging {
+            overflow: visible;
+            pointer-events: none;
+
+            .o_boardkit_dashboard_card {
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+            }
+        }
+    }
+
+    .o_boardkit_dashboard_drop_placeholder {
+        min-width: 0;
+        min-height: 0;
+        pointer-events: none;
+        border: 2px dashed #6b7280;
+        border-radius: 8px;
+        background: rgba(78, 167, 242, 0.1);
     }
 
     .o_boardkit_dashboard_drill_breadcrumb {
@@ -166,6 +190,47 @@
         position: relative;
         width: 100%;
         height: 100%;
+
+        canvas {
+            // The canvas snapshot must not become a native HTML drag image.
+            -webkit-user-drag: none;
+        }
+
+        // Zoom controls stay discreet until the map is hovered or focused.
+        .o_boardkit_dashboard_map_zoom {
+            position: absolute;
+            top: 0.25rem;
+            right: 0.25rem;
+            z-index: 1;
+            opacity: 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            transition: opacity 0.15s ease-in-out;
+
+            .btn {
+                padding: 0.1rem 0.4rem;
+                line-height: 1.3;
+            }
+        }
+
+        &:hover .o_boardkit_dashboard_map_zoom,
+        &:focus-within .o_boardkit_dashboard_map_zoom {
+            opacity: 1;
+        }
+
+        // Touch devices never hover, so the controls must stay visible there.
+        @media (hover: none) {
+            .o_boardkit_dashboard_map_zoom {
+                opacity: 1;
+            }
+        }
+
+        &[data-type="map"] canvas {
+            cursor: grab;
+
+            &:active {
+                cursor: grabbing;
+            }
+        }
 
         // Semicircle gauges and equalEarth maps look letterboxed in a tall
         // square; constrain their box to a matching aspect ratio and center.
@@ -638,7 +703,7 @@
         font-weight: 700;
         letter-spacing: -0.02em;
         margin-bottom: 0.4rem;
-        color: var(--o-color-text, #212529);
+        color: $o-gray-900;
     }
 
     .o_boardkit_dashboard_catalogue_empty_subtitle {
@@ -701,7 +766,7 @@
         padding: 0.95rem 1rem;
         border: 1px solid rgba(0, 0, 0, 0.08);
         border-radius: 0.65rem;
-        background: var(--o-view-background-color, #fff);
+        background: $o-view-background-color;
         text-align: start;
         cursor: pointer;
         transition:
@@ -753,7 +818,7 @@
     .o_boardkit_dashboard_catalogue_empty_card_name {
         font-size: 0.98rem;
         font-weight: 600;
-        color: var(--o-color-text, #212529);
+        color: $o-gray-900;
     }
 
     .o_boardkit_dashboard_catalogue_empty_card_desc {

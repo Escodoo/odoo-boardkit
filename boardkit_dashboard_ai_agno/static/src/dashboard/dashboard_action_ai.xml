@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t
+        t-name="boardkit_dashboard.DashboardAction"
+        t-inherit="boardkit_dashboard.DashboardAction"
+        t-inherit-mode="extension"
+    >
+        <xpath
+            expr="//div[hasclass('o_boardkit_dashboard_topbar_actions')]"
+            position="inside"
+        >
+            <button
+                t-if="!state.editMode and state.board.ai_enabled"
+                class="btn btn-sm btn-light"
+                title="Ask AI about this board"
+                t-att-disabled="state.aiLoading"
+                t-on-click="openAiChat"
+            >
+                <i class="fa fa-comments me-1" role="img" aria-label="Ask AI" />
+                Ask AI
+            </button>
+            <button
+                t-if="!state.editMode and state.board.ai_enabled"
+                class="btn btn-sm btn-light"
+                title="Generate board insights"
+                t-att-disabled="state.aiLoading"
+                t-on-click="summarizeWithAi"
+            >
+                <i class="fa fa-magic me-1" role="img" aria-label="Insights" />
+                Insights
+            </button>
+        </xpath>
+        <xpath expr="//div[hasclass('o_boardkit_dashboard')]" position="inside">
+            <aside
+                t-if="state.aiPanelOpen"
+                class="o_boardkit_dashboard_ai_panel border-start bg-view d-flex flex-column"
+                role="complementary"
+                aria-label="Board chat"
+            >
+                <div
+                    class="o_boardkit_dashboard_ai_panel_header d-flex align-items-center gap-2 px-3 py-2 border-bottom"
+                >
+                    <h6 class="mb-0 text-truncate flex-grow-1">Board chat</h6>
+                    <button
+                        class="btn btn-sm btn-light"
+                        title="Copy to clipboard"
+                        t-att-disabled="!canCopyAiBody"
+                        t-on-click="copyAiBody"
+                    >
+                        <i class="fa fa-clipboard" role="img" aria-label="Copy" />
+                    </button>
+                    <button
+                        class="btn btn-sm btn-light"
+                        title="Clear conversation"
+                        t-att-disabled="!canClearAiChat"
+                        t-on-click="clearAiChat"
+                    >
+                        <i class="fa fa-trash" role="img" aria-label="Clear" />
+                    </button>
+                    <button
+                        class="btn btn-sm btn-light"
+                        title="Close"
+                        t-on-click="closeAiPanel"
+                    >
+                        <i class="fa fa-times" role="img" aria-label="Close" />
+                    </button>
+                </div>
+                <div
+                    t-if="state.aiContextUpdated"
+                    class="o_boardkit_dashboard_ai_context_banner px-3 py-2 small border-bottom"
+                >
+                    Context updated with current filters. The next answer will use them.
+                </div>
+                <div
+                    class="o_boardkit_dashboard_ai_panel_body flex-grow-1 overflow-auto p-3 d-flex flex-column gap-2"
+                    t-ref="aiPanelBody"
+                >
+                    <div
+                        t-if="!state.aiMessages.length and !state.aiLoading"
+                        class="text-muted small"
+                    >
+                        Ask questions about the figures on this board. Answers use the
+                        filters currently applied.
+                    </div>
+                    <t t-foreach="state.aiMessages" t-as="message" t-key="message.id">
+                        <div
+                            class="o_boardkit_dashboard_ai_message"
+                            t-att-class="message.role === 'user' ? 'o_boardkit_dashboard_ai_message_user' : 'o_boardkit_dashboard_ai_message_assistant'"
+                        >
+                            <div
+                                class="o_boardkit_dashboard_ai_message_role small mb-1 d-flex align-items-center gap-1"
+                            >
+                                <span class="flex-grow-1">
+                                    <t t-if="message.role === 'user'">You</t>
+                                    <t t-else="">AI</t>
+                                </span>
+                                <button
+                                    t-if="message.role === 'assistant'"
+                                    class="btn btn-sm btn-light o_boardkit_dashboard_ai_message_copy"
+                                    title="Copy to clipboard"
+                                    t-on-click="() => this.copyAiMessage(message)"
+                                >
+                                    <i
+                                        class="fa fa-clipboard"
+                                        role="img"
+                                        aria-label="Copy"
+                                    />
+                                </button>
+                            </div>
+                            <div
+                                t-if="message.isHtml"
+                                class="o_boardkit_dashboard_ai_content"
+                                t-out="message.html"
+                            />
+                            <div
+                                t-else=""
+                                class="o_boardkit_dashboard_ai_content"
+                                t-esc="message.text"
+                            />
+                        </div>
+                    </t>
+                    <div
+                        t-if="state.aiLoading"
+                        class="d-flex align-items-center justify-content-center text-muted py-3"
+                    >
+                        <i
+                            class="fa fa-circle-o-notch fa-spin fa-lg"
+                            role="img"
+                            aria-label="Loading"
+                        />
+                    </div>
+                </div>
+                <div class="o_boardkit_dashboard_ai_composer border-top p-2">
+                    <div class="input-group input-group-sm">
+                        <textarea
+                            class="form-control o_boardkit_dashboard_ai_input"
+                            rows="2"
+                            placeholder="Ask about the data on this board…"
+                            t-att-disabled="state.aiLoading"
+                            t-model="state.aiDraft"
+                            t-ref="aiDraftInput"
+                            t-on-keydown="onAiDraftKeydown"
+                        />
+                        <button
+                            class="btn btn-primary"
+                            title="Send"
+                            t-att-disabled="!canSendAiChat"
+                            t-on-click="sendAiChatMessage"
+                        >
+                            <i class="fa fa-paper-plane" role="img" aria-label="Send" />
+                        </button>
+                    </div>
+                </div>
+            </aside>
+        </xpath>
+        <xpath expr="//DashboardItemCard" position="attributes">
+            <attribute name="aiEnabled">state.board.ai_enabled</attribute>
+            <attribute
+                name="onExplainAi"
+            >((itemId) => this.explainItemWithAi(itemId))</attribute>
+        </xpath>
+    </t>
+</templates>

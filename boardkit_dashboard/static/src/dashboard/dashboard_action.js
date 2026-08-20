@@ -29,6 +29,10 @@ import {useSetupAction} from "@web/search/action_hook";
 const GRID_COLS = 12;
 const GRID_ROW_HEIGHT = 56;
 const GRID_GAP = 12;
+// Auto-scroll while dragging. Speed eases in across the edge band, so entering
+// it barely creeps and only the last pixels run at the (low) top speed.
+const DRAG_SCROLL_EDGE = 40;
+const DRAG_SCROLL_SPEED = 5;
 // Matches Odoo ui.isSmall / Bootstrap md breakpoint.
 const MOBILE_MAX_WIDTH = 767.98;
 const FULLSCREEN_BODY_CLASS = "o_boardkit_dashboard_fullscreen";
@@ -61,9 +65,11 @@ export class BoardkitDashboardAction extends Component {
         this.dialogService = useService("dialog");
         this.notification = useService("notification");
         this.gridRef = useRef("grid");
+        this.contentRef = useRef("content");
         this.refreshTimer = null;
         this.loadToken = 0;
         this.drag = null;
+        this.dragScrollFrame = null;
         this.savedLayout = null;
         this.onDragPointerMove = this.onDragPointerMove.bind(this);
         this.onDragPointerUp = this.onDragPointerUp.bind(this);
@@ -82,6 +88,12 @@ export class BoardkitDashboardAction extends Component {
             filterStamp: 0,
             hasSavedFilters: false,
             isFullscreen: false,
+            // Pixel box of the card that follows the pointer while moving.
+            dragFloat: null,
+            // Grid slot reserved for the drop, shown as a dashed placeholder.
+            dragSlot: null,
+            // Grid height held while dragging, in pixels. See getGridStyle.
+            dragMinHeight: 0,
         });
         this.sharedFilterState = this.readSharedFilterState();
         this.saveFiltersDebounced = useDebounced(
@@ -652,6 +664,22 @@ export class BoardkitDashboardAction extends Component {
     }
 
     getItemStyle(itemId) {
+        const float = this.state.dragFloat;
+        if (float && float.id === String(itemId)) {
+            // Keep the original pixel size so Chart.js does not rebuild the
+            // canvas on every hop. The card is taken out of the grid flow.
+            return (
+                `position:fixed;` +
+                `left:${float.left}px;` +
+                `top:${float.top}px;` +
+                `width:${float.width}px;` +
+                `height:${float.height}px;` +
+                `z-index:30;` +
+                `margin:0;` +
+                `grid-column:auto;` +
+                `grid-row:auto;`
+            );
+        }
         const geometry = this.state.layout[String(itemId)];
         if (!geometry) {
             return "";
@@ -667,6 +695,34 @@ export class BoardkitDashboardAction extends Component {
         );
     }
 
+    /**
+     * While dragging, the grid keeps the height it had when the drag started.
+     * Otherwise lifting the bottom-most item shrinks the scrollable content,
+     * the browser clamps scrollTop and the whole board jumps under the pointer.
+     */
+    getGridStyle() {
+        return this.state.dragMinHeight
+            ? `min-height:${this.state.dragMinHeight}px;`
+            : "";
+    }
+
+    getDragSlotStyle() {
+        const slot = this.state.dragSlot;
+        if (!slot) {
+            return "";
+        }
+        return (
+            `grid-column: ${slot.x + 1} / span ${slot.w};` +
+            `grid-row: ${slot.y + 1} / span ${slot.h};`
+        );
+    }
+
+    isDraggingItem(itemId) {
+        return Boolean(
+            this.state.dragFloat && this.state.dragFloat.id === String(itemId)
+        );
+    }
+
     get isMobileViewport() {
         return browser.innerWidth <= MOBILE_MAX_WIDTH;
     }
@@ -678,42 +734,157 @@ export class BoardkitDashboardAction extends Component {
         event.preventDefault();
         event.stopPropagation();
         const rect = this.gridRef.el.getBoundingClientRect();
+        const scrollTop = this.contentRef.el?.scrollTop || 0;
+        const cell = event.currentTarget?.closest(".o_boardkit_dashboard_cell");
+        const cellRect = cell?.getBoundingClientRect();
+        const bottoms = Object.values(this.state.layout).map((geo) => geo.y + geo.h);
         this.drag = {
             itemId: String(itemId),
             mode,
             startX: event.clientX,
             startY: event.clientY,
+            pointerX: event.clientX,
+            pointerY: event.clientY,
+            startScrollTop: scrollTop,
+            lastScrollTop: scrollTop,
             orig: {...this.state.layout[String(itemId)]},
             stepX: (rect.width + GRID_GAP) / GRID_COLS,
+            // Lowest row a move may reach: right below the current content. A
+            // slot past it would grow the grid, which would let the auto-scroll
+            // reveal more room, which would push the slot again, and so on.
+            maxY: bottoms.length ? Math.max(...bottoms) : 0,
         };
+        this.state.dragMinHeight = this.gridRef.el.offsetHeight;
+        if (mode === "move" && cellRect) {
+            this.drag.grabX = event.clientX - cellRect.left;
+            this.drag.grabY = event.clientY - cellRect.top;
+            this.state.dragFloat = {
+                id: String(itemId),
+                left: cellRect.left,
+                top: cellRect.top,
+                width: cellRect.width,
+                height: cellRect.height,
+            };
+            this.state.dragSlot = {...this.drag.orig};
+        }
         window.addEventListener("pointermove", this.onDragPointerMove);
         window.addEventListener("pointerup", this.onDragPointerUp);
+        this.scheduleDragScroll();
     }
 
     onDragPointerMove(event) {
+        if (!this.drag) {
+            return;
+        }
+        this.drag.pointerX = event.clientX;
+        this.drag.pointerY = event.clientY;
+        this.applyDragGeometry();
+    }
+
+    /**
+     * Place the dragged item from the last known pointer position, counting how
+     * far the scroller travelled since the drag started: the pointer may stay
+     * still while the auto-scroll brings the target row into view.
+     */
+    applyDragGeometry() {
         const drag = this.drag;
         if (!drag) {
             return;
         }
-        const deltaX = Math.round((event.clientX - drag.startX) / drag.stepX);
+        const scrollDelta = (this.contentRef.el?.scrollTop || 0) - drag.startScrollTop;
+        const deltaX = Math.round((drag.pointerX - drag.startX) / drag.stepX);
         const deltaY = Math.round(
-            (event.clientY - drag.startY) / (GRID_ROW_HEIGHT + GRID_GAP)
+            (drag.pointerY - drag.startY + scrollDelta) / (GRID_ROW_HEIGHT + GRID_GAP)
         );
         const geometry = {...drag.orig};
         if (drag.mode === "move") {
             geometry.x = clamp(drag.orig.x + deltaX, 0, GRID_COLS - geometry.w);
-            geometry.y = Math.max(0, drag.orig.y + deltaY);
+            geometry.y = clamp(drag.orig.y + deltaY, 0, drag.maxY);
+            // The live card follows the pointer; only the drop slot hops
+            // through the grid. Relayouting the card itself would resize the
+            // Chart.js canvas and clip funnels/maps mid-drag.
+            if (this.state.dragFloat) {
+                this.state.dragFloat = {
+                    ...this.state.dragFloat,
+                    left: drag.pointerX - drag.grabX,
+                    top: drag.pointerY - drag.grabY,
+                };
+            }
+            this.state.dragSlot = geometry;
         } else {
             geometry.w = clamp(drag.orig.w + deltaX, 2, GRID_COLS - geometry.x);
             geometry.h = Math.max(2, drag.orig.h + deltaY);
+            this.state.layout = {...this.state.layout, [drag.itemId]: geometry};
         }
-        this.state.layout = {...this.state.layout, [drag.itemId]: geometry};
+    }
+
+    scheduleDragScroll() {
+        this.dragScrollFrame = browser.requestAnimationFrame(() =>
+            this.onDragScrollFrame()
+        );
+    }
+
+    /**
+     * Pixels to scroll on this frame. Quadratic easing so a pointer just
+     * inside the rim creeps, and only the last few pixels run at full speed.
+     * Negative scrolls up.
+     */
+    dragScrollSpeed(rect, pointerY) {
+        const intensity = (overhang) => {
+            const ratio = clamp(overhang / DRAG_SCROLL_EDGE, 0, 1);
+            return DRAG_SCROLL_SPEED * ratio * ratio;
+        };
+        const overTop = DRAG_SCROLL_EDGE - (pointerY - rect.top);
+        if (overTop > 0) {
+            return -intensity(overTop);
+        }
+        const overBottom = DRAG_SCROLL_EDGE - (rect.bottom - pointerY);
+        if (overBottom > 0) {
+            return intensity(overBottom);
+        }
+        return 0;
+    }
+
+    /**
+     * Scroll the grid while the pointer rests near an edge, so an item can
+     * travel further than the visible area without being dropped on the way.
+     */
+    onDragScrollFrame() {
+        this.dragScrollFrame = null;
+        const drag = this.drag;
+        const scroller = this.contentRef.el;
+        if (!drag || !scroller) {
+            return;
+        }
+        const rect = scroller.getBoundingClientRect();
+        const speed = this.dragScrollSpeed(rect, drag.pointerY);
+        // Also catches wheel scrolling done in the middle of a drag.
+        let moved = scroller.scrollTop !== drag.lastScrollTop;
+        if (speed) {
+            const before = scroller.scrollTop;
+            scroller.scrollTop = before + speed;
+            moved = moved || scroller.scrollTop !== before;
+        }
+        if (moved) {
+            this.applyDragGeometry();
+        }
+        drag.lastScrollTop = scroller.scrollTop;
+        this.scheduleDragScroll();
     }
 
     onDragPointerUp() {
         if (this.drag) {
+            if (this.drag.mode === "move" && this.state.dragSlot) {
+                this.state.layout = {
+                    ...this.state.layout,
+                    [this.drag.itemId]: this.state.dragSlot,
+                };
+            }
             this.resolveCollisions(this.drag.itemId);
         }
+        this.state.dragFloat = null;
+        this.state.dragSlot = null;
+        this.state.dragMinHeight = 0;
         this.unbindDragListeners();
         this.drag = null;
     }
@@ -721,6 +892,10 @@ export class BoardkitDashboardAction extends Component {
     unbindDragListeners() {
         window.removeEventListener("pointermove", this.onDragPointerMove);
         window.removeEventListener("pointerup", this.onDragPointerUp);
+        if (this.dragScrollFrame) {
+            browser.cancelAnimationFrame(this.dragScrollFrame);
+            this.dragScrollFrame = null;
+        }
     }
 
     resolveCollisions(movedId) {
@@ -770,6 +945,9 @@ export class BoardkitDashboardAction extends Component {
         if (this.savedLayout) {
             this.state.layout = this.savedLayout;
         }
+        this.state.dragFloat = null;
+        this.state.dragSlot = null;
+        this.state.dragMinHeight = 0;
         this.state.editMode = false;
     }
 

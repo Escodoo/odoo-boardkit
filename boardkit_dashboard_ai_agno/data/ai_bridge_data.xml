@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!--
+        auth_token left empty: set ICP boardkit_dashboard_ai_agno.bridge_auth_token
+        before install, or rely on odoo.conf agno_bridge_auth_token (post_init_hook).
+    -->
+    <record id="ai_bridge_boardkit_summary" model="ai.bridge">
+        <field name="name">Boardkit Narrative Summary</field>
+        <field name="description">
+            <![CDATA[
+            <p>Summarizes a Boardkit dashboard from the current card snapshot via
+            Agno <tt>/bridge/boardkit/summary</tt>.</p>
+            ]]>
+        </field>
+        <field name="model_id" ref="boardkit_dashboard.model_boardkit_dashboard" />
+        <field name="usage">none</field>
+        <field name="payload_type">boardkit</field>
+        <field name="result_type">boardkit</field>
+        <field name="result_kind">immediate</field>
+        <field name="auth_type">token</field>
+        <field name="provider">agno</field>
+        <field name="request_timeout" eval="120" />
+        <field name="url">http://agno:8000/bridge/boardkit/summary</field>
+        <field
+            name="group_ids"
+            eval="[(4, ref('boardkit_dashboard_ai_agno.group_dashboard_ai_user'))]"
+        />
+    </record>
+
+    <record id="ai_bridge_boardkit_explain" model="ai.bridge">
+        <field name="name">Boardkit Tile Explanation</field>
+        <field name="description">
+            <![CDATA[
+            <p>Explains a single Boardkit tile/KPI/chart via
+            Agno <tt>/bridge/boardkit/explain</tt>.</p>
+            ]]>
+        </field>
+        <field name="model_id" ref="boardkit_dashboard.model_boardkit_dashboard" />
+        <field name="usage">none</field>
+        <field name="payload_type">boardkit</field>
+        <field name="result_type">boardkit</field>
+        <field name="result_kind">immediate</field>
+        <field name="auth_type">token</field>
+        <field name="provider">agno</field>
+        <field name="request_timeout" eval="120" />
+        <field name="url">http://agno:8000/bridge/boardkit/explain</field>
+        <field
+            name="group_ids"
+            eval="[(4, ref('boardkit_dashboard_ai_agno.group_dashboard_ai_user'))]"
+        />
+    </record>
+
+    <record id="ai_bridge_boardkit_generate" model="ai.bridge">
+        <field name="name">Boardkit Dashboard Generation</field>
+        <field name="description">
+            <![CDATA[
+            <p>Turns a natural-language description into a Boardkit
+            <tt>import_config</tt> payload via Agno
+            <tt>/bridge/boardkit/generate</tt>.</p>
+            ]]>
+        </field>
+        <field name="model_id" ref="boardkit_dashboard.model_boardkit_dashboard" />
+        <field name="usage">none</field>
+        <field name="payload_type">boardkit</field>
+        <field name="result_type">boardkit</field>
+        <field name="result_kind">immediate</field>
+        <field name="auth_type">token</field>
+        <field name="provider">agno</field>
+        <field name="request_timeout" eval="180" />
+        <field name="url">http://agno:8000/bridge/boardkit/generate</field>
+        <field
+            name="group_ids"
+            eval="[(4, ref('boardkit_dashboard.group_dashboard_manager'))]"
+        />
+    </record>
+
+    <record id="ai_bridge_boardkit_chat" model="ai.bridge">
+        <field name="name">Boardkit Dashboard Chat</field>
+        <field name="description">
+            <![CDATA[
+            <p>Answers questions about a Boardkit dashboard from the current
+            card snapshot and chat history via Agno
+            <tt>/bridge/boardkit/chat</tt>.</p>
+            ]]>
+        </field>
+        <field name="model_id" ref="boardkit_dashboard.model_boardkit_dashboard" />
+        <field name="usage">none</field>
+        <field name="payload_type">boardkit</field>
+        <field name="result_type">boardkit</field>
+        <field name="result_kind">immediate</field>
+        <field name="auth_type">token</field>
+        <field name="provider">agno</field>
+        <field name="request_timeout" eval="120" />
+        <field name="url">http://agno:8000/bridge/boardkit/chat</field>
+        <field
+            name="group_ids"
+            eval="[(4, ref('boardkit_dashboard_ai_agno.group_dashboard_ai_user'))]"
+        />
+    </record>
+</odoo>

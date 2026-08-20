@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ============================
 Boardkit Dashboard Agreement
 ============================
@@ -35,10 +31,10 @@ Agreement <https://github.com/OCA/agreement>`__ project and lands
 unpublished so it can be reviewed before users see it.
 
 It focuses on agreement portfolio health: active deals and templates,
-new signatures (with period comparison), active rate, expired endings,
-sale-domain counts, signature trends, partner concentration, domain and
-type breakdowns, and a recent agreements list. Toggle filters cover
-active, sale, purchase and expired agreements.
+new signatures (with period comparison), active rate, agreements past
+their end date, sale-domain counts, signature trends, partner
+concentration, domain and type breakdowns, and a recent agreements list.
+Toggle filters cover active, sale, purchase and expired agreements.
 
 |Agreement Overview|
 
@@ -61,9 +57,11 @@ board in the wizard.
 
 The board opens with the date filter on *This Month*. Open backlog tiles
 (Active Agreements, Templates, Without Partner, Expired, Sale Domain)
-ignore that filter so they always show the current portfolio. Signature
-metrics use *Signature Date* and follow the date filter. Use the toggle
-filters (Active, Sale, Purchase, Expired) to narrow the other cards.
+ignore that filter so they always show the current portfolio, and so
+does the recent agreements list, since unsigned agreements have no
+signature date. Signature metrics use *Signature Date* and follow the
+date filter. Use the toggle filters (Active, Sale, Purchase, Expired) to
+narrow the other cards.
 
 When installed with demo data, a published board is created from this
 template and placed first (sequence ``-1``) under the related app menu.

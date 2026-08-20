@@ -3,9 +3,13 @@
 
 from odoo.tests import TransactionCase, tagged
 
+from odoo.addons.boardkit_dashboard.tests.common import BoardkitTemplateSmokeMixin
+
 
 @tagged("post_install", "-at_install")
-class TestExpenseDashboardTemplates(TransactionCase):
+class TestExpenseDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase):
+    template_xmlids = ("boardkit_dashboard_hr_expense.template_expenses_overview",)
+
     def test_create_from_template_expenses_overview(self):
         template = self.env.ref(
             "boardkit_dashboard_hr_expense.template_expenses_overview"
@@ -39,6 +43,11 @@ class TestExpenseDashboardTemplates(TransactionCase):
         approval = dashboard.item_ids.filtered(lambda i: i.name == "Approval Rate")
         self.assertEqual(approval.kpi_mode, "comparison")
         self.assertEqual(approval.kpi_display, "percent")
+        # Expenses still waiting for a decision belong to the denominator.
+        self.assertIn("submitted", approval.domain_2)
+
+        to_reimburse = dashboard.item_ids.filtered(lambda i: i.name == "To Reimburse")
+        self.assertIn("reported", to_reimburse.domain)
 
         by_cat = dashboard.item_ids.filtered(lambda i: i.name == "Amount by Category")
         self.assertEqual(by_cat.item_type, "bar_horizontal")

@@ -3,9 +3,13 @@
 
 from odoo.tests import TransactionCase, tagged
 
+from odoo.addons.boardkit_dashboard.tests.common import BoardkitTemplateSmokeMixin
+
 
 @tagged("post_install", "-at_install")
-class TestEventDashboardTemplates(TransactionCase):
+class TestEventDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase):
+    template_xmlids = ("boardkit_dashboard_event.template_event_overview",)
+
     def test_create_from_template_event_overview(self):
         template = self.env.ref("boardkit_dashboard_event.template_event_overview")
         dashboard_ids = self.env["boardkit.dashboard"].create_from_template(template.id)
@@ -18,8 +22,8 @@ class TestEventDashboardTemplates(TransactionCase):
             dashboard.group_ids,
             self.env.ref("event.group_event_user"),
         )
-        self.assertEqual(len(dashboard.item_ids), 13)
-        self.assertTrue(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
+        self.assertEqual(len(dashboard.item_ids), 12)
+        self.assertFalse(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
             all(
@@ -39,6 +43,9 @@ class TestEventDashboardTemplates(TransactionCase):
         self.assertEqual(rate.kpi_mode, "comparison")
         self.assertEqual(rate.kpi_display, "percent")
         self.assertEqual(rate.model_2_name, "event.registration")
+        # Both sides count the attendees registered in the period.
+        self.assertEqual(rate.date_field_id.name, "create_date")
+        self.assertEqual(rate.date_field_2_id.name, "create_date")
 
         stage_chart = dashboard.item_ids.filtered(lambda i: i.name == "Events by Stage")
         self.assertEqual(stage_chart.item_type, "doughnut")

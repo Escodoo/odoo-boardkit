@@ -3,9 +3,15 @@
 
 from odoo.tests import TransactionCase, tagged
 
+from odoo.addons.boardkit_dashboard.tests.common import BoardkitTemplateSmokeMixin
+
 
 @tagged("post_install", "-at_install")
-class TestStockRequestDashboardTemplates(TransactionCase):
+class TestStockRequestDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase):
+    template_xmlids = (
+        "boardkit_dashboard_stock_request.template_stock_request_overview",
+    )
+
     def test_create_from_template_stock_request_overview(self):
         template = self.env.ref(
             "boardkit_dashboard_stock_request.template_stock_request_overview"
@@ -20,18 +26,27 @@ class TestStockRequestDashboardTemplates(TransactionCase):
             dashboard.group_ids,
             self.env.ref("stock_request.group_stock_request_user"),
         )
-        self.assertEqual(len(dashboard.item_ids), 13)
-        self.assertTrue(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
+        self.assertEqual(len(dashboard.item_ids), 12)
+        self.assertFalse(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
             all(item.model_name == "stock.request" for item in dashboard.item_ids)
         )
 
-        requested_qty = dashboard.item_ids.filtered(lambda i: i.name == "Requested Qty")
-        self.assertEqual(requested_qty.aggregation, "sum")
-        self.assertEqual(requested_qty.measure_field_id.name, "product_uom_qty")
-        self.assertTrue(requested_qty.compare_previous_period)
-        self.assertEqual(requested_qty.date_field_id.name, "expected_date")
+        confirmed = dashboard.item_ids.filtered(
+            lambda i: i.name == "Confirmed Requests"
+        )
+        # Quantities carry their own unit of measure, so only the count of
+        # requests can be summed across products.
+        self.assertEqual(confirmed.aggregation, "count")
+        self.assertTrue(confirmed.compare_previous_period)
+        self.assertEqual(confirmed.date_field_id.name, "expected_date")
+
+        by_product = dashboard.item_ids.filtered(
+            lambda i: i.name == "Top Products by Qty"
+        )
+        self.assertEqual(by_product.measure_field_id.name, "product_uom_qty")
+        self.assertEqual(by_product.group_by_field_id.name, "product_id")
 
         drafts = dashboard.item_ids.filtered(lambda i: i.name == "Draft Requests")
         self.assertFalse(drafts.date_field_id)

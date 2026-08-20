@@ -3,9 +3,13 @@
 
 from odoo.tests import TransactionCase, tagged
 
+from odoo.addons.boardkit_dashboard.tests.common import BoardkitTemplateSmokeMixin
+
 
 @tagged("post_install", "-at_install")
-class TestAgreementDashboardTemplates(TransactionCase):
+class TestAgreementDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase):
+    template_xmlids = ("boardkit_dashboard_agreement.template_agreement_overview",)
+
     def test_create_from_template_agreement_overview(self):
         template = self.env.ref(
             "boardkit_dashboard_agreement.template_agreement_overview"
@@ -20,8 +24,8 @@ class TestAgreementDashboardTemplates(TransactionCase):
             dashboard.group_ids,
             self.env.ref("base.group_user"),
         )
-        self.assertEqual(len(dashboard.item_ids), 13)
-        self.assertTrue(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
+        self.assertEqual(len(dashboard.item_ids), 12)
+        self.assertFalse(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
             all(item.model_name == "agreement" for item in dashboard.item_ids)
@@ -45,6 +49,8 @@ class TestAgreementDashboardTemplates(TransactionCase):
         self.assertEqual(domain_chart.group_by_field_id.name, "domain")
 
         recent = dashboard.item_ids.filtered(lambda i: i.name == "Recent Agreements")
+        # Unsigned agreements have no signature date and would never show up.
+        self.assertFalse(recent.date_field_id)
         column_names = recent.list_column_ids.mapped("field_id.name")
         self.assertIn("agreement_type_id", column_names)
         self.assertIn("signature_date", column_names)

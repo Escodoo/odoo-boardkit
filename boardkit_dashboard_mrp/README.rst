@@ -30,10 +30,10 @@ built on ``mrp.production`` and lands unpublished so it can be reviewed
 before users see it.
 
 It focuses on shop-floor health: confirmed and in-progress MOs, done
-volume (with period comparison), quantity to produce, completion rate,
-waiting components, late MOs, throughput trends, product and status
-breakdowns, and a recent manufacturing orders list. Toggle filters cover
-my MOs, in progress, waiting components and late orders.
+volume (with period comparison), open backlog, completion rate, waiting
+components, late MOs, throughput trends, product and status breakdowns,
+and a recent manufacturing orders list. Toggle filters cover my MOs, in
+progress, waiting components and late orders.
 
 |Manufacturing Overview|
 
@@ -55,7 +55,7 @@ template*, and choose **Manufacturing Overview**. Optionally rename the
 board in the wizard.
 
 The board opens with the date filter on *This Month*. Open MO tiles
-(Confirmed, In Progress, Qty to Produce, Waiting Components, Late)
+(Confirmed, In Progress, MOs to Produce, Waiting Components, Late)
 ignore that filter so they always show the current backlog. Done metrics
 use *End* date and follow the date filter. Use the toggle filters (My
 MOs, In Progress, Waiting Components, Late) to narrow the other cards.

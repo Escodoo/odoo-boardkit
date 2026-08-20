@@ -14,5 +14,5 @@ Under consideration, no commitment yet:
   Odoo user. Needs a dedicated security review before it can be considered.
 - **Value history**: optional snapshots of item values, to show trends and sparklines
   regardless of what the source model keeps.
-- **Narrative board summary**: a short written read of the current figures, generated
-  from the same data the cards use.
+- **Narrative board summary**: shipped in optional addon ``boardkit_dashboard_ai_agno``
+  (Agno bridge + Summarize panel).

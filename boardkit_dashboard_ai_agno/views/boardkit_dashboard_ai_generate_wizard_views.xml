@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_boardkit_dashboard_ai_generate_wizard_form" model="ir.ui.view">
+        <field name="name">boardkit.dashboard.ai.generate.wizard.form</field>
+        <field name="model">boardkit.dashboard.ai.generate.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate Dashboard with AI">
+                <group>
+                    <field
+                        name="prompt"
+                        placeholder="Example: Create a sales pipeline board with win rate, monthly revenue and open opportunities by stage."
+                        nolabel="1"
+                        colspan="2"
+                    />
+                </group>
+                <group invisible="not dashboard_ids">
+                    <field name="dashboard_ids" widget="many2many_tags" />
+                    <field name="result_html" nolabel="1" colspan="2" />
+                </group>
+                <footer>
+                    <button
+                        name="action_generate"
+                        type="object"
+                        string="Generate"
+                        class="btn-primary"
+                        invisible="dashboard_ids"
+                    />
+                    <button
+                        name="action_open_dashboards"
+                        type="object"
+                        string="Open Dashboards"
+                        class="btn-primary"
+                        invisible="not dashboard_ids"
+                    />
+                    <button string="Close" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_boardkit_dashboard_ai_generate" model="ir.actions.act_window">
+        <field name="name">Generate with AI</field>
+        <field name="res_model">boardkit.dashboard.ai.generate.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

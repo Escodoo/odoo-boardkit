@@ -3,9 +3,17 @@
 
 from odoo.tests import TransactionCase, tagged
 
+from odoo.addons.boardkit_dashboard.tests.common import BoardkitTemplateSmokeMixin
+
 
 @tagged("post_install", "-at_install")
-class TestPurchaseRequestDashboardTemplates(TransactionCase):
+class TestPurchaseRequestDashboardTemplates(
+    BoardkitTemplateSmokeMixin, TransactionCase
+):
+    template_xmlids = (
+        "boardkit_dashboard_purchase_request.template_purchase_request_overview",
+    )
+
     def test_create_from_template_purchase_request_overview(self):
         template = self.env.ref(
             "boardkit_dashboard_purchase_request.template_purchase_request_overview"
@@ -21,7 +29,7 @@ class TestPurchaseRequestDashboardTemplates(TransactionCase):
             self.env.ref("purchase_request.group_purchase_request_user"),
         )
         self.assertEqual(len(dashboard.item_ids), 13)
-        self.assertTrue(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
+        self.assertFalse(dashboard.item_ids.filtered(lambda i: i.item_type == "gauge"))
         self.assertEqual(len(dashboard.filter_ids), 4)
         self.assertTrue(
             all(item.model_name == "purchase.request" for item in dashboard.item_ids)
@@ -37,16 +45,24 @@ class TestPurchaseRequestDashboardTemplates(TransactionCase):
         drafts = dashboard.item_ids.filtered(lambda i: i.name == "Draft Requests")
         self.assertFalse(drafts.date_field_id)
 
+        approved = dashboard.item_ids.filtered(lambda i: i.name == "Approved")
+        self.assertEqual(approved.item_type, "tile")
+        self.assertTrue(approved.compare_previous_period)
+
         rate = dashboard.item_ids.filtered(lambda i: i.name == "Approval Rate")
         self.assertEqual(rate.kpi_mode, "comparison")
         self.assertEqual(rate.kpi_display, "percent")
         self.assertEqual(rate.model_2_name, "purchase.request")
+        # Every request of the period is the denominator, not only the ones
+        # already approved or rejected.
+        self.assertEqual(rate.domain_2, "[]")
 
         status_chart = dashboard.item_ids.filtered(
             lambda i: i.name == "Requests by Status"
         )
         self.assertEqual(status_chart.item_type, "doughnut")
         self.assertEqual(status_chart.group_by_field_id.name, "state")
+        self.assertFalse(status_chart.date_field_id)
 
         recent = dashboard.item_ids.filtered(lambda i: i.name == "Recent Requests")
         column_names = recent.list_column_ids.mapped("field_id.name")
