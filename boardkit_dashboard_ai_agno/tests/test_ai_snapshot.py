@@ -200,6 +200,12 @@ class TestBoardkitAiSnapshot(TransactionCase):
                                     "operator": "; drop table",
                                     "value": "x",
                                 },
+                                {
+                                    "model": "res.partner",
+                                    "field": "not_a_real_field",
+                                    "operator": "ilike",
+                                    "value": "x",
+                                },
                             ],
                         },
                     },
@@ -506,6 +512,35 @@ class TestBoardkitAiSnapshot(TransactionCase):
         )
         self.assertEqual(
             Dashboard._sanitize_ai_custom_filters(["bad"], {"res.partner"}), []
+        )
+        self.assertEqual(
+            Dashboard._sanitize_ai_custom_filters(
+                [
+                    {
+                        "model": "res.partner",
+                        "field": "name",
+                        "operator": "ilike",
+                        "value": "Acme",
+                    },
+                    {
+                        "model": "res.partner",
+                        "field": "not_a_real_field",
+                        "operator": "ilike",
+                        "value": "x",
+                    },
+                ],
+                {"res.partner"},
+            ),
+            [
+                {
+                    "model": "res.partner",
+                    "field": "name",
+                    "operator": "ilike",
+                    "value": "Acme",
+                    "label": False,
+                    "modelLabel": False,
+                }
+            ],
         )
 
     def test_compact_item_data_shapes(self):
