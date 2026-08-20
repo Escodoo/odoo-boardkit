@@ -16,8 +16,8 @@
         box-shadow: -0.25rem 0 0.75rem rgba(0, 0, 0, 0.08);
 
         .o_boardkit_dashboard_ai_context_banner {
-            background: var(--o-gray-100, #f4f4f4);
-            color: var(--o-gray-700, #595959);
+            background: $o-gray-100;
+            color: $o-gray-700;
         }
 
         .o_boardkit_dashboard_ai_message {
@@ -30,21 +30,21 @@
         .o_boardkit_dashboard_ai_message_user {
             align-self: flex-end;
             max-width: 92%;
-            background: var(--o-brand-primary, #714b67);
-            color: #fff;
+            background: $o-brand-primary;
+            color: color-contrast($o-brand-primary);
 
             .o_boardkit_dashboard_ai_message_role {
-                color: rgba(255, 255, 255, 0.75);
+                opacity: 0.75;
             }
         }
 
         .o_boardkit_dashboard_ai_message_assistant {
             align-self: stretch;
-            background: var(--o-view-background-color, #ffffff);
-            border: 1px solid var(--o-gray-200, #e7e7e7);
+            background: $o-view-background-color;
+            border: 1px solid $o-gray-200;
 
             .o_boardkit_dashboard_ai_message_role {
-                color: var(--o-gray-600, #6c757d);
+                color: $o-gray-600;
             }
 
             .o_boardkit_dashboard_ai_message_copy {
