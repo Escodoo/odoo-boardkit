@@ -237,6 +237,7 @@ class BoardkitDashboard(models.Model):
                 or not isinstance(field_name, str)
                 or not field_name
                 or operator not in _AI_CHAT_CUSTOM_FILTER_OPS
+                or not self._ai_custom_filter_field_exists(model, field_name)
             ):
                 continue
             cleaned.append(
@@ -252,6 +253,18 @@ class BoardkitDashboard(models.Model):
                 }
             )
         return cleaned
+
+    @api.model
+    def _ai_custom_filter_field_exists(self, model_name, field_name):
+        """Return whether the user can filter on this model field."""
+        if model_name not in self.env:
+            return False
+        model = self.env[model_name]
+        field = model._fields.get(field_name)
+        if not field:
+            return False
+        # fields_get also hides fields restricted by field-level groups.
+        return bool(model.fields_get([field_name]))
 
     def export_config(self):
         payload = super().export_config()
