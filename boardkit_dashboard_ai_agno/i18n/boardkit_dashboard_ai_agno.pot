@@ -20,7 +20,28 @@ msgid "%s is not active."
 msgstr ""
 
 #. module: boardkit_dashboard_ai_agno
+#: model_terms:ai.bridge,description:boardkit_dashboard_ai_agno.ai_bridge_boardkit_chat
+msgid "/bridge/boardkit/chat"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#: model_terms:ai.bridge,description:boardkit_dashboard_ai_agno.ai_bridge_boardkit_explain
+msgid "/bridge/boardkit/explain"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#: model_terms:ai.bridge,description:boardkit_dashboard_ai_agno.ai_bridge_boardkit_generate
+msgid "/bridge/boardkit/generate"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#: model_terms:ai.bridge,description:boardkit_dashboard_ai_agno.ai_bridge_boardkit_summary
+msgid "/bridge/boardkit/summary"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
 #. odoo-javascript
+#: code:addons/boardkit_dashboard_ai_agno/static/src/dashboard/dashboard_action_ai.xml:0
 #: code:addons/boardkit_dashboard_ai_agno/static/src/dashboard/dashboard_action_patch.js:0
 msgid "AI"
 msgstr ""
@@ -49,6 +70,16 @@ msgid "AI request failed."
 msgstr ""
 
 #. module: boardkit_dashboard_ai_agno
+#: model:ir.model,name:boardkit_dashboard_ai_agno.model_ai_bridge
+msgid "Ai Bridge Configuration"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#: model:ir.model,name:boardkit_dashboard_ai_agno.model_ai_bridge_execution
+msgid "Ai Execution"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
 #: model:ir.model.fields,help:boardkit_dashboard_ai_agno.field_boardkit_dashboard__ai_enabled
 msgid ""
 "Allow AI chat, summary and tile explanations on this dashboard for users "
@@ -58,6 +89,13 @@ msgstr ""
 #. module: boardkit_dashboard_ai_agno
 #: model:res.groups,comment:boardkit_dashboard_ai_agno.group_dashboard_ai_user
 msgid "Allow summarizing boards and explaining tiles with AI."
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#: model_terms:ai.bridge,description:boardkit_dashboard_ai_agno.ai_bridge_boardkit_chat
+msgid ""
+"Answers questions about a Boardkit dashboard from the current\n"
+"            card snapshot and chat history via Agno"
 msgstr ""
 
 #. module: boardkit_dashboard_ai_agno
@@ -81,18 +119,63 @@ msgstr ""
 #. module: boardkit_dashboard_ai_agno
 #. odoo-javascript
 #: code:addons/boardkit_dashboard_ai_agno/static/src/dashboard/dashboard_action_ai.xml:0
-msgid "Ask questions about the figures on this board. Answers use the"
-msgstr ""
-
-#. module: boardkit_dashboard_ai_agno
-#. odoo-javascript
-#: code:addons/boardkit_dashboard_ai_agno/static/src/dashboard/dashboard_action_patch.js:0
-msgid "Board chat"
+msgid ""
+"Ask questions about the figures on this board. Answers use the\n"
+"                        filters currently applied."
 msgstr ""
 
 #. module: boardkit_dashboard_ai_agno
 #. odoo-javascript
 #: code:addons/boardkit_dashboard_ai_agno/static/src/dashboard/dashboard_action_ai.xml:0
+msgid "Board chat"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#: model:ir.model,name:boardkit_dashboard_ai_agno.model_boardkit_dashboard
+msgid "Boardkit Dashboard"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#: model:ai.bridge,name:boardkit_dashboard_ai_agno.ai_bridge_boardkit_chat
+msgid "Boardkit Dashboard Chat"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#: model:ai.bridge,name:boardkit_dashboard_ai_agno.ai_bridge_boardkit_generate
+msgid "Boardkit Dashboard Generation"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#: model:ai.bridge,name:boardkit_dashboard_ai_agno.ai_bridge_boardkit_summary
+msgid "Boardkit Narrative Summary"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#: model:ir.model.fields.selection,name:boardkit_dashboard_ai_agno.selection__ai_bridge__payload_type__boardkit
+msgid "Boardkit Snapshot"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#: model:ai.bridge,name:boardkit_dashboard_ai_agno.ai_bridge_boardkit_explain
+msgid "Boardkit Tile Explanation"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#. odoo-javascript
+#: code:addons/boardkit_dashboard_ai_agno/static/src/dashboard/dashboard_action_ai.xml:0
+msgid "Clear"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#. odoo-javascript
+#: code:addons/boardkit_dashboard_ai_agno/static/src/dashboard/dashboard_action_ai.xml:0
+msgid "Clear conversation"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#. odoo-javascript
+#: code:addons/boardkit_dashboard_ai_agno/static/src/dashboard/dashboard_action_ai.xml:0
+#: model_terms:ir.ui.view,arch_db:boardkit_dashboard_ai_agno.view_boardkit_dashboard_ai_generate_wizard_form
 msgid "Close"
 msgstr ""
 
@@ -111,6 +194,12 @@ msgstr ""
 #. module: boardkit_dashboard_ai_agno
 #. odoo-javascript
 #: code:addons/boardkit_dashboard_ai_agno/static/src/dashboard/dashboard_action_ai.xml:0
+msgid "Copy"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#. odoo-javascript
+#: code:addons/boardkit_dashboard_ai_agno/static/src/dashboard/dashboard_action_ai.xml:0
 msgid "Copy to clipboard"
 msgstr ""
 
@@ -123,6 +212,16 @@ msgstr ""
 #. module: boardkit_dashboard_ai_agno
 #: model:ir.model.fields,field_description:boardkit_dashboard_ai_agno.field_boardkit_dashboard_ai_generate_wizard__dashboard_ids
 msgid "Created Dashboards"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#: model:ir.model.fields,field_description:boardkit_dashboard_ai_agno.field_boardkit_dashboard_ai_generate_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#: model:ir.model.fields,field_description:boardkit_dashboard_ai_agno.field_boardkit_dashboard_ai_generate_wizard__create_date
+msgid "Created on"
 msgstr ""
 
 #. module: boardkit_dashboard_ai_agno
@@ -144,8 +243,8 @@ msgid "Dashboards"
 msgstr ""
 
 #. module: boardkit_dashboard_ai_agno
-#: model:ir.model.fields,field_description:boardkit_dashboard_ai_agno.field_boardkit_dashboard_ai_generate_wizard__prompt
-msgid "Description"
+#: model:ir.model.fields,help:boardkit_dashboard_ai_agno.field_ai_bridge__result_type
+msgid "Defines the type of result expected from the AI system."
 msgstr ""
 
 #. module: boardkit_dashboard_ai_agno
@@ -154,20 +253,18 @@ msgid "Describe the dashboard you want to create in plain language."
 msgstr ""
 
 #. module: boardkit_dashboard_ai_agno
+#: model:ir.model.fields,field_description:boardkit_dashboard_ai_agno.field_boardkit_dashboard_ai_generate_wizard__prompt
+msgid "Description"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#: model:ir.model.fields,field_description:boardkit_dashboard_ai_agno.field_boardkit_dashboard_ai_generate_wizard__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
 #: model:ir.model.fields,field_description:boardkit_dashboard_ai_agno.field_boardkit_dashboard__ai_enabled
 msgid "Enable AI"
-msgstr ""
-
-#. module: boardkit_dashboard_ai_agno
-#. odoo-javascript
-#: code:addons/boardkit_dashboard_ai_agno/static/src/dashboard/dashboard_action_ai.xml:0
-msgid "Explain with AI"
-msgstr ""
-
-#. module: boardkit_dashboard_ai_agno
-#. odoo-javascript
-#: code:addons/boardkit_dashboard_ai_agno/static/src/dashboard/dashboard_action_patch.js:0
-msgid "Explain: %s"
 msgstr ""
 
 #. module: boardkit_dashboard_ai_agno
@@ -178,11 +275,22 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard_ai_agno
-#: model:ir.model,name:boardkit_dashboard_ai_agno.model_boardkit_dashboard_ai_generate_wizard
-#: model_terms:ir.ui.view,arch_db:boardkit_dashboard_ai_agno.view_boardkit_dashboard_ai_generate_wizard_form
-#. odoo-python
-#: code:addons/boardkit_dashboard_ai_agno/wizards/boardkit_dashboard_ai_generate_wizard.py:0
-msgid "Generate Dashboard with AI"
+#. odoo-javascript
+#: code:addons/boardkit_dashboard_ai_agno/static/src/dashboard/dashboard_item_card_ai.xml:0
+msgid "Explain with AI"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#. odoo-javascript
+#: code:addons/boardkit_dashboard_ai_agno/static/src/dashboard/dashboard_action_patch.js:0
+msgid "Explain: %s"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#: model_terms:ai.bridge,description:boardkit_dashboard_ai_agno.ai_bridge_boardkit_explain
+msgid ""
+"Explains a single Boardkit tile/KPI/chart via\n"
+"            Agno"
 msgstr ""
 
 #. module: boardkit_dashboard_ai_agno
@@ -191,9 +299,11 @@ msgid "Generate"
 msgstr ""
 
 #. module: boardkit_dashboard_ai_agno
-#: model:ir.actions.act_window,name:boardkit_dashboard_ai_agno.action_boardkit_dashboard_ai_generate
-#: model:ir.ui.menu,name:boardkit_dashboard_ai_agno.menu_dashboard_ai_generate
-msgid "Generate with AI"
+#. odoo-python
+#: code:addons/boardkit_dashboard_ai_agno/wizards/boardkit_dashboard_ai_generate_wizard.py:0
+#: model:ir.model,name:boardkit_dashboard_ai_agno.model_boardkit_dashboard_ai_generate_wizard
+#: model_terms:ir.ui.view,arch_db:boardkit_dashboard_ai_agno.view_boardkit_dashboard_ai_generate_wizard_form
+msgid "Generate Dashboard with AI"
 msgstr ""
 
 #. module: boardkit_dashboard_ai_agno
@@ -203,9 +313,36 @@ msgid "Generate board insights"
 msgstr ""
 
 #. module: boardkit_dashboard_ai_agno
+#: model:ir.actions.act_window,name:boardkit_dashboard_ai_agno.action_boardkit_dashboard_ai_generate
+#: model:ir.ui.menu,name:boardkit_dashboard_ai_agno.menu_dashboard_ai_generate
+msgid "Generate with AI"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#: model:ir.model.fields,field_description:boardkit_dashboard_ai_agno.field_boardkit_dashboard_ai_generate_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
 #. odoo-javascript
 #: code:addons/boardkit_dashboard_ai_agno/static/src/dashboard/dashboard_action_ai.xml:0
 msgid "Insights"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#: model:ir.model.fields,field_description:boardkit_dashboard_ai_agno.field_boardkit_dashboard_ai_generate_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#: model:ir.model.fields,field_description:boardkit_dashboard_ai_agno.field_boardkit_dashboard_ai_generate_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#. odoo-javascript
+#: code:addons/boardkit_dashboard_ai_agno/static/src/dashboard/dashboard_action_ai.xml:0
+msgid "Loading"
 msgstr ""
 
 #. module: boardkit_dashboard_ai_agno
@@ -238,6 +375,11 @@ msgid "Open Dashboards"
 msgstr ""
 
 #. module: boardkit_dashboard_ai_agno
+#: model:ir.model.fields,field_description:boardkit_dashboard_ai_agno.field_ai_bridge__payload_type
+msgid "Payload Type"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
 #. odoo-python
 #: code:addons/boardkit_dashboard_ai_agno/models/boardkit_dashboard.py:0
 msgid "Please describe the dashboard you want to create."
@@ -250,9 +392,26 @@ msgid "Please enter a question about this dashboard."
 msgstr ""
 
 #. module: boardkit_dashboard_ai_agno
+#: model:ir.model.fields,field_description:boardkit_dashboard_ai_agno.field_ai_bridge__result_type
+msgid "Result Type"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#: model:ir.model.fields.selection,name:boardkit_dashboard_ai_agno.selection__ai_bridge__result_type__boardkit
+msgid "Return Boardkit Result"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
 #. odoo-javascript
 #: code:addons/boardkit_dashboard_ai_agno/static/src/dashboard/dashboard_action_ai.xml:0
 msgid "Send"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#: model_terms:ai.bridge,description:boardkit_dashboard_ai_agno.ai_bridge_boardkit_summary
+msgid ""
+"Summarizes a Boardkit dashboard from the current card snapshot via\n"
+"            Agno"
 msgstr ""
 
 #. module: boardkit_dashboard_ai_agno
@@ -280,14 +439,19 @@ msgid "The item does not belong to this dashboard."
 msgstr ""
 
 #. module: boardkit_dashboard_ai_agno
+#: model_terms:ai.bridge,description:boardkit_dashboard_ai_agno.ai_bridge_boardkit_generate
+msgid "Turns a natural-language description into a Boardkit"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
 #: model:res.groups,name:boardkit_dashboard_ai_agno.group_dashboard_ai_user
 msgid "Use AI on Dashboards"
 msgstr ""
 
 #. module: boardkit_dashboard_ai_agno
 #. odoo-javascript
-#: code:addons/boardkit_dashboard_ai_agno/static/src/dashboard/dashboard_action_patch.js:0
 #: code:addons/boardkit_dashboard_ai_agno/static/src/dashboard/dashboard_action_ai.xml:0
+#: code:addons/boardkit_dashboard_ai_agno/static/src/dashboard/dashboard_action_patch.js:0
 msgid "You"
 msgstr ""
 
@@ -301,4 +465,14 @@ msgstr ""
 #. odoo-python
 #: code:addons/boardkit_dashboard_ai_agno/models/boardkit_dashboard.py:0
 msgid "You are not allowed to use AI on dashboards."
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#: model_terms:ai.bridge,description:boardkit_dashboard_ai_agno.ai_bridge_boardkit_generate
+msgid "import_config"
+msgstr ""
+
+#. module: boardkit_dashboard_ai_agno
+#: model_terms:ai.bridge,description:boardkit_dashboard_ai_agno.ai_bridge_boardkit_generate
+msgid "payload via Agno"
 msgstr ""
