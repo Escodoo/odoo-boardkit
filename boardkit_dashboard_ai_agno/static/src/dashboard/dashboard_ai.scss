@@ -21,20 +21,23 @@
         }
 
         .o_boardkit_dashboard_ai_message {
-            border-radius: 0.5rem;
+            border-radius: 0.75rem;
             padding: 0.65rem 0.75rem;
             font-size: 0.925rem;
             line-height: 1.45;
         }
 
         .o_boardkit_dashboard_ai_message_user {
+            $user-bubble-bg: mix($o-brand-primary, $o-view-background-color, 16%);
             align-self: flex-end;
             max-width: 92%;
-            background: $o-brand-primary;
-            color: color-contrast($o-brand-primary);
+            background: $user-bubble-bg;
+            color: color-contrast($user-bubble-bg);
+            border: 1px solid mix($o-brand-primary, $o-view-background-color, 26%);
+            border-radius: 0.75rem 0.75rem 0.25rem 0.75rem;
 
             .o_boardkit_dashboard_ai_message_role {
-                opacity: 0.75;
+                color: $o-gray-600;
             }
         }
 
@@ -42,6 +45,7 @@
             align-self: stretch;
             background: $o-view-background-color;
             border: 1px solid $o-gray-200;
+            border-radius: 0.75rem 0.75rem 0.75rem 0.25rem;
 
             .o_boardkit_dashboard_ai_message_role {
                 color: $o-gray-600;
