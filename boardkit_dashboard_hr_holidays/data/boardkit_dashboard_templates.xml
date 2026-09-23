@@ -105,7 +105,7 @@
           "domain": "[('state', '=', 'validate')]",
           "model_2": "hr.leave",
           "aggregation_2": "count",
-          "domain_2": "[('state', '!=', 'cancel')]",
+          "domain_2": "[]",
           "date_field_id": "date_from",
           "date_field_2_id": "date_from",
           "layout": {
@@ -263,7 +263,7 @@
             "state",
             "department_id"
           ],
-          "domain": "[('state', '!=', 'cancel')]",
+          "domain": "[]",
           "date_field_id": "date_from",
           "layout": {
             "x": 0,

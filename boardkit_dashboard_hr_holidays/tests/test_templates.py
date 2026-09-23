@@ -44,7 +44,8 @@ class TestHolidaysDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase
         self.assertEqual(approval.kpi_mode, "comparison")
         self.assertEqual(approval.kpi_display, "percent")
         # Pending requests belong to the denominator, only cancelled ones do not.
-        self.assertEqual(approval.domain_2, "[('state', '!=', 'cancel')]")
+        # Odoo 16 archives cancelled leaves, so the active test excludes them.
+        self.assertEqual(approval.domain_2, "[]")
 
         pending_days = dashboard.item_ids.filtered(
             lambda i: i.name == "Days To Approve"
