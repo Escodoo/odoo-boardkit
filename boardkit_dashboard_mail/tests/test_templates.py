@@ -30,7 +30,7 @@ class TestMailDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase):
                 "mail.activity",
                 "calendar.event",
                 "mail.message",
-                "discuss.channel",
+                "mail.channel",
             },
         )
 
@@ -46,8 +46,9 @@ class TestMailDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase):
         self.assertEqual(overdue_rate.kpi_display, "percent")
         self.assertEqual(overdue_rate.model_name, "mail.activity")
         # Both sides state the same population, like the rest of the board.
-        self.assertIn("('active', '=', True)", overdue_rate.domain)
-        self.assertIn("('active', '=', True)", overdue_rate.domain_2)
+        # Odoo 16 deletes done activities, so there is no active flag.
+        self.assertIn("('user_id', '=', uid)", overdue_rate.domain)
+        self.assertEqual(overdue_rate.domain_2, "[('user_id', '=', uid)]")
 
         meetings = dashboard.item_ids.filtered(lambda i: i.name == "Next Meetings")
         self.assertEqual(meetings.item_type, "list")

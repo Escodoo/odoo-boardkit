@@ -31,7 +31,7 @@
           "model": "mail.activity",
           "aggregation": "count",
           "icon": "fa-check-square-o",
-          "domain": "[('user_id', '=', uid), ('active', '=', True)]",
+          "domain": "[('user_id', '=', uid)]",
           "layout": {
             "x": 0,
             "y": 0,
@@ -46,7 +46,7 @@
           "model": "mail.activity",
           "aggregation": "count",
           "icon": "fa-exclamation-triangle",
-          "domain": "[('user_id', '=', uid), ('active', '=', True), ('date_deadline', '&lt;', context_today())]",
+          "domain": "[('user_id', '=', uid), ('date_deadline', '&lt;', context_today())]",
           "layout": {
             "x": 3,
             "y": 0,
@@ -61,7 +61,7 @@
           "model": "mail.activity",
           "aggregation": "count",
           "icon": "fa-calendar-check-o",
-          "domain": "[('user_id', '=', uid), ('active', '=', True), ('date_deadline', '=', context_today())]",
+          "domain": "[('user_id', '=', uid), ('date_deadline', '=', context_today())]",
           "layout": {
             "x": 6,
             "y": 0,
@@ -103,7 +103,7 @@
         {
           "name": "My Channels",
           "item_type": "tile",
-          "model": "discuss.channel",
+          "model": "mail.channel",
           "aggregation": "count",
           "icon": "fa-comments",
           "domain": "[('is_member', '=', True)]",
@@ -122,10 +122,10 @@
           "aggregation": "count",
           "kpi_mode": "comparison",
           "kpi_display": "percent",
-          "domain": "[('user_id', '=', uid), ('active', '=', True), ('date_deadline', '&lt;', context_today())]",
+          "domain": "[('user_id', '=', uid), ('date_deadline', '&lt;', context_today())]",
           "model_2": "mail.activity",
           "aggregation_2": "count",
-          "domain_2": "[('user_id', '=', uid), ('active', '=', True)]",
+          "domain_2": "[('user_id', '=', uid)]",
           "layout": {
             "x": 6,
             "y": 2,
@@ -137,7 +137,7 @@
         {
           "name": "My Chats",
           "item_type": "tile",
-          "model": "discuss.channel",
+          "model": "mail.channel",
           "aggregation": "count",
           "icon": "fa-comment",
           "domain": "[('is_member', '=', True), ('channel_type', '=', 'chat')]",
@@ -157,7 +157,7 @@
           "group_by_field_id": "activity_type_id",
           "chart_sort": "value_desc",
           "record_limit": 10,
-          "domain": "[('user_id', '=', uid), ('active', '=', True)]",
+          "domain": "[('user_id', '=', uid)]",
           "layout": {
             "x": 0,
             "y": 4,
@@ -174,7 +174,7 @@
           "group_by_field_id": "res_model",
           "chart_sort": "value_desc",
           "record_limit": 10,
-          "domain": "[('user_id', '=', uid), ('active', '=', True)]",
+          "domain": "[('user_id', '=', uid)]",
           "layout": {
             "x": 6,
             "y": 4,
@@ -198,7 +198,7 @@
             "activity_type_id",
             "res_name"
           ],
-          "domain": "[('user_id', '=', uid), ('active', '=', True), ('date_deadline', '&lt;', context_today())]",
+          "domain": "[('user_id', '=', uid), ('date_deadline', '&lt;', context_today())]",
           "layout": {
             "x": 0,
             "y": 8,
@@ -261,20 +261,20 @@
           "name": "Overdue only",
           "sequence": 10,
           "model": "mail.activity",
-          "domain": "[('user_id', '=', uid), ('active', '=', True), ('date_deadline', '&lt;', context_today())]",
+          "domain": "[('user_id', '=', uid), ('date_deadline', '&lt;', context_today())]",
           "default_enabled": false
         },
         {
           "name": "Due today",
           "sequence": 20,
           "model": "mail.activity",
-          "domain": "[('user_id', '=', uid), ('active', '=', True), ('date_deadline', '=', context_today())]",
+          "domain": "[('user_id', '=', uid), ('date_deadline', '=', context_today())]",
           "default_enabled": false
         },
         {
           "name": "Chats only",
           "sequence": 30,
-          "model": "discuss.channel",
+          "model": "mail.channel",
           "domain": "[('is_member', '=', True), ('channel_type', '=', 'chat')]",
           "default_enabled": false
         }
