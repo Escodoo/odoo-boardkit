@@ -84,7 +84,13 @@ class BoardkitDashboardController(http.Controller):
             runtime_params = json.loads(params) if params else {}
         except ValueError:
             runtime_params = {}
-        data = item.get_export_data(runtime_params)
+        try:
+            data = item.get_export_data(runtime_params)
+        except UserError as error:
+            # get_data() traps the same errors into an in-band error card
+            # for the live dashboard view; the export must not leak them as
+            # an unhandled 500 traceback page instead of a clean response.
+            return request.make_json_response({"error": str(error)}, status=400)
         filename = f"{data['name'] or 'dashboard_item'}.{export_format}"
         if export_format == "csv":
             content, mimetype = self._to_csv(data), "text/csv;charset=utf-8"
