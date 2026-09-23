@@ -31,7 +31,7 @@
           "model": "repair.order",
           "aggregation": "count",
           "icon": "fa-wrench",
-          "domain": "[('state', 'in', ['draft', 'confirmed', 'under_repair'])]",
+          "domain": "[('state', 'in', ['draft', 'confirmed', 'ready', 'under_repair'])]",
           "layout": {
             "x": 0,
             "y": 0,
@@ -63,7 +63,7 @@
           "model": "repair.order",
           "aggregation": "count",
           "icon": "fa-exclamation-triangle",
-          "domain": "[('state', 'in', ['draft', 'confirmed', 'under_repair']), ('priority', '=', '1')]",
+          "domain": "[('state', 'in', ['draft', 'confirmed', 'ready', 'under_repair']), ('priority', '=', '1')]",
           "layout": {
             "x": 6,
             "y": 0,
@@ -78,7 +78,7 @@
           "model": "repair.order",
           "aggregation": "count",
           "icon": "fa-clock-o",
-          "domain": "[('state', 'in', ['draft', 'confirmed', 'under_repair']), ('schedule_date', '&lt;', context_today())]",
+          "domain": "[('state', 'in', ['draft', 'confirmed', 'ready', 'under_repair']), ('schedule_date', '&lt;', context_today())]",
           "layout": {
             "x": 9,
             "y": 0,
@@ -124,12 +124,12 @@
           "index": 5
         },
         {
-          "name": "Parts Late",
+          "name": "To Invoice",
           "item_type": "tile",
           "model": "repair.order",
           "aggregation": "count",
-          "icon": "fa-truck",
-          "domain": "[('is_parts_late', '=', True)]",
+          "icon": "fa-file-text-o",
+          "domain": "[('state', '=', '2binvoiced')]",
           "layout": {
             "x": 9,
             "y": 2,
@@ -165,7 +165,7 @@
           "group_by_field_id": "product_id",
           "chart_sort": "value_desc",
           "record_limit": 10,
-          "domain": "[('state', 'in', ['draft', 'confirmed', 'under_repair'])]",
+          "domain": "[('state', 'in', ['draft', 'confirmed', 'ready', 'under_repair'])]",
           "layout": {
             "x": 6,
             "y": 4,
@@ -198,7 +198,7 @@
           "group_by_field_id": "user_id",
           "chart_sort": "value_desc",
           "record_limit": 10,
-          "domain": "[('state', 'in', ['draft', 'confirmed', 'under_repair'])]",
+          "domain": "[('state', 'in', ['draft', 'confirmed', 'ready', 'under_repair'])]",
           "layout": {
             "x": 6,
             "y": 8,
@@ -224,9 +224,9 @@
             "priority",
             "user_id",
             "schedule_date",
-            "under_warranty"
+            "guarantee_limit"
           ],
-          "domain": "[('state', 'in', ['draft', 'confirmed', 'under_repair'])]",
+          "domain": "[('state', 'in', ['draft', 'confirmed', 'ready', 'under_repair'])]",
           "layout": {
             "x": 0,
             "y": 12,
@@ -248,21 +248,21 @@
           "name": "Open",
           "sequence": 20,
           "model": "repair.order",
-          "domain": "[('state', 'in', ['draft', 'confirmed', 'under_repair'])]",
+          "domain": "[('state', 'in', ['draft', 'confirmed', 'ready', 'under_repair'])]",
           "default_enabled": false
         },
         {
           "name": "Late",
           "sequence": 30,
           "model": "repair.order",
-          "domain": "[('state', 'in', ['draft', 'confirmed', 'under_repair']), ('schedule_date', '&lt;', context_today())]",
+          "domain": "[('state', 'in', ['draft', 'confirmed', 'ready', 'under_repair']), ('schedule_date', '&lt;', context_today())]",
           "default_enabled": false
         },
         {
           "name": "Urgent",
           "sequence": 40,
           "model": "repair.order",
-          "domain": "[('state', 'in', ['draft', 'confirmed', 'under_repair']), ('priority', '=', '1')]",
+          "domain": "[('state', 'in', ['draft', 'confirmed', 'ready', 'under_repair']), ('priority', '=', '1')]",
           "default_enabled": false
         }
       ]
