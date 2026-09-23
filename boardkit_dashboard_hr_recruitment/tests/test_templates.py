@@ -45,8 +45,11 @@ class TestRecruitmentDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionC
         hire_rate = dashboard.item_ids.filtered(lambda i: i.name == "Hire Rate")
         self.assertEqual(hire_rate.kpi_mode, "comparison")
         self.assertEqual(hire_rate.kpi_display, "percent")
-        # Every application received in the period is the denominator.
-        self.assertEqual(hire_rate.domain_2, "[]")
+        # Every application received in the period is the denominator. Odoo 16
+        # archives refused applicants, so the domain has to include them.
+        self.assertEqual(
+            hire_rate.domain_2, "['|', ('active', '=', True), ('active', '=', False)]"
+        )
         self.assertEqual(hire_rate.date_field_id, hire_rate.date_field_2_id)
 
         funnel = dashboard.item_ids.filtered(lambda i: i.name == "Pipeline Funnel")
@@ -59,3 +62,4 @@ class TestRecruitmentDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionC
         self.assertIn("stage_id", column_names)
         self.assertIn("source_id", column_names)
         self.assertIn("user_id", column_names)
+        self.assertIn("partner_name", column_names)

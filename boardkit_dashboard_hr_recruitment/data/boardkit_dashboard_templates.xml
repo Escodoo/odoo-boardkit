@@ -34,7 +34,7 @@
           "model": "hr.applicant",
           "aggregation": "count",
           "icon": "fa-users",
-          "domain": "[('application_status', '=', 'ongoing')]",
+          "domain": "[('refuse_reason_id', '=', False), ('date_closed', '=', False)]",
           "layout": {
             "x": 0,
             "y": 0,
@@ -50,7 +50,7 @@
           "aggregation": "count",
           "icon": "fa-handshake-o",
           "compare_previous_period": true,
-          "domain": "[('application_status', '=', 'hired')]",
+          "domain": "[('refuse_reason_id', '=', False), ('date_closed', '!=', False)]",
           "date_field_id": "date_closed",
           "layout": {
             "x": 3,
@@ -67,8 +67,8 @@
           "aggregation": "count",
           "icon": "fa-times-circle",
           "compare_previous_period": true,
-          "domain": "[('application_status', '=', 'refused')]",
-          "date_field_id": "refuse_date",
+          "domain": "[('active', '=', False), ('refuse_reason_id', '!=', False)]",
+          "date_field_id": "write_date",
           "layout": {
             "x": 6,
             "y": 0,
@@ -101,10 +101,10 @@
           "aggregation": "count",
           "kpi_mode": "comparison",
           "kpi_display": "percent",
-          "domain": "[('application_status', '=', 'hired')]",
+          "domain": "[('refuse_reason_id', '=', False), ('date_closed', '!=', False)]",
           "model_2": "hr.applicant",
           "aggregation_2": "count",
-          "domain_2": "[]",
+          "domain_2": "['|', ('active', '=', True), ('active', '=', False)]",
           "date_field_id": "create_date",
           "date_field_2_id": "create_date",
           "layout": {
@@ -123,7 +123,7 @@
           "measure_field_id": "salary_proposed",
           "icon": "fa-money",
           "unit_type": "monetary",
-          "domain": "[('application_status', '=', 'ongoing'), ('salary_proposed', '>', 0)]",
+          "domain": "[('refuse_reason_id', '=', False), ('date_closed', '=', False), ('salary_proposed', '>', 0)]",
           "layout": {
             "x": 6,
             "y": 2,
@@ -138,7 +138,7 @@
           "model": "hr.applicant",
           "aggregation": "count",
           "icon": "fa-user-times",
-          "domain": "[('application_status', '=', 'ongoing'), ('user_id', '=', False)]",
+          "domain": "[('refuse_reason_id', '=', False), ('date_closed', '=', False), ('user_id', '=', False)]",
           "layout": {
             "x": 9,
             "y": 2,
@@ -156,7 +156,7 @@
           "sort_field_id": "sequence",
           "sort_field_model": "hr.recruitment.stage",
           "sort_dir": "asc",
-          "domain": "[('application_status', '=', 'ongoing')]",
+          "domain": "[('refuse_reason_id', '=', False), ('date_closed', '=', False)]",
           "layout": {
             "x": 0,
             "y": 4,
@@ -175,7 +175,7 @@
           "date_field_id": "date_closed",
           "chart_sort": "label_asc",
           "show_trend_line": true,
-          "domain": "[('application_status', '=', 'hired')]",
+          "domain": "[('refuse_reason_id', '=', False), ('date_closed', '!=', False)]",
           "layout": {
             "x": 6,
             "y": 4,
@@ -192,7 +192,7 @@
           "group_by_field_id": "job_id",
           "chart_sort": "value_desc",
           "record_limit": 10,
-          "domain": "[('application_status', '=', 'ongoing')]",
+          "domain": "[('refuse_reason_id', '=', False), ('date_closed', '=', False)]",
           "layout": {
             "x": 0,
             "y": 9,
@@ -230,14 +230,14 @@
           "page_size": 10,
           "list_columns": [
             "create_date",
-            "candidate_id",
+            "partner_name",
             "job_id",
             "stage_id",
             "source_id",
             "user_id",
             "priority"
           ],
-          "domain": "[('application_status', '=', 'ongoing')]",
+          "domain": "[('refuse_reason_id', '=', False), ('date_closed', '=', False)]",
           "layout": {
             "x": 0,
             "y": 13,
@@ -259,21 +259,21 @@
           "name": "Ongoing",
           "sequence": 20,
           "model": "hr.applicant",
-          "domain": "[('application_status', '=', 'ongoing')]",
+          "domain": "[('refuse_reason_id', '=', False), ('date_closed', '=', False)]",
           "default_enabled": false
         },
         {
           "name": "Hired",
           "sequence": 30,
           "model": "hr.applicant",
-          "domain": "[('application_status', '=', 'hired')]",
+          "domain": "[('refuse_reason_id', '=', False), ('date_closed', '!=', False)]",
           "default_enabled": false
         },
         {
           "name": "Refused",
           "sequence": 40,
           "model": "hr.applicant",
-          "domain": "[('application_status', '=', 'refused')]",
+          "domain": "[('active', '=', False), ('refuse_reason_id', '!=', False)]",
           "default_enabled": false
         }
       ]
