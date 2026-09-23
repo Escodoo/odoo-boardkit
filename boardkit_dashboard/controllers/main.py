@@ -73,7 +73,8 @@ class BoardkitDashboardController(http.Controller):
         if not item:
             raise request.not_found()
         try:
-            item.check_access("read")
+            item.check_access_rights("read")
+            item.check_access_rule("read")
         except AccessError as error:
             # Match the manager-only export/import routes: return a plain 403
             # instead of letting AccessError become an odoo.http WARNING that

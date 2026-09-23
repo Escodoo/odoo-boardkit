@@ -1,17 +1,17 @@
+/** @odoo-module **/
 // Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 // License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-import {Component, useState} from "@odoo/owl";
-import {Dropdown} from "@web/core/dropdown/dropdown";
-import {_t} from "@web/core/l10n/translation";
-import {useDropdownState} from "@web/core/dropdown/dropdown_hooks";
+import {Component, useState, xml} from "@odoo/owl";
+import {DROPDOWN, Dropdown} from "@web/core/dropdown/dropdown";
+import {_lt} from "@web/core/l10n/translation";
 import {useService} from "@web/core/utils/hooks";
 
 const TEXT_OPERATORS = [
-    ["ilike", _t("contains")],
-    ["not ilike", _t("does not contain")],
-    ["=", _t("is")],
-    ["!=", _t("is not")],
+    ["ilike", _lt("contains")],
+    ["not ilike", _lt("does not contain")],
+    ["=", _lt("is")],
+    ["!=", _lt("is not")],
 ];
 const NUMBER_OPERATORS = [
     ["=", "="],
@@ -22,8 +22,8 @@ const NUMBER_OPERATORS = [
     ["<=", "\u2264"],
 ];
 const DATE_OPERATORS = [
-    [">=", _t("on or after")],
-    ["<=", _t("on or before")],
+    [">=", _lt("on or after")],
+    ["<=", _lt("on or before")],
 ];
 
 // Mirrors CUSTOM_FILTER_OPERATORS on the backend.
@@ -32,23 +32,36 @@ export const OPERATORS_BY_TYPE = {
     text: TEXT_OPERATORS,
     many2one: TEXT_OPERATORS.slice(0, 2),
     selection: [
-        ["=", _t("is")],
-        ["!=", _t("is not")],
+        ["=", _lt("is")],
+        ["!=", _lt("is not")],
     ],
     boolean: [
-        ["true", _t("is true")],
-        ["false", _t("is false")],
+        ["true", _lt("is true")],
+        ["false", _lt("is false")],
     ],
     integer: NUMBER_OPERATORS,
     float: NUMBER_OPERATORS,
     monetary: NUMBER_OPERATORS,
-    date: [["=", _t("is")], ...DATE_OPERATORS],
+    date: [["=", _lt("is")], ...DATE_OPERATORS],
     datetime: DATE_OPERATORS,
 };
 
+/**
+ * Rendered inside the dropdown menu, where the Odoo 16 Dropdown exposes its
+ * close callback through the env, so the filter form can close it on apply.
+ */
+class DropdownCloser extends Component {
+    static template = xml`<t/>`;
+    static props = {onReady: Function};
+
+    setup() {
+        this.props.onReady(() => this.env[DROPDOWN]?.close());
+    }
+}
+
 export class CustomFilters extends Component {
     static template = "boardkit_dashboard.CustomFilters";
-    static components = {Dropdown};
+    static components = {Dropdown, DropdownCloser};
     static props = {
         models: Array,
         filters: Array,
@@ -58,7 +71,7 @@ export class CustomFilters extends Component {
 
     setup() {
         this.orm = useService("orm");
-        this.dropdown = useDropdownState();
+        this.closeDropdown = null;
         this.fieldsCache = {};
         this.state = useState({
             model: "",
@@ -178,6 +191,10 @@ export class CustomFilters extends Component {
             modelLabel: modelEntry ? modelEntry.label : this.state.model,
         });
         this.state.value = "";
-        this.dropdown.close();
+        this.closeDropdown?.();
+    }
+
+    onCloserReady(close) {
+        this.closeDropdown = close;
     }
 }

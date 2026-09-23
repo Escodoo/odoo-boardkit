@@ -1,9 +1,10 @@
+/** @odoo-module **/
 // Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 // License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import {Component} from "@odoo/owl";
 import {DashboardItemCard} from "./dashboard_item_card";
-import {_t} from "@web/core/l10n/translation";
+import {_lt} from "@web/core/l10n/translation";
 import {registry} from "@web/core/registry";
 import {useService} from "@web/core/utils/hooks";
 import {standardFieldProps} from "@web/views/fields/standard_field_props";
@@ -48,12 +49,9 @@ export class DashboardItemPreviewField extends Component {
     }
 }
 
-export const dashboardItemPreviewField = {
-    component: DashboardItemPreviewField,
-    displayName: _t("Dashboard Item Preview"),
-    supportedTypes: ["json"],
-};
+DashboardItemPreviewField.displayName = _lt("Dashboard Item Preview");
+DashboardItemPreviewField.supportedTypes = ["json"];
 
 registry
     .category("fields")
-    .add("boardkit_dashboard_item_preview", dashboardItemPreviewField);
+    .add("boardkit_dashboard_item_preview", DashboardItemPreviewField);

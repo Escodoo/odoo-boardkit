@@ -1,3 +1,4 @@
+/** @odoo-module **/
 // Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 // License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
@@ -20,11 +21,12 @@ import {DropdownItem} from "@web/core/dropdown/dropdown_item";
 import {_t} from "@web/core/l10n/translation";
 import {browser} from "@web/core/browser/browser";
 import {defaultItemSize} from "./utils";
+import {debounce} from "@web/core/utils/timing";
 import {registry} from "@web/core/registry";
-import {router} from "@web/core/browser/router";
-import {useDebounced} from "@web/core/utils/timing";
+import {routeToUrl} from "@web/core/browser/router_service";
+import {sprintf} from "@web/core/utils/strings";
 import {useService} from "@web/core/utils/hooks";
-import {useSetupAction} from "@web/search/action_hook";
+import {useSetupAction} from "@web/webclient/actions/action_hook";
 
 const GRID_COLS = 12;
 const GRID_ROW_HEIGHT = 56;
@@ -64,6 +66,7 @@ export class BoardkitDashboardAction extends Component {
         this.actionService = useService("action");
         this.dialogService = useService("dialog");
         this.notification = useService("notification");
+        this.router = useService("router");
         this.gridRef = useRef("grid");
         this.contentRef = useRef("content");
         this.refreshTimer = null;
@@ -96,11 +99,23 @@ export class BoardkitDashboardAction extends Component {
             dragMinHeight: 0,
         });
         this.sharedFilterState = this.readSharedFilterState();
-        this.saveFiltersDebounced = useDebounced(
-            () => this.savePersonalFilters(),
-            FILTER_SAVE_DELAY,
-            {execBeforeUnmount: true}
-        );
+        // Odoo 16 debounce cannot run before unmount: flush a pending save
+        // there, so the last filter change is still remembered.
+        const debouncedSaveFilters = debounce(() => {
+            this.pendingFilterSave = false;
+            return this.savePersonalFilters();
+        }, FILTER_SAVE_DELAY);
+        this.saveFiltersDebounced = () => {
+            this.pendingFilterSave = true;
+            return debouncedSaveFilters();
+        };
+        onWillUnmount(() => {
+            debouncedSaveFilters.cancel();
+            if (this.pendingFilterSave) {
+                this.pendingFilterSave = false;
+                this.savePersonalFilters();
+            }
+        });
         // Keep the open board across breadcrumb navigation.
         useSetupAction({
             getLocalState: () => ({
@@ -112,7 +127,7 @@ export class BoardkitDashboardAction extends Component {
         useEffect(
             () => {
                 if (this.state.board?.id) {
-                    router.pushState({dashboard_id: this.state.board.id});
+                    this.router.pushState({dashboard_id: this.state.board.id});
                 }
             },
             () => [this.state.board?.id]
@@ -136,7 +151,7 @@ export class BoardkitDashboardAction extends Component {
             return this.props.state.dashboardId;
         }
         const params = this.props.action?.params || this.props.action?.context?.params;
-        const raw = params?.dashboard_id ?? router.current.dashboard_id;
+        const raw = params?.dashboard_id ?? this.router.current.hash.dashboard_id;
         if (raw === undefined || raw === null || raw === "") {
             return null;
         }
@@ -281,7 +296,7 @@ export class BoardkitDashboardAction extends Component {
         const boardName = this.state.board.name;
         this.dialogService.add(ConfirmationDialog, {
             title: _t("Delete Dashboard"),
-            body: _t('Are you sure you want to delete "%s"?', boardName),
+            body: sprintf(_t('Are you sure you want to delete "%s"?'), boardName),
             confirmLabel: _t("Delete"),
             confirm: async () => {
                 await this.orm.unlink("boardkit.dashboard", [boardId]);
@@ -323,6 +338,9 @@ export class BoardkitDashboardAction extends Component {
         }
         this.state.missing = false;
         this.state.board = board;
+        // Opened from the URL (reload, shared link) the client action has no
+        // name on Odoo 16: name the breadcrumb and the browser tab after it.
+        this.env.config?.setDisplayName?.(board.name);
         this.state.dateFilter = {
             preset: board.date_filter || "none",
             from: board.date_from ? deserializeDateTime(board.date_from) : false,
@@ -416,7 +434,7 @@ export class BoardkitDashboardAction extends Component {
     // ------------------------------------------------------------------
 
     readSharedFilterState() {
-        const raw = router.current[FILTER_URL_KEY];
+        const raw = this.router.current.hash[FILTER_URL_KEY];
         if (!raw || typeof raw !== "string") {
             return null;
         }
@@ -599,11 +617,15 @@ export class BoardkitDashboardAction extends Component {
     }
 
     async copyShareLink() {
+        const route = this.router.current;
         const href =
             browser.location.origin +
-            router.stateToUrl({
-                ...router.current,
-                [FILTER_URL_KEY]: JSON.stringify(this.serializeFilterState()),
+            routeToUrl({
+                ...route,
+                hash: {
+                    ...route.hash,
+                    [FILTER_URL_KEY]: JSON.stringify(this.serializeFilterState()),
+                },
             });
         try {
             await browser.navigator.clipboard.writeText(href);
@@ -1011,7 +1033,7 @@ export class BoardkitDashboardAction extends Component {
     deleteItem(item) {
         this.dialogService.add(ConfirmationDialog, {
             title: _t("Delete Dashboard Item"),
-            body: _t('Are you sure you want to delete "%s"?', item.name),
+            body: sprintf(_t('Are you sure you want to delete "%s"?'), item.name),
             confirmLabel: _t("Delete"),
             confirm: async () => {
                 await this.orm.unlink("boardkit.dashboard.item", [item.id]);

@@ -1,14 +1,15 @@
+/** @odoo-module **/
 // Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 // License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import {Component, useState} from "@odoo/owl";
-import {DateTimeInput} from "@web/core/datetime/datetime_input";
+import {DatePicker} from "@web/core/datepicker/datepicker";
 import {Dropdown} from "@web/core/dropdown/dropdown";
 import {DropdownItem} from "@web/core/dropdown/dropdown_item";
 
 export class DateFilter extends Component {
     static template = "boardkit_dashboard.DateFilter";
-    static components = {Dropdown, DropdownItem, DateTimeInput};
+    static components = {Dropdown, DropdownItem, DatePicker};
     static props = {
         presets: Array,
         value: Object,

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates xml:space="preserve">
-    <t t-name="boardkit_dashboard.DateFilter">
+    <t t-name="boardkit_dashboard.DateFilter" owl="1">
         <div
             class="o_boardkit_dashboard_date_filter d-flex align-items-center gap-2 flex-wrap"
         >
-            <Dropdown>
-                <button class="btn btn-secondary btn-sm">
+            <Dropdown togglerClass="'btn btn-secondary btn-sm'" showCaret="false">
+                <t t-set-slot="toggler">
                     <i
                         class="fa fa-calendar me-1"
                         role="img"
@@ -13,23 +13,20 @@
                     />
                     <t t-esc="currentLabel" />
                     <i class="fa fa-caret-down ms-1" role="img" aria-label="Open" />
-                </button>
-                <t t-set-slot="content">
-                    <t t-foreach="props.presets" t-as="preset" t-key="preset[0]">
-                        <DropdownItem
-                            onSelected="() => this.onPresetSelected(preset[0])"
-                            class="{'fw-bold': preset[0] === props.value.preset}"
-                        >
-                            <t t-esc="preset[1]" />
-                        </DropdownItem>
-                    </t>
+                </t>
+                <t t-foreach="props.presets" t-as="preset" t-key="preset[0]">
+                    <DropdownItem
+                        onSelected="() => this.onPresetSelected(preset[0])"
+                        class="{'fw-bold': preset[0] === props.value.preset}"
+                    >
+                        <t t-esc="preset[1]" />
+                    </DropdownItem>
                 </t>
             </Dropdown>
             <t t-if="isCustom">
-                <DateTimeInput
-                    type="'date'"
-                    value="state.customFrom || undefined"
-                    onChange="(value) => { state.customFrom = value; }"
+                <DatePicker
+                    date="state.customFrom || false"
+                    onDateTimeChanged="(value) => { state.customFrom = value; }"
                     placeholder.translate="Start date"
                 />
                 <i
@@ -37,10 +34,9 @@
                     role="img"
                     aria-label="to"
                 />
-                <DateTimeInput
-                    type="'date'"
-                    value="state.customTo || undefined"
-                    onChange="(value) => { state.customTo = value; }"
+                <DatePicker
+                    date="state.customTo || false"
+                    onDateTimeChanged="(value) => { state.customTo = value; }"
                     placeholder.translate="End date"
                 />
                 <button

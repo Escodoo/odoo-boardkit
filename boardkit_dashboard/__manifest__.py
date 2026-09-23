@@ -5,7 +5,7 @@
     "name": "Boardkit Dashboard",
     "summary": "Configurable analytic dashboards with tiles, KPIs, charts and lists",
     "category": "Productivity",
-    "version": "18.0.1.0.0",
+    "version": "16.0.1.0.0",
     "website": "https://github.com/Escodoo/odoo-boardkit",
     "author": "Escodoo",
     "maintainers": ["marcelsavegnago"],
@@ -31,9 +31,16 @@
             "boardkit_dashboard/static/src/dashboard/**/*",
             "boardkit_dashboard/static/src/fields/**/*",
         ],
-        "boardkit_dashboard.chartjs_extensions": [
+        # Chart.js 4 and its plugins load lazily under window.BoardkitChart:
+        # Odoo 16 keeps Chart.js 2 as window.Chart for its own graph views.
+        "boardkit_dashboard.chartjs_lib": [
+            "boardkit_dashboard/static/src/chartjs_isolation/park_odoo_chart.js",
+            "boardkit_dashboard/static/lib/chartjs/chart.umd.min.js",
             "boardkit_dashboard/static/lib/chartjs-chart-funnel.umd.min.js",
             "boardkit_dashboard/static/lib/chartjs-chart-geo.umd.min.js",
+            "boardkit_dashboard/static/src/chartjs_isolation/restore_odoo_chart.js",
+        ],
+        "boardkit_dashboard.chartjs_extensions": [
             "boardkit_dashboard/static/lib/countries_110m.js",
         ],
         "web.assets_tests": [

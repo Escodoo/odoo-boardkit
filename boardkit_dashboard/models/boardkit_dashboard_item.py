@@ -16,6 +16,7 @@ from odoo.tools.safe_eval import safe_eval
 from ..tools import data_cache
 from ..tools.date_ranges import DATE_RANGE_PRESETS
 from ..tools.palettes import PRESET_PALETTE_SELECTION
+from ..tools.read_group import read_group
 
 # Default upper bound for the process-local item data cache TTL (seconds).
 # Overridable with ir.config_parameter boardkit_dashboard.data_cache_max_ttl.
@@ -966,7 +967,8 @@ class BoardkitDashboardItem(models.Model):
         cannot be bypassed by requesting an inaccessible item id.
         """
         items = self.browse(item_ids)
-        items.check_access("read")
+        items.check_access_rights("read")
+        items.check_access_rule("read")
         result = {}
         for item in items:
             result[item.id] = item.get_data(params)
@@ -976,7 +978,8 @@ class BoardkitDashboardItem(models.Model):
         self.ensure_one()
         # Enforce dashboard item ACLs/record rules before isolating errors from
         # the source model (those must stay per-item payloads).
-        self.check_access("read")
+        self.check_access_rights("read")
+        self.check_access_rule("read")
         params = params or {}
         ttl = self._data_cache_ttl()
         cache_key = self._data_cache_key(params) if ttl else None
@@ -1214,7 +1217,7 @@ class BoardkitDashboardItem(models.Model):
         count = model.search_count(domain)
         if aggregation == "count" or not measure:
             return count, count, domain
-        rows = model._read_group(domain, [], [f"{measure.name}:{aggregation}"])
+        rows = read_group(model, domain, [], [f"{measure.name}:{aggregation}"])
         value = rows[0][0] if rows else 0
         return value or 0, count, domain
 
@@ -1386,7 +1389,7 @@ class BoardkitDashboardItem(models.Model):
             return [value_map.get(key) for key in group_keys]
 
         model = self._source_model()
-        rows = model._read_group(domain, [group_field.name], [f"{sort_field.name}:min"])
+        rows = read_group(model, domain, [group_field.name], [f"{sort_field.name}:min"])
         value_map = {}
         for row in rows:
             raw = row[0]
@@ -1467,7 +1470,7 @@ class BoardkitDashboardItem(models.Model):
             )
         else:
             measure_spec, __ = self._chart_measures()[0]
-            totals = model._read_group(base_domain, [group_field.name], [measure_spec])
+            totals = read_group(model, base_domain, [group_field.name], [measure_spec])
         regions = []
         for raw, value in totals:
             if not raw:
@@ -1499,7 +1502,7 @@ class BoardkitDashboardItem(models.Model):
         related record and folded per country afterwards.
         """
         aggregates = self._map_regions_aggregates()
-        rows = model._read_group(domain, [prefix], aggregates)
+        rows = read_group(model, domain, [prefix], aggregates)
         country_by_related = self._map_related_countries(rows, group_field)
         weighted = len(aggregates) > 1
         totals = {}
@@ -1681,8 +1684,8 @@ class BoardkitDashboardItem(models.Model):
         domain = self._build_domain(params, date_range=date_range)
         if self.aggregation == "count" or not self.measure_field_id:
             return model.search_count(domain)
-        rows = model._read_group(
-            domain, [], [f"{self.measure_field_id.name}:{self.aggregation}"]
+        rows = read_group(
+            model, domain, [], [f"{self.measure_field_id.name}:{self.aggregation}"]
         )
         return (rows[0][0] if rows else 0) or 0
 
@@ -1714,7 +1717,7 @@ class BoardkitDashboardItem(models.Model):
         domain = self._build_domain(params, date_range=date_range)
         groupby = [self._groupby_spec(group_field, granularity)]
         measures = self._chart_measures()
-        rows = model._read_group(domain, groupby, [spec for spec, __ in measures])
+        rows = read_group(model, domain, groupby, [spec for spec, __ in measures])
         value_map = {}
         for row in rows:
             value_map[self._group_raw_key(row[0])] = [(value or 0) for value in row[1:]]
@@ -1853,7 +1856,7 @@ class BoardkitDashboardItem(models.Model):
         model = self._source_model()
         groupby = [self._groupby_spec(group_field, granularity)]
         measures = self._chart_measures()
-        rows = model._read_group(domain, groupby, [spec for spec, __ in measures])
+        rows = read_group(model, domain, groupby, [spec for spec, __ in measures])
 
         groups = {}
         labels = []
@@ -1956,7 +1959,8 @@ class BoardkitDashboardItem(models.Model):
     def get_drill_data(self, level_id, domain=None):
         """Re-aggregate the item over ``domain`` using a configured drill level."""
         self.ensure_one()
-        self.check_access("read")
+        self.check_access_rights("read")
+        self.check_access_rule("read")
         level = self.env["boardkit.dashboard.item.drill"].browse(level_id)
         if not level.exists() or level.item_id != self:
             raise ValidationError(_("Invalid drill level for this dashboard item."))
@@ -1984,16 +1988,17 @@ class BoardkitDashboardItem(models.Model):
             item = self.browse(item_id)
             if not item.exists():
                 raise ValidationError(_("Invalid dashboard item."))
-            item.check_access("read")
+            item.check_access_rights("read")
+            item.check_access_rule("read")
         else:
             # Creating an item in the form: still require dashboard item read.
-            self.check_access("read")
-
+            self.check_access_rights("read")
+            self.check_access_rule("read")
         model_name = snapshot.get("model")
         if not model_name or model_name not in self.env:
             raise ValidationError(_("Invalid model for preview drill."))
-        self.env[model_name].check_access("read")
-
+        self.env[model_name].check_access_rights("read")
+        self.env[model_name].check_access_rule("read")
         levels = snapshot.get("drill_levels") or []
         if (
             not isinstance(level_index, int)
@@ -2067,7 +2072,7 @@ class BoardkitDashboardItem(models.Model):
             self._groupby_spec(subgroup_field, self.subgroup_by_granularity),
         ]
         measures = self._chart_measures()[:1]
-        rows = model._read_group(base_domain, groupby, [spec for spec, __ in measures])
+        rows = read_group(model, base_domain, groupby, [spec for spec, __ in measures])
 
         groups = {}
         labels = []
@@ -2129,7 +2134,8 @@ class BoardkitDashboardItem(models.Model):
         base_domain = self._build_domain(params)
         group_field = self.group_by_field_id
         aggregation = self.aggregation if self.aggregation != "count" else "sum"
-        rows = model._read_group(
+        rows = read_group(
+            model,
             base_domain,
             [self._groupby_spec(group_field, self.group_by_granularity)],
             [
@@ -2252,10 +2258,10 @@ class BoardkitDashboardItem(models.Model):
             limit = int(params.get("export_max_rows") or EXPORT_MAX_ROWS)
         else:
             limit = self.page_size or 10
-        rows = model._read_group(
-            base_domain, groupby, aggregates, offset=offset, limit=limit
+        rows = read_group(
+            model, base_domain, groupby, aggregates, offset=offset, limit=limit
         )
-        total = len(model._read_group(base_domain, groupby, []))
+        total = len(read_group(model, base_domain, groupby, []))
         columns = [
             {
                 "name": group_field.name,
@@ -2312,7 +2318,7 @@ class BoardkitDashboardItem(models.Model):
             "name": action_name or self.name,
             "res_model": self.model_name,
             "domain": domain or [],
-            "views": [[False, "list"], [False, "form"]],
+            "views": [[False, "tree"], [False, "form"]],
             "target": "current",
         }
 
@@ -2323,7 +2329,8 @@ class BoardkitDashboardItem(models.Model):
     def get_export_data(self, params=None):
         """Return the item data as ``headers``/``rows`` for a file download."""
         self.ensure_one()
-        self.check_access("read")
+        self.check_access_rights("read")
+        self.check_access_rule("read")
         headers, rows = self._get_export_rows(dict(params or {}))
         return {"name": self.name, "headers": headers, "rows": rows}
 

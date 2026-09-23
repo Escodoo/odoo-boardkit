@@ -1,3 +1,4 @@
+/** @odoo-module **/
 // Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 // License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
@@ -10,8 +11,8 @@ import {_t} from "@web/core/l10n/translation";
 import {kanbanView} from "@web/views/kanban/kanban_view";
 import {listView} from "@web/views/list/list_view";
 import {registry} from "@web/core/registry";
+import {sprintf} from "@web/core/utils/strings";
 import {useService} from "@web/core/utils/hooks";
-import {user} from "@web/core/user";
 import {CatalogueEmptyHero} from "./catalogue_empty_hero";
 
 export const IMPORT_ROUTE = "/boardkit_dashboard/import";
@@ -29,10 +30,11 @@ export const DashboardImport = (Controller) =>
             super.setup();
             this.action = useService("action");
             this.notification = useService("notification");
+            this.user = useService("user");
             this.importRoute = IMPORT_ROUTE;
             this.importState = useState({isManager: false});
             onWillStart(async () => {
-                this.importState.isManager = await user.hasGroup(
+                this.importState.isManager = await this.user.hasGroup(
                     "boardkit_dashboard.group_dashboard_manager"
                 );
             });
@@ -47,7 +49,7 @@ export const DashboardImport = (Controller) =>
                 return;
             }
             this.notification.add(
-                _t("%s dashboard(s) imported.", dashboardIds.length),
+                sprintf(_t("%s dashboard(s) imported."), dashboardIds.length),
                 {type: "success"}
             );
             // A single board opens its settings so the manager can review and
@@ -90,21 +92,19 @@ export class DashboardCatalogueKanbanRenderer extends KanbanRenderer {
 
 export class DashboardCatalogueKanbanController extends DashboardImport(
     KanbanController
-) {
-    static template = "boardkit_dashboard.CatalogueKanbanView";
-}
+) {}
 
-export class DashboardCatalogueListController extends DashboardImport(ListController) {
-    static template = "boardkit_dashboard.CatalogueListView";
-}
+export class DashboardCatalogueListController extends DashboardImport(ListController) {}
 
 registry.category("views").add("boardkit_dashboard_catalogue_kanban", {
     ...kanbanView,
     Controller: DashboardCatalogueKanbanController,
     Renderer: DashboardCatalogueKanbanRenderer,
+    buttonTemplate: "boardkit_dashboard.CatalogueKanbanView.Buttons",
 });
 
 registry.category("views").add("boardkit_dashboard_catalogue_list", {
     ...listView,
     Controller: DashboardCatalogueListController,
+    buttonTemplate: "boardkit_dashboard.CatalogueListView.Buttons",
 });

@@ -208,18 +208,16 @@ class TestSecurity(BoardkitDashboardCommon):
 
     def test_source_model_record_rules_apply(self):
         """Record rules of the source model restrict the computed values."""
-        # The manager implies the user group, so restrict a dedicated group
-        # to check that source model rules apply per user.
-        restricted_group = self.env["res.groups"].create(
-            {"name": "Dashboard Restricted Partners"}
-        )
-        self.user.groups_id = [(4, restricted_group.id)]
+        # Odoo 16 grants employees a group rule on res.partner (private
+        # addresses) and group rules are OR-ed, so a restrictive group rule
+        # would be ignored. Use a global rule that only hides for the user.
         self.env["ir.rule"].create(
             {
-                "name": "Hide partners from restricted users",
+                "name": "Hide partners from the dashboard user",
                 "model_id": self.env.ref("base.model_res_partner").id,
-                "domain_force": "[('id', '=', 0)]",
-                "groups": [(4, restricted_group.id)],
+                "domain_force": (
+                    f"[('id', '=', 0) if user.id == {self.user.id} else (1, '=', 1)]"
+                ),
             }
         )
         self.assertEqual(self.tile.with_user(self.user).get_data()["value"], 0)

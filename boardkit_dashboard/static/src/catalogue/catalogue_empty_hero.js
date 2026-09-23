@@ -1,11 +1,12 @@
+/** @odoo-module **/
 // Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 // License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import {Component, onWillStart, useState} from "@odoo/owl";
 import {FileInput} from "@web/core/file_input/file_input";
 import {_t} from "@web/core/l10n/translation";
+import {sprintf} from "@web/core/utils/strings";
 import {useService} from "@web/core/utils/hooks";
-import {user} from "@web/core/user";
 
 const IMPORT_ROUTE = "/boardkit_dashboard/import";
 
@@ -30,6 +31,7 @@ export class CatalogueEmptyHero extends Component {
         this.action = useService("action");
         this.orm = useService("orm");
         this.notification = useService("notification");
+        this.user = useService("user");
         this.importRoute = IMPORT_ROUTE;
         this.state = useState({
             isManager: false,
@@ -37,7 +39,7 @@ export class CatalogueEmptyHero extends Component {
             creatingId: null,
         });
         onWillStart(async () => {
-            this.state.isManager = await user.hasGroup(
+            this.state.isManager = await this.user.hasGroup(
                 "boardkit_dashboard.group_dashboard_manager"
             );
             if (!this.state.isManager) {
@@ -82,9 +84,10 @@ export class CatalogueEmptyHero extends Component {
             });
             return;
         }
-        this.notification.add(_t("%s dashboard(s) imported.", dashboardIds.length), {
-            type: "success",
-        });
+        this.notification.add(
+            sprintf(_t("%s dashboard(s) imported."), dashboardIds.length),
+            {type: "success"}
+        );
         if (this.props.onCreated) {
             await this.props.onCreated(dashboardIds);
         }

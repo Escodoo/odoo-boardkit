@@ -10,7 +10,7 @@ from markupsafe import Markup, escape
 
 from odoo import Command, _, api, fields, models
 from odoo.exceptions import AccessError, ValidationError
-from odoo.tools import SQL
+from odoo.osv import expression
 from odoo.tools.safe_eval import safe_eval
 
 from ..tools.date_ranges import DATE_RANGE_PRESETS, get_date_range
@@ -266,7 +266,8 @@ class BoardkitDashboard(models.Model):
 
     def _set_favorite_user_ids(self, is_favorite):
         # Users can favorite dashboards they can read even without write ACL.
-        self.check_access("read")
+        self.check_access_rights("read")
+        self.check_access_rule("read")
         self_sudo = self.sudo()
         if is_favorite:
             self_sudo.favorite_user_ids = [Command.link(self.env.uid)]
@@ -275,36 +276,51 @@ class BoardkitDashboard(models.Model):
         # web_save re-reads is_favorite in the same request; drop the stale cache.
         self.invalidate_recordset(["is_favorite", "favorite_panel"])
 
-    def _favorite_panel_sql(self, alias):
-        """SQL expression for the current user's favorite searchpanel value."""
-        return SQL(
-            "CASE WHEN %s IN ("
-            "SELECT dashboard_id FROM boardkit_dashboard_favorite_user_rel "
-            "WHERE user_id = %s"
-            ") THEN 'favorite' END",
-            SQL.identifier(alias, "id"),
-            self.env.uid,
-        )
-
-    def _field_to_sql(self, alias, fname, query=None, flush=True):
+    @api.model
+    def _search_panel_domain_image(
+        self, field_name, domain, set_count=False, limit=False
+    ):
         # Searchpanel uses read_group on selection fields; favorite_panel is
-        # personal and non-stored, so expose an equivalent SQL expression.
-        if fname == "favorite_panel":
-            return self._favorite_panel_sql(alias)
-        return super()._field_to_sql(alias, fname, query=query, flush=flush)
-
-    def _order_field_to_sql(self, alias, field_name, direction, nulls, query):
-        if field_name == "is_favorite":
-            sql_field = SQL(
-                "%s IN ("
-                "SELECT dashboard_id FROM boardkit_dashboard_favorite_user_rel "
-                "WHERE user_id = %s"
-                ")",
-                SQL.identifier(alias, "id"),
-                self.env.uid,
+        # personal and non-stored, so count the user's favorites instead.
+        if field_name != "favorite_panel":
+            return super()._search_panel_domain_image(
+                field_name, domain, set_count=set_count, limit=limit
             )
-            return SQL("%s %s %s", sql_field, direction, nulls)
-        return super()._order_field_to_sql(alias, field_name, direction, nulls, query)
+        count = self.search_count(
+            expression.AND([domain, self._search_is_favorite("=", True)])
+        )
+        if not count:
+            return {}
+        labels = dict(self._fields["favorite_panel"]._description_selection(self.env))
+        values = {"id": "favorite", "display_name": labels["favorite"]}
+        if set_count:
+            values["__count"] = count
+        return {"favorite": values}
+
+    @api.model
+    def _generate_order_by_inner(
+        self, alias, order_spec, query, reverse_direction=False, seen=None
+    ):
+        # is_favorite is personal and non-stored: sort on the favorite relation.
+        self._check_qorder(order_spec)
+        seen = set() if seen is None else seen
+        elements = []
+        for order_part in order_spec.split(","):
+            order_split = order_part.strip().split(" ")
+            if order_split[0].strip() != "is_favorite":
+                elements += super()._generate_order_by_inner(
+                    alias, order_part, query, reverse_direction, seen
+                )
+                continue
+            direction = order_split[1].strip().upper() if len(order_split) == 2 else ""
+            if reverse_direction:
+                direction = "ASC" if direction == "DESC" else "DESC"
+            elements.append(
+                f'"{alias}"."id" IN ('
+                "SELECT dashboard_id FROM boardkit_dashboard_favorite_user_rel "
+                f"WHERE user_id = {int(self.env.uid)}) {direction}"
+            )
+        return elements
 
     @api.depends(
         "item_ids",
@@ -647,7 +663,8 @@ class BoardkitDashboard(models.Model):
         """
         dashboard = self.browse(dashboard_id)
         try:
-            dashboard.check_access("read")
+            dashboard.check_access_rights("read")
+            dashboard.check_access_rule("read")
         except AccessError:
             return False
         if not dashboard.exists():
@@ -702,7 +719,8 @@ class BoardkitDashboard(models.Model):
     @api.model
     def save_layout(self, dashboard_id, layout, personal=True):
         dashboard = self.browse(dashboard_id)
-        dashboard.check_access("read")
+        dashboard.check_access_rights("read")
+        dashboard.check_access_rule("read")
         layout_json = json.dumps(layout or {})
         if not personal:
             if not self.env.user.has_group(MANAGER_GROUP):
@@ -718,7 +736,8 @@ class BoardkitDashboard(models.Model):
     def save_filters(self, dashboard_id, filters):
         """Remember the filters this user applied on the dashboard."""
         dashboard = self.browse(dashboard_id)
-        dashboard.check_access("read")
+        dashboard.check_access_rights("read")
+        dashboard.check_access_rule("read")
         state = self._normalize_saved_filters(filters)
         dashboard._store_personal({"filters_json": json.dumps(state)})
         return True
@@ -726,7 +745,8 @@ class BoardkitDashboard(models.Model):
     @api.model
     def reset_personal_filters(self, dashboard_id):
         dashboard = self.browse(dashboard_id)
-        dashboard.check_access("read")
+        dashboard.check_access_rights("read")
+        dashboard.check_access_rule("read")
         dashboard._drop_personal("filters_json")
         return True
 
@@ -758,7 +778,8 @@ class BoardkitDashboard(models.Model):
     @api.model
     def reset_personal_layout(self, dashboard_id):
         dashboard = self.browse(dashboard_id)
-        dashboard.check_access("read")
+        dashboard.check_access_rights("read")
+        dashboard.check_access_rule("read")
         dashboard._drop_personal("layout_json")
         return True
 

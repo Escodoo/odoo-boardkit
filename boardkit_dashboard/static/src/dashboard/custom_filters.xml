@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates xml:space="preserve">
-    <t t-name="boardkit_dashboard.CustomFilters">
+    <t t-name="boardkit_dashboard.CustomFilters" owl="1">
         <div
             class="o_boardkit_dashboard_custom_filters d-flex align-items-center gap-1 flex-wrap"
         >
@@ -20,99 +20,99 @@
                 />
             </span>
             <Dropdown
-                state="dropdown"
+                togglerClass="'btn btn-sm btn-outline-secondary rounded-pill'"
                 menuClass="'o_boardkit_dashboard_custom_filter_menu p-3'"
-                onOpened.bind="onOpened"
+                beforeOpen.bind="onOpened"
+                showCaret="false"
             >
-                <button class="btn btn-sm btn-outline-secondary rounded-pill">
+                <t t-set-slot="toggler">
                     <i
                         class="fa fa-filter me-1"
                         role="img"
                         aria-label="Custom filter"
                     />Add Filter
-                </button>
-                <t t-set-slot="content">
+                </t>
+                    <DropdownCloser onReady.bind="onCloserReady" />
                     <div class="d-flex flex-column gap-2">
                         <select
-                            t-if="props.models.length > 1"
-                            class="form-select form-select-sm"
-                            aria-label="Model"
-                            t-on-change="onModelChanged"
-                        >
+                        t-if="props.models.length > 1"
+                        class="form-select form-select-sm"
+                        aria-label="Model"
+                        t-on-change="onModelChanged"
+                    >
                             <option
-                                t-foreach="props.models"
-                                t-as="model"
-                                t-key="model.model"
-                                t-att-value="model.model"
-                                t-att-selected="model.model === state.model ? 'selected' : undefined"
-                            >
+                            t-foreach="props.models"
+                            t-as="model"
+                            t-key="model.model"
+                            t-att-value="model.model"
+                            t-att-selected="model.model === state.model ? 'selected' : undefined"
+                        >
                                 <t t-esc="model.label" />
                             </option>
                         </select>
                         <select
-                            class="form-select form-select-sm"
-                            aria-label="Field"
-                            t-on-change="onFieldChanged"
-                        >
+                        class="form-select form-select-sm"
+                        aria-label="Field"
+                        t-on-change="onFieldChanged"
+                    >
                             <option value="">Select a field...</option>
                             <option
-                                t-foreach="state.fields"
-                                t-as="field"
-                                t-key="field.name"
-                                t-att-value="field.name"
-                                t-att-selected="field.name === state.fieldName ? 'selected' : undefined"
-                            >
+                            t-foreach="state.fields"
+                            t-as="field"
+                            t-key="field.name"
+                            t-att-value="field.name"
+                            t-att-selected="field.name === state.fieldName ? 'selected' : undefined"
+                        >
                                 <t t-esc="field.label" />
                             </option>
                         </select>
                         <select
-                            t-if="selectedField"
-                            class="form-select form-select-sm"
-                            aria-label="Operator"
-                            t-model="state.operator"
-                        >
+                        t-if="selectedField"
+                        class="form-select form-select-sm"
+                        aria-label="Operator"
+                        t-model="state.operator"
+                    >
                             <option
-                                t-foreach="operators"
-                                t-as="operator"
-                                t-key="operator[0]"
-                                t-att-value="operator[0]"
-                            >
+                            t-foreach="operators"
+                            t-as="operator"
+                            t-key="operator[0]"
+                            t-att-value="operator[0]"
+                        >
                                 <t t-esc="operator[1]" />
                             </option>
                         </select>
                         <t t-if="selectedField and needsValue">
                             <select
-                                t-if="selectedField.type === 'selection'"
-                                class="form-select form-select-sm"
-                                aria-label="Value"
-                                t-model="state.value"
-                            >
+                            t-if="selectedField.type === 'selection'"
+                            class="form-select form-select-sm"
+                            aria-label="Value"
+                            t-model="state.value"
+                        >
                                 <option value="">Select a value...</option>
                                 <option
-                                    t-foreach="selectedField.selection"
-                                    t-as="option"
-                                    t-key="option[0]"
-                                    t-att-value="option[0]"
-                                >
+                                t-foreach="selectedField.selection"
+                                t-as="option"
+                                t-key="option[0]"
+                                t-att-value="option[0]"
+                            >
                                     <t t-esc="option[1]" />
                                 </option>
                             </select>
                             <input
-                                t-else=""
-                                class="form-control form-control-sm"
-                                aria-label="Value"
-                                t-att-type="valueInputType"
-                                t-model="state.value"
-                                t-on-keydown="onValueKeydown"
-                            />
+                            t-else=""
+                            class="form-control form-control-sm"
+                            aria-label="Value"
+                            t-att-type="valueInputType"
+                            t-model="state.value"
+                            t-on-keydown="onValueKeydown"
+                        />
                         </t>
                         <button
-                            class="btn btn-sm btn-primary"
-                            t-att-disabled="!canApply"
-                            t-on-click="apply"
-                        >Apply</button>
+                        class="btn btn-sm btn-primary"
+                        t-att-disabled="!canApply"
+                        t-on-click="apply"
+                    >Apply</button>
                     </div>
-                </t>
             </Dropdown>
         </div>
     </t>

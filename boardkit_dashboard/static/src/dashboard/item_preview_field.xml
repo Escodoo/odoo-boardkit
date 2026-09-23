@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates xml:space="preserve">
-    <t t-name="boardkit_dashboard.ItemPreviewField">
+    <t t-name="boardkit_dashboard.ItemPreviewField" owl="1">
         <!-- The dashboard root class scopes the card styles to the preview. -->
         <div
             class="o_boardkit_dashboard o_boardkit_dashboard_item_preview w-100 h-100 d-flex flex-column"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates xml:space="preserve">
-    <t t-name="boardkit_dashboard.ListCard">
+    <t t-name="boardkit_dashboard.ListCard" owl="1">
         <div class="o_boardkit_dashboard_list d-flex flex-column h-100">
             <div class="table-responsive flex-grow-1">
                 <table class="table table-sm table-hover mb-0">

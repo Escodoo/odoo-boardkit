@@ -19,30 +19,30 @@
                         type="object"
                         string="Publish"
                         class="btn-secondary"
-                        invisible="published"
                         groups="boardkit_dashboard.group_dashboard_manager"
+                        attrs="{'invisible': [('published', '!=', False)]}"
                     />
                     <button
                         name="action_unpublish"
                         type="object"
                         string="Unpublish"
                         class="btn-secondary"
-                        invisible="not published"
                         groups="boardkit_dashboard.group_dashboard_manager"
+                        attrs="{'invisible': [('published', '=', False)]}"
                     />
                 </header>
                 <sheet>
                     <widget
                         name="web_ribbon"
                         title="Archived"
-                        bg_color="text-bg-danger"
-                        invisible="active"
+                        bg_color="bg-danger"
+                        attrs="{'invisible': [('active', '!=', False)]}"
                     />
                     <widget
                         name="web_ribbon"
                         title="Draft"
-                        bg_color="text-bg-warning"
-                        invisible="published or not active"
+                        bg_color="bg-warning"
+                        attrs="{'invisible': ['|', ('published', '!=', False), ('active', '=', False)]}"
                     />
                     <field name="active" invisible="1" />
                     <field name="published" invisible="1" />
@@ -71,36 +71,38 @@
                             <field name="date_filter" />
                             <field
                                 name="date_from"
-                                invisible="date_filter != 'custom'"
-                                required="date_filter == 'custom'"
+                                attrs="{'invisible': [('date_filter', '!=', 'custom')], 'required': [('date_filter', '=', 'custom')]}"
                             />
                             <field
                                 name="date_to"
-                                invisible="date_filter != 'custom'"
-                                required="date_filter == 'custom'"
+                                attrs="{'invisible': [('date_filter', '!=', 'custom')], 'required': [('date_filter', '=', 'custom')]}"
                             />
                             <field name="default_color_palette" />
                             <field
                                 name="default_palette_id"
-                                invisible="default_color_palette != 'custom'"
-                                required="default_color_palette == 'custom'"
                                 options="{'no_create': True}"
+                                attrs="{'invisible': [('default_color_palette', '!=', 'custom')], 'required': [('default_color_palette', '=', 'custom')]}"
                             />
                         </group>
                         <group name="menu" string="Menu &amp; Access">
-                            <field name="menu_as_app" readonly="company_id" />
+                            <field
+                                name="menu_as_app"
+                                attrs="{'readonly': [('company_id', '!=', False)]}"
+                            />
                             <field
                                 name="menu_parent_id"
                                 options="{'no_create': True}"
-                                readonly="company_id"
-                                invisible="menu_as_app"
+                                attrs="{'readonly': [('company_id', '!=', False)], 'invisible': [('menu_as_app', '!=', False)]}"
                             />
                             <field
                                 name="menu_name"
                                 placeholder="Defaults to the dashboard name"
-                                readonly="company_id"
+                                attrs="{'readonly': [('company_id', '!=', False)]}"
                             />
-                            <field name="menu_sequence" readonly="company_id" />
+                            <field
+                                name="menu_sequence"
+                                attrs="{'readonly': [('company_id', '!=', False)]}"
+                            />
                             <field name="group_ids" widget="many2many_tags" />
                         </group>
                     </group>
@@ -110,12 +112,12 @@
                                 name="item_ids"
                                 context="{'default_dashboard_id': id}"
                             >
-                                <list>
+                                <tree>
                                     <field name="sequence" widget="handle" />
                                     <field name="name" />
                                     <field name="item_type" />
                                     <field name="model_id" />
-                                </list>
+                                </tree>
                             </field>
                         </page>
                         <page name="filters" string="Predefined Filters">
@@ -123,21 +125,21 @@
                                 name="filter_ids"
                                 context="{'default_dashboard_id': id}"
                             >
-                                <list editable="bottom">
+                                <tree editable="bottom">
                                     <field name="sequence" widget="handle" />
                                     <field name="name" />
                                     <field
                                         name="model_id"
                                         options="{'no_create': True}"
                                     />
-                                    <field name="model_name" column_invisible="1" />
+                                    <field name="model_name" invisible="1" />
                                     <field
                                         name="domain"
                                         widget="domain"
                                         options="{'model': 'model_name', 'in_dialog': True}"
                                     />
                                     <field name="default_enabled" />
-                                </list>
+                                </tree>
                             </field>
                         </page>
                     </notebook>
@@ -168,13 +170,26 @@
                 <field name="company_id" />
                 <field name="is_favorite" />
                 <templates>
-                    <t
-                        t-name="menu"
-                        groups="boardkit_dashboard.group_dashboard_manager"
-                    >
-                        <div class="container">
-                            <div class="o_kanban_card_manage_settings row">
-                                <div role="menuitem" class="col-12">
+                    <t t-name="kanban-box">
+                        <div
+                            t-attf-class="o_boardkit_dashboard_kanban_card #{!record.published.raw_value ? 'o_boardkit_dashboard_kanban_card_draft' : ''}"
+                        >
+                            <div
+                                class="o_dropdown_kanban dropdown"
+                                groups="boardkit_dashboard.group_dashboard_manager"
+                            >
+                                <a
+                                    role="button"
+                                    class="dropdown-toggle o-no-caret btn"
+                                    data-bs-toggle="dropdown"
+                                    data-bs-display="static"
+                                    href="#"
+                                    aria-label="Dropdown menu"
+                                    title="Dropdown menu"
+                                >
+                                    <span class="fa fa-ellipsis-v" />
+                                </a>
+                                <div class="dropdown-menu" role="menu">
                                     <a
                                         class="dropdown-item"
                                         role="menuitem"
@@ -207,13 +222,6 @@
                                     >Delete</a>
                                 </div>
                             </div>
-                        </div>
-                    </t>
-                    <t t-name="card">
-                        <div
-                            class="o_boardkit_dashboard_kanban_card"
-                            t-att-class="{'o_boardkit_dashboard_kanban_card_draft': !record.published.raw_value}"
-                        >
                             <div
                                 t-if="record.palette_strip_html.raw_value"
                                 t-out="record.palette_strip_html.raw_value"
@@ -222,7 +230,7 @@
                                 t-if="!record.published.raw_value"
                                 class="ribbon ribbon-top-right o_boardkit_dashboard_kanban_ribbon"
                             >
-                                <span class="text-bg-warning o_small">Draft</span>
+                                <span class="bg-warning o_small">Draft</span>
                             </div>
                             <div
                                 class="o_boardkit_dashboard_kanban_title d-flex align-items-center gap-2 fw-bold fs-5"
@@ -265,7 +273,7 @@
                                     t-att-title="record.company_id.value"
                                 >
                                     <span
-                                        class="badge text-bg-light text-truncate"
+                                        class="badge bg-light text-dark text-truncate"
                                         t-esc="record.company_id.value"
                                     />
                                 </div>
@@ -309,7 +317,7 @@
         <field name="name">boardkit.dashboard.list</field>
         <field name="model">boardkit.dashboard</field>
         <field name="arch" type="xml">
-            <list
+            <tree
                 js_class="boardkit_dashboard_catalogue_list"
                 action="action_open_dashboard"
                 type="object"
@@ -342,7 +350,7 @@
                     icon="fa-cog"
                     title="Dashboard Settings"
                 />
-            </list>
+            </tree>
         </field>
     </record>
 
@@ -399,7 +407,7 @@
     <record id="boardkit_dashboard_action" model="ir.actions.act_window">
         <field name="name">Boards</field>
         <field name="res_model">boardkit.dashboard</field>
-        <field name="view_mode">kanban,list,form</field>
+        <field name="view_mode">kanban,tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">Start from a template</p>
             <p>Managers can create a board from a curated template, import a JSON

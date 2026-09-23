@@ -37,8 +37,10 @@ writing code.
 
 |Timesheet Overview|
 
-Each dashboard is a grid of items rendered with native web assets (OWL
-and the Chart.js library bundled with Odoo):
+Each dashboard is a grid of items rendered with OWL and Chart.js 4. Odoo
+16 only ships Chart.js 2, so the module bundles Chart.js 4 and loads it
+on demand, without touching the Chart.js used by the standard graph
+views:
 
 -  **Tile**: a single aggregated value (count, sum or average) with icon
    and colors.

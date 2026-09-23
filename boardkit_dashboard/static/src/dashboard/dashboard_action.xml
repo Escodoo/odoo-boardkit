@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates xml:space="preserve">
-    <t t-name="boardkit_dashboard.DashboardAction">
+    <t t-name="boardkit_dashboard.DashboardAction" owl="1">
         <div class="o_boardkit_dashboard o_action h-100 d-flex flex-column">
             <!-- Loading -->
             <div
@@ -165,68 +165,70 @@
                                     aria-label="Edit layout"
                                 />
                             </button>
-                            <Dropdown>
-                                <button class="btn btn-sm btn-light">
+                            <Dropdown
+                                togglerClass="'btn btn-sm btn-light'"
+                                position="'bottom-end'"
+                                showCaret="false"
+                            >
+                                <t t-set-slot="toggler">
                                     <i
                                         class="fa fa-ellipsis-v"
                                         role="img"
                                         aria-label="More options"
                                     />
-                                </button>
-                                <t t-set-slot="content">
+                                </t>
                                     <DropdownItem onSelected.bind="copyShareLink">
                                         Copy Link
                                     </DropdownItem>
                                     <DropdownItem
-                                        t-if="state.hasSavedFilters"
-                                        onSelected.bind="resetPersonalFilters"
-                                    >
+                                    t-if="state.hasSavedFilters"
+                                    onSelected.bind="resetPersonalFilters"
+                                >
                                         Reset My Filters
                                     </DropdownItem>
                                     <DropdownItem
-                                        t-if="state.board.has_personal_layout"
-                                        onSelected.bind="resetPersonalLayout"
-                                    >
+                                    t-if="state.board.has_personal_layout"
+                                    onSelected.bind="resetPersonalLayout"
+                                >
                                         Reset My Layout
                                     </DropdownItem>
                                     <DropdownItem
-                                        t-if="state.board.is_manager"
-                                        onSelected.bind="duplicateDashboard"
-                                    >
+                                    t-if="state.board.is_manager"
+                                    onSelected.bind="duplicateDashboard"
+                                >
                                         Duplicate
                                     </DropdownItem>
                                     <DropdownItem
-                                        t-if="state.board.is_manager"
-                                        onSelected.bind="openSettings"
-                                    >
+                                    t-if="state.board.is_manager"
+                                    onSelected.bind="openSettings"
+                                >
                                         Settings
                                     </DropdownItem>
                                     <DropdownItem
-                                        t-if="state.board.is_manager &amp;&amp; !state.board.published"
-                                        onSelected.bind="publishDashboard"
-                                    >
+                                    t-if="state.board.is_manager &amp;&amp; !state.board.published"
+                                    onSelected.bind="publishDashboard"
+                                >
                                         Publish
                                     </DropdownItem>
                                     <DropdownItem
-                                        t-if="state.board.is_manager &amp;&amp; state.board.published"
-                                        onSelected.bind="unpublishDashboard"
-                                    >
+                                    t-if="state.board.is_manager &amp;&amp; state.board.published"
+                                    onSelected.bind="unpublishDashboard"
+                                >
                                         Unpublish
                                     </DropdownItem>
                                     <DropdownItem
-                                        t-if="state.board.is_manager"
-                                        onSelected.bind="exportDashboard"
-                                    >
+                                    t-if="state.board.is_manager"
+                                    onSelected.bind="exportDashboard"
+                                >
                                         Export as JSON
                                     </DropdownItem>
                                     <DropdownItem
-                                        t-if="state.board.is_manager"
-                                        onSelected.bind="deleteDashboard"
-                                        class="'text-danger'"
-                                    >
+                                    t-if="state.board.is_manager"
+                                    onSelected.bind="deleteDashboard"
+                                    class="'text-danger'"
+                                >
                                         Delete
                                     </DropdownItem>
-                                </t>
                             </Dropdown>
                         </t>
                     </div>

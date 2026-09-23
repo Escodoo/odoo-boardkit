@@ -1,7 +1,9 @@
+/** @odoo-module **/
 // Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 // License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-import {formatFloat, humanNumber} from "@web/core/utils/numbers";
+import {formatFloat} from "@web/views/fields/formatters";
+import {humanNumber} from "@web/core/utils/numbers";
 
 export const PALETTES = {
     default: [

@@ -18,6 +18,6 @@ class TestUninstallHook(BoardkitDashboardCommon):
         # Keep the dashboard record but drop the FK links so the hook is the
         # one responsible for cleaning the generated menu/action.
         self.dashboard.write({"menu_id": False, "client_action_id": False})
-        uninstall_hook(self.env)
+        uninstall_hook(self.env.cr, self.env.registry)
         self.assertFalse(menu.exists())
         self.assertFalse(action.exists())

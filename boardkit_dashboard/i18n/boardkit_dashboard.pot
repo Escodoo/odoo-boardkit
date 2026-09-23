@@ -4,8 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0\n"
+"Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-15 12:40+0000\n"
+"PO-Revision-Date: 2026-09-15 12:40+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -27,12 +29,14 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "%(label)s field must be a float on item %(name)s."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "%(name)s (+%(count)s more)"
 msgstr ""
 
@@ -41,12 +45,14 @@ msgstr ""
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_palette.py:0
+#, python-format
 msgid "%s (copy)"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/chart_renderer.js:0
+#, python-format
 msgid "%s (previous)"
 msgstr ""
 
@@ -54,6 +60,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_empty_hero.js:0
 #: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.js:0
+#, python-format
 msgid "%s dashboard(s) imported."
 msgstr ""
 
@@ -104,12 +111,21 @@ msgstr ""
 
 #. module: boardkit_dashboard
 #: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_view_kanban
-msgid "<span class=\"text-bg-warning o_small\">Draft</span>"
+msgid "<span class=\"bg-warning o_small\">Draft</span>"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model_terms:ir.ui.view,arch_db:boardkit_dashboard.res_config_settings_view_form
+msgid ""
+"<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-"
+"specific.\" aria-label=\"Values set here are company-specific.\" "
+"groups=\"base.group_multi_company\" role=\"img\"/>"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0
+#, python-format
 msgid "A domain must be a list, got: %s"
 msgstr ""
 
@@ -127,24 +143,30 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#, python-format
 msgid "Add"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/custom_filters.xml:0
+#, python-format
 msgid "Add Filter"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#, python-format
 msgid "Add Item"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#, python-format
 msgid "Add tiles, KPIs, charts or lists."
 msgstr ""
 
@@ -229,6 +251,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/custom_filters.xml:0
 #: code:addons/boardkit_dashboard/static/src/dashboard/date_filter.xml:0
+#, python-format
 msgid "Apply"
 msgstr ""
 
@@ -247,6 +270,8 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.js:0
+#: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.js:0
+#, python-format
 msgid "Are you sure you want to delete \"%s\"?"
 msgstr ""
 
@@ -281,6 +306,7 @@ msgstr ""
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.js:0
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard_item__aggregation_2__avg
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard_item__aggregation__avg
+#, python-format
 msgid "Average"
 msgstr ""
 
@@ -292,6 +318,8 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.xml:0
+#: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.xml:0
+#, python-format
 msgid "Back"
 msgstr ""
 
@@ -320,6 +348,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
+#, python-format
 msgid "Blank board"
 msgstr ""
 
@@ -502,6 +531,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item_column.py:0
+#, python-format
 msgid "Column field %(field)s does not belong to model %(model)s."
 msgstr ""
 
@@ -524,6 +554,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0
+#, python-format
 msgid ""
 "Company-specific dashboards cannot have a menu entry. Clear the company or "
 "the Parent Menu / Show as App fields on %(name)s."
@@ -552,48 +583,60 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Configure Latitude and Longitude fields for the map."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Configure at least one measure for this chart."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Configure the Group By field for the drill level."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Configure the Group By field for the map."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Configure the Group By field for this chart."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Configure the Group By field for this grouped list."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Configure the X and Y measures for the scatter chart."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Configure the columns of this list."
 msgstr ""
 
@@ -616,6 +659,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Coordinates From must be a stored many2one field on item %(name)s."
 msgstr ""
 
@@ -631,12 +675,14 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#, python-format
 msgid "Copy Link"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.js:0
+#, python-format
 msgid "Could not copy the link to the clipboard."
 msgstr ""
 
@@ -644,15 +690,18 @@ msgstr ""
 #. odoo-javascript
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.js:0
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard_item__aggregation_2__count
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard_item__aggregation__count
+#, python-format
 msgid "Count"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Country"
 msgstr ""
 
@@ -669,6 +718,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
+#, python-format
 msgid "Create a dashboard from a curated template"
 msgstr ""
 
@@ -722,6 +772,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
+#, python-format
 msgid "Creating…"
 msgstr ""
 
@@ -771,12 +822,14 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0
+#, python-format
 msgid "Custom date filter requires both start and end dates."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/custom_filters.xml:0
+#, python-format
 msgid "Custom filter"
 msgstr ""
 
@@ -797,6 +850,7 @@ msgstr ""
 #: model:ir.module.category,name:boardkit_dashboard.module_category_dashboard
 #: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_item_view_search
 #: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_view_form
+#, python-format
 msgid "Dashboard"
 msgstr ""
 
@@ -820,6 +874,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/item_preview_field.js:0
+#, python-format
 msgid "Dashboard Item Preview"
 msgstr ""
 
@@ -846,12 +901,14 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.js:0
+#, python-format
 msgid "Dashboard deleted."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.js:0
+#, python-format
 msgid "Dashboard duplicated."
 msgstr ""
 
@@ -864,24 +921,28 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.js:0
+#, python-format
 msgid "Dashboard layout saved."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#, python-format
 msgid "Dashboard not found or access denied"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.js:0
+#, python-format
 msgid "Dashboard published."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.js:0
+#, python-format
 msgid "Dashboard unpublished."
 msgstr ""
 
@@ -900,6 +961,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/date_filter.xml:0
+#, python-format
 msgid "Date filter"
 msgstr ""
 
@@ -961,33 +1023,39 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.js:0
+#: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.js:0
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.xml:0
 #: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_view_kanban
+#, python-format
 msgid "Delete"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.js:0
+#, python-format
 msgid "Delete Dashboard"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.js:0
+#, python-format
 msgid "Delete Dashboard Item"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0
+#, python-format
 msgid "Demo template config must be a dictionary."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0
+#, python-format
 msgid "Demo template config requires template_xmlid and demo_xmlid."
 msgstr ""
 
@@ -1011,6 +1079,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#, python-format
 msgid "Discard"
 msgstr ""
 
@@ -1048,12 +1117,14 @@ msgstr ""
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
 #: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_view_form
 #: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_view_search
+#, python-format
 msgid "Draft"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#, python-format
 msgid ""
 "Drag the items by their header and resize them from the bottom-right\n"
 "                    corner, then save."
@@ -1082,13 +1153,20 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.js:0
+#, python-format
 msgid "Drill down failed."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item_drill.py:0
+#, python-format
 msgid "Drill field %(field)s does not belong to model %(model)s."
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_view_kanban
+msgid "Dropdown menu"
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -1096,6 +1174,7 @@ msgstr ""
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.xml:0
 #: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_view_kanban
+#, python-format
 msgid "Duplicate"
 msgstr ""
 
@@ -1120,18 +1199,21 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.xml:0
+#, python-format
 msgid "Edit"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#, python-format
 msgid "Edit Layout"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#, python-format
 msgid "Edit layout"
 msgstr ""
 
@@ -1146,6 +1228,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#, python-format
 msgid "Empty dashboard"
 msgstr ""
 
@@ -1168,6 +1251,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/date_filter.xml:0
+#, python-format
 msgid "End date"
 msgstr ""
 
@@ -1180,6 +1264,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.xml:0
+#, python-format
 msgid "Error"
 msgstr ""
 
@@ -1191,18 +1276,21 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.xml:0
+#, python-format
 msgid "Export CSV"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.xml:0
+#, python-format
 msgid "Export XLSX"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#, python-format
 msgid "Export as JSON"
 msgstr ""
 
@@ -1241,12 +1329,14 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/custom_filters.xml:0
+#, python-format
 msgid "Field"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Field %(field)s does not belong to model %(model)s on item %(name)s."
 msgstr ""
 
@@ -1272,6 +1362,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0
+#, python-format
 msgid "Filter"
 msgstr ""
 
@@ -1362,6 +1453,8 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
+#: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
+#, python-format
 msgid "From template"
 msgstr ""
 
@@ -1466,18 +1559,23 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
+#: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
+#, python-format
 msgid "Import"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
+#: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
+#, python-format
 msgid "Import dashboards from an export file"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0
+#, python-format
 msgid "Imported Dashboard"
 msgstr ""
 
@@ -1494,54 +1592,65 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_palette.py:0
+#, python-format
 msgid "Invalid color %(color)s. Use the #RRGGBB hex format."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Invalid dashboard item."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Invalid date value in filter: %s"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_filter.py:0
+#, python-format
 msgid "Invalid domain on filter %(name)s: %(error)s"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Invalid domain on item %(name)s: %(error)s"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Invalid drill level for this dashboard item."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Invalid measure field for preview drill."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Invalid model for preview drill."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Invalid preview drill snapshot."
 msgstr ""
 
@@ -1575,6 +1684,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.xml:0
+#, python-format
 msgid "Item menu"
 msgstr ""
 
@@ -1625,6 +1735,9 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Label"
 msgstr ""
 
@@ -1677,6 +1790,22 @@ msgstr ""
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard__date_filter__last_90_days
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard_item__date_filter__last_90_days
 msgid "Last 90 Days"
+msgstr ""
+
+#. module: boardkit_dashboard
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard____last_update
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_filter____last_update
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_item____last_update
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_item_column____last_update
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_item_drill____last_update
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_item_measure____last_update
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_layout____last_update
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_palette____last_update
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_palette_color____last_update
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_tag____last_update
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template____last_update
+#: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template_wizard____last_update
+msgid "Last Modified on"
 msgstr ""
 
 #. module: boardkit_dashboard
@@ -1738,6 +1867,8 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Latitude"
 msgstr ""
 
@@ -1797,6 +1928,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.js:0
+#, python-format
 msgid "Link copied to clipboard."
 msgstr ""
 
@@ -1820,12 +1952,15 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.xml:0
+#, python-format
 msgid "Loading"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Longitude"
 msgstr ""
 
@@ -1876,6 +2011,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid ""
 "Map points mode requires Latitude and Longitude fields on item %(name)s."
 msgstr ""
@@ -1883,6 +2019,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid ""
 "Map regions mode requires a Group By field pointing to Countries on item "
 "%(name)s."
@@ -1891,18 +2028,21 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Map regions mode requires a Group By field pointing to Countries."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/chart_renderer.xml:0
+#, python-format
 msgid "Map zoom"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Maximum"
 msgstr ""
 
@@ -1935,6 +2075,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item_measure.py:0
+#, python-format
 msgid "Measure field %(field)s does not belong to model %(model)s."
 msgstr ""
 
@@ -1971,6 +2112,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_item__model_id
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_item_drill__model_id
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_item_measure__model_id
+#, python-format
 msgid "Model"
 msgstr ""
 
@@ -2007,12 +2149,14 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#, python-format
 msgid "More options"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.xml:0
+#, python-format
 msgid "Move"
 msgstr ""
 
@@ -2024,17 +2168,21 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard__name
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_item__name
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_palette__name
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_tag__name
 #: model:ir.model.fields,field_description:boardkit_dashboard.field_boardkit_dashboard_template__name
+#, python-format
 msgid "Name"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.js:0
+#, python-format
 msgid "New Dashboard Item"
 msgstr ""
 
@@ -2065,6 +2213,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/list_card.xml:0
+#, python-format
 msgid "Next page"
 msgstr ""
 
@@ -2072,12 +2221,14 @@ msgstr ""
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
 #: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_item_view_form
+#, python-format
 msgid "No"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_empty_hero.js:0
+#, python-format
 msgid "No dashboard was created from this template."
 msgstr ""
 
@@ -2085,24 +2236,28 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_empty_hero.js:0
 #: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.js:0
+#, python-format
 msgid "No dashboard was found in this file."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
+#, python-format
 msgid "No dashboards here yet"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/controllers/main.py:0
+#, python-format
 msgid "No file was uploaded."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/list_card.xml:0
+#, python-format
 msgid "No records found."
 msgstr ""
 
@@ -2110,12 +2265,14 @@ msgstr ""
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard_item__unit_type__none
+#, python-format
 msgid "None"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.xml:0
+#, python-format
 msgid "Notice"
 msgstr ""
 
@@ -2148,18 +2305,21 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0
+#, python-format
 msgid "Only dashboard managers can change the default layout."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/date_filter.xml:0
+#, python-format
 msgid "Open"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#, python-format
 msgid "Open Boards"
 msgstr ""
 
@@ -2176,12 +2336,15 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0
+#, python-format
 msgid "Operation not supported"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/custom_filters.xml:0
+#, python-format
 msgid "Operator"
 msgstr ""
 
@@ -2239,6 +2402,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_palette.py:0
+#, python-format
 msgid "Palette %(name)s must define at least one color."
 msgstr ""
 
@@ -2260,6 +2424,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.xml:0
+#, python-format
 msgid "Partial data"
 msgstr ""
 
@@ -2295,6 +2460,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
+#, python-format
 msgid ""
 "Pick a curated board, import a JSON export, or create a blank\n"
 "                        dashboard with tiles, KPIs, charts and lists."
@@ -2330,6 +2496,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
+#, python-format
 msgid "Popular templates"
 msgstr ""
 
@@ -2342,6 +2509,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/item_preview_field.xml:0
+#, python-format
 msgid "Preview"
 msgstr ""
 
@@ -2353,12 +2521,14 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Previous Period"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/list_card.xml:0
+#, python-format
 msgid "Previous page"
 msgstr ""
 
@@ -2367,6 +2537,7 @@ msgstr ""
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
 #: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_view_form
 #: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_view_kanban
+#, python-format
 msgid "Publish"
 msgstr ""
 
@@ -2379,6 +2550,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
+#, python-format
 msgid "Published boards you can access will appear here."
 msgstr ""
 
@@ -2414,12 +2586,16 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Records"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#, python-format
 msgid "Refresh"
 msgstr ""
 
@@ -2443,12 +2619,14 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/chart_renderer.js:0
+#, python-format
 msgid "Remaining"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/custom_filters.xml:0
+#, python-format
 msgid "Remove filter"
 msgstr ""
 
@@ -2468,24 +2646,29 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#, python-format
 msgid "Reset My Filters"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#, python-format
 msgid "Reset My Layout"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/chart_renderer.xml:0
+#: code:addons/boardkit_dashboard/static/src/dashboard/chart_renderer.xml:0
+#, python-format
 msgid "Reset the map view"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.xml:0
+#, python-format
 msgid "Resize"
 msgstr ""
 
@@ -2510,18 +2693,21 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#, python-format
 msgid "Save Layout"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#, python-format
 msgid "Save as Default"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#, python-format
 msgid "Save for Me"
 msgstr ""
 
@@ -2568,6 +2754,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Second Value"
 msgstr ""
 
@@ -2581,6 +2768,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid ""
 "Select a custom palette on item %(name)s or pick a preset color palette."
 msgstr ""
@@ -2588,12 +2776,14 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/item_preview_field.xml:0
+#, python-format
 msgid "Select a data source to preview the item."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/res_company.py:0
+#, python-format
 msgid ""
 "Select a default custom palette for company %(name)s or pick a preset color "
 "palette."
@@ -2602,6 +2792,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0
+#, python-format
 msgid ""
 "Select a default custom palette on dashboard %(name)s or pick a preset color"
 " palette."
@@ -2610,12 +2801,14 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/custom_filters.xml:0
+#, python-format
 msgid "Select a field..."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/custom_filters.xml:0
+#, python-format
 msgid "Select a value..."
 msgstr ""
 
@@ -2637,6 +2830,7 @@ msgstr ""
 #: model:ir.ui.menu,name:boardkit_dashboard.menu_dashboard_settings
 #: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_view_kanban
 #: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_view_list
+#, python-format
 msgid "Settings"
 msgstr ""
 
@@ -2695,6 +2889,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/list_card.xml:0
+#, python-format
 msgid "Sort direction"
 msgstr ""
 
@@ -2717,6 +2912,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/date_filter.xml:0
+#, python-format
 msgid "Start date"
 msgstr ""
 
@@ -2724,6 +2920,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Start date must be before end date."
 msgstr ""
 
@@ -2731,6 +2928,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
 #: model_terms:ir.actions.act_window,help:boardkit_dashboard.boardkit_dashboard_action
+#, python-format
 msgid "Start from a template"
 msgstr ""
 
@@ -2755,6 +2953,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard_item__aggregation_2__sum
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard_item__aggregation__sum
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard_item__kpi_display__sum
+#, python-format
 msgid "Sum"
 msgstr ""
 
@@ -2792,9 +2991,11 @@ msgstr ""
 #. odoo-javascript
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
 #: code:addons/boardkit_dashboard/static/src/dashboard/chart_renderer.js:0
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard__icon__fa-bullseye
 #: model:ir.model.fields.selection,name:boardkit_dashboard.selection__boardkit_dashboard_tag__icon__fa-bullseye
+#, python-format
 msgid "Target"
 msgstr ""
 
@@ -2806,12 +3007,14 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.xml:0
+#, python-format
 msgid "Target:"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/chart_renderer.js:0
+#, python-format
 msgid "Target: %s"
 msgstr ""
 
@@ -2844,6 +3047,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0
+#, python-format
 msgid "Template %(name)s has an invalid payload."
 msgstr ""
 
@@ -2855,6 +3059,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_template.py:0
+#, python-format
 msgid "Template payload is not valid JSON: %s"
 msgstr ""
 
@@ -2867,12 +3072,14 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.js:0
+#, python-format
 msgid "The Fullscreen mode was denied by the browser"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#, python-format
 msgid ""
 "The dashboard does not exist, or you do not have\n"
 "                        permission to open it in the current company."
@@ -2881,6 +3088,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0
+#, python-format
 msgid "The file is not a valid dashboard export."
 msgstr ""
 
@@ -2892,12 +3100,14 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "The item data source model is not configured."
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0
+#, python-format
 msgid "The selected template no longer exists."
 msgstr ""
 
@@ -2928,6 +3138,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
+#, python-format
 msgid "This dashboard is empty"
 msgstr ""
 
@@ -2939,6 +3150,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.xml:0
+#, python-format
 msgid "Tile icon"
 msgstr ""
 
@@ -2957,6 +3169,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.xml:0
+#, python-format
 msgid ""
 "Too many records to plot them all. Narrow the filters or the item domain to "
 "see the full picture."
@@ -2965,6 +3178,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/chart_renderer.js:0
+#, python-format
 msgid "Track"
 msgstr ""
 
@@ -2977,6 +3191,8 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/chart_renderer.js:0
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.xml:0
+#: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.xml:0
+#, python-format
 msgid "Trend"
 msgstr ""
 
@@ -3008,6 +3224,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Unknown filter field: %s"
 msgstr ""
 
@@ -3016,12 +3233,14 @@ msgstr ""
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_action.xml:0
 #: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_view_form
 #: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_view_kanban
+#, python-format
 msgid "Unpublish"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#, python-format
 msgid "Unsupported filter operator %(operator)s for field %(field)s."
 msgstr ""
 
@@ -3041,6 +3260,7 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
+#, python-format
 msgid "Use template"
 msgstr ""
 
@@ -3072,9 +3292,18 @@ msgstr ""
 #. odoo-javascript
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
+#: code:addons/boardkit_dashboard/static/src/dashboard/chart_renderer.js:0
+#: code:addons/boardkit_dashboard/static/src/dashboard/chart_renderer.js:0
 #: code:addons/boardkit_dashboard/static/src/dashboard/chart_renderer.js:0
 #: code:addons/boardkit_dashboard/static/src/dashboard/custom_filters.xml:0
+#: code:addons/boardkit_dashboard/static/src/dashboard/custom_filters.xml:0
 #: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_item_view_form
+#, python-format
 msgid "Value"
 msgstr ""
 
@@ -3147,6 +3376,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard_item.py:0
 #: model_terms:ir.ui.view,arch_db:boardkit_dashboard.boardkit_dashboard_item_view_form
+#, python-format
 msgid "Yes"
 msgstr ""
 
@@ -3159,36 +3389,42 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/chart_renderer.xml:0
+#, python-format
 msgid "Zoom in"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/chart_renderer.xml:0
+#, python-format
 msgid "Zoom in (Ctrl + mouse wheel)"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/chart_renderer.xml:0
+#, python-format
 msgid "Zoom out"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/chart_renderer.xml:0
+#, python-format
 msgid "Zoom out (Ctrl + mouse wheel)"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/custom_filters.js:0
+#, python-format
 msgid "contains"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/custom_filters.js:0
+#, python-format
 msgid "does not contain"
 msgstr ""
 
@@ -3205,47 +3441,58 @@ msgstr ""
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/custom_filters.js:0
+#: code:addons/boardkit_dashboard/static/src/dashboard/custom_filters.js:0
+#: code:addons/boardkit_dashboard/static/src/dashboard/custom_filters.js:0
+#, python-format
 msgid "is"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/custom_filters.js:0
+#, python-format
 msgid "is false"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/custom_filters.js:0
+#: code:addons/boardkit_dashboard/static/src/dashboard/custom_filters.js:0
+#, python-format
 msgid "is not"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/custom_filters.js:0
+#, python-format
 msgid "is true"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/custom_filters.js:0
+#, python-format
 msgid "on or after"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/custom_filters.js:0
+#, python-format
 msgid "on or before"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/date_filter.xml:0
+#, python-format
 msgid "to"
 msgstr ""
 
 #. module: boardkit_dashboard
 #. odoo-javascript
 #: code:addons/boardkit_dashboard/static/src/dashboard/dashboard_item_card.xml:0
+#, python-format
 msgid "vs"
 msgstr ""

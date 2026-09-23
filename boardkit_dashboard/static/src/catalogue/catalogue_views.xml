@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates xml:space="preserve">
-    <t t-name="boardkit_dashboard.CatalogueToolbarButtons">
+    <t t-name="boardkit_dashboard.CatalogueToolbarButtons" owl="1">
         <button
             t-if="importState.isManager"
             type="button"
@@ -27,21 +27,23 @@
     </t>
 
     <t
-        t-name="boardkit_dashboard.CatalogueKanbanView"
-        t-inherit="web.KanbanView"
+        t-name="boardkit_dashboard.CatalogueKanbanView.Buttons"
+        t-inherit="web.KanbanView.Buttons"
         t-inherit-mode="primary"
+        owl="1"
     >
-        <xpath expr="//t[@t-set-slot='control-panel-create-button']" position="inside">
+        <xpath expr="//div[hasclass('o_cp_buttons')]" position="inside">
             <t t-call="boardkit_dashboard.CatalogueToolbarButtons" />
         </xpath>
     </t>
 
     <t
-        t-name="boardkit_dashboard.CatalogueListView"
-        t-inherit="web.ListView"
+        t-name="boardkit_dashboard.CatalogueListView.Buttons"
+        t-inherit="web.ListView.Buttons"
         t-inherit-mode="primary"
+        owl="1"
     >
-        <xpath expr="//t[@t-set-slot='control-panel-create-button']" position="inside">
+        <xpath expr="//div[hasclass('o_list_buttons')]" position="inside">
             <t t-call="boardkit_dashboard.CatalogueToolbarButtons" />
         </xpath>
     </t>
@@ -50,6 +52,7 @@
         t-name="boardkit_dashboard.CatalogueKanbanRenderer"
         t-inherit="web.KanbanRenderer"
         t-inherit-mode="primary"
+        owl="1"
     >
         <xpath expr="//t[@t-if='showNoContentHelper']" position="replace">
             <t t-if="showNoContentHelper">
@@ -58,7 +61,7 @@
         </xpath>
     </t>
 
-    <t t-name="boardkit_dashboard.CatalogueEmptyHero">
+    <t t-name="boardkit_dashboard.CatalogueEmptyHero" owl="1">
         <div class="o_boardkit_dashboard_catalogue_empty o_view_nocontent">
             <div class="o_boardkit_dashboard_catalogue_empty_panel">
                 <t t-if="state.isManager">

@@ -1,6 +1,18 @@
 // Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 // License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+// Odoo 17+ utility classes used by the templates, missing on Odoo 16.
+.o_boardkit_dashboard,
+.o_boardkit_dashboard_kanban {
+    .min-w-0 {
+        min-width: 0 !important;
+    }
+
+    .cursor-pointer {
+        cursor: pointer !important;
+    }
+}
+
 .o_boardkit_dashboard {
     background-color: $o-webclient-background-color;
 
@@ -50,6 +62,12 @@
 
         .o_boardkit_dashboard_topbar_filters {
             min-width: 0;
+
+            // Odoo 16 upper-cases primary buttons. Active filter pills and
+            // chips show user data (filter names, field values): keep the case.
+            .btn-primary.rounded-pill {
+                text-transform: none;
+            }
         }
 
         .o_boardkit_dashboard_topbar_actions {
@@ -423,9 +441,8 @@
             transform: translateY(-2px);
         }
 
-        // Align the ⋮ menu with the title/icon/star row. Bootstrap's
-        // .top-0 uses !important, so override it the same way.
-        .o_dropdown_kanban.top-0 {
+        // Align the ⋮ menu with the title/icon/star row.
+        .o_dropdown_kanban {
             top: calc(var(--KanbanRecord-padding-v) + 0.65rem) !important;
             height: 1.75rem;
             display: flex;
@@ -483,26 +500,27 @@
         }
     }
 
-    // Same markup/classes as web.Ribbon; sized for kanban cards. Pull the
-    // ribbon up by the record padding and the card's top padding (clearance
-    // under the palette strip) so it sits flush with the top edge.
+    // Same markup/classes as web.Ribbon, whose Odoo 16 geometry is sized for
+    // form sheets (150px): scale it down for kanban cards. Pull the ribbon up
+    // by the record padding and the card's top padding (clearance under the
+    // palette strip) so it sits flush with the top edge.
     .o_boardkit_dashboard_kanban_ribbon {
-        --Ribbon-wrapper-width: 8.5rem;
-        --Ribbon-font-size: #{$font-size-sm};
-        // Slightly thicker band than the default (font-size * 2.5).
-        --Ribbon-height: 1.85rem;
-        --Ribbon-gap-top: calc(
+        width: 6.5rem;
+        height: 6.5rem;
+        margin-top: calc(
             var(--KanbanRecord-padding-v) * -1 - 0.65rem - #{$border-width}
         );
-        // Stay flush with the card's right edge.
-        --Ribbon-gap-right: 0;
+        right: 0;
         // Below star / ⋮ so those controls stay visible and clickable.
-        --Ribbon-z-index: 1;
+        z-index: 1;
 
         span {
-            --Ribbon-top-position: calc(var(--Ribbon-height) * -1);
-            --Ribbon-left-position: 0.35rem;
-            line-height: var(--Ribbon-height);
+            width: 9.75rem;
+            height: 1.85rem;
+            padding: 0;
+            font-size: $font-size-sm;
+            left: -0.65rem;
+            top: 1.4rem;
         }
     }
 
@@ -704,7 +722,7 @@
     .o_boardkit_dashboard_catalogue_empty_subtitle {
         max-width: 32rem;
         margin: 0 auto 1.35rem;
-        color: var(--body-color);
+        color: #{$o-main-text-color};
         opacity: 0.72;
         line-height: 1.45;
     }
@@ -738,7 +756,7 @@
         font-weight: 600;
         letter-spacing: 0.04em;
         text-transform: uppercase;
-        color: var(--body-color);
+        color: #{$o-main-text-color};
         opacity: 0.55;
     }
 
@@ -818,7 +836,7 @@
         margin: 0;
         font-size: 0.82rem;
         line-height: 1.35;
-        color: var(--body-color);
+        color: #{$o-main-text-color};
         opacity: 0.72;
         display: -webkit-box;
         -webkit-box-orient: vertical;

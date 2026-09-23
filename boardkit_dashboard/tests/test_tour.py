@@ -30,7 +30,7 @@ class TestDashboardTour(HttpCase):
     def test_dashboard_rendering_tour(self):
         dashboard = self._prepare_tour_dashboard()
         self.start_tour(
-            f"/odoo/action-{dashboard.client_action_id.id}",
+            f"/web#action={dashboard.client_action_id.id}",
             "boardkit_dashboard_tour",
             login="admin",
         )
@@ -40,7 +40,7 @@ class TestDashboardTour(HttpCase):
         self.browser_size = "375x800"
         dashboard = self._prepare_tour_dashboard()
         self.start_tour(
-            f"/odoo/action-{dashboard.client_action_id.id}",
+            f"/web#action={dashboard.client_action_id.id}",
             "boardkit_dashboard_tour",
             login="admin",
         )

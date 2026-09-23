@@ -1,3 +1,4 @@
+/** @odoo-module **/
 // Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 // License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
@@ -6,7 +7,8 @@ import {alpha2ToNumeric, numericToAlpha2} from "./country_codes";
 import {formatItemValue, getPaletteColor, hexToRGBA} from "./utils";
 import {_t} from "@web/core/l10n/translation";
 import {browser} from "@web/core/browser/browser";
-import {loadBundle} from "@web/core/assets";
+import {getBundle, loadBundle} from "@web/core/assets";
+import {sprintf} from "@web/core/utils/strings";
 
 const CHART_TYPE_MAP = {
     bar: "bar",
@@ -28,7 +30,9 @@ const PIE_LIKE = ["pie", "doughnut", "polar"];
 const CARTESIAN = ["bar", "bar_horizontal", "line", "area", "scatter"];
 const TARGET_LINE_TYPES = ["bar", "bar_horizontal", "line", "area"];
 const OVERLAY_LINE_TYPES = TARGET_LINE_TYPES;
-const EXTENSION_TYPES = ["funnel", "map"];
+// Only maps need the (heavy) world topology; the funnel/geo plugins ship with
+// the Chart.js bundle itself.
+const EXTENSION_TYPES = ["map"];
 
 // The geo projection is fitted to the outline, so 1 is the "whole map" zoom.
 const MAP_MIN_ZOOM = 1;
@@ -89,7 +93,7 @@ function appendPreviousPeriodDatasets(datasets, config, data) {
         const color = getPaletteColor(config, index);
         datasets.push({
             type: "line",
-            label: _t("%s (previous)", dataset.label),
+            label: sprintf(_t("%s (previous)"), dataset.label),
             data: dataset.data || [],
             borderColor: hexToRGBA(color, 0.55),
             backgroundColor: hexToRGBA(color, 0.1),
@@ -157,12 +161,17 @@ function appendOverlayDatasets(datasets, config, labels, data = {}) {
     }
 }
 
+async function loadLazyBundle(bundleName) {
+    await loadBundle(await getBundle(bundleName));
+}
+
 async function ensureChartExtensions(itemType) {
-    await loadBundle("web.chartjs_lib");
+    // Chart.js 4 lands as window.BoardkitChart, see static/lib/README.md.
+    await loadLazyBundle("boardkit_dashboard.chartjs_lib");
     if (!EXTENSION_TYPES.includes(itemType) || extensionsLoaded) {
         return;
     }
-    await loadBundle("boardkit_dashboard.chartjs_extensions");
+    await loadLazyBundle("boardkit_dashboard.chartjs_extensions");
     extensionsLoaded = true;
 }
 
@@ -343,8 +352,7 @@ export class ChartRenderer extends Component {
         if (!chartConfig) {
             return;
         }
-        // eslint-disable-next-line no-undef
-        this.chart = new Chart(this.canvasRef.el, chartConfig);
+        this.chart = new window.BoardkitChart(this.canvasRef.el, chartConfig);
     }
 
     buildChartConfig() {
@@ -476,7 +484,10 @@ export class ChartRenderer extends Component {
         const target = hasTarget ? data.target || 0 : null;
         const targetColor = "#EA6175";
         const targetText = hasTarget
-            ? _t("Target: %s", formatItemValue(target, config, this.props.currency))
+            ? sprintf(
+                  _t("Target: %s"),
+                  formatItemValue(target, config, this.props.currency)
+              )
             : "";
         return {
             type: "doughnut",
