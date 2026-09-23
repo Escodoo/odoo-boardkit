@@ -1320,7 +1320,11 @@ class BoardkitDashboardItem(models.Model):
 
     def _funnel_group_keys(self, datasets):
         """Extract the grouped values from serialized drilldown domains."""
-        group_name = self.group_by_field_id.name
+        group_field = self.group_by_field_id
+        group_name = group_field.name
+        # Date/datetime groups serialize as a ">="/"<" range instead of a
+        # single "=" leaf; the range start is the group's raw value.
+        leaf_operator = ">=" if group_field.ttype in ("date", "datetime") else "="
         keys = []
         for leaves in datasets[0].get("drilldowns") or []:
             value = False
@@ -1329,7 +1333,7 @@ class BoardkitDashboardItem(models.Model):
                     isinstance(leaf, list | tuple)
                     and len(leaf) >= 3
                     and leaf[0] == group_name
-                    and leaf[1] == "="
+                    and leaf[1] == leaf_operator
                 ):
                     value = leaf[2]
                     break
@@ -1377,6 +1381,20 @@ class BoardkitDashboardItem(models.Model):
             return self._reorder_funnel_datasets(labels, datasets, order)
         return labels, datasets
 
+    @staticmethod
+    def _funnel_domain_key(field, raw):
+        """Return the same key ``_funnel_group_keys`` reads off a serialized leaf."""
+        if field.ttype in ("date", "datetime"):
+            if not raw:
+                return False
+            to_string = (
+                fields.Datetime.to_string
+                if field.ttype == "datetime"
+                else fields.Date.to_string
+            )
+            return to_string(raw)
+        return raw.id if hasattr(raw, "id") else raw
+
     def _funnel_sort_key_values(self, group_keys, domain, sort_field):
         """Resolve comparable sort values for each funnel group key."""
         group_field = self.group_by_field_id
@@ -1390,12 +1408,13 @@ class BoardkitDashboardItem(models.Model):
             return [value_map.get(key) for key in group_keys]
 
         model = self._source_model()
-        rows = read_group(model, domain, [group_field.name], [f"{sort_field.name}:min"])
-        value_map = {}
-        for row in rows:
-            raw = row[0]
-            key = raw.id if hasattr(raw, "id") else raw
-            value_map[key] = row[1]
+        # Group with the same granularity as the chart, so date/datetime keys
+        # land on the same bucket boundaries as _funnel_group_keys extracted.
+        groupby = [self._groupby_spec(group_field, self.group_by_granularity)]
+        rows = read_group(model, domain, groupby, [f"{sort_field.name}:min"])
+        value_map = {
+            self._funnel_domain_key(group_field, row[0]): row[1] for row in rows
+        }
         return [value_map.get(key) for key in group_keys]
 
     def _sort_funnel_by_field(self, labels, datasets, domain, sort_field, sort_dir):
