@@ -28,6 +28,14 @@ class BoardkitDashboardController(http.Controller):
         dashboard = request.env["boardkit.dashboard"].browse(dashboard_id).exists()
         if not dashboard:
             raise request.not_found()
+        try:
+            dashboard.check_access_rights("read")
+            dashboard.check_access_rule("read")
+        except AccessError as error:
+            # Match the item export route: a plain 403 instead of letting
+            # AccessError propagate as an unhandled 500 (e.g. a manager from
+            # another company hitting the multi-company record rule).
+            raise Forbidden() from error
         payload = dashboard.export_config()
         filename = f"{dashboard.name or 'dashboard'}.json"
         return request.make_response(

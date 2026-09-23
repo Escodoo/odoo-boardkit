@@ -374,6 +374,18 @@ class TestSecurityHttp(HttpCase):
         )
         self.assertEqual(response.status_code, 403)
 
+    def test_dashboard_export_http_other_company_forbidden(self):
+        # A manager from another company must get a clean 403, not an
+        # unhandled AccessError from the multi-company record rule.
+        other_company = self.env["res.company"].create({"name": "Other Co"})
+        self.dashboard.company_id = other_company
+        self.authenticate("dash_sec_manager", "dash_sec_manager")
+        response = self.url_open(
+            f"/boardkit_dashboard/export/{self.dashboard.id}",
+            allow_redirects=False,
+        )
+        self.assertEqual(response.status_code, 403)
+
     def test_dashboard_import_http_manager_only(self):
         payload = json.dumps(self.dashboard.export_config()).encode()
         self.authenticate("dash_sec_user", "dash_sec_user")
