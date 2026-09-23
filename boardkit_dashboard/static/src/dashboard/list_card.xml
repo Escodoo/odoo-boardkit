@@ -54,8 +54,8 @@
             >
                 <span class="text-muted small">
                     <t t-esc="pageStart" />-<t t-esc="pageEnd" /> / <t
-                    t-esc="props.data.total"
-                />
+                        t-esc="props.data.total"
+                    />
                 </span>
                 <button
                     class="btn btn-sm btn-light"

@@ -218,8 +218,8 @@
                         <div t-else="" class="small opacity-75 mt-1">
                             <span class="fw-bold" t-esc="kpiComparison" />
                             (<t t-esc="formattedValue" /> / <t
-                            t-esc="formattedValue2"
-                        />)
+                                t-esc="formattedValue2"
+                            />)
                         </div>
                     </t>
                 </div>

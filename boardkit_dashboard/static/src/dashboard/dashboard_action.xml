@@ -149,10 +149,10 @@
                                 t-on-click="addItem"
                             >
                                 <i
-                                class="fa fa-plus me-1"
-                                role="img"
-                                aria-label="Add"
-                            />Add Item
+                                    class="fa fa-plus me-1"
+                                    role="img"
+                                    aria-label="Add"
+                                />Add Item
                             </button>
                             <button
                                 class="btn btn-sm btn-light d-none d-md-inline-block"
@@ -262,10 +262,10 @@
                                 t-on-click="addItem"
                             >
                                 <i
-                                class="fa fa-plus me-1"
-                                role="img"
-                                aria-label="Add"
-                            />Add Item
+                                    class="fa fa-plus me-1"
+                                    role="img"
+                                    aria-label="Add"
+                                />Add Item
                             </button>
                         </div>
                     </div>

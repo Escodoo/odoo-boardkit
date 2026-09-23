@@ -17,7 +17,7 @@ Boardkit Dashboard
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-Escodoo%2Fodoo--boardkit-lightgray.png?logo=github
-    :target: https://github.com/Escodoo/odoo-boardkit/tree/18.0/boardkit_dashboard
+    :target: https://github.com/Escodoo/odoo-boardkit/tree/16.0/boardkit_dashboard
     :alt: Escodoo/odoo-boardkit
 
 |badge1| |badge2| |badge3|
@@ -40,58 +40,58 @@ writing code.
 Each dashboard is a grid of items rendered with native web assets (OWL
 and the Chart.js library bundled with Odoo):
 
-- **Tile**: a single aggregated value (count, sum or average) with icon
-  and colors.
-- **KPI**: a value compared against a fixed target or against a second
-  data source (sum, ratio or percentage), optionally compared with the
-  previous period.
-- **Gauge**: a semicircular gauge for a single aggregated value, with
-  optional target and configurable maximum.
-- **Charts**: bar, horizontal bar, line, area, pie, doughnut, polar
-  area, radar, scatter, funnel and bullet, with group by (including date
-  granularity), optional second dimension, multiple measures, record
-  limit, sorting, and optional target, average and linear trend line
-  overlays on cartesian charts.
-- **Multi-level drill down**: configure extra grouping levels per item
-  so each click re-aggregates inside the card (with breadcrumbs) before
-  opening the records.
-- **Map**: choropleth of values grouped by country (``res.country``), or
-  point markers from configurable latitude / longitude fields on any
-  model (partners, tickets, field service orders, ...). An optional
-  focus country crops the outline and zooms the map. The built-in
-  **Contacts Overview** template includes both a country map and a
-  points map on ``partner_latitude`` / ``partner_longitude``.
-- **List**: plain or grouped record lists with pagination and
-  click-through to the records.
+-  **Tile**: a single aggregated value (count, sum or average) with icon
+   and colors.
+-  **KPI**: a value compared against a fixed target or against a second
+   data source (sum, ratio or percentage), optionally compared with the
+   previous period.
+-  **Gauge**: a semicircular gauge for a single aggregated value, with
+   optional target and configurable maximum.
+-  **Charts**: bar, horizontal bar, line, area, pie, doughnut, polar
+   area, radar, scatter, funnel and bullet, with group by (including
+   date granularity), optional second dimension, multiple measures,
+   record limit, sorting, and optional target, average and linear trend
+   line overlays on cartesian charts.
+-  **Multi-level drill down**: configure extra grouping levels per item
+   so each click re-aggregates inside the card (with breadcrumbs) before
+   opening the records.
+-  **Map**: choropleth of values grouped by country (``res.country``),
+   or point markers from configurable latitude / longitude fields on any
+   model (partners, tickets, field service orders, ...). An optional
+   focus country crops the outline and zooms the map. The built-in
+   **Contacts Overview** template includes both a country map and a
+   points map on ``partner_latitude`` / ``partner_longitude``.
+-  **List**: plain or grouped record lists with pagination and
+   click-through to the records.
 
 Dashboard level features:
 
-- Date range filter with presets (today, this month, quarter to date,
-  last 30 days, ...) or a custom range, applied to every item through
-  its configured date field.
-- Predefined domain filters that users can toggle from the dashboard.
-- Ad-hoc filters: any user can pick a field, an operator and a value to
-  filter the items on the fly, without configuration.
-- Per-item data export as CSV or XLSX, honoring the active filters.
-- Drag and resize grid layout: managers save the default layout, every
-  user can keep a personal layout.
-- Publish/unpublish workflow so managers can build boards privately
-  before users see them; optional menu entry under any top-level menu,
-  restricted by groups.
-- Auto refresh interval with a per-user server-side data cache for wall
-  screens, dashboard duplication and JSON export/import.
-- Live preview in the item form while configuring, before saving.
-- Responsive one-column layout on mobile viewports.
+-  Date range filter with presets (today, this month, quarter to date,
+   last 30 days, ...) or a custom range, applied to every item through
+   its configured date field.
+-  Predefined domain filters that users can toggle from the dashboard.
+-  Ad-hoc filters: any user can pick a field, an operator and a value to
+   filter the items on the fly, without configuration.
+-  Per-item data export as CSV or XLSX, honoring the active filters.
+-  Drag and resize grid layout: managers save the default layout, every
+   user can keep a personal layout.
+-  Publish/unpublish workflow so managers can build boards privately
+   before users see them; optional menu entry under any top-level menu,
+   restricted by groups.
+-  Auto refresh interval with a per-user server-side data cache for wall
+   screens, dashboard duplication and JSON export/import.
+-  Live preview in the item form while configuring, before saving.
+-  Responsive one-column layout on mobile viewports.
 
 Data is always read with the access rights of the current user: ACLs and
 record rules of the source models are enforced.
 
-.. |Boards Catalogue| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-boards-catalogue.png
-.. |Contacts Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-contacts-overview.png
-.. |CRM Pipeline| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-crm-pipeline.png
-.. |Sales Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-sales-overview.png
-.. |Purchase Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-purchase-overview.png
-.. |Timesheet Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/18.0/boardkit_dashboard/static/description/images/boardkit-timesheet-overview.png
+.. |Boards Catalogue| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/16.0/boardkit_dashboard/static/description/images/boardkit-boards-catalogue.png
+.. |Contacts Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/16.0/boardkit_dashboard/static/description/images/boardkit-contacts-overview.png
+.. |CRM Pipeline| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/16.0/boardkit_dashboard/static/description/images/boardkit-crm-pipeline.png
+.. |Sales Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/16.0/boardkit_dashboard/static/description/images/boardkit-sales-overview.png
+.. |Purchase Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/16.0/boardkit_dashboard/static/description/images/boardkit-purchase-overview.png
+.. |Timesheet Overview| image:: https://raw.githubusercontent.com/Escodoo/odoo-boardkit/16.0/boardkit_dashboard/static/description/images/boardkit-timesheet-overview.png
 
 **Table of contents**
 
@@ -103,11 +103,11 @@ Configuration
 
 1. Assign users to the proper group in *Settings > Users*:
 
-   - *Dashboard / User*: can open the Boardkit Dashboards app and any
-     dashboard without an Allowed Groups restriction, and keep a
-     personal layout.
-   - *Dashboard / Manager*: can create and configure dashboards and
-     items.
+   -  *Dashboard / User*: can open the Boardkit Dashboards app and any
+      dashboard without an Allowed Groups restriction, and keep a
+      personal layout.
+   -  *Dashboard / Manager*: can create and configure dashboards and
+      items.
 
 2. Optionally set the company default color palette under *All
    Dashboards > Configuration > Settings*. New dashboards created
@@ -222,82 +222,82 @@ dashboard JSON export.
 
 When configuring a **Map** item:
 
-- Choose *Regions* and a Group By field pointing to Countries for a
-  choropleth world map.
+-  Choose *Regions* and a Group By field pointing to Countries for a
+   choropleth world map.
 
-- Choose *Points* and pick the Latitude / Longitude float fields of the
-  source model to plot markers (for example ``partner_latitude`` /
-  ``partner_longitude`` on contacts, or equivalent fields on tickets and
-  field service orders). Records sharing the same coordinates are merged
-  into one marker whose size reflects the record count, or the sum of
-  the *Measure Field* when one is configured.
+-  Choose *Points* and pick the Latitude / Longitude float fields of the
+   source model to plot markers (for example ``partner_latitude`` /
+   ``partner_longitude`` on contacts, or equivalent fields on tickets
+   and field service orders). Records sharing the same coordinates are
+   merged into one marker whose size reflects the record count, or the
+   sum of the *Measure Field* when one is configured.
 
-- Set *Coordinates From* when the source model has no geolocation of its
-  own but points at a model that has, for example ``partner_id`` on
-  leads or on tickets. The Latitude / Longitude fields (and the Regions
-  Group By country) are then picked on the related model, and every
-  record sharing the same related record lands on a single marker.
+-  Set *Coordinates From* when the source model has no geolocation of
+   its own but points at a model that has, for example ``partner_id`` on
+   leads or on tickets. The Latitude / Longitude fields (and the Regions
+   Group By country) are then picked on the related model, and every
+   record sharing the same related record lands on a single marker.
 
-- Optionally set *Focus Country* to crop the outline and zoom the
-  projection to that country (works in both modes). Clicking a point
-  opens the underlying record when *Show Records* is enabled.
+-  Optionally set *Focus Country* to crop the outline and zoom the
+   projection to that country (works in both modes). Clicking a point
+   opens the underlying record when *Show Records* is enabled.
 
-- Once the map is displayed, hover it to reveal the zoom controls in its
-  top right corner, hold Ctrl (Cmd on macOS) and use the mouse wheel to
-  zoom on the pointer, and drag the map to move it around. The reset
-  button restores the original framing. This zoom is a temporary view:
-  it is not saved on the item and resets when the data is refreshed or a
-  filter changes. Set *Focus Country* instead to make a closer framing
-  the default.
+-  Once the map is displayed, hover it to reveal the zoom controls in
+   its top right corner, hold Ctrl (Cmd on macOS) and use the mouse
+   wheel to zoom on the pointer, and drag the map to move it around. The
+   reset button restores the original framing. This zoom is a temporary
+   view: it is not saved on the item and resets when the data is
+   refreshed or a filter changes. Set *Focus Country* instead to make a
+   closer framing the default.
 
-- Click the expand icon in the top bar to enter full screen (TV / kiosk
-  mode). The Odoo navbar is hidden and the dashboard fills the screen.
-  Press ESC or click the compress icon to exit. Auto-refresh keeps
-  running while full screen is active.
+-  Click the expand icon in the top bar to enter full screen (TV / kiosk
+   mode). The Odoo navbar is hidden and the dashboard fills the screen.
+   Press ESC or click the compress icon to exit. Auto-refresh keeps
+   running while full screen is active.
 
-- Use the date filter in the top bar to restrict every item that has a
-  *Date Field* configured. Choose a preset or a custom range.
+-  Use the date filter in the top bar to restrict every item that has a
+   *Date Field* configured. Choose a preset or a custom range.
 
-- Toggle predefined filters to restrict the items whose model matches
-  the filter model.
+-  Toggle predefined filters to restrict the items whose model matches
+   the filter model.
 
-- Use *Add Filter* to build an ad-hoc filter: pick a model, a field, an
-  operator and a value. The filter applies to every item based on that
-  model and shows up as a removable chip. Text filters on relational
-  fields match the record display name.
+-  Use *Add Filter* to build an ad-hoc filter: pick a model, a field, an
+   operator and a value. The filter applies to every item based on that
+   model and shows up as a removable chip. Text filters on relational
+   fields match the record display name.
 
-- Your date range, predefined filters and ad-hoc filters are remembered
-  between visits. Use *Reset My Filters* in the dashboard menu to go
-  back to the board defaults, or *Copy Link* to share the current filter
-  state with someone who can open the same dashboard (the link overrides
-  their saved filters when opened).
+-  Your date range, predefined filters and ad-hoc filters are remembered
+   between visits. Use *Reset My Filters* in the dashboard menu to go
+   back to the board defaults, or *Copy Link* to share the current
+   filter state with someone who can open the same dashboard (the link
+   overrides their saved filters when opened).
 
-- Enable *Compare to Previous Period* on a tile, KPI, or bar / line /
-  area chart (with a *Date Field* and an active date range) to show how
-  the figure moved versus the previous equivalent period. Tiles and KPIs
-  show a delta badge; charts draw a dashed overlay.
+-  Enable *Compare to Previous Period* on a tile, KPI, or bar / line /
+   area chart (with a *Date Field* and an active date range) to show how
+   the figure moved versus the previous equivalent period. Tiles and
+   KPIs show a delta badge; charts draw a dashed overlay.
 
-- Click on a tile, a KPI, a chart section or a list row to open the
-  underlying records. When the item has *Drill Down* levels configured,
-  the first clicks re-aggregate the data inside the card (breadcrumbs
-  let you go back); the click on the last level opens the records. The
-  item form live preview supports the same chart-to-chart drill
-  (including unsaved levels); opening the record list stays disabled
-  there.
+-  Click on a tile, a KPI, a chart section or a list row to open the
+   underlying records. When the item has *Drill Down* levels configured,
+   the first clicks re-aggregate the data inside the card (breadcrumbs
+   let you go back); the click on the last level opens the records. The
+   item form live preview supports the same chart-to-chart drill
+   (including unsaved levels); opening the record list stays disabled
+   there.
 
 Chart colors come from the item's *Color Palette* (Appearance tab):
 
-- *Dashboard Default* (the initial value) follows the *Default Palette*
-  configured on the dashboard form. Changing the dashboard default — or
-  moving the item to another dashboard — restyles every item still using
-  it. An empty dashboard default means the Odoo preset.
-- Pick one of the built-in presets (Odoo, Ocean, Sunset, Electric,
-  Pastel, Vivid, Earth, Royal) to override the dashboard default on a
-  single item, or
-- Pick *Custom* and select a palette created in *All Dashboards >
-  Configuration > Color Palettes*, where managers define an ordered list
-  of hex colors. Palettes used by a dashboard travel inside its JSON
-  export and are recreated on import when missing.
+-  *Dashboard Default* (the initial value) follows the *Default Palette*
+   configured on the dashboard form. Changing the dashboard default — or
+   moving the item to another dashboard — restyles every item still
+   using it. An empty dashboard default means the Odoo preset.
+-  Pick one of the built-in presets (Odoo, Ocean, Sunset, Electric,
+   Pastel, Vivid, Earth, Royal) to override the dashboard default on a
+   single item, or
+-  Pick *Custom* and select a palette created in *All Dashboards >
+   Configuration > Color Palettes*, where managers define an ordered
+   list of hex colors. Palettes used by a dashboard travel inside its
+   JSON export and are recreated on import when missing.
 
 Tiles and KPIs are themed by the palette too: with *Background Style*
 set to *From Palette* (the default) the card uses the darkest palette
@@ -305,41 +305,42 @@ color as background with an automatic contrasting font, and the KPI
 progress bar takes the first palette color. Switch it to *Manual* to
 pick the background and font colors by hand.
 
-- Use *Export CSV* / *Export XLSX* in an item menu to download its data
-  with the current filters applied. Lists export all rows, ignoring
-  pagination.
-- Any dashboard user can switch to *Edit Layout* mode to drag and resize
-  items. Managers can save the default layout for everyone; regular
-  users save a personal layout and can reset it back to the default one.
-- Managers can export the dashboard configuration as JSON from the
-  dashboard action menu. To bring it back, use the *Import* button in
-  the *All Dashboards > Boards* toolbar and pick the file. Imported
-  boards arrive unpublished and without a menu entry, so review them and
-  set *Parent Menu* or *Show as App* before sharing.
+-  Use *Export CSV* / *Export XLSX* in an item menu to download its data
+   with the current filters applied. Lists export all rows, ignoring
+   pagination.
+-  Any dashboard user can switch to *Edit Layout* mode to drag and
+   resize items. Managers can save the default layout for everyone;
+   regular users save a personal layout and can reset it back to the
+   default one.
+-  Managers can export the dashboard configuration as JSON from the
+   dashboard action menu. To bring it back, use the *Import* button in
+   the *All Dashboards > Boards* toolbar and pick the file. Imported
+   boards arrive unpublished and without a menu entry, so review them
+   and set *Parent Menu* or *Show as App* before sharing.
 
 Known issues / Roadmap
 ======================
 
 Planned next, in rough priority order:
 
-- **Periodic KPI digest by email**: scheduled summary of a board's tiles
-  and KPIs, computed with each recipient's own access rights.
-- **Threshold alerts**: notify when an item's value crosses a configured
-  limit.
-- **Print-friendly board**: a print stylesheet that flattens the grid,
-  plus a *Print* entry in the dashboard menu.
+-  **Periodic KPI digest by email**: scheduled summary of a board's
+   tiles and KPIs, computed with each recipient's own access rights.
+-  **Threshold alerts**: notify when an item's value crosses a
+   configured limit.
+-  **Print-friendly board**: a print stylesheet that flattens the grid,
+   plus a *Print* entry in the dashboard menu.
 
 Under consideration, no commitment yet:
 
-- **Cross filtering**: clicking a chart section filters the other items
-  built on the same model.
-- **Read-only public sharing**: token-based access to a board for people
-  without an Odoo user. Needs a dedicated security review before it can
-  be considered.
-- **Value history**: optional snapshots of item values, to show trends
-  and sparklines regardless of what the source model keeps.
-- **Narrative board summary**: shipped in optional addon
-  ``boardkit_dashboard_ai_agno`` (Agno bridge + Summarize panel).
+-  **Cross filtering**: clicking a chart section filters the other items
+   built on the same model.
+-  **Read-only public sharing**: token-based access to a board for
+   people without an Odoo user. Needs a dedicated security review before
+   it can be considered.
+-  **Value history**: optional snapshots of item values, to show trends
+   and sparklines regardless of what the source model keeps.
+-  **Narrative board summary**: shipped in optional addon
+   ``boardkit_dashboard_ai_agno`` (Agno bridge + Summarize panel).
 
 Bug Tracker
 ===========
@@ -347,7 +348,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/Escodoo/odoo-boardkit/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/Escodoo/odoo-boardkit/issues/new?body=module:%20boardkit_dashboard%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/Escodoo/odoo-boardkit/issues/new?body=module:%20boardkit_dashboard%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -362,16 +363,16 @@ Authors
 Contributors
 ------------
 
-- `Escodoo <https://www.escodoo.com.br>`__:
+-  `Escodoo <https://www.escodoo.com.br>`__:
 
-  - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+   -  Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 
 Other credits
 -------------
 
 The development of this module has been financially supported by:
 
-- Escodoo - https://escodoo.com.br
+-  Escodoo - https://escodoo.com.br
 
 Maintainers
 -----------
@@ -384,6 +385,6 @@ Current maintainer:
 
 |maintainer-marcelsavegnago| 
 
-This module is part of the `Escodoo/odoo-boardkit <https://github.com/Escodoo/odoo-boardkit/tree/18.0/boardkit_dashboard>`_ project on GitHub.
+This module is part of the `Escodoo/odoo-boardkit <https://github.com/Escodoo/odoo-boardkit/tree/16.0/boardkit_dashboard>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -411,9 +411,7 @@
         // inflate the first card's width; allow shrink so siblings match.
         min-width: 0;
         flex: 1 1 var(--KanbanRecord-width);
-        transition:
-            box-shadow 0.15s ease,
-            transform 0.15s ease;
+        transition: box-shadow 0.15s ease, transform 0.15s ease;
 
         // Undo Odoo's first-record margin-top: 1px quirk so row 1 aligns.
         &:first-of-type {
@@ -560,10 +558,7 @@
     // Keep the star readable when it sits over the Draft ribbon.
     .o_boardkit_dashboard_kanban_card_draft .o_boardkit_dashboard_kanban_favorite {
         .o_favorite i {
-            text-shadow:
-                0 0 0.15rem #fff,
-                0 0 0.35rem #fff,
-                0 0 0.5rem #fff;
+            text-shadow: 0 0 0.15rem #fff, 0 0 0.35rem #fff, 0 0 0.5rem #fff;
         }
     }
 
@@ -769,10 +764,7 @@
         background: $o-view-background-color;
         text-align: start;
         cursor: pointer;
-        transition:
-            box-shadow 0.15s ease,
-            transform 0.15s ease,
-            border-color 0.15s ease;
+        transition: box-shadow 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
 
         &:hover:not(:disabled) {
             border-color: rgba(139, 92, 246, 0.45);

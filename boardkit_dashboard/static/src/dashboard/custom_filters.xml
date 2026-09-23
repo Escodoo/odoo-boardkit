@@ -26,10 +26,10 @@
             >
                 <button class="btn btn-sm btn-outline-secondary rounded-pill">
                     <i
-                    class="fa fa-filter me-1"
-                    role="img"
-                    aria-label="Custom filter"
-                />Add Filter
+                        class="fa fa-filter me-1"
+                        role="img"
+                        aria-label="Custom filter"
+                    />Add Filter
                 </button>
                 <t t-set-slot="content">
                     <div class="d-flex flex-column gap-2">
