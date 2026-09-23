@@ -115,8 +115,8 @@ class BoardkitDashboardController(http.Controller):
         # BOM so spreadsheet applications detect the UTF-8 encoding.
         return codecs.BOM_UTF8 + buffer.getvalue().encode("utf-8")
 
-    @staticmethod
-    def _to_xlsx(data):
+    @classmethod
+    def _to_xlsx(cls, data):
         output = io.BytesIO()
         workbook = xlsxwriter.Workbook(
             output, {"in_memory": True, "strings_to_formulas": False}
@@ -124,9 +124,9 @@ class BoardkitDashboardController(http.Controller):
         sheet = workbook.add_worksheet(data["name"])
         bold = workbook.add_format({"bold": True})
         for column, header in enumerate(data["headers"]):
-            sheet.write(0, column, str(header), bold)
+            sheet.write(0, column, cls._neutralize_formula(str(header)), bold)
         for row_index, row in enumerate(data["rows"], start=1):
             for column, value in enumerate(row):
-                sheet.write(row_index, column, value)
+                sheet.write(row_index, column, cls._neutralize_formula(value))
         workbook.close()
         return output.getvalue()

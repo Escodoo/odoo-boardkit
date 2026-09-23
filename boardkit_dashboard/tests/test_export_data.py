@@ -4,6 +4,7 @@
 import csv
 import io
 import json
+import zipfile
 from unittest.mock import patch
 from urllib.parse import quote
 
@@ -176,6 +177,19 @@ class TestItemExportData(BoardkitDashboardCommon):
         )
         rows = list(csv.reader(io.StringIO(content.decode("utf-8-sig"))))
         self.assertEqual(rows[1], ["'=CMD()", "safe"])
+
+    def test_xlsx_neutralizes_formula_cells(self):
+        content = BoardkitDashboardController._to_xlsx(
+            {
+                "name": "Export",
+                "headers": ["Name", "Value"],
+                "rows": [["=CMD()", "safe"]],
+            }
+        )
+        with zipfile.ZipFile(io.BytesIO(content)) as archive:
+            shared_strings = archive.read("xl/sharedStrings.xml").decode("utf-8")
+        self.assertIn("'=CMD()", shared_strings)
+        self.assertNotIn("<f>", shared_strings)
 
 
 @tagged("post_install", "-at_install")
