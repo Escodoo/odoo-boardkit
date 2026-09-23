@@ -2,12 +2,17 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from datetime import datetime, timedelta
+from unittest.mock import patch
 
 from dateutil.relativedelta import relativedelta
 
 from odoo import fields
 from odoo.exceptions import ValidationError
 from odoo.tests import tagged
+
+from odoo.addons.boardkit_dashboard.models.boardkit_dashboard_item import (
+    EXPORT_MAX_ROWS,
+)
 
 from .common import BoardkitDashboardCommon
 
@@ -315,6 +320,27 @@ class TestItemData(BoardkitDashboardCommon):
         page_2 = item.get_data({"offset": 2})
         self.assertEqual(len(page_2["rows"]), 1)
         self.assertEqual(page_2["rows"][0]["values"][0], "Dash Partner US 1")
+
+    def test_list_no_pagination_caps_export_max_rows(self):
+        # get_data/get_items_data are ordinary RPC-callable methods: a
+        # client-supplied export_max_rows must not raise the effective
+        # limit above EXPORT_MAX_ROWS.
+        item = self._create_item(
+            name="Uncapped List",
+            item_type="list",
+            list_type="plain",
+            list_column_ids=[
+                (0, 0, {"field_id": self._field("res.partner", "name").id}),
+            ],
+        )
+        with patch(
+            "odoo.addons.boardkit_dashboard.models.boardkit_dashboard_item."
+            "EXPORT_MAX_ROWS",
+            2,
+        ):
+            data = item.get_data({"no_pagination": True, "export_max_rows": 5000000})
+        self.assertEqual(len(data["rows"]), 2)
+        self.assertEqual(EXPORT_MAX_ROWS, 65000)
 
     def test_list_plain_interactive_sort(self):
         item = self._create_item(

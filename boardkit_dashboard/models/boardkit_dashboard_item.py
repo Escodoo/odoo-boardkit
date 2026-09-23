@@ -2239,6 +2239,18 @@ class BoardkitDashboardItem(models.Model):
             return bool(value)
         return value or ""
 
+    @staticmethod
+    def _no_pagination_limit(params):
+        """Row limit for an unpaginated list/grouped-list request.
+
+        ``export_max_rows`` is client-supplied (the export controller sets
+        it, but get_data/get_items_data are ordinary RPC-callable methods
+        any authenticated user with read access can call directly), so it
+        must never raise the effective limit above EXPORT_MAX_ROWS.
+        """
+        requested = int(params.get("export_max_rows") or EXPORT_MAX_ROWS)
+        return min(requested, EXPORT_MAX_ROWS)
+
     def _get_list_data(self, params):
         if self.list_type == "grouped":
             return self._get_grouped_list_data(params)
@@ -2251,7 +2263,7 @@ class BoardkitDashboardItem(models.Model):
             raise ValidationError(_("Configure the columns of this list."))
         offset = int(params.get("offset") or 0)
         if params.get("no_pagination"):
-            limit = int(params.get("export_max_rows") or EXPORT_MAX_ROWS)
+            limit = self._no_pagination_limit(params)
         else:
             limit = self.page_size or 10
         # Interactive header sort overrides the configured sort, but only for
@@ -2301,7 +2313,7 @@ class BoardkitDashboardItem(models.Model):
         aggregates = ["__count"] + [f"{field.name}:sum" for field in measures]
         offset = int(params.get("offset") or 0)
         if params.get("no_pagination"):
-            limit = int(params.get("export_max_rows") or EXPORT_MAX_ROWS)
+            limit = self._no_pagination_limit(params)
         else:
             limit = self.page_size or 10
         rows = read_group(
