@@ -1215,12 +1215,18 @@ class BoardkitDashboardItem(models.Model):
         domain = self._build_domain(params, secondary)
         aggregation = self.aggregation_2 if secondary else self.aggregation
         measure = self.measure_field_2_id if secondary else self.measure_field_id
-        count = model.search_count(domain)
         if aggregation == "count" or not measure:
+            count = model.search_count(domain)
             return count, count, domain
-        rows = read_group(model, domain, [], [f"{measure.name}:{aggregation}"])
-        value = rows[0][0] if rows else 0
-        return value or 0, count, domain
+        # Ask for the count alongside the measure so a single query serves
+        # both, instead of a separate search_count round trip.
+        rows = read_group(
+            model, domain, [], [f"{measure.name}:{aggregation}", "__count"]
+        )
+        if not rows:
+            return 0, 0, domain
+        value, count = rows[0]
+        return value or 0, count or 0, domain
 
     @staticmethod
     def _serialize_domain(domain):

@@ -31,7 +31,11 @@ class TestItemData(BoardkitDashboardCommon):
                 "measure_field_id": self._field("res.partner", "partner_latitude").id,
             }
         )
-        self.assertEqual(self.tile.get_data()["value"], 60.0)
+        sum_data = self.tile.get_data()
+        self.assertEqual(sum_data["value"], 60.0)
+        # Record count must still be correct when aggregating a measure, not
+        # just for the plain count aggregation.
+        self.assertEqual(sum_data["count"], 3)
 
         self.tile.aggregation = "avg"
         self.assertEqual(self.tile.get_data()["value"], 20.0)
