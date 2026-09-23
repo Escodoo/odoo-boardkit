@@ -2325,7 +2325,13 @@ class BoardkitDashboardItem(models.Model):
         rows = read_group(
             model, base_domain, groupby, aggregates, offset=offset, limit=limit
         )
-        total = len(read_group(model, base_domain, groupby, []))
+        if len(rows) < limit:
+            # Fewer rows than requested means this page reached the last
+            # group, so the total is already known without a second,
+            # unbounded group-by scan of the whole table.
+            total = offset + len(rows)
+        else:
+            total = len(read_group(model, base_domain, groupby, []))
         columns = [
             {
                 "name": group_field.name,
