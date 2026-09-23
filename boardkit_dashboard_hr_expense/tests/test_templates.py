@@ -44,7 +44,9 @@ class TestExpenseDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase)
         self.assertEqual(approval.kpi_mode, "comparison")
         self.assertEqual(approval.kpi_display, "percent")
         # Expenses still waiting for a decision belong to the denominator.
-        self.assertIn("submitted", approval.domain_2)
+        # Odoo 16 has no 'submitted' state: submitted expenses are 'reported'.
+        self.assertIn("reported", approval.domain_2)
+        self.assertNotIn("submitted", approval.domain_2)
 
         to_reimburse = dashboard.item_ids.filtered(lambda i: i.name == "To Reimburse")
         self.assertIn("reported", to_reimburse.domain)
