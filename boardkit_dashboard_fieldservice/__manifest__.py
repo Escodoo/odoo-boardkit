@@ -5,7 +5,7 @@
     "name": "Boardkit Dashboard Field Service",
     "summary": "Field Service overview dashboard template for Boardkit",
     "category": "Field Service",
-    "version": "18.0.1.0.0",
+    "version": "16.0.1.0.0",
     "website": "https://github.com/Escodoo/odoo-boardkit",
     "author": "Escodoo",
     "maintainers": ["marcelsavegnago"],
