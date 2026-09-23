@@ -5,13 +5,14 @@
     "name": "Boardkit Dashboard Brazilian Fiscal",
     "summary": "Brazilian fiscal documents overview dashboard template for Boardkit",
     "category": "Localisation",
-    "version": "18.0.1.0.0",
+    "version": "16.0.1.0.0",
     "website": "https://github.com/Escodoo/odoo-boardkit",
     "author": "Escodoo",
     "maintainers": ["marcelsavegnago"],
     "development_status": "Beta",
     "license": "AGPL-3",
-    "depends": ["boardkit_dashboard", "l10n_br_fiscal"],
+    # On 16.0 the e-doc authorization states come from l10n_br_fiscal_edi.
+    "depends": ["boardkit_dashboard", "l10n_br_fiscal_edi"],
     "data": [
         "data/boardkit_dashboard_templates.xml",
     ],
