@@ -17,7 +17,7 @@ Boardkit Dashboard AI (Agno)
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-Escodoo%2Fodoo--boardkit-lightgray.png?logo=github
-    :target: https://github.com/Escodoo/odoo-boardkit/tree/18.0/boardkit_dashboard_ai_agno
+    :target: https://github.com/Escodoo/odoo-boardkit/tree/16.0/boardkit_dashboard_ai_agno
     :alt: Escodoo/odoo-boardkit
 
 |badge1| |badge2| |badge3|
@@ -27,23 +27,23 @@ AI bridge for Boardkit dashboards.
 Adds optional Agno-powered features on top of ``boardkit_dashboard``
 without changing the core module:
 
-- **Board chat** to ask questions about the visible figures and, when
-  requested, apply known date presets / board filters on the dashboard
-- **Insights** narrative from the same figures shown on the cards
-- **Explain this tile** for a single KPI/chart/list
-- **Generate with AI** wizard that turns a natural-language description
-  into an unpublished board via ``import_config``
-- **Per-dashboard toggle** (``Enable AI``) so each board can opt in or
-  out
+-  **Board chat** to ask questions about the visible figures and, when
+   requested, apply known date presets / board filters on the dashboard
+-  **Insights** narrative from the same figures shown on the cards
+-  **Explain this tile** for a single KPI/chart/list
+-  **Generate with AI** wizard that turns a natural-language description
+   into an unpublished board via ``import_config``
+-  **Per-dashboard toggle** (``Enable AI``) so each board can opt in or
+   out
 
 Requires:
 
-- The OCA ``ai_oca_bridge`` stack
-- Escodoo ``ai_agno_connector`` from
-  `ai-addons <https://github.com/Escodoo/ai-addons>`__
-- The companion Agno service from
-  `agno-odoo <https://github.com/Escodoo/agno-odoo>`__
-  (``/bridge/boardkit/*`` endpoints)
+-  The OCA ``ai_oca_bridge`` stack
+-  Escodoo ``ai_agno_connector`` from
+   `ai-addons <https://github.com/Escodoo/ai-addons>`__
+-  The companion Agno service from
+   `agno-odoo <https://github.com/Escodoo/agno-odoo>`__
+   (``/bridge/boardkit/*`` endpoints)
 
 **Table of contents**
 
@@ -56,13 +56,13 @@ Installation
 This module is not standalone. Besides ``boardkit_dashboard``, install
 and run:
 
-- `ai-addons <https://github.com/Escodoo/ai-addons>`__ — Odoo addons, at
-  least ``ai_agno_connector`` (which pulls the OCA ``ai_oca_bridge``
-  stack and Escodoo helpers such as ``ai_oca_bridge_provider`` and
-  ``ai_oca_bridge_request_timeout``).
-- `agno-odoo <https://github.com/Escodoo/agno-odoo>`__ — companion Agno
-  service that serves the ``/bridge/boardkit/*`` endpoints used for
-  chat, insights, tile explanations and board generation.
+-  `ai-addons <https://github.com/Escodoo/ai-addons>`__ — Odoo addons,
+   at least ``ai_agno_connector`` (which pulls the OCA ``ai_oca_bridge``
+   stack and Escodoo helpers such as ``ai_oca_bridge_provider`` and
+   ``ai_oca_bridge_request_timeout``).
+-  `agno-odoo <https://github.com/Escodoo/agno-odoo>`__ — companion Agno
+   service that serves the ``/bridge/boardkit/*`` endpoints used for
+   chat, insights, tile explanations and board generation.
 
 Clone both repositories into the addons / services path of the
 deployment (Doodba ``repos.yaml`` / Compose) before installing
@@ -82,9 +82,9 @@ Configuration
    expose ``/bridge/boardkit/*``.
 3. Set the bridge auth token:
 
-   - Prefer ``agno_bridge_auth_token`` in Odoo conf (expanded from
-     Doodba env), or
-   - Set ICP ``boardkit_dashboard_ai_agno.bridge_auth_token``.
+   -  Prefer ``agno_bridge_auth_token`` in Odoo conf (expanded from
+      Doodba env), or
+   -  Set ICP ``boardkit_dashboard_ai_agno.bridge_auth_token``.
 
 4. Grant **Dashboard / Use AI on Dashboards** to users who may chat,
    summarize or explain boards. Dashboard managers inherit this group
@@ -140,7 +140,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/Escodoo/odoo-boardkit/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/Escodoo/odoo-boardkit/issues/new?body=module:%20boardkit_dashboard_ai_agno%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/Escodoo/odoo-boardkit/issues/new?body=module:%20boardkit_dashboard_ai_agno%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -155,16 +155,16 @@ Authors
 Contributors
 ------------
 
-- `Escodoo <https://www.escodoo.com.br>`__:
+-  `Escodoo <https://www.escodoo.com.br>`__:
 
-  - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+   -  Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 
 Other credits
 -------------
 
 The development of this module has been financially supported by:
 
-- Escodoo - https://escodoo.com.br
+-  Escodoo - https://escodoo.com.br
 
 Maintainers
 -----------
@@ -177,6 +177,6 @@ Current maintainer:
 
 |maintainer-marcelsavegnago| 
 
-This module is part of the `Escodoo/odoo-boardkit <https://github.com/Escodoo/odoo-boardkit/tree/18.0/boardkit_dashboard_ai_agno>`_ project on GitHub.
+This module is part of the `Escodoo/odoo-boardkit <https://github.com/Escodoo/odoo-boardkit/tree/16.0/boardkit_dashboard_ai_agno>`_ project on GitHub.
 
 You are welcome to contribute.
