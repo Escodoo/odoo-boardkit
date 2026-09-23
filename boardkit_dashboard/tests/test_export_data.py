@@ -233,6 +233,24 @@ class TestItemExportHttp(HttpCase):
         self.assertIn("spreadsheetml", response.headers["Content-Type"])
         self.assertTrue(response.content.startswith(b"PK"))
 
+    def test_export_misconfigured_item_returns_clean_error(self):
+        # A list item with no columns raises ValidationError; the export
+        # must report it as a clean 400 JSON error, not a raw 500 traceback.
+        broken = self.env["boardkit.dashboard.item"].create(
+            {
+                "name": "Broken List",
+                "dashboard_id": self.item.dashboard_id.id,
+                "item_type": "list",
+                "model_id": self.env.ref("base.model_res_partner").id,
+            }
+        )
+        response = self.url_open(
+            f"/boardkit_dashboard/item/{broken.id}/export/csv",
+            allow_redirects=False,
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("error", response.json())
+
     def test_export_with_params(self):
         params = {
             "custom_filters": [
