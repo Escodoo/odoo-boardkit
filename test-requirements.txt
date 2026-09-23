@@ -1,0 +1,2 @@
+xsdata
+odoo-addon-ai_oca_bridge @ git+https://github.com/Escodoo/ai@16.0#subdirectory=setup/ai_oca_bridge
