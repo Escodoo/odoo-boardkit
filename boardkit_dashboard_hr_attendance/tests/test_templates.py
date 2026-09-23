@@ -22,13 +22,15 @@ class TestAttendanceDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCa
         self.assertFalse(dashboard.menu_id)
         self.assertEqual(
             dashboard.group_ids,
-            self.env.ref("hr_attendance.group_hr_attendance_officer"),
+            self.env.ref("hr_attendance.group_hr_attendance_user"),
         )
         self.assertEqual(len(dashboard.item_ids), 12)
         self.assertTrue(dashboard.item_ids.filtered(lambda i: i.item_type == "kpi"))
         self.assertEqual(len(dashboard.filter_ids), 4)
-        self.assertTrue(
-            all(item.model_name == "hr.attendance" for item in dashboard.item_ids)
+        # Odoo 16 keeps overtime in its own per-day model.
+        self.assertEqual(
+            set(dashboard.item_ids.mapped("model_name")),
+            {"hr.attendance", "hr.attendance.overtime"},
         )
 
         checked_in = dashboard.item_ids.filtered(lambda i: i.name == "Checked In Now")
@@ -41,22 +43,21 @@ class TestAttendanceDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCa
         self.assertEqual(hours.date_field_id.name, "check_in")
 
         overtime = dashboard.item_ids.filtered(lambda i: i.name == "Overtime Hours")
-        self.assertEqual(overtime.measure_field_id.name, "overtime_hours")
+        self.assertEqual(overtime.model_name, "hr.attendance.overtime")
+        self.assertEqual(overtime.measure_field_id.name, "duration")
         # Missing time is stored as negative overtime and would offset the sum.
-        self.assertIn("('overtime_hours', '>', 0)", overtime.domain)
+        self.assertIn("('duration', '>', 0)", overtime.domain)
 
-        validated = dashboard.item_ids.filtered(
-            lambda i: i.name == "Validated Overtime"
-        )
-        self.assertIn("approved", validated.domain)
+        missing = dashboard.item_ids.filtered(lambda i: i.name == "Missing Hours")
+        self.assertIn("('duration', '<', 0)", missing.domain)
 
-        by_dept = dashboard.item_ids.filtered(lambda i: i.name == "Hours by Department")
-        self.assertEqual(by_dept.item_type, "bar_horizontal")
-        self.assertEqual(by_dept.group_by_field_id.name, "department_id")
+        # department_id is not stored on hr.attendance in Odoo 16.
+        weekly = dashboard.item_ids.filtered(lambda i: i.name == "Hours per Week")
+        self.assertEqual(weekly.group_by_field_id.name, "check_in")
+        self.assertEqual(weekly.group_by_granularity, "week")
 
         recent = dashboard.item_ids.filtered(lambda i: i.name == "Recent Attendances")
         column_names = recent.list_column_ids.mapped("field_id.name")
         self.assertIn("employee_id", column_names)
         self.assertIn("check_in", column_names)
         self.assertIn("worked_hours", column_names)
-        self.assertIn("overtime_hours", column_names)

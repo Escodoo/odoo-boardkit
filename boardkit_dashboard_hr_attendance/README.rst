@@ -26,14 +26,14 @@ Attendance overview dashboard template for Boardkit.
 
 Adds a curated **Attendance Overview** template that managers can
 instantiate from *From template* in the Boards catalogue. The board is
-built on ``hr.attendance`` and lands unpublished so it can be reviewed
-before users see it.
+built on ``hr.attendance`` and ``hr.attendance.overtime``, and lands
+unpublished so it can be reviewed before users see it.
 
 It focuses on check-in/out health: currently checked-in employees,
-attendance counts, worked and overtime hours, average hours, overtime
-approvals, daily trends, department and employee breakdowns, check-in
-modes, and a recent attendances list. Toggle filters cover my
-attendances, my team, open check-ins and overtime to approve.
+attendance counts, worked and overtime hours, missing hours, overtime
+adjustments, daily and weekly trends, employee breakdowns, overtime by
+employee, and a recent attendances list. Toggle filters cover my
+attendances, my team, open check-ins and long shifts.
 
 |Attendance Overview|
 
@@ -54,11 +54,12 @@ As a Dashboard Manager, open *All Dashboards > Boards*, click *From
 template*, and choose **Attendance Overview**. Optionally rename the
 board in the wizard.
 
-The board opens with the date filter on *This Month*. Live backlog tiles
-(Checked In Now, Overtime To Approve) ignore that filter so they always
-show the current queue. Other cards use *Check In* and follow the date
-filter. Use the toggle filters (My Attendances, My Team, Open Check-Ins,
-Overtime To Approve) to narrow the other cards.
+The board opens with the date filter on *This Month*. The live backlog
+tile (Checked In Now) ignores that filter so it always shows the current
+queue. Attendance cards use *Check In* and overtime cards use the
+overtime *Day*, and both follow the date filter. Use the toggle filters
+(My Attendances, My Team, Open Check-Ins, Long Shifts) to narrow the
+attendance cards.
 
 When installed with demo data, a published board is created from this
 template and placed first (sequence ``-1``) under the related app menu.
