@@ -48,7 +48,7 @@
           "aggregation": "count",
           "icon": "fa-check-square-o",
           "compare_previous_period": true,
-          "domain": "[('state', '=', '1_done')]",
+          "domain": "[('is_closed', '=', True)]",
           "date_field_id": "date_end",
           "layout": {
             "x": 3,
@@ -95,7 +95,7 @@
           "aggregation": "count",
           "kpi_mode": "comparison",
           "kpi_display": "percent",
-          "domain": "[('state', '=', '1_done')]",
+          "domain": "[('is_closed', '=', True)]",
           "model_2": "project.task",
           "aggregation_2": "count",
           "domain_2": "[]",
@@ -125,12 +125,12 @@
           "index": 5
         },
         {
-          "name": "Waiting Tasks",
+          "name": "Blocked Tasks",
           "item_type": "tile",
           "model": "project.task",
           "aggregation": "count",
           "icon": "fa-hourglass-half",
-          "domain": "[('state', '=', '04_waiting_normal')]",
+          "domain": "[('is_closed', '=', False), ('kanban_state', '=', 'blocked')]",
           "layout": {
             "x": 9,
             "y": 2,
@@ -149,7 +149,7 @@
           "date_field_id": "date_end",
           "chart_sort": "label_asc",
           "show_trend_line": true,
-          "domain": "[('state', '=', '1_done')]",
+          "domain": "[('is_closed', '=', True)]",
           "layout": {
             "x": 0,
             "y": 4,
@@ -198,7 +198,7 @@
           "item_type": "bar",
           "model": "project.task",
           "aggregation": "count",
-          "group_by_field_id": "state",
+          "group_by_field_id": "kanban_state",
           "chart_sort": "value_desc",
           "domain": "[]",
           "layout": {
@@ -222,7 +222,7 @@
             "name",
             "project_id",
             "stage_id",
-            "state",
+            "kanban_state",
             "priority",
             "date_deadline"
           ],
