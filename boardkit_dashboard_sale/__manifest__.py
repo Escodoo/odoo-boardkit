@@ -5,7 +5,7 @@
     "name": "Boardkit Dashboard Sale",
     "summary": "Sales overview dashboard template for Boardkit",
     "category": "Sales",
-    "version": "18.0.1.0.0",
+    "version": "16.0.1.0.0",
     "website": "https://github.com/Escodoo/odoo-boardkit",
     "author": "Escodoo",
     "maintainers": ["marcelsavegnago"],
