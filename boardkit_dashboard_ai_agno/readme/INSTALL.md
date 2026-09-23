@@ -1,8 +1,10 @@
 This module is not standalone. Besides `boardkit_dashboard`, install and run:
 
-- **[ai-addons](https://github.com/Escodoo/ai-addons)** — Odoo addons, at least
-  `ai_agno_connector` (which pulls the OCA `ai_oca_bridge` stack and Escodoo
-  helpers such as `ai_oca_bridge_provider` and `ai_oca_bridge_request_timeout`).
+- **[Escodoo/ai](https://github.com/Escodoo/ai)** (`16.0`) — provides
+  `ai_oca_bridge`, the only Odoo dependency on 16.0. The Escodoo helpers used
+  on 18.0 (`ai_agno_connector`, `ai_oca_bridge_provider`,
+  `ai_oca_bridge_request_timeout`) are not needed: the bridge token lookup and
+  the request timeout are handled by this module.
 - **[agno-odoo](https://github.com/Escodoo/agno-odoo)** — companion Agno
   service that serves the `/bridge/boardkit/*` endpoints used for chat,
   insights, tile explanations and board generation.

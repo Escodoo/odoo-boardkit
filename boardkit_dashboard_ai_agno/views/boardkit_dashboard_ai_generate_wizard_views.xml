@@ -15,7 +15,7 @@
                         colspan="2"
                     />
                 </group>
-                <group invisible="not dashboard_ids">
+                <group attrs="{'invisible': [('dashboard_ids', '=', [])]}">
                     <field name="dashboard_ids" widget="many2many_tags" />
                     <field name="result_html" nolabel="1" colspan="2" />
                 </group>
@@ -25,14 +25,14 @@
                         type="object"
                         string="Generate"
                         class="btn-primary"
-                        invisible="dashboard_ids"
+                        attrs="{'invisible': [('dashboard_ids', '!=', [])]}"
                     />
                     <button
                         name="action_open_dashboards"
                         type="object"
                         string="Open Dashboards"
                         class="btn-primary"
-                        invisible="not dashboard_ids"
+                        attrs="{'invisible': [('dashboard_ids', '=', [])]}"
                     />
                     <button string="Close" class="btn-secondary" special="cancel" />
                 </footer>

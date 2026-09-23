@@ -38,9 +38,8 @@ without changing the core module:
 
 Requires:
 
--  The OCA ``ai_oca_bridge`` stack
--  Escodoo ``ai_agno_connector`` from
-   `ai-addons <https://github.com/Escodoo/ai-addons>`__
+-  ``ai_oca_bridge`` from `Escodoo/ai <https://github.com/Escodoo/ai>`__
+   (``16.0``)
 -  The companion Agno service from
    `agno-odoo <https://github.com/Escodoo/agno-odoo>`__
    (``/bridge/boardkit/*`` endpoints)
@@ -56,10 +55,12 @@ Installation
 This module is not standalone. Besides ``boardkit_dashboard``, install
 and run:
 
--  `ai-addons <https://github.com/Escodoo/ai-addons>`__ — Odoo addons,
-   at least ``ai_agno_connector`` (which pulls the OCA ``ai_oca_bridge``
-   stack and Escodoo helpers such as ``ai_oca_bridge_provider`` and
-   ``ai_oca_bridge_request_timeout``).
+-  `Escodoo/ai <https://github.com/Escodoo/ai>`__ (``16.0``) — provides
+   ``ai_oca_bridge``, the only Odoo dependency on 16.0. The Escodoo
+   helpers used on 18.0 (``ai_agno_connector``,
+   ``ai_oca_bridge_provider``, ``ai_oca_bridge_request_timeout``) are
+   not needed: the bridge token lookup and the request timeout are
+   handled by this module.
 -  `agno-odoo <https://github.com/Escodoo/agno-odoo>`__ — companion Agno
    service that serves the ``/bridge/boardkit/*`` endpoints used for
    chat, insights, tile explanations and board generation.
@@ -71,11 +72,9 @@ deployment (Doodba ``repos.yaml`` / Compose) before installing
 Configuration
 =============
 
-1. Install ``boardkit_dashboard_ai_agno`` together with its AI
-   dependencies from
-   `ai-addons <https://github.com/Escodoo/ai-addons>`__
-   (``ai_agno_connector`` and the OCA ``ai_oca_bridge`` stack it depends
-   on).
+1. Install ``boardkit_dashboard_ai_agno`` together with
+   ``ai_oca_bridge`` from `Escodoo/ai <https://github.com/Escodoo/ai>`__
+   (``16.0``).
 2. Deploy and run the companion Agno service from
    `agno-odoo <https://github.com/Escodoo/agno-odoo>`__. It must be
    reachable at the bridge URLs (default ``http://agno:8000``) and
@@ -92,14 +91,13 @@ Configuration
 5. On each board form, enable **Enable AI** when chat/insights/explain
    should be available on that dashboard (on by default). Users still
    need the AI group.
-6. Configure a chat LLM (env ``LLM_*`` on Agno and/or Odoo Settings →
-   Agno AI BYOK).
+6. Configure a chat LLM (env ``LLM_*`` on the Agno service).
 7. Upgrade the module after pulling so the Boardkit Chat bridge
    (``/bridge/boardkit/chat``) is created and receives the auth token.
-8. The Boardkit bridges use a ``request_timeout`` of 120–180 seconds.
-   Raise Odoo's ``limit_time_real`` (and the HTTP proxy timeout, if any)
-   above that value so a long LLM call is not killed before the bridge
-   answers.
+8. The Boardkit bridges use an HTTP timeout of 120–180 seconds, set in
+   code per bridge (``_BRIDGE_TIMEOUTS``). Raise Odoo's
+   ``limit_time_real`` (and the HTTP proxy timeout, if any) above that
+   value so a long LLM call is not killed before the bridge answers.
 
 Usage
 =====

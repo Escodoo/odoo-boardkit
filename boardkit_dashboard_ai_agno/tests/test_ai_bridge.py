@@ -1,10 +1,13 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from unittest.mock import MagicMock, patch
+
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 from ..hooks import ICP_KEY, apply_auth_token, post_init_hook
+from ..models.boardkit_dashboard import _BRIDGE_TIMEOUTS
 
 
 @tagged("post_install", "-at_install")
@@ -25,8 +28,35 @@ class TestBoardkitAiBridges(TransactionCase):
             self.assertEqual(bridge.usage, "none")
             self.assertEqual(bridge.payload_type, "boardkit")
             self.assertEqual(bridge.result_type, "boardkit")
-            self.assertEqual(bridge.provider, "agno")
             self.assertTrue(bridge.url.endswith(path))
+            # LLM endpoints need more than the default 30s of ai_oca_bridge.
+            self.assertGreaterEqual(
+                _BRIDGE_TIMEOUTS[bridge.get_external_id()[bridge.id]], 120
+            )
+
+    def test_execute_uses_boardkit_timeout(self):
+        bridge = self.env.ref("boardkit_dashboard_ai_agno.ai_bridge_boardkit_chat")
+        dashboard = self.env["boardkit.dashboard"].create({"name": "Timeout Board"})
+        execution = self.env["ai.bridge.execution"].create(
+            {
+                "ai_bridge_id": bridge.id,
+                "model_id": self.env["ir.model"]._get("boardkit.dashboard").id,
+                "res_id": dashboard.id,
+            }
+        )
+        response = MagicMock(content=b"{}")
+        response.json.return_value = {"body": "<p>ok</p>"}
+        post_path = (
+            "odoo.addons.boardkit_dashboard_ai_agno.models.ai_bridge_execution"
+            ".requests.post"
+        )
+        with patch(post_path, return_value=response) as post:
+            result = execution.with_context(boardkit_request_timeout=150)._execute(
+                message="Why?"
+            )
+        self.assertEqual(post.call_args.kwargs["timeout"], 150)
+        self.assertEqual(execution.state, "done")
+        self.assertEqual(result["body"], "<p>ok</p>")
 
     def test_apply_auth_token(self):
         bridge = self.env.ref("boardkit_dashboard_ai_agno.ai_bridge_boardkit_summary")
@@ -34,7 +64,7 @@ class TestBoardkitAiBridges(TransactionCase):
         self.env["ir.config_parameter"].sudo().set_param(ICP_KEY, "boardkit-token")
         apply_auth_token(self.env)
         self.assertEqual(bridge.auth_token, "boardkit-token")
-        post_init_hook(self.env)
+        post_init_hook(self.env.cr, self.env.registry)
         self.assertEqual(bridge.auth_token, "boardkit-token")
 
     def test_prepare_payload_boardkit_from_record(self):

@@ -4,6 +4,7 @@
         t-name="boardkit_dashboard.ItemCard"
         t-inherit="boardkit_dashboard.ItemCard"
         t-inherit-mode="extension"
+        owl="1"
     >
         <xpath expr="//DropdownItem[contains(., 'Export XLSX')]" position="after">
             <DropdownItem

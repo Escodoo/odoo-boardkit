@@ -46,7 +46,7 @@ class TestDashboardAiTour(HttpCase):
             side_effect=_fake_run,
         ):
             self.start_tour(
-                f"/odoo/action-{dashboard.client_action_id.id}",
+                f"/web#action={dashboard.client_action_id.id}",
                 "boardkit_dashboard_ai_tour",
                 login="admin",
             )

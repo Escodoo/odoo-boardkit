@@ -13,9 +13,7 @@ changing the core module:
 
 Requires:
 
-- The OCA `ai_oca_bridge` stack
-- Escodoo `ai_agno_connector` from
-  [ai-addons](https://github.com/Escodoo/ai-addons)
+- `ai_oca_bridge` from [Escodoo/ai](https://github.com/Escodoo/ai) (`16.0`)
 - The companion Agno service from
   [agno-odoo](https://github.com/Escodoo/agno-odoo)
   (`/bridge/boardkit/*` endpoints)

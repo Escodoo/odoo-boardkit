@@ -25,6 +25,14 @@ _BRIDGE_SUMMARY = "boardkit_dashboard_ai_agno.ai_bridge_boardkit_summary"
 _BRIDGE_EXPLAIN = "boardkit_dashboard_ai_agno.ai_bridge_boardkit_explain"
 _BRIDGE_GENERATE = "boardkit_dashboard_ai_agno.ai_bridge_boardkit_generate"
 _BRIDGE_CHAT = "boardkit_dashboard_ai_agno.ai_bridge_boardkit_chat"
+# HTTP timeout (seconds) per bridge: LLM answers take longer than the default
+# 30s of ai_oca_bridge. Raise limit_time_real (and any proxy timeout) above.
+_BRIDGE_TIMEOUTS = {
+    _BRIDGE_SUMMARY: 120,
+    _BRIDGE_EXPLAIN: 120,
+    _BRIDGE_GENERATE: 180,
+    _BRIDGE_CHAT: 120,
+}
 
 _AI_CHAT_HISTORY_LIMIT = 10
 _AI_CHAT_MESSAGE_MAX_LEN = 2000
@@ -90,7 +98,8 @@ class BoardkitDashboard(models.Model):
     def action_ai_summarize(self, params=None):
         """Build a snapshot of the board and return an AI narrative."""
         self.ensure_one()
-        self.check_access("read")
+        self.check_access_rights("read")
+        self.check_access_rule("read")
         self._check_ai_on_dashboard()
         snapshot = self._prepare_ai_snapshot(params)
         return self._run_boardkit_bridge(
@@ -103,10 +112,12 @@ class BoardkitDashboard(models.Model):
     def action_ai_explain_item(self, item_id, params=None):
         """Explain a single tile/KPI/chart with the current filter context."""
         self.ensure_one()
-        self.check_access("read")
+        self.check_access_rights("read")
+        self.check_access_rule("read")
         self._check_ai_on_dashboard()
         item = self.env["boardkit.dashboard.item"].browse(item_id)
-        item.check_access("read")
+        item.check_access_rights("read")
+        item.check_access_rule("read")
         if item.dashboard_id != self:
             raise ValidationError(_("The item does not belong to this dashboard."))
         item_snapshot = self._compact_item_payload(item, params)
@@ -126,7 +137,8 @@ class BoardkitDashboard(models.Model):
     def action_ai_chat(self, params=None, message=None, history=None):
         """Answer a question about the board using the current filter snapshot."""
         self.ensure_one()
-        self.check_access("read")
+        self.check_access_rights("read")
+        self.check_access_rule("read")
         self._check_ai_on_dashboard()
         text = (message or "").strip()
         if not text:
@@ -640,7 +652,9 @@ class BoardkitDashboard(models.Model):
         )
         # Do not pass record/res_id here: ai.bridge.execution._execute already
         # injects them into _prepare_payload and **kwargs would collide.
-        result = execution._execute(**kwargs)
+        result = execution.with_context(
+            boardkit_request_timeout=_BRIDGE_TIMEOUTS.get(xmlid)
+        )._execute(**kwargs)
         if execution.state == "error":
             _logger.warning(
                 "Boardkit AI bridge %s failed: %s",

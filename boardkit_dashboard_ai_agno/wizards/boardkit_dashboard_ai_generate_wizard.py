@@ -66,6 +66,6 @@ class BoardkitDashboardAiGenerateWizard(models.TransientModel):
             "name": _("Dashboards"),
             "res_model": "boardkit.dashboard",
             "domain": [("id", "in", self.dashboard_ids.ids)],
-            "view_mode": "list,form",
+            "view_mode": "tree,form",
             "target": "current",
         }

@@ -669,6 +669,8 @@ class TestBoardkitAiSnapshot(TransactionCase):
         self.assertIn("not allowed", str(err.exception))
         bridge.group_ids = original_groups
         execution = MagicMock()
+        # _run_boardkit_bridge sets the request timeout through the context.
+        execution.with_context.return_value = execution
         execution.state = "error"
         execution.error = "timeout"
         execution._execute.return_value = {}
@@ -749,7 +751,7 @@ class TestBoardkitAiSnapshot(TransactionCase):
         self.assertFalse(wizard.result_html)
         open_action = wizard.action_open_dashboards()
         self.assertEqual(open_action["res_model"], "boardkit.dashboard")
-        self.assertEqual(open_action["view_mode"], "list,form")
+        self.assertEqual(open_action["view_mode"], "tree,form")
         self.assertEqual(
             open_action["domain"],
             [("id", "in", wizard.dashboard_ids.ids)],

@@ -18,8 +18,6 @@
         <field name="result_type">boardkit</field>
         <field name="result_kind">immediate</field>
         <field name="auth_type">token</field>
-        <field name="provider">agno</field>
-        <field name="request_timeout" eval="120" />
         <field name="url">http://agno:8000/bridge/boardkit/summary</field>
         <field
             name="group_ids"
@@ -41,8 +39,6 @@
         <field name="result_type">boardkit</field>
         <field name="result_kind">immediate</field>
         <field name="auth_type">token</field>
-        <field name="provider">agno</field>
-        <field name="request_timeout" eval="120" />
         <field name="url">http://agno:8000/bridge/boardkit/explain</field>
         <field
             name="group_ids"
@@ -65,8 +61,6 @@
         <field name="result_type">boardkit</field>
         <field name="result_kind">immediate</field>
         <field name="auth_type">token</field>
-        <field name="provider">agno</field>
-        <field name="request_timeout" eval="180" />
         <field name="url">http://agno:8000/bridge/boardkit/generate</field>
         <field
             name="group_ids"
@@ -89,8 +83,6 @@
         <field name="result_type">boardkit</field>
         <field name="result_kind">immediate</field>
         <field name="auth_type">token</field>
-        <field name="provider">agno</field>
-        <field name="request_timeout" eval="120" />
         <field name="url">http://agno:8000/bridge/boardkit/chat</field>
         <field
             name="group_ids"

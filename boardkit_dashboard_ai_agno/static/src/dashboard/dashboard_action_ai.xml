@@ -4,6 +4,7 @@
         t-name="boardkit_dashboard.DashboardAction"
         t-inherit="boardkit_dashboard.DashboardAction"
         t-inherit-mode="extension"
+        owl="1"
     >
         <xpath
             expr="//div[hasclass('o_boardkit_dashboard_topbar_actions')]"

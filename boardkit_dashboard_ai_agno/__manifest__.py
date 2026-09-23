@@ -5,7 +5,7 @@
     "name": "Boardkit Dashboard AI (Agno)",
     "summary": "Board chat, insights, tile explanations and NL generation via Agno",
     "category": "Productivity",
-    "version": "18.0.1.0.0",
+    "version": "16.0.1.0.0",
     "website": "https://github.com/Escodoo/odoo-boardkit",
     "author": "Escodoo",
     "maintainers": ["marcelsavegnago"],
@@ -14,9 +14,6 @@
     "depends": [
         "boardkit_dashboard",
         "ai_oca_bridge",
-        "ai_oca_bridge_provider",
-        "ai_oca_bridge_request_timeout",
-        "ai_agno_connector",
     ],
     "data": [
         "security/boardkit_dashboard_ai_agno_security.xml",
@@ -33,7 +30,7 @@
         "web.assets_backend": [
             "boardkit_dashboard_ai_agno/static/src/dashboard/**/*",
         ],
-        "web.assets_unit_tests": [
+        "web.qunit_suite_tests": [
             "boardkit_dashboard_ai_agno/static/tests/dashboard_ai.test.js",
         ],
         "web.assets_tests": [
