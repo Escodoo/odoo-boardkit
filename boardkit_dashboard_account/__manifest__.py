@@ -5,7 +5,7 @@
     "name": "Boardkit Dashboard Account",
     "summary": "Invoicing dashboard template for Boardkit",
     "category": "Accounting",
-    "version": "18.0.1.0.0",
+    "version": "16.0.1.0.0",
     "website": "https://github.com/Escodoo/odoo-boardkit",
     "author": "Escodoo",
     "maintainers": ["marcelsavegnago"],
