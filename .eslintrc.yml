@@ -4,13 +4,26 @@ env:
 
 # See https://github.com/OCA/odoo-community.org/issues/37#issuecomment-470686449
 parserOptions:
-  ecmaVersion: 2019
+  # Boardkit shares its JS with the 18.0 branch (static class fields, optional
+  # chaining), which the Odoo 16 web client runs as-is.
+  ecmaVersion: 2022
 
 overrides:
   - files:
       - "**/*.esm.js"
+      # Boardkit keeps the 18.0 file names: Odoo 16 transpiles every file that
+      # starts with the @odoo-module annotation.
+      - "boardkit_dashboard*/static/src/**/*.js"
+      - "boardkit_dashboard*/static/tests/**/*.js"
+    excludedFiles:
+      # Plain scripts framing the vendored Chart.js 4 bundle.
+      - "boardkit_dashboard/static/src/chartjs_isolation/*.js"
     parserOptions:
       sourceType: module
+  - files:
+      - "boardkit_dashboard*/static/tests/**/*.js"
+    globals:
+      QUnit: readonly
 
 # Globals available in Odoo that shouldn't produce errorings
 globals:
