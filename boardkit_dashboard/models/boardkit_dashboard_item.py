@@ -646,12 +646,13 @@ class BoardkitDashboardItem(models.Model):
     @api.constrains("date_filter", "date_from", "date_to")
     def _check_custom_dates(self):
         for rec in self:
-            if (
-                rec.date_filter == "custom"
-                and rec.date_from
-                and rec.date_to
-                and rec.date_from > rec.date_to
-            ):
+            if rec.date_filter != "custom":
+                continue
+            if not rec.date_from or not rec.date_to:
+                raise ValidationError(
+                    _("Custom date filter requires both start and end dates.")
+                )
+            if rec.date_from > rec.date_to:
                 raise ValidationError(_("Start date must be before end date."))
 
     @api.constrains(
