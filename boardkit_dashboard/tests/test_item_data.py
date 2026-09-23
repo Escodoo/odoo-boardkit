@@ -975,6 +975,12 @@ class TestItemData(BoardkitDashboardCommon):
                 }
             )
 
+    def test_item_custom_date_requires_both_dates(self):
+        with self.assertRaises(ValidationError):
+            self._create_item(name="Custom Missing To", date_filter="custom")
+        with self.assertRaises(ValidationError):
+            self.tile.write({"date_filter": "custom", "date_from": False})
+
     def test_custom_filter_other_model_ignored(self):
         params = self._custom_params("name", "ilike", "BR", model="res.users")
         self.assertEqual(self.tile.get_data(params)["value"], 3)
