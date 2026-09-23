@@ -370,6 +370,20 @@ class TestItemData(BoardkitDashboardCommon):
         self.assertEqual(rows["Brazil"], [2, 30.0])
         self.assertEqual(rows["United States"], [1, 30.0])
 
+    def test_list_grouped_total_with_more_pages(self):
+        # A full page (len(rows) == limit) cannot tell whether more groups
+        # exist beyond it, so the total must still reflect every group.
+        item = self._create_item(
+            name="Grouped List Paged",
+            item_type="list",
+            list_type="grouped",
+            group_by_field_id=self._field("res.partner", "country_id").id,
+            page_size=1,
+        )
+        data = item.get_data()
+        self.assertEqual(len(data["rows"]), 1)
+        self.assertEqual(data["total"], 2)
+
     def test_date_filter_precedence(self):
         self.tile.write(
             {
