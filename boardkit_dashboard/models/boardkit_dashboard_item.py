@@ -1717,15 +1717,40 @@ class BoardkitDashboardItem(models.Model):
             return ("m2o", raw.id)
         return ("v", raw)
 
-    def _shift_group_key(self, group_field, key, delta):
+    def _period_shift(self, params, granularity, delta):
+        """Amount to subtract from a bucket's raw key to reach its previous
+        equivalent bucket.
+
+        Month/quarter/year buckets have uneven lengths, so shifting every
+        bucket by the period's raw day count drifts across buckets (e.g. a
+        91-day quarter shifted in days does not land April on January).
+        Shift by whole calendar intervals instead, using the number of
+        ``granularity`` buckets spanned by the current period.
+        """
+        if granularity in ("month", "quarter", "year"):
+            start, end = self._effective_date_range(params)
+            if start and end:
+                months = (end.year - start.year) * 12 + (end.month - start.month)
+                if granularity == "quarter":
+                    periods = max(1, round(months / 3))
+                elif granularity == "year":
+                    periods = max(1, round(months / 12))
+                else:
+                    periods = max(1, months)
+                return GRANULARITY_INTERVAL[granularity] * periods
+        return delta
+
+    def _shift_group_key(self, group_field, key, shift):
         """Map a current bucket key onto the equivalent previous-period key."""
         if not key or group_field.ttype not in ("date", "datetime"):
             return key
         __, raw = key
         if isinstance(raw, datetime):
-            return ("v", raw - delta)
+            return ("v", raw - shift)
         if isinstance(raw, date):
-            return ("v", raw - timedelta(days=delta.days))
+            if isinstance(shift, timedelta):
+                shift = timedelta(days=shift.days)
+            return ("v", raw - shift)
         return key
 
     def _previous_period_value_map(self, params, group_field, granularity):
@@ -1751,12 +1776,13 @@ class BoardkitDashboardItem(models.Model):
         )
         if value_map is None:
             return None
+        shift = self._period_shift(params, granularity, delta)
         datasets = []
         measure_count = len(measure_labels)
         for measure_index, measure_label in enumerate(measure_labels):
             data = []
             for key in group_keys:
-                lookup = self._shift_group_key(group_field, key, delta)
+                lookup = self._shift_group_key(group_field, key, shift)
                 values = value_map.get(lookup) or [0] * measure_count
                 data.append(values[measure_index] if measure_index < len(values) else 0)
             datasets.append({"label": measure_label, "data": data})

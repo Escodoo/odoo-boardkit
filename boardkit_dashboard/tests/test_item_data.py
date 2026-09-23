@@ -3,6 +3,8 @@
 
 from datetime import datetime, timedelta
 
+from dateutil.relativedelta import relativedelta
+
 from odoo import fields
 from odoo.exceptions import ValidationError
 from odoo.tests import tagged
@@ -242,6 +244,28 @@ class TestItemData(BoardkitDashboardCommon):
         self.assertEqual(len(previous[0]["data"]), len(data["labels"]))
         # Partners were created today, so the previous period is empty.
         self.assertEqual(previous[0]["data"], [0] * len(data["labels"]))
+
+    def test_previous_period_shift_aligns_month_buckets_in_quarter(self):
+        # A 91/92-day quarter shifted by its raw day count does not land a
+        # month bucket on the same day-of-month one quarter back; the shift
+        # must be a whole number of calendar months instead.
+        item = self._create_item(
+            name="Quarter Previous",
+            item_type="bar",
+            group_by_field_id=self._field("res.partner", "create_date").id,
+            group_by_granularity="month",
+            date_field_id=self._field("res.partner", "create_date").id,
+            compare_previous_period=True,
+        )
+        params = {"date_preset": "this_quarter"}
+        start, end = item._effective_date_range(params)
+        shift = item._period_shift(params, "month", end - start)
+        self.assertEqual(shift, relativedelta(months=3))
+        key = ("v", start)
+        self.assertEqual(
+            item._shift_group_key(item.group_by_field_id, key, shift),
+            ("v", start - relativedelta(months=3)),
+        )
 
     def test_kpi_comparison(self):
         item = self._create_item(
