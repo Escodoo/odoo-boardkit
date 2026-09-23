@@ -195,11 +195,11 @@
           "index": 9
         },
         {
-          "name": "Surveys by Type",
+          "name": "Surveys by Scoring",
           "item_type": "bar",
           "model": "survey.survey",
           "aggregation": "count",
-          "group_by_field_id": "survey_type",
+          "group_by_field_id": "scoring_type",
           "chart_sort": "value_desc",
           "domain": "[('active', '=', True)]",
           "layout": {
