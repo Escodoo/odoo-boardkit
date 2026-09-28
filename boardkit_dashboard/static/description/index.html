@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BoardKit Dashboard</title>
+  </head>
+  <body>
+    <section
+      class="oe_container"
+      style="font-family: Helvetica, Arial, sans-serif; color: #334155"
+    >
+      <div class="row">
+        <div class="col-md-12">
+          <div
+            class="bg-white"
+            style="
+              border-radius: 20px;
+              box-shadow: 0 8px 30px rgba(76, 29, 149, 0.12);
+              overflow: hidden;
+              border: 1px solid #ede9fe;
+            "
+          >
+            <!-- Banner -->
+            <div class="text-center">
+              <img
+                class="img img-responsive img-fluid"
+                src="banner.png"
+                alt="BoardKit Dashboard — open source dashboards, KPIs and charts for Odoo"
+                style="width: 100%; display: block"
+              />
+            </div>
+
+            <!-- Contact strip -->
+            <div
+              class="row"
+              style="
+                background-color: #2e1065;
+                margin-left: 0;
+                margin-right: 0;
+                padding: 18px 20px;
+              "
+            >
+              <div class="col-md-8" style="padding-top: 6px; padding-bottom: 6px">
+                <p
+                  style="
+                    margin: 0;
+                    color: #c4b5fd;
+                    font-size: 12px;
+                    font-weight: 700;
+                    letter-spacing: 0.08em;
+                    text-transform: uppercase;
+                  "
+                >
+                  Escodoo · Open Source · AGPL-3
+                </p>
+                <p
+                  style="
+                    margin: 4px 0 0 0;
+                    color: #ffffff;
+                    font-size: 15px;
+                    font-weight: 500;
+                  "
+                >
+                  Need help getting started? We are happy to help.
+                </p>
+              </div>
+              <div
+                class="col-md-4 text-md-right text-center"
+                style="padding-top: 6px; padding-bottom: 6px"
+              >
+                <a
+                  href="mailto:contato@escodoo.com.br"
+                  style="
+                    display: inline-block;
+                    padding: 12px 20px;
+                    border-radius: 8px;
+                    background-color: #8b5cf6;
+                    color: #ffffff;
+                    font-size: 14px;
+                    font-weight: 700;
+                    text-decoration: none;
+                  "
+                  >contato@escodoo.com.br</a
+                >
+              </div>
+            </div>
+
+            <!-- Hero -->
+            <div style="padding: 40px 28px 28px 28px; text-align: center">
+              <img
+                src="icon.png"
+                alt="BoardKit"
+                style="width: 72px; height: 72px; margin-bottom: 14px"
+              />
+              <h1
+                style="
+                  margin: 0 0 12px 0;
+                  color: #2e1065;
+                  font-size: 36px;
+                  font-weight: 700;
+                  line-height: 1.15;
+                "
+              >
+                BoardKit
+                <span style="color: #7c3aed">Dashboard</span>
+              </h1>
+              <p
+                style="
+                  margin: 0 auto 22px auto;
+                  max-width: 680px;
+                  color: #64748b;
+                  font-size: 17px;
+                  line-height: 1.6;
+                "
+              >
+                Build configurable analytic dashboards on top of
+                <strong style="color: #2e1065">any Odoo model</strong> — tiles,
+                KPIs, gauges, charts, maps and lists — with native OWL and
+                Chart.js assets, without writing code.
+              </p>
+              <p style="margin: 0">
+                <span
+                  style="
+                    display: inline-block;
+                    margin: 4px;
+                    padding: 8px 14px;
+                    border-radius: 999px;
+                    background-color: #f5f3ff;
+                    border: 1px solid #c4b5fd;
+                    color: #4c1d95;
+                    font-size: 13px;
+                    font-weight: 600;
+                  "
+                  >Any Odoo model</span
+                >
+                <span
+                  style="
+                    display: inline-block;
+                    margin: 4px;
+                    padding: 8px 14px;
+                    border-radius: 999px;
+                    background-color: #f5f3ff;
+                    border: 1px solid #c4b5fd;
+                    color: #4c1d95;
+                    font-size: 13px;
+                    font-weight: 600;
+                  "
+                  >Drag &amp; resize grid</span
+                >
+                <span
+                  style="
+                    display: inline-block;
+                    margin: 4px;
+                    padding: 8px 14px;
+                    border-radius: 999px;
+                    background-color: #f5f3ff;
+                    border: 1px solid #c4b5fd;
+                    color: #4c1d95;
+                    font-size: 13px;
+                    font-weight: 600;
+                  "
+                  >Multi-level drill-down</span
+                >
+                <span
+                  style="
+                    display: inline-block;
+                    margin: 4px;
+                    padding: 8px 14px;
+                    border-radius: 999px;
+                    background-color: #f5f3ff;
+                    border: 1px solid #c4b5fd;
+                    color: #4c1d95;
+                    font-size: 13px;
+                    font-weight: 600;
+                  "
+                  >ACLs &amp; record rules</span
+                >
+              </p>
+            </div>
+
+            <!-- Screenshots header -->
+            <div
+              style="
+                background-color: #f5f3ff;
+                padding: 36px 28px 20px 28px;
+                text-align: center;
+                border-top: 1px solid #ede9fe;
+              "
+            >
+              <p
+                style="
+                  margin: 0 0 8px 0;
+                  color: #7c3aed;
+                  font-size: 12px;
+                  font-weight: 700;
+                  letter-spacing: 0.08em;
+                  text-transform: uppercase;
+                "
+              >
+                Screenshots
+              </p>
+              <h2
+                style="
+                  margin: 0 0 10px 0;
+                  color: #2e1065;
+                  font-size: 28px;
+                  font-weight: 700;
+                "
+              >
+                Real dashboards, real data
+              </h2>
+              <p
+                style="
+                  margin: 0 auto;
+                  max-width: 640px;
+                  color: #64748b;
+                  font-size: 15px;
+                  line-height: 1.55;
+                "
+              >
+                One engine across domains. Each board below uses a different
+                color palette so you can see branding flexibility without losing
+                consistency.
+              </p>
+            </div>
+
+            <!-- Shot: catalogue -->
+            <div style="padding: 24px 24px 8px 24px">
+              <div
+                style="
+                  border: 1px solid #ede9fe;
+                  border-radius: 16px;
+                  overflow: hidden;
+                  background-color: #ffffff;
+                "
+              >
+                <img
+                  class="img img-responsive img-fluid"
+                  src="images/boardkit-boards-catalogue.png"
+                  alt="BoardKit boards catalogue"
+                  style="width: 100%; display: block"
+                />
+                <div style="padding: 16px 18px; background-color: #faf8ff">
+                  <p
+                    style="
+                      margin: 0 0 4px 0;
+                      color: #4c1d95;
+                      font-size: 16px;
+                      font-weight: 700;
+                    "
+                  >
+                    Boards catalogue
+                  </p>
+                  <p style="margin: 0; color: #64748b; font-size: 14px">
+                    Publish boards, open them from menus, and manage personal or
+                    default layouts.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Shot: contacts + crm -->
+            <div class="row" style="padding: 8px 12px; margin-left: 0; margin-right: 0">
+              <div class="col-md-6" style="padding: 12px">
+                <div
+                  style="
+                    border: 1px solid #ede9fe;
+                    border-radius: 16px;
+                    overflow: hidden;
+                    background-color: #ffffff;
+                    height: 100%;
+                  "
+                >
+                  <img
+                    class="img img-responsive img-fluid"
+                    src="images/boardkit-contacts-overview.png"
+                    alt="Contacts Overview with Boardkit Brand palette"
+                    style="width: 100%; display: block"
+                  />
+                  <div style="padding: 14px 16px; background-color: #faf8ff">
+                    <p
+                      style="
+                        margin: 0 0 2px 0;
+                        color: #4c1d95;
+                        font-size: 15px;
+                        font-weight: 700;
+                      "
+                    >
+                      Contacts Overview
+                      <span
+                        style="
+                          display: inline-block;
+                          margin-left: 6px;
+                          padding: 2px 8px;
+                          border-radius: 999px;
+                          background-color: #4c1d95;
+                          color: #ffffff;
+                          font-size: 11px;
+                          font-weight: 700;
+                        "
+                        >Brand</span
+                      >
+                    </p>
+                    <p style="margin: 0; color: #64748b; font-size: 13px">
+                      Country map, point map and partner KPIs in Escodoo purple.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6" style="padding: 12px">
+                <div
+                  style="
+                    border: 1px solid #ede9fe;
+                    border-radius: 16px;
+                    overflow: hidden;
+                    background-color: #ffffff;
+                    height: 100%;
+                  "
+                >
+                  <img
+                    class="img img-responsive img-fluid"
+                    src="images/boardkit-crm-pipeline.png"
+                    alt="CRM Pipeline with Ocean palette"
+                    style="width: 100%; display: block"
+                  />
+                  <div style="padding: 14px 16px; background-color: #faf8ff">
+                    <p
+                      style="
+                        margin: 0 0 2px 0;
+                        color: #4c1d95;
+                        font-size: 15px;
+                        font-weight: 700;
+                      "
+                    >
+                      CRM Pipeline
+                      <span
+                        style="
+                          display: inline-block;
+                          margin-left: 6px;
+                          padding: 2px 8px;
+                          border-radius: 999px;
+                          background-color: #056bd9;
+                          color: #ffffff;
+                          font-size: 11px;
+                          font-weight: 700;
+                        "
+                        >Ocean</span
+                      >
+                    </p>
+                    <p style="margin: 0; color: #64748b; font-size: 13px">
+                      Funnel, revenue trends, country map and opportunity list.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Shot: sales + purchase -->
+            <div class="row" style="padding: 0 12px 8px 12px; margin-left: 0; margin-right: 0">
+              <div class="col-md-6" style="padding: 12px">
+                <div
+                  style="
+                    border: 1px solid #ede9fe;
+                    border-radius: 16px;
+                    overflow: hidden;
+                    background-color: #ffffff;
+                    height: 100%;
+                  "
+                >
+                  <img
+                    class="img img-responsive img-fluid"
+                    src="images/boardkit-sales-overview.png"
+                    alt="Sales Overview with Sunset palette"
+                    style="width: 100%; display: block"
+                  />
+                  <div style="padding: 14px 16px; background-color: #faf8ff">
+                    <p
+                      style="
+                        margin: 0 0 2px 0;
+                        color: #4c1d95;
+                        font-size: 15px;
+                        font-weight: 700;
+                      "
+                    >
+                      Sales Overview
+                      <span
+                        style="
+                          display: inline-block;
+                          margin-left: 6px;
+                          padding: 2px 8px;
+                          border-radius: 999px;
+                          background-color: #ce4257;
+                          color: #ffffff;
+                          font-size: 11px;
+                          font-weight: 700;
+                        "
+                        >Sunset</span
+                      >
+                    </p>
+                    <p style="margin: 0; color: #64748b; font-size: 13px">
+                      KPIs, gauges, customer ranking and order status charts.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6" style="padding: 12px">
+                <div
+                  style="
+                    border: 1px solid #ede9fe;
+                    border-radius: 16px;
+                    overflow: hidden;
+                    background-color: #ffffff;
+                    height: 100%;
+                  "
+                >
+                  <img
+                    class="img img-responsive img-fluid"
+                    src="images/boardkit-purchase-overview.png"
+                    alt="Purchase Overview with Royal palette"
+                    style="width: 100%; display: block"
+                  />
+                  <div style="padding: 14px 16px; background-color: #faf8ff">
+                    <p
+                      style="
+                        margin: 0 0 2px 0;
+                        color: #4c1d95;
+                        font-size: 15px;
+                        font-weight: 700;
+                      "
+                    >
+                      Purchase Overview
+                      <span
+                        style="
+                          display: inline-block;
+                          margin-left: 6px;
+                          padding: 2px 8px;
+                          border-radius: 999px;
+                          background-color: #2c3e90;
+                          color: #ffffff;
+                          font-size: 11px;
+                          font-weight: 700;
+                        "
+                        >Royal</span
+                      >
+                    </p>
+                    <p style="margin: 0; color: #64748b; font-size: 13px">
+                      RFQs, purchase orders and supplier analytics.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Shot: timesheet -->
+            <div style="padding: 8px 24px 32px 24px">
+              <div
+                style="
+                  border: 1px solid #ede9fe;
+                  border-radius: 16px;
+                  overflow: hidden;
+                  background-color: #ffffff;
+                "
+              >
+                <img
+                  class="img img-responsive img-fluid"
+                  src="images/boardkit-timesheet-overview.png"
+                  alt="Timesheet Overview with Vivid palette"
+                  style="width: 100%; display: block"
+                />
+                <div style="padding: 16px 18px; background-color: #faf8ff">
+                  <p
+                    style="
+                      margin: 0 0 4px 0;
+                      color: #4c1d95;
+                      font-size: 16px;
+                      font-weight: 700;
+                    "
+                  >
+                    Timesheet Overview
+                    <span
+                      style="
+                        display: inline-block;
+                        margin-left: 6px;
+                        padding: 2px 8px;
+                        border-radius: 999px;
+                        background-color: #1e88e5;
+                        color: #ffffff;
+                        font-size: 11px;
+                        font-weight: 700;
+                      "
+                      >Vivid</span
+                    >
+                  </p>
+                  <p style="margin: 0; color: #64748b; font-size: 14px">
+                    Hours logged, project breakdown and recent timesheet lines.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Palettes -->
+            <div
+              style="
+                padding: 40px 28px;
+                border-top: 1px solid #ede9fe;
+                text-align: center;
+              "
+            >
+              <p
+                style="
+                  margin: 0 0 8px 0;
+                  color: #7c3aed;
+                  font-size: 12px;
+                  font-weight: 700;
+                  letter-spacing: 0.08em;
+                  text-transform: uppercase;
+                "
+              >
+                Color systems
+              </p>
+              <h2
+                style="
+                  margin: 0 0 10px 0;
+                  color: #2e1065;
+                  font-size: 28px;
+                  font-weight: 700;
+                "
+              >
+                Presets and fully custom palettes
+              </h2>
+              <p
+                style="
+                  margin: 0 auto 22px auto;
+                  max-width: 640px;
+                  color: #64748b;
+                  font-size: 15px;
+                  line-height: 1.55;
+                "
+              >
+                Pick a preset per board or item — or define a
+                <strong style="color: #2e1065">custom color palette</strong>
+                with your own hex colors. No code and no layout changes.
+              </p>
+
+              <div
+                style="
+                  background-color: #4c1d95;
+                  border-radius: 16px;
+                  padding: 22px 24px;
+                  margin: 0 auto 24px auto;
+                  max-width: 820px;
+                  text-align: left;
+                "
+              >
+                <p
+                  style="
+                    margin: 0 0 6px 0;
+                    color: #ffffff;
+                    font-size: 18px;
+                    font-weight: 700;
+                  "
+                >
+                  Custom palettes
+                </p>
+                <p style="margin: 0; color: #e9d5ff; font-size: 14px; line-height: 1.55">
+                  Create named palettes for your brand or multi-company themes
+                  and assign them at board or item level. Ideal for agencies and
+                  white-label deployments.
+                </p>
+              </div>
+
+              <div class="row" style="margin-left: 0; margin-right: 0">
+                <div class="col-md-3 col-sm-6" style="padding: 8px">
+                  <div
+                    style="
+                      border: 1px solid #e2e8f0;
+                      border-radius: 14px;
+                      padding: 16px 12px;
+                      background-color: #ffffff;
+                      height: 100%;
+                    "
+                  >
+                    <p
+                      style="
+                        margin: 0 0 12px 0;
+                        color: #4c1d95;
+                        font-size: 13px;
+                        font-weight: 700;
+                      "
+                    >
+                      Boardkit Brand
+                    </p>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #4c1d95; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #6d28d9; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #8b5cf6; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #a78bfa; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #c4b5fd; margin: 0 3px"></span>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-6" style="padding: 8px">
+                  <div
+                    style="
+                      border: 1px solid #e2e8f0;
+                      border-radius: 14px;
+                      padding: 16px 12px;
+                      background-color: #ffffff;
+                      height: 100%;
+                    "
+                  >
+                    <p
+                      style="
+                        margin: 0 0 12px 0;
+                        color: #4c1d95;
+                        font-size: 13px;
+                        font-weight: 700;
+                      "
+                    >
+                      Ocean
+                    </p>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #056bd9; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #3188e6; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #4ea7f2; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #00a78d; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #43c5b1; margin: 0 3px"></span>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-6" style="padding: 8px">
+                  <div
+                    style="
+                      border: 1px solid #e2e8f0;
+                      border-radius: 14px;
+                      padding: 16px 12px;
+                      background-color: #ffffff;
+                      height: 100%;
+                    "
+                  >
+                    <p
+                      style="
+                        margin: 0 0 12px 0;
+                        color: #4c1d95;
+                        font-size: 13px;
+                        font-weight: 700;
+                      "
+                    >
+                      Sunset
+                    </p>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #ce4257; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #ea6175; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #f48935; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #f4a261; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #ffbc2c; margin: 0 3px"></span>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-6" style="padding: 8px">
+                  <div
+                    style="
+                      border: 1px solid #e2e8f0;
+                      border-radius: 14px;
+                      padding: 16px 12px;
+                      background-color: #ffffff;
+                      height: 100%;
+                    "
+                  >
+                    <p
+                      style="
+                        margin: 0 0 12px 0;
+                        color: #4c1d95;
+                        font-size: 13px;
+                        font-weight: 700;
+                      "
+                    >
+                      More presets
+                    </p>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #2c3e90; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #e53935; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #b08968; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #7eb5e8; margin: 0 3px"></span>
+                    <span style="display: inline-block; width: 22px; height: 22px; border-radius: 6px; background-color: #00e5ff; margin: 0 3px"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Features -->
+            <div
+              style="
+                padding: 40px 28px;
+                background-color: #f8fafc;
+                border-top: 1px solid #ede9fe;
+              "
+            >
+              <div style="text-align: center; margin-bottom: 28px">
+                <p
+                  style="
+                    margin: 0 0 8px 0;
+                    color: #7c3aed;
+                    font-size: 12px;
+                    font-weight: 700;
+                    letter-spacing: 0.08em;
+                    text-transform: uppercase;
+                  "
+                >
+                  Capabilities
+                </p>
+                <h2
+                  style="
+                    margin: 0 0 10px 0;
+                    color: #2e1065;
+                    font-size: 28px;
+                    font-weight: 700;
+                  "
+                >
+                  Everything you need on one board
+                </h2>
+              </div>
+
+              <div class="row" style="margin-left: 0; margin-right: 0">
+                <div class="col-md-4" style="padding: 10px">
+                  <div
+                    style="
+                      background-color: #ffffff;
+                      border: 1px solid #e2e8f0;
+                      border-radius: 16px;
+                      padding: 22px 18px;
+                      height: 100%;
+                      border-top: 4px solid #7c3aed;
+                    "
+                  >
+                    <p
+                      style="
+                        margin: 0 0 12px 0;
+                        width: 40px;
+                        height: 40px;
+                        line-height: 40px;
+                        text-align: center;
+                        border-radius: 12px;
+                        background-color: #6d28d9;
+                        color: #ffffff;
+                        font-size: 16px;
+                        font-weight: 700;
+                      "
+                    >
+                      1
+                    </p>
+                    <h3
+                      style="
+                        margin: 0 0 8px 0;
+                        color: #2e1065;
+                        font-size: 17px;
+                        font-weight: 700;
+                      "
+                    >
+                      Tiles &amp; KPIs
+                    </h3>
+                    <p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.5">
+                      Aggregated values with icons, targets, ratios and
+                      previous-period comparison.
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-4" style="padding: 10px">
+                  <div
+                    style="
+                      background-color: #ffffff;
+                      border: 1px solid #e2e8f0;
+                      border-radius: 16px;
+                      padding: 22px 18px;
+                      height: 100%;
+                      border-top: 4px solid #7c3aed;
+                    "
+                  >
+                    <p
+                      style="
+                        margin: 0 0 12px 0;
+                        width: 40px;
+                        height: 40px;
+                        line-height: 40px;
+                        text-align: center;
+                        border-radius: 12px;
+                        background-color: #6d28d9;
+                        color: #ffffff;
+                        font-size: 16px;
+                        font-weight: 700;
+                      "
+                    >
+                      2
+                    </p>
+                    <h3
+                      style="
+                        margin: 0 0 8px 0;
+                        color: #2e1065;
+                        font-size: 17px;
+                        font-weight: 700;
+                      "
+                    >
+                      Rich charts
+                    </h3>
+                    <p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.5">
+                      Bar, line, area, pie, doughnut, funnel, radar, scatter,
+                      bullet and more — with trend overlays.
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-4" style="padding: 10px">
+                  <div
+                    style="
+                      background-color: #ffffff;
+                      border: 1px solid #e2e8f0;
+                      border-radius: 16px;
+                      padding: 22px 18px;
+                      height: 100%;
+                      border-top: 4px solid #7c3aed;
+                    "
+                  >
+                    <p
+                      style="
+                        margin: 0 0 12px 0;
+                        width: 40px;
+                        height: 40px;
+                        line-height: 40px;
+                        text-align: center;
+                        border-radius: 12px;
+                        background-color: #6d28d9;
+                        color: #ffffff;
+                        font-size: 16px;
+                        font-weight: 700;
+                      "
+                    >
+                      3
+                    </p>
+                    <h3
+                      style="
+                        margin: 0 0 8px 0;
+                        color: #2e1065;
+                        font-size: 17px;
+                        font-weight: 700;
+                      "
+                    >
+                      Maps
+                    </h3>
+                    <p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.5">
+                      Choropleth by country or point markers from lat/lng fields
+                      on any model.
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-4" style="padding: 10px">
+                  <div
+                    style="
+                      background-color: #ffffff;
+                      border: 1px solid #e2e8f0;
+                      border-radius: 16px;
+                      padding: 22px 18px;
+                      height: 100%;
+                      border-top: 4px solid #7c3aed;
+                    "
+                  >
+                    <p
+                      style="
+                        margin: 0 0 12px 0;
+                        width: 40px;
+                        height: 40px;
+                        line-height: 40px;
+                        text-align: center;
+                        border-radius: 12px;
+                        background-color: #6d28d9;
+                        color: #ffffff;
+                        font-size: 16px;
+                        font-weight: 700;
+                      "
+                    >
+                      4
+                    </p>
+                    <h3
+                      style="
+                        margin: 0 0 8px 0;
+                        color: #2e1065;
+                        font-size: 17px;
+                        font-weight: 700;
+                      "
+                    >
+                      Drill-down
+                    </h3>
+                    <p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.5">
+                      Extra grouping levels inside the card, with breadcrumbs,
+                      before opening records.
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-4" style="padding: 10px">
+                  <div
+                    style="
+                      background-color: #ffffff;
+                      border: 1px solid #e2e8f0;
+                      border-radius: 16px;
+                      padding: 22px 18px;
+                      height: 100%;
+                      border-top: 4px solid #7c3aed;
+                    "
+                  >
+                    <p
+                      style="
+                        margin: 0 0 12px 0;
+                        width: 40px;
+                        height: 40px;
+                        line-height: 40px;
+                        text-align: center;
+                        border-radius: 12px;
+                        background-color: #6d28d9;
+                        color: #ffffff;
+                        font-size: 16px;
+                        font-weight: 700;
+                      "
+                    >
+                      5
+                    </p>
+                    <h3
+                      style="
+                        margin: 0 0 8px 0;
+                        color: #2e1065;
+                        font-size: 17px;
+                        font-weight: 700;
+                      "
+                    >
+                      Smart filters
+                    </h3>
+                    <p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.5">
+                      Date presets, predefined domains and ad-hoc filters any
+                      user can add on the fly.
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-4" style="padding: 10px">
+                  <div
+                    style="
+                      background-color: #ffffff;
+                      border: 1px solid #e2e8f0;
+                      border-radius: 16px;
+                      padding: 22px 18px;
+                      height: 100%;
+                      border-top: 4px solid #7c3aed;
+                    "
+                  >
+                    <p
+                      style="
+                        margin: 0 0 12px 0;
+                        width: 40px;
+                        height: 40px;
+                        line-height: 40px;
+                        text-align: center;
+                        border-radius: 12px;
+                        background-color: #6d28d9;
+                        color: #ffffff;
+                        font-size: 16px;
+                        font-weight: 700;
+                      "
+                    >
+                      6
+                    </p>
+                    <h3
+                      style="
+                        margin: 0 0 8px 0;
+                        color: #2e1065;
+                        font-size: 17px;
+                        font-weight: 700;
+                      "
+                    >
+                      Layouts that stick
+                    </h3>
+                    <p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.5">
+                      Drag and resize the grid. Managers save the default; users
+                      keep a personal layout.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="row"
+                style="
+                  margin-left: 0;
+                  margin-right: 0;
+                  margin-top: 18px;
+                  background-color: #ffffff;
+                  border: 1px solid #e2e8f0;
+                  border-radius: 16px;
+                  padding: 8px 8px;
+                "
+              >
+                <div class="col-md-6" style="padding: 12px 18px">
+                  <p style="margin: 0 0 10px 0; color: #64748b; font-size: 14px">
+                    <strong style="color: #2e1065">Gauge &amp; list items</strong>
+                    — semicircular gauges and paginated record lists with
+                    click-through.
+                  </p>
+                  <p style="margin: 0 0 10px 0; color: #64748b; font-size: 14px">
+                    <strong style="color: #2e1065">Export</strong> — per-item CSV
+                    / XLSX export honoring active filters.
+                  </p>
+                  <p style="margin: 0; color: #64748b; font-size: 14px">
+                    <strong style="color: #2e1065">Publish workflow</strong> —
+                    build privately, then publish with optional app menus and
+                    groups.
+                  </p>
+                </div>
+                <div class="col-md-6" style="padding: 12px 18px">
+                  <p style="margin: 0 0 10px 0; color: #64748b; font-size: 14px">
+                    <strong style="color: #2e1065">Wall-ready</strong> —
+                    auto-refresh, server-side cache, duplication and JSON
+                    import/export.
+                  </p>
+                  <p style="margin: 0 0 10px 0; color: #64748b; font-size: 14px">
+                    <strong style="color: #2e1065">Live preview</strong> — see
+                    the item while configuring, before saving.
+                  </p>
+                  <p style="margin: 0; color: #64748b; font-size: 14px">
+                    <strong style="color: #2e1065">Security by design</strong> —
+                    ACLs and record rules of the source models are always
+                    enforced.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Template catalogue -->
+            <div style="padding: 40px 28px; text-align: center">
+              <p
+                style="
+                  margin: 0 0 8px 0;
+                  color: #7c3aed;
+                  font-size: 12px;
+                  font-weight: 700;
+                  letter-spacing: 0.08em;
+                  text-transform: uppercase;
+                "
+              >
+                Template catalogue
+              </p>
+              <h2
+                style="
+                  margin: 0 0 10px 0;
+                  color: #2e1065;
+                  font-size: 28px;
+                  font-weight: 700;
+                "
+              >
+                Ready-made boards for your apps
+              </h2>
+              <p
+                style="
+                  margin: 0 auto 22px auto;
+                  max-width: 640px;
+                  color: #64748b;
+                  font-size: 15px;
+                  line-height: 1.55;
+                "
+              >
+                Optional template modules auto-install with their app dependency
+                and add curated boards from <em>From template</em> — or start
+                from a blank board on any model.
+              </p>
+              <p style="margin: 0; line-height: 2.1">
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Sales</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">CRM</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Purchase</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Inventory</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Manufacturing</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Project</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Repair</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Fleet</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Maintenance</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Invoicing</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">HR &amp; Timesheets</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Attendance</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Time Off</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Expenses</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Recruitment</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Payroll</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Email Marketing</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Surveys</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">Events</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; font-size: 12px; font-weight: 600">My Day</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #ffffff; border: 1px solid #cbd5e1; color: #64748b; font-size: 12px; font-weight: 500">Helpdesk (OCA)</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #ffffff; border: 1px solid #cbd5e1; color: #64748b; font-size: 12px; font-weight: 500">Field Service (OCA)</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #ffffff; border: 1px solid #cbd5e1; color: #64748b; font-size: 12px; font-weight: 500">Contract (OCA)</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #ffffff; border: 1px solid #cbd5e1; color: #64748b; font-size: 12px; font-weight: 500">Agreement (OCA)</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #ffffff; border: 1px solid #cbd5e1; color: #64748b; font-size: 12px; font-weight: 500">RMA (OCA)</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #ffffff; border: 1px solid #cbd5e1; color: #64748b; font-size: 12px; font-weight: 500">Purchase Request (OCA)</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #ffffff; border: 1px solid #cbd5e1; color: #64748b; font-size: 12px; font-weight: 500">Stock Request (OCA)</span>
+                <span style="display: inline-block; margin: 3px; padding: 7px 12px; border-radius: 999px; background-color: #ffffff; border: 1px solid #cbd5e1; color: #64748b; font-size: 12px; font-weight: 500">Brazilian Fiscal (OCA)</span>
+              </p>
+            </div>
+
+            <!-- Final CTA -->
+            <div
+              style="
+                background-color: #2e1065;
+                padding: 40px 28px;
+                text-align: center;
+              "
+            >
+              <h2
+                style="
+                  margin: 0 0 12px 0;
+                  color: #ffffff;
+                  font-size: 26px;
+                  font-weight: 700;
+                "
+              >
+                Open source · AGPL-3 · Odoo 18
+              </h2>
+              <p
+                style="
+                  margin: 0 auto 22px auto;
+                  max-width: 620px;
+                  color: #ddd6fe;
+                  font-size: 15px;
+                  line-height: 1.6;
+                "
+              >
+                Compatible with Odoo Community and Enterprise. Install the core
+                engine, add the template modules you need, brand boards with
+                custom palettes — or build everything from scratch.
+              </p>
+              <p style="margin: 0 0 18px 0">
+                <span
+                  style="
+                    display: inline-block;
+                    margin: 4px;
+                    padding: 8px 14px;
+                    border-radius: 999px;
+                    background-color: #4c1d95;
+                    border: 1px solid #8b5cf6;
+                    color: #ffffff;
+                    font-size: 13px;
+                    font-weight: 600;
+                  "
+                  >AGPL-3</span
+                >
+                <span
+                  style="
+                    display: inline-block;
+                    margin: 4px;
+                    padding: 8px 14px;
+                    border-radius: 999px;
+                    background-color: #4c1d95;
+                    border: 1px solid #8b5cf6;
+                    color: #ffffff;
+                    font-size: 13px;
+                    font-weight: 600;
+                  "
+                  >Community &amp; Enterprise</span
+                >
+                <span
+                  style="
+                    display: inline-block;
+                    margin: 4px;
+                    padding: 8px 14px;
+                    border-radius: 999px;
+                    background-color: #4c1d95;
+                    border: 1px solid #8b5cf6;
+                    color: #ffffff;
+                    font-size: 13px;
+                    font-weight: 600;
+                  "
+                  >Custom palettes</span
+                >
+              </p>
+              <a
+                href="mailto:contato@escodoo.com.br"
+                style="
+                  display: inline-block;
+                  padding: 14px 28px;
+                  border-radius: 10px;
+                  background-color: #ffffff;
+                  color: #4c1d95;
+                  font-size: 15px;
+                  font-weight: 700;
+                  text-decoration: none;
+                "
+                >Contact Escodoo — contato@escodoo.com.br</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

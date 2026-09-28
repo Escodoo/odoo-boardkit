@@ -1,0 +1,110 @@
+/** @odoo-module **/
+// Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+// License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
+import {onWillStart, useState} from "@odoo/owl";
+import {FileInput} from "@web/core/file_input/file_input";
+import {KanbanController} from "@web/views/kanban/kanban_controller";
+import {KanbanRenderer} from "@web/views/kanban/kanban_renderer";
+import {ListController} from "@web/views/list/list_controller";
+import {_t} from "@web/core/l10n/translation";
+import {kanbanView} from "@web/views/kanban/kanban_view";
+import {listView} from "@web/views/list/list_view";
+import {registry} from "@web/core/registry";
+import {sprintf} from "@web/core/utils/strings";
+import {useService} from "@web/core/utils/hooks";
+import {CatalogueEmptyHero} from "./catalogue_empty_hero";
+
+export const IMPORT_ROUTE = "/boardkit_dashboard/import";
+
+/**
+ * Adds the dashboard file uploader to the catalogue control panel, so
+ * importing is a toolbar action on the board list instead of a separate
+ * configuration screen.
+ */
+export const DashboardImport = (Controller) =>
+    class extends Controller {
+        static components = {...Controller.components, FileInput};
+
+        setup() {
+            super.setup();
+            this.action = useService("action");
+            this.notification = useService("notification");
+            this.user = useService("user");
+            this.importRoute = IMPORT_ROUTE;
+            this.importState = useState({isManager: false});
+            onWillStart(async () => {
+                this.importState.isManager = await this.user.hasGroup(
+                    "boardkit_dashboard.group_dashboard_manager"
+                );
+            });
+        }
+
+        async onDashboardImported(result) {
+            const dashboardIds = result.dashboard_ids || [];
+            if (!dashboardIds.length) {
+                this.notification.add(_t("No dashboard was found in this file."), {
+                    type: "warning",
+                });
+                return;
+            }
+            this.notification.add(
+                sprintf(_t("%s dashboard(s) imported."), dashboardIds.length),
+                {type: "success"}
+            );
+            // A single board opens its settings so the manager can review and
+            // publish it; bulk imports just refresh the catalogue.
+            if (dashboardIds.length === 1) {
+                await this.action.doAction({
+                    type: "ir.actions.act_window",
+                    res_model: "boardkit.dashboard",
+                    res_id: dashboardIds[0],
+                    views: [[false, "form"]],
+                });
+                return;
+            }
+            await this.model.root.load();
+            this.render(true);
+        }
+
+        async onFromTemplate() {
+            await this.action.doAction(
+                "boardkit_dashboard.boardkit_dashboard_template_wizard_action",
+                {
+                    onClose: async () => {
+                        if (this.model?.root?.load) {
+                            await this.model.root.load();
+                            this.render(true);
+                        }
+                    },
+                }
+            );
+        }
+    };
+
+export class DashboardCatalogueKanbanRenderer extends KanbanRenderer {
+    static template = "boardkit_dashboard.CatalogueKanbanRenderer";
+    static components = {
+        ...KanbanRenderer.components,
+        CatalogueEmptyHero,
+    };
+}
+
+export class DashboardCatalogueKanbanController extends DashboardImport(
+    KanbanController
+) {}
+
+export class DashboardCatalogueListController extends DashboardImport(ListController) {}
+
+registry.category("views").add("boardkit_dashboard_catalogue_kanban", {
+    ...kanbanView,
+    Controller: DashboardCatalogueKanbanController,
+    Renderer: DashboardCatalogueKanbanRenderer,
+    buttonTemplate: "boardkit_dashboard.CatalogueKanbanView.Buttons",
+});
+
+registry.category("views").add("boardkit_dashboard_catalogue_list", {
+    ...listView,
+    Controller: DashboardCatalogueListController,
+    buttonTemplate: "boardkit_dashboard.CatalogueListView.Buttons",
+});

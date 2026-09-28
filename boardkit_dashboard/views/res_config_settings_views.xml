@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field
+            name="name"
+        >res.config.settings.view.form.inherit.boardkit.dashboard</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="50" />
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div
+                    class="app_settings_block"
+                    data-string="Boardkit Dashboards"
+                    string="Boardkit Dashboards"
+                    data-key="boardkit_dashboard"
+                    groups="boardkit_dashboard.group_dashboard_manager"
+                >
+                    <h2>Color Palette</h2>
+                    <div
+                        class="row mt16 o_settings_container"
+                        name="boardkit_color_palette"
+                    >
+                        <div
+                            class="col-12 col-lg-6 o_setting_box"
+                            id="boardkit_default_color_palette_setting"
+                        >
+                            <div class="o_setting_right_pane">
+                                <label
+                                    for="boardkit_default_color_palette"
+                                    string="Default Palette"
+                                />
+                                <span
+                                    class="fa fa-lg fa-building-o"
+                                    title="Values set here are company-specific."
+                                    aria-label="Values set here are company-specific."
+                                    groups="base.group_multi_company"
+                                    role="img"
+                                />
+                                <div class="text-muted">
+                                    Applied to new dashboards created for this company. Existing dashboards keep their own palette.
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="boardkit_default_color_palette" />
+                                    </div>
+                                </div>
+                                <div
+                                    class="content-group"
+                                    attrs="{'invisible': [('boardkit_default_color_palette', '!=', 'custom')]}"
+                                >
+                                    <div class="mt16">
+                                        <label
+                                            for="boardkit_default_palette_id"
+                                            string="Custom Palette"
+                                            class="o_light_label"
+                                        />
+                                        <field
+                                            name="boardkit_default_palette_id"
+                                            options="{'no_create': True}"
+                                            attrs="{'required': [('boardkit_default_color_palette', '=', 'custom')]}"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record
+        id="boardkit_dashboard_config_settings_action"
+        model="ir.actions.act_window"
+    >
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'boardkit_dashboard'}</field>
+    </record>
+</odoo>

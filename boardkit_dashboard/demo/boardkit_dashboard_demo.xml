@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!-- Geolocalized partners so the Contacts Overview points map has sample data. -->
+    <record id="dashboard_demo_partner_sp" model="res.partner">
+        <field name="name">Boardkit Demo São Paulo</field>
+        <field name="is_company" eval="True" />
+        <field name="country_id" ref="base.br" />
+        <field name="city">São Paulo</field>
+        <field name="partner_latitude">-23.5505</field>
+        <field name="partner_longitude">-46.6333</field>
+    </record>
+    <record id="dashboard_demo_partner_ny" model="res.partner">
+        <field name="name">Boardkit Demo New York</field>
+        <field name="is_company" eval="True" />
+        <field name="country_id" ref="base.us" />
+        <field name="city">New York</field>
+        <field name="partner_latitude">40.7128</field>
+        <field name="partner_longitude">-74.006</field>
+    </record>
+    <record id="dashboard_demo_partner_lisbon" model="res.partner">
+        <field name="name">Boardkit Demo Lisbon</field>
+        <field name="is_company" eval="True" />
+        <field name="country_id" ref="base.pt" />
+        <field name="city">Lisbon</field>
+        <field name="partner_latitude">38.7223</field>
+        <field name="partner_longitude">-9.1393</field>
+    </record>
+
+    <!-- Demo board is created from template_contacts_overview (same payload). -->
+    <function model="boardkit.dashboard" name="_load_demo_from_template">
+        <value
+            eval="{
+                'template_xmlid': 'boardkit_dashboard.template_contacts_overview',
+                'demo_xmlid': 'boardkit_dashboard.dashboard_demo',
+                'menu_parent_xmlid': 'contacts.menu_contacts',
+                'menu_sequence': -1,
+            }"
+        />
+    </function>
+</odoo>

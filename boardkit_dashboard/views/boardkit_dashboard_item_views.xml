@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="boardkit_dashboard_item_view_form" model="ir.ui.view">
+        <field name="name">boardkit.dashboard.item.form</field>
+        <field name="model">boardkit.dashboard.item</field>
+        <field name="arch" type="xml">
+            <form string="Dashboard Item">
+                <sheet>
+                    <div class="row">
+                        <div class="col-12 col-lg-7">
+                            <group>
+                                <group name="main">
+                                    <field name="name" />
+                                    <field name="dashboard_id" />
+                                    <field name="item_type" />
+                                    <field
+                                        name="model_id"
+                                        options="{'no_create': True}"
+                                    />
+                                    <field name="model_name" invisible="1" />
+                                    <field name="model_2_name" invisible="1" />
+                                    <field name="group_by_ttype" invisible="1" />
+                                    <field name="subgroup_by_ttype" invisible="1" />
+                                    <field name="sort_model_id" invisible="1" />
+                                    <field name="group_by_model_id" invisible="1" />
+                                    <field name="map_field_model_id" invisible="1" />
+                                </group>
+                                <group name="source">
+                                    <field
+                                        name="date_field_id"
+                                        options="{'no_create': True}"
+                                    />
+                                    <field name="date_filter" />
+                                    <field
+                                        name="date_from"
+                                        attrs="{'invisible': [('date_filter', '!=', 'custom')], 'required': [('date_filter', '=', 'custom')]}"
+                                    />
+                                    <field
+                                        name="date_to"
+                                        attrs="{'invisible': [('date_filter', '!=', 'custom')], 'required': [('date_filter', '=', 'custom')]}"
+                                    />
+                                </group>
+                            </group>
+                            <notebook>
+                                <page
+                                    name="value"
+                                    string="Value"
+                                    attrs="{'invisible': [('item_type', 'not in', ['tile', 'kpi', 'gauge'])]}"
+                                >
+                                    <group>
+                                        <group>
+                                            <field name="aggregation" />
+                                            <field
+                                                name="measure_field_id"
+                                                options="{'no_create': True}"
+                                                attrs="{'invisible': [('aggregation', '=', 'count')], 'required': ['&amp;', ('aggregation', '!=', 'count'), ('item_type', 'in', ['tile', 'kpi', 'gauge'])]}"
+                                            />
+                                            <field
+                                                name="compare_previous_period"
+                                                help="Requires a Date Field and an active date range on the item or dashboard."
+                                                attrs="{'invisible': [('item_type', 'not in', ['tile', 'kpi'])]}"
+                                            />
+                                        </group>
+                                        <group
+                                            name="kpi"
+                                            attrs="{'invisible': [('item_type', '!=', 'kpi')]}"
+                                        >
+                                            <field name="kpi_mode" />
+                                            <field
+                                                name="target_enabled"
+                                                attrs="{'invisible': [('kpi_mode', '!=', 'target')]}"
+                                            />
+                                            <field
+                                                name="target_value"
+                                                attrs="{'invisible': ['|', ('kpi_mode', '!=', 'target'), ('target_enabled', '=', False)]}"
+                                            />
+                                            <field
+                                                name="kpi_display"
+                                                attrs="{'invisible': [('kpi_mode', '!=', 'comparison')]}"
+                                            />
+                                        </group>
+                                        <group
+                                            name="gauge"
+                                            attrs="{'invisible': [('item_type', '!=', 'gauge')]}"
+                                        >
+                                            <field name="target_enabled" />
+                                            <field
+                                                name="target_value"
+                                                attrs="{'invisible': [('target_enabled', '=', False)]}"
+                                            />
+                                            <field name="gauge_max" />
+                                        </group>
+                                    </group>
+                                    <group
+                                        name="kpi_second_source"
+                                        string="Second Data Source"
+                                        attrs="{'invisible': ['|', ('item_type', '!=', 'kpi'), ('kpi_mode', '!=', 'comparison')]}"
+                                    >
+                                        <group>
+                                            <field
+                                                name="model_2_id"
+                                                options="{'no_create': True}"
+                                                attrs="{'required': ['&amp;', ('item_type', '=', 'kpi'), ('kpi_mode', '=', 'comparison')]}"
+                                            />
+                                            <field
+                                                name="domain_2"
+                                                widget="domain"
+                                                options="{'model': 'model_2_name', 'in_dialog': True}"
+                                            />
+                                        </group>
+                                        <group>
+                                            <field name="aggregation_2" />
+                                            <field
+                                                name="measure_field_2_id"
+                                                options="{'no_create': True}"
+                                                attrs="{'invisible': [('aggregation_2', '=', 'count')], 'required': ['&amp;', ('aggregation_2', '!=', 'count'), ('kpi_mode', '=', 'comparison')]}"
+                                            />
+                                            <field
+                                                name="date_field_2_id"
+                                                options="{'no_create': True}"
+                                            />
+                                        </group>
+                                    </group>
+                                </page>
+                                <page
+                                    name="chart"
+                                    string="Chart"
+                                    attrs="{'invisible': [('item_type', 'in', ['tile', 'kpi', 'gauge', 'list'])]}"
+                                >
+                                    <group>
+                                        <group>
+                                            <field
+                                                name="map_mode"
+                                                attrs="{'invisible': [('item_type', '!=', 'map')]}"
+                                            />
+                                            <field
+                                                name="map_relation_field_id"
+                                                options="{'no_create': True}"
+                                                attrs="{'invisible': [('item_type', '!=', 'map')]}"
+                                            />
+                                            <field
+                                                name="group_by_field_id"
+                                                options="{'no_create': True}"
+                                                help="For Map regions mode, select a field that points to Countries (res.country). When Coordinates From is set, pick that field on the related model."
+                                                attrs="{'required': ['|', ('item_type', 'in', ['funnel', 'bullet']), '&amp;', ('item_type', '=', 'map'), ('map_mode', '=', 'regions')], 'invisible': ['&amp;', ('item_type', '=', 'map'), ('map_mode', '=', 'points')]}"
+                                            />
+                                            <field
+                                                name="sort_field_id"
+                                                options="{'no_create': True}"
+                                                help="Optional. Overrides Chart Sort and orders funnel stages by this field (for example sequence on the related stage). When empty, Chart Sort applies."
+                                                attrs="{'invisible': [('item_type', '!=', 'funnel')]}"
+                                            />
+                                            <field
+                                                name="sort_dir"
+                                                attrs="{'invisible': ['|', ('item_type', '!=', 'funnel'), ('sort_field_id', '=', False)]}"
+                                            />
+                                            <field
+                                                name="latitude_field_id"
+                                                options="{'no_create': True}"
+                                                attrs="{'invisible': ['|', ('item_type', '!=', 'map'), ('map_mode', '!=', 'points')], 'required': ['&amp;', ('item_type', '=', 'map'), ('map_mode', '=', 'points')]}"
+                                            />
+                                            <field
+                                                name="longitude_field_id"
+                                                options="{'no_create': True}"
+                                                attrs="{'invisible': ['|', ('item_type', '!=', 'map'), ('map_mode', '!=', 'points')], 'required': ['&amp;', ('item_type', '=', 'map'), ('map_mode', '=', 'points')]}"
+                                            />
+                                            <field
+                                                name="map_focus_country_id"
+                                                options="{'no_create': True}"
+                                                attrs="{'invisible': [('item_type', '!=', 'map')]}"
+                                            />
+                                            <field
+                                                name="group_by_granularity"
+                                                attrs="{'invisible': [('group_by_ttype', 'not in', ['date', 'datetime'])]}"
+                                            />
+                                            <field
+                                                name="subgroup_by_field_id"
+                                                options="{'no_create': True}"
+                                                attrs="{'invisible': [('item_type', 'not in', ['bar', 'bar_horizontal', 'line', 'area'])]}"
+                                            />
+                                            <field
+                                                name="subgroup_by_granularity"
+                                                attrs="{'invisible': [('subgroup_by_ttype', 'not in', ['date', 'datetime'])]}"
+                                            />
+                                            <field
+                                                name="boolean_true_label"
+                                                placeholder="Yes"
+                                                attrs="{'invisible': ['&amp;', ('group_by_ttype', '!=', 'boolean'), ('subgroup_by_ttype', '!=', 'boolean')]}"
+                                            />
+                                            <field
+                                                name="boolean_false_label"
+                                                placeholder="No"
+                                                attrs="{'invisible': ['&amp;', ('group_by_ttype', '!=', 'boolean'), ('subgroup_by_ttype', '!=', 'boolean')]}"
+                                            />
+                                            <field
+                                                name="aggregation"
+                                                attrs="{'invisible': [('item_type', '=', 'scatter')]}"
+                                            />
+                                            <field
+                                                name="measure_field_id"
+                                                options="{'no_create': True}"
+                                                help="Optional. Used as the bubble size / tooltip value for each point."
+                                                attrs="{'invisible': ['|', ('item_type', '!=', 'map'), ('map_mode', '!=', 'points')]}"
+                                            />
+                                            <field
+                                                name="measure_x_field_id"
+                                                options="{'no_create': True}"
+                                                attrs="{'invisible': [('item_type', '!=', 'scatter')], 'required': [('item_type', '=', 'scatter')]}"
+                                            />
+                                            <field
+                                                name="measure_y_field_id"
+                                                options="{'no_create': True}"
+                                                attrs="{'invisible': [('item_type', '!=', 'scatter')], 'required': [('item_type', '=', 'scatter')]}"
+                                            />
+                                        </group>
+                                        <group>
+                                            <field
+                                                name="chart_sort"
+                                                help="For funnel charts, Default Order follows the related model's native order (for example stage sequence), and Value Ascending falls back to descending so the funnel keeps narrowing. Hidden when Sort By is set."
+                                                attrs="{'invisible': ['|', ('item_type', '=', 'map'), '&amp;', ('item_type', '=', 'funnel'), ('sort_field_id', '!=', False)]}"
+                                            />
+                                            <field name="record_limit" />
+                                            <field
+                                                name="stacked"
+                                                attrs="{'invisible': [('item_type', 'not in', ['bar', 'bar_horizontal'])]}"
+                                            />
+                                            <field
+                                                name="legend_visible"
+                                                attrs="{'invisible': [('item_type', 'in', ['bullet', 'map'])]}"
+                                            />
+                                            <field
+                                                name="target_enabled"
+                                                attrs="{'invisible': [('item_type', 'not in', ['bar', 'bar_horizontal', 'line', 'area', 'bullet'])]}"
+                                            />
+                                            <field
+                                                name="target_value"
+                                                attrs="{'invisible': ['|', ('target_enabled', '=', False), ('item_type', 'not in', ['bar', 'bar_horizontal', 'line', 'area', 'bullet'])]}"
+                                            />
+                                            <field
+                                                name="show_average_line"
+                                                attrs="{'invisible': [('item_type', 'not in', ['bar', 'bar_horizontal', 'line', 'area'])]}"
+                                            />
+                                            <field
+                                                name="show_trend_line"
+                                                attrs="{'invisible': [('item_type', 'not in', ['bar', 'bar_horizontal', 'line', 'area'])]}"
+                                            />
+                                            <field
+                                                name="compare_previous_period"
+                                                help="Requires a Date Field and an active date range. Draws the previous period as a dashed series."
+                                                attrs="{'invisible': [('item_type', 'not in', ['bar', 'bar_horizontal', 'line', 'area'])]}"
+                                            />
+                                        </group>
+                                    </group>
+                                    <group
+                                        string="Measures"
+                                        attrs="{'invisible': ['|', '|', ('aggregation', '=', 'count'), ('item_type', '=', 'scatter'), '&amp;', ('item_type', '=', 'map'), ('map_mode', '=', 'points')]}"
+                                    >
+                                        <field
+                                            name="measure_ids"
+                                            nolabel="1"
+                                            colspan="2"
+                                            context="{'default_item_id': id}"
+                                        />
+                                    </group>
+                                </page>
+                                <page
+                                    name="list"
+                                    string="List"
+                                    attrs="{'invisible': [('item_type', '!=', 'list')]}"
+                                >
+                                    <group>
+                                        <group>
+                                            <field name="list_type" />
+                                            <field
+                                                name="group_by_field_id"
+                                                options="{'no_create': True}"
+                                                attrs="{'invisible': [('list_type', '!=', 'grouped')], 'required': ['&amp;', ('item_type', '=', 'list'), ('list_type', '=', 'grouped')]}"
+                                            />
+                                            <field
+                                                name="group_by_granularity"
+                                                attrs="{'invisible': ['|', ('list_type', '!=', 'grouped'), ('group_by_ttype', 'not in', ['date', 'datetime'])]}"
+                                            />
+                                            <field
+                                                name="boolean_true_label"
+                                                placeholder="Yes"
+                                                attrs="{'invisible': ['|', ('list_type', '!=', 'grouped'), ('group_by_ttype', '!=', 'boolean')]}"
+                                            />
+                                            <field
+                                                name="boolean_false_label"
+                                                placeholder="No"
+                                                attrs="{'invisible': ['|', ('list_type', '!=', 'grouped'), ('group_by_ttype', '!=', 'boolean')]}"
+                                            />
+                                        </group>
+                                        <group>
+                                            <field name="page_size" />
+                                            <field
+                                                name="sort_field_id"
+                                                options="{'no_create': True}"
+                                                attrs="{'invisible': [('list_type', '!=', 'plain')]}"
+                                            />
+                                            <field
+                                                name="sort_dir"
+                                                attrs="{'invisible': [('list_type', '!=', 'plain')]}"
+                                            />
+                                        </group>
+                                    </group>
+                                    <group
+                                        string="Measures"
+                                        attrs="{'invisible': [('list_type', '!=', 'grouped')]}"
+                                    >
+                                        <field
+                                            name="measure_ids"
+                                            nolabel="1"
+                                            colspan="2"
+                                            context="{'default_item_id': id}"
+                                        />
+                                    </group>
+                                    <field
+                                        name="list_column_ids"
+                                        nolabel="1"
+                                        context="{'default_item_id': id}"
+                                        attrs="{'invisible': [('list_type', '!=', 'plain')]}"
+                                    >
+                                        <tree editable="bottom">
+                                            <field name="sequence" widget="handle" />
+                                            <field
+                                                name="field_id"
+                                                options="{'no_create': True}"
+                                                domain="[('model_id', '=', parent.model_id), ('ttype', 'not in', ['binary', 'one2many', 'many2many'])]"
+                                            />
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page
+                                    name="drill"
+                                    string="Drill Down"
+                                    attrs="{'invisible': [('item_type', '=', 'list')]}"
+                                >
+                                    <field
+                                        name="drill_level_ids"
+                                        nolabel="1"
+                                        context="{'default_item_id': id}"
+                                    >
+                                        <tree editable="bottom">
+                                            <field name="sequence" widget="handle" />
+                                            <field name="model_id" invisible="1" />
+                                            <field
+                                                name="group_by_ttype"
+                                                invisible="1"
+                                            />
+                                            <field
+                                                name="group_by_field_id"
+                                                options="{'no_create': True}"
+                                            />
+                                            <field
+                                                name="group_by_granularity"
+                                                optional="show"
+                                                attrs="{'invisible': [('group_by_ttype', 'not in', ['date', 'datetime'])]}"
+                                            />
+                                            <field name="chart_type" />
+                                            <field name="chart_sort" />
+                                            <field
+                                                name="record_limit"
+                                                optional="hide"
+                                            />
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page
+                                    name="domain"
+                                    string="Domain"
+                                    attrs="{'invisible': [('model_id', '=', False)]}"
+                                >
+                                    <field
+                                        name="domain"
+                                        widget="domain"
+                                        options="{'model': 'model_name'}"
+                                    />
+                                </page>
+                                <page name="appearance" string="Appearance">
+                                    <group>
+                                        <group>
+                                            <field
+                                                name="icon"
+                                                attrs="{'invisible': [('item_type', '!=', 'tile')]}"
+                                            />
+                                            <field
+                                                name="color_palette"
+                                                attrs="{'invisible': [('item_type', '=', 'list')]}"
+                                            />
+                                            <field
+                                                name="palette_id"
+                                                options="{'no_create': True}"
+                                                attrs="{'invisible': ['|', ('item_type', '=', 'list'), ('color_palette', '!=', 'custom')], 'required': ['&amp;', ('item_type', '!=', 'list'), ('color_palette', '=', 'custom')]}"
+                                            />
+                                            <field
+                                                name="background_style"
+                                                attrs="{'invisible': [('item_type', 'not in', ['tile', 'kpi'])]}"
+                                            />
+                                            <field
+                                                name="background_color"
+                                                widget="color"
+                                                attrs="{'invisible': ['&amp;', ('item_type', 'in', ['tile', 'kpi']), ('background_style', '=', 'palette')]}"
+                                            />
+                                            <field
+                                                name="font_color"
+                                                widget="color"
+                                                attrs="{'invisible': ['&amp;', ('item_type', 'in', ['tile', 'kpi']), ('background_style', '=', 'palette')]}"
+                                            />
+                                        </group>
+                                        <group>
+                                            <field name="number_style" />
+                                            <field
+                                                name="unit_type"
+                                                attrs="{'invisible': [('item_type', 'not in', ['tile', 'kpi'])]}"
+                                            />
+                                            <field
+                                                name="unit_symbol"
+                                                attrs="{'invisible': [('unit_type', '!=', 'custom')], 'required': [('unit_type', '=', 'custom')]}"
+                                            />
+                                        </group>
+                                    </group>
+                                </page>
+                                <page name="interaction" string="Interaction">
+                                    <group>
+                                        <group>
+                                            <field name="show_records" />
+                                            <field
+                                                name="action_id"
+                                                options="{'no_create': True}"
+                                            />
+                                        </group>
+                                        <group>
+                                            <field name="sequence" />
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <field
+                                            name="description"
+                                            placeholder="Shown as a tooltip on the dashboard."
+                                        />
+                                    </group>
+                                </page>
+                            </notebook>
+                        </div>
+                        <div
+                            class="col-12 col-lg-5 o_boardkit_dashboard_item_preview_col"
+                        >
+                            <field
+                                name="preview_json"
+                                widget="boardkit_dashboard_item_preview"
+                                nolabel="1"
+                                readonly="1"
+                            />
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Subview of the measure_ids field on both the Data and List pages. -->
+    <record id="boardkit_dashboard_item_measure_view_list" model="ir.ui.view">
+        <field name="name">boardkit.dashboard.item.measure.list</field>
+        <field name="model">boardkit.dashboard.item.measure</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="sequence" widget="handle" />
+                <field name="model_id" invisible="1" />
+                <field name="field_id" options="{'no_create': True}" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="boardkit_dashboard_item_view_list" model="ir.ui.view">
+        <field name="name">boardkit.dashboard.item.list</field>
+        <field name="model">boardkit.dashboard.item</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+                <field name="item_type" />
+                <field name="dashboard_id" />
+                <field name="model_id" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="boardkit_dashboard_item_view_search" model="ir.ui.view">
+        <field name="name">boardkit.dashboard.item.search</field>
+        <field name="model">boardkit.dashboard.item</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="dashboard_id" />
+                <field name="model_id" />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="group_by_dashboard"
+                        string="Dashboard"
+                        context="{'group_by': 'dashboard_id'}"
+                    />
+                    <filter
+                        name="group_by_type"
+                        string="Type"
+                        context="{'group_by': 'item_type'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="boardkit_dashboard_item_action" model="ir.actions.act_window">
+        <field name="name">Dashboard Items</field>
+        <field name="res_model">boardkit.dashboard.item</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
