@@ -370,6 +370,20 @@ class TestItemData(BoardkitDashboardCommon):
         self.assertEqual(rows["Brazil"], [2, 30.0])
         self.assertEqual(rows["United States"], [1, 30.0])
 
+    def test_list_grouped_total_with_more_pages(self):
+        # A full page (len(rows) == limit) cannot tell whether more groups
+        # exist beyond it, so the total must still reflect every group.
+        item = self._create_item(
+            name="Grouped List Paged",
+            item_type="list",
+            list_type="grouped",
+            group_by_field_id=self._field("res.partner", "country_id").id,
+            page_size=1,
+        )
+        data = item.get_data()
+        self.assertEqual(len(data["rows"]), 1)
+        self.assertEqual(data["total"], 2)
+
     def test_date_filter_precedence(self):
         self.tile.write(
             {
@@ -485,6 +499,34 @@ class TestItemData(BoardkitDashboardCommon):
         data = item.get_data()
         self.assertEqual(data["labels"], ["United States", "Brazil"])
         self.assertEqual(data["datasets"][0]["data"], [1, 2])
+
+    def test_funnel_group_keys_extracts_date_range_leaf(self):
+        # Date/datetime groups serialize a ">="/"<" range, not a single "="
+        # leaf, so the group key must be read off the range start.
+        item = self._create_item(
+            name="Funnel By Month",
+            item_type="funnel",
+            group_by_field_id=self._field("res.partner", "create_date").id,
+            group_by_granularity="month",
+        )
+        datasets = [
+            {
+                "drilldowns": [
+                    [
+                        ["create_date", ">=", "2024-01-01 00:00:00"],
+                        ["create_date", "<", "2024-02-01 00:00:00"],
+                    ],
+                    [
+                        ["create_date", ">=", "2024-02-01 00:00:00"],
+                        ["create_date", "<", "2024-03-01 00:00:00"],
+                    ],
+                ]
+            }
+        ]
+        self.assertEqual(
+            item._funnel_group_keys(datasets),
+            ["2024-01-01 00:00:00", "2024-02-01 00:00:00"],
+        )
 
     def test_funnel_requires_group_by(self):
         item = self._create_item(name="Funnel Broken", item_type="funnel")
@@ -974,6 +1016,12 @@ class TestItemData(BoardkitDashboardCommon):
                     "field_id": self._field("res.users", "login").id,
                 }
             )
+
+    def test_item_custom_date_requires_both_dates(self):
+        with self.assertRaises(ValidationError):
+            self._create_item(name="Custom Missing To", date_filter="custom")
+        with self.assertRaises(ValidationError):
+            self.tile.write({"date_filter": "custom", "date_from": False})
 
     def test_custom_filter_other_model_ignored(self):
         params = self._custom_params("name", "ilike", "BR", model="res.users")
