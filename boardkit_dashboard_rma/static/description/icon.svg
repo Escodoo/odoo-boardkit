@@ -1,0 +1,9 @@
+<svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+  <!-- Sale-style layered depth: short / medium / short / tallest -->
+  <path d="M2 25a4 4 0 0 1 4-4h8v25H2V25Z" fill="#4C1D95"/>
+  <path d="M14 16c0-2.21 1.79-4 4-4h12v34H14V16Z" fill="#8B5CF6"/>
+  <path d="M24 28c0-2.21 1.79-4 4-4h10v22H24V28Z" fill="#6D28D9"/>
+  <path d="M34 4c0-2.21 1.79-4 4-4h8c2.21 0 4 1.79 4 4v42H34V4Z" fill="#A78BFA"/>
+  <path d="M34 46h5c2.21 0 4-1.79 4-4V14H34v32Z" fill="#C4B5FD"/>
+  <path d="M14 46h5A3.5 3.5 0 0 0 22.5 42.5V22H14v24Z" fill="#6D28D9"/>
+</svg>
