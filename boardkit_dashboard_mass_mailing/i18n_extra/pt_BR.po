@@ -1,0 +1,137 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_mass_mailing
+#
+# Terms of the curated template payloads, which the standard exporter does not
+# read. Update with tools/boardkit_template_terms.py.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_mass_mailing
+#. odoo-python
+#: code:addons/boardkit_dashboard_mass_mailing/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Email Marketing Overview"
+msgstr "Visão Geral de E-mail Marketing"
+
+#. module: boardkit_dashboard_mass_mailing
+#. odoo-python
+#: code:addons/boardkit_dashboard_mass_mailing/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Mailing delivery, engagement traces and campaign analytics."
+msgstr "Envio de comunicações, engajamento e análise por campanha."
+
+#. module: boardkit_dashboard_mass_mailing
+#. odoo-python
+#: code:addons/boardkit_dashboard_mass_mailing/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Draft Mailings"
+msgstr "Comunicações em Rascunho"
+
+#. module: boardkit_dashboard_mass_mailing
+#. odoo-python
+#: code:addons/boardkit_dashboard_mass_mailing/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "In Queue"
+msgstr "Na Fila"
+
+#. module: boardkit_dashboard_mass_mailing
+#. odoo-python
+#: code:addons/boardkit_dashboard_mass_mailing/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Sent Mailings"
+msgstr "Comunicações Enviadas"
+
+#. module: boardkit_dashboard_mass_mailing
+#. odoo-python
+#: code:addons/boardkit_dashboard_mass_mailing/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Delivered"
+msgstr "Entregues"
+
+#. module: boardkit_dashboard_mass_mailing
+#. odoo-python
+#: code:addons/boardkit_dashboard_mass_mailing/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Open Rate"
+msgstr "Taxa de Abertura"
+
+#. module: boardkit_dashboard_mass_mailing
+#. odoo-python
+#: code:addons/boardkit_dashboard_mass_mailing/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Opened"
+msgstr "Abertas"
+
+#. module: boardkit_dashboard_mass_mailing
+#. odoo-python
+#: code:addons/boardkit_dashboard_mass_mailing/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Bounced"
+msgstr "Devolvidas"
+
+#. module: boardkit_dashboard_mass_mailing
+#. odoo-python
+#: code:addons/boardkit_dashboard_mass_mailing/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Delivered per Month"
+msgstr "Entregues por Mês"
+
+#. module: boardkit_dashboard_mass_mailing
+#. odoo-python
+#: code:addons/boardkit_dashboard_mass_mailing/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Top Mailings by Opens"
+msgstr "Principais Comunicações por Aberturas"
+
+#. module: boardkit_dashboard_mass_mailing
+#. odoo-python
+#: code:addons/boardkit_dashboard_mass_mailing/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Traces by Status"
+msgstr "Registros por Situação"
+
+#. module: boardkit_dashboard_mass_mailing
+#. odoo-python
+#: code:addons/boardkit_dashboard_mass_mailing/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Sent by Campaign"
+msgstr "Enviadas por Campanha"
+
+#. module: boardkit_dashboard_mass_mailing
+#. odoo-python
+#: code:addons/boardkit_dashboard_mass_mailing/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Recent Mailings"
+msgstr "Comunicações Recentes"
+
+#. module: boardkit_dashboard_mass_mailing
+#. odoo-python
+#: code:addons/boardkit_dashboard_mass_mailing/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "My Mailings"
+msgstr "Minhas Comunicações"
+
+#. module: boardkit_dashboard_mass_mailing
+#. odoo-python
+#: code:addons/boardkit_dashboard_mass_mailing/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Sent"
+msgstr "Enviadas"
+
+#. module: boardkit_dashboard_mass_mailing
+#. odoo-python
+#: code:addons/boardkit_dashboard_mass_mailing/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Bounced Traces"
+msgstr "Registros Devolvidos"
