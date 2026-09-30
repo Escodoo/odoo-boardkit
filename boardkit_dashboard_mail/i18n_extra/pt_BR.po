@@ -1,0 +1,144 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_mail
+#
+# Terms of the curated template payloads, which the standard exporter does not
+# read. Update with tools/boardkit_template_terms.py.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_mail
+#. odoo-python
+#: code:addons/boardkit_dashboard_mail/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "My Day"
+msgstr "Meu Dia"
+
+#. module: boardkit_dashboard_mail
+#. odoo-python
+#: code:addons/boardkit_dashboard_mail/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Personal activities, meetings, inbox and Discuss for the signed-in user."
+msgstr "Atividades, reuniões, caixa de entrada e conversas do usuário conectado."
+
+#. module: boardkit_dashboard_mail
+#. odoo-python
+#: code:addons/boardkit_dashboard_mail/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Open Activities"
+msgstr "Atividades Abertas"
+
+#. module: boardkit_dashboard_mail
+#. odoo-python
+#: code:addons/boardkit_dashboard_mail/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Overdue"
+msgstr "Atrasadas"
+
+#. module: boardkit_dashboard_mail
+#. odoo-python
+#: code:addons/boardkit_dashboard_mail/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Due Today"
+msgstr "Para Hoje"
+
+#. module: boardkit_dashboard_mail
+#. odoo-python
+#: code:addons/boardkit_dashboard_mail/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Upcoming Meetings"
+msgstr "Reuniões Futuras"
+
+#. module: boardkit_dashboard_mail
+#. odoo-python
+#: code:addons/boardkit_dashboard_mail/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Inbox Unread"
+msgstr "Não Lidas na Caixa de Entrada"
+
+#. module: boardkit_dashboard_mail
+#. odoo-python
+#: code:addons/boardkit_dashboard_mail/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "My Channels"
+msgstr "Meus Canais"
+
+#. module: boardkit_dashboard_mail
+#. odoo-python
+#: code:addons/boardkit_dashboard_mail/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Overdue Rate"
+msgstr "Taxa de Atraso"
+
+#. module: boardkit_dashboard_mail
+#. odoo-python
+#: code:addons/boardkit_dashboard_mail/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "My Chats"
+msgstr "Minhas Conversas"
+
+#. module: boardkit_dashboard_mail
+#. odoo-python
+#: code:addons/boardkit_dashboard_mail/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Activities by Type"
+msgstr "Atividades por Tipo"
+
+#. module: boardkit_dashboard_mail
+#. odoo-python
+#: code:addons/boardkit_dashboard_mail/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Activities by Model"
+msgstr "Atividades por Modelo"
+
+#. module: boardkit_dashboard_mail
+#. odoo-python
+#: code:addons/boardkit_dashboard_mail/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Overdue Activities"
+msgstr "Atividades Atrasadas"
+
+#. module: boardkit_dashboard_mail
+#. odoo-python
+#: code:addons/boardkit_dashboard_mail/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Next Meetings"
+msgstr "Próximas Reuniões"
+
+#. module: boardkit_dashboard_mail
+#. odoo-python
+#: code:addons/boardkit_dashboard_mail/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Recent Inbox"
+msgstr "Caixa de Entrada Recente"
+
+#. module: boardkit_dashboard_mail
+#. odoo-python
+#: code:addons/boardkit_dashboard_mail/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Overdue only"
+msgstr "Somente atrasadas"
+
+#. module: boardkit_dashboard_mail
+#. odoo-python
+#: code:addons/boardkit_dashboard_mail/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Due today"
+msgstr "Vencem hoje"
+
+#. module: boardkit_dashboard_mail
+#. odoo-python
+#: code:addons/boardkit_dashboard_mail/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Chats only"
+msgstr "Somente conversas"
