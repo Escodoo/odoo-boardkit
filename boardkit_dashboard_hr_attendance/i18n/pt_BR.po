@@ -1,0 +1,43 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_hr_attendance
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_hr_attendance
+#: model:boardkit.dashboard.template,description:boardkit_dashboard_hr_attendance.template_attendance_overview
+msgid ""
+"\n"
+"            Attendance board for check-ins and hours: currently checked-in\n"
+"            staff, worked and overtime hours, missing hours, adjustments,\n"
+"            trends and department/employee analytics. Overtime figures only\n"
+"            count extra hours actually worked, since Odoo also stores missing\n"
+"            time as negative overtime. Requires Attendances.\n"
+"        "
+msgstr ""
+"Painel de presença para registros de ponto e horas: funcionários com ponto "
+"aberto, horas trabalhadas e extras, horas faltantes, ajustes, tendências e "
+"análise por departamento e funcionário. Os números de horas extras contam "
+"apenas as horas a mais efetivamente trabalhadas, já que o Odoo também guarda "
+"o tempo faltante como hora extra negativa. Requer Controle de Presença."
+
+#. module: boardkit_dashboard_hr_attendance
+#: model:boardkit.dashboard,name:boardkit_dashboard_hr_attendance.dashboard_demo
+#: model:boardkit.dashboard.template,name:boardkit_dashboard_hr_attendance.template_attendance_overview
+msgid "Attendance Overview"
+msgstr "Visão Geral de Ponto"
+
+#. module: boardkit_dashboard_hr_attendance
+#: model:boardkit.dashboard,description:boardkit_dashboard_hr_attendance.dashboard_demo
+msgid "Check-ins, worked hours, overtime and department analytics."
+msgstr "Entradas, horas trabalhadas, horas extras e análise por departamento."
