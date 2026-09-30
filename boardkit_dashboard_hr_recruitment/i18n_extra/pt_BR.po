@@ -1,0 +1,130 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_hr_recruitment
+#
+# Terms of the curated template payloads, which the standard exporter does not
+# read. Update with tools/boardkit_template_terms.py.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_hr_recruitment
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_recruitment/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Recruitment Overview"
+msgstr "Visão Geral de Recrutamento"
+
+#. module: boardkit_dashboard_hr_recruitment
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_recruitment/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Applicant pipeline with hire rate, stage funnel and source analytics."
+msgstr "Funil de candidatos com taxa de contratação, funil de estágios e análise por origem."
+
+#. module: boardkit_dashboard_hr_recruitment
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_recruitment/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Ongoing Applications"
+msgstr "Candidaturas em Andamento"
+
+#. module: boardkit_dashboard_hr_recruitment
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_recruitment/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Hired"
+msgstr "Contratados"
+
+#. module: boardkit_dashboard_hr_recruitment
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_recruitment/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Refused"
+msgstr "Recusadas"
+
+#. module: boardkit_dashboard_hr_recruitment
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_recruitment/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "New Applications"
+msgstr "Novas Candidaturas"
+
+#. module: boardkit_dashboard_hr_recruitment
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_recruitment/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Hire Rate"
+msgstr "Taxa de Contratação"
+
+#. module: boardkit_dashboard_hr_recruitment
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_recruitment/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Avg Proposed Salary"
+msgstr "Salário Proposto Médio"
+
+#. module: boardkit_dashboard_hr_recruitment
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_recruitment/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Unassigned Ongoing"
+msgstr "Em Andamento sem Responsável"
+
+#. module: boardkit_dashboard_hr_recruitment
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_recruitment/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Pipeline Funnel"
+msgstr "Funil de Estágios"
+
+#. module: boardkit_dashboard_hr_recruitment
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_recruitment/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Hires per Month"
+msgstr "Contratações por Mês"
+
+#. module: boardkit_dashboard_hr_recruitment
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_recruitment/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Applications by Job"
+msgstr "Candidaturas por Vaga"
+
+#. module: boardkit_dashboard_hr_recruitment
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_recruitment/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "New Applications by Source"
+msgstr "Novas Candidaturas por Origem"
+
+#. module: boardkit_dashboard_hr_recruitment
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_recruitment/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Recent Applications"
+msgstr "Candidaturas Recentes"
+
+#. module: boardkit_dashboard_hr_recruitment
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_recruitment/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "My Applications"
+msgstr "Minhas Candidaturas"
+
+#. module: boardkit_dashboard_hr_recruitment
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_recruitment/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Ongoing"
+msgstr "Em Andamento"
