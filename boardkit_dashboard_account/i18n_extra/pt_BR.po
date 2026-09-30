@@ -1,0 +1,144 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_account
+#
+# Terms of the curated template payloads, which the standard exporter does not
+# read. Update with tools/boardkit_template_terms.py.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_account
+#. odoo-python
+#: code:addons/boardkit_dashboard_account/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Invoicing Overview"
+msgstr "Visão Geral de Faturamento"
+
+#. module: boardkit_dashboard_account
+#. odoo-python
+#: code:addons/boardkit_dashboard_account/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Customer invoicing with AR, payment status and trends."
+msgstr "Faturamento de clientes com contas a receber, situação de pagamento e tendências."
+
+#. module: boardkit_dashboard_account
+#. odoo-python
+#: code:addons/boardkit_dashboard_account/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Total Invoiced"
+msgstr "Total Faturado"
+
+#. module: boardkit_dashboard_account
+#. odoo-python
+#: code:addons/boardkit_dashboard_account/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Outstanding AR"
+msgstr "Contas a Receber em Aberto"
+
+#. module: boardkit_dashboard_account
+#. odoo-python
+#: code:addons/boardkit_dashboard_account/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Overdue"
+msgstr "Vencidas"
+
+#. module: boardkit_dashboard_account
+#. odoo-python
+#: code:addons/boardkit_dashboard_account/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Credit Notes"
+msgstr "Notas de Crédito"
+
+#. module: boardkit_dashboard_account
+#. odoo-python
+#: code:addons/boardkit_dashboard_account/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Collection Rate"
+msgstr "Taxa de Recebimento"
+
+#. module: boardkit_dashboard_account
+#. odoo-python
+#: code:addons/boardkit_dashboard_account/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Collected"
+msgstr "Recebido"
+
+#. module: boardkit_dashboard_account
+#. odoo-python
+#: code:addons/boardkit_dashboard_account/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Draft Invoices"
+msgstr "Faturas em Rascunho"
+
+#. module: boardkit_dashboard_account
+#. odoo-python
+#: code:addons/boardkit_dashboard_account/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Posted Invoices"
+msgstr "Faturas Lançadas"
+
+#. module: boardkit_dashboard_account
+#. odoo-python
+#: code:addons/boardkit_dashboard_account/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Invoiced Amount per Month"
+msgstr "Valor Faturado por Mês"
+
+#. module: boardkit_dashboard_account
+#. odoo-python
+#: code:addons/boardkit_dashboard_account/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Top Customers by Amount"
+msgstr "Principais Clientes por Valor"
+
+#. module: boardkit_dashboard_account
+#. odoo-python
+#: code:addons/boardkit_dashboard_account/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "By Payment Status"
+msgstr "Por Situação de Pagamento"
+
+#. module: boardkit_dashboard_account
+#. odoo-python
+#: code:addons/boardkit_dashboard_account/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "By Salesperson"
+msgstr "Por Vendedor"
+
+#. module: boardkit_dashboard_account
+#. odoo-python
+#: code:addons/boardkit_dashboard_account/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Recent Invoices"
+msgstr "Faturas Recentes"
+
+#. module: boardkit_dashboard_account
+#. odoo-python
+#: code:addons/boardkit_dashboard_account/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Posted"
+msgstr "Lançadas"
+
+#. module: boardkit_dashboard_account
+#. odoo-python
+#: code:addons/boardkit_dashboard_account/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Customer Invoices"
+msgstr "Faturas de Cliente"
+
+#. module: boardkit_dashboard_account
+#. odoo-python
+#: code:addons/boardkit_dashboard_account/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Vendor Bills"
+msgstr "Faturas de Fornecedor"
