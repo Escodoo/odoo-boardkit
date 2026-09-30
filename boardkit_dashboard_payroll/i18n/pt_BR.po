@@ -1,0 +1,42 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_payroll
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_payroll
+#: model:boardkit.dashboard.template,description:boardkit_dashboard_payroll.template_payroll_overview
+msgid ""
+"\n"
+"            Payroll board for payslip processing: draft and waiting backlogs,\n"
+"            done and rejected counts, confirmation rate, unbatched slips,\n"
+"            credit notes, trends and structure/employee analytics. Requires\n"
+"            OCA Payroll.\n"
+"        "
+msgstr ""
+"Painel de folha de pagamento para o processamento de holerites: pendências "
+"em rascunho e em espera, quantidade de concluídos e rejeitados, taxa de "
+"confirmação, holerites fora de lote, notas de crédito, tendências e análise "
+"por estrutura e funcionário. Requer OCA Payroll."
+
+#. module: boardkit_dashboard_payroll
+#: model:boardkit.dashboard,name:boardkit_dashboard_payroll.dashboard_demo
+#: model:boardkit.dashboard.template,name:boardkit_dashboard_payroll.template_payroll_overview
+msgid "Payroll Overview"
+msgstr "Visão Geral da Folha"
+
+#. module: boardkit_dashboard_payroll
+#: model:boardkit.dashboard,description:boardkit_dashboard_payroll.dashboard_demo
+msgid "Payslip processing, batches, structures and employee analytics."
+msgstr ""
+"Processamento de holerites, lotes, estruturas e análise por funcionário."
