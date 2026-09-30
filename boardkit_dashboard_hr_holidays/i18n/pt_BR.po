@@ -1,0 +1,43 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_hr_holidays
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_hr_holidays
+#: model:boardkit.dashboard.template,description:boardkit_dashboard_hr_holidays.template_time_off_overview
+msgid ""
+"\n"
+"            Time Off board for leave requests: to-approve backlog in requests\n"
+"            and days, approved and refused counts, days off totals, approval\n"
+"            rate, people currently away, trends and type/department analytics.\n"
+"            Requires Time Off.\n"
+"        "
+msgstr ""
+"Painel de folgas para solicitações de ausência: pendências a aprovar em "
+"solicitações e em dias, quantidade de aprovadas e recusadas, total de dias "
+"de folga, taxa de aprovação, pessoas ausentes no momento, tendências e "
+"análise por tipo e departamento. Requer Folga."
+
+#. module: boardkit_dashboard_hr_holidays
+#: model:boardkit.dashboard,description:boardkit_dashboard_hr_holidays.dashboard_demo
+msgid "Leave requests, approvals, days off and department analytics."
+msgstr ""
+"Solicitações de folga, aprovações, dias de ausência e análise por "
+"departamento."
+
+#. module: boardkit_dashboard_hr_holidays
+#: model:boardkit.dashboard,name:boardkit_dashboard_hr_holidays.dashboard_demo
+#: model:boardkit.dashboard.template,name:boardkit_dashboard_hr_holidays.template_time_off_overview
+msgid "Time Off Overview"
+msgstr "Visão Geral de Folgas"
