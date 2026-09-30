@@ -1,0 +1,44 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_purchase_request
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_purchase_request
+#: model:boardkit.dashboard.template,description:boardkit_dashboard_purchase_request.template_purchase_request_overview
+msgid ""
+"\n"
+"            Purchase request board for internal demand: drafts and approval\n"
+"            queues, estimated cost, approved and done volumes, approval rate,\n"
+"            trends, requester and status analytics, and a recent requests\n"
+"            list. Requires Purchase Request.\n"
+"        "
+msgstr ""
+"Painel de requisições de compra para a demanda interna: rascunhos e filas de "
+"aprovação, custo estimado, volumes aprovados e concluídos, taxa de "
+"aprovação, tendências, análise por solicitante e situação e uma lista das "
+"requisições recentes. Requer Purchase Request."
+
+#. module: boardkit_dashboard_purchase_request
+#: model:boardkit.dashboard,description:boardkit_dashboard_purchase_request.dashboard_demo
+msgid ""
+"Internal purchase demand, approvals, estimated cost and requester analytics."
+msgstr ""
+"Demanda interna de compras, aprovações, custo estimado e análise por "
+"solicitante."
+
+#. module: boardkit_dashboard_purchase_request
+#: model:boardkit.dashboard,name:boardkit_dashboard_purchase_request.dashboard_demo
+#: model:boardkit.dashboard.template,name:boardkit_dashboard_purchase_request.template_purchase_request_overview
+msgid "Purchase Request Overview"
+msgstr "Visão Geral de Requisições de Compra"
