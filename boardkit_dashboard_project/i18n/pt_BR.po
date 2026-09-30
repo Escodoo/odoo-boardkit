@@ -1,0 +1,47 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_project
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_project
+#: model:boardkit.dashboard.template,description:boardkit_dashboard_project.template_project_overview
+msgid ""
+"\n"
+"            Project board for task delivery: open and done counts, high\n"
+"            priority and overdue backlogs, completion rate, unassigned and\n"
+"            waiting tasks, trends and project/stage analytics. Done volume\n"
+"            follows the ending date, which Odoo fills when a task reaches a\n"
+"            folded stage, while the completion rate follows the tasks created\n"
+"            in the period. Requires Project.\n"
+"        "
+msgstr ""
+"Painel de projeto para entrega de tarefas: quantidade de tarefas abertas e "
+"concluídas, pendências de alta prioridade e atrasadas, taxa de conclusão, "
+"tarefas sem responsável e em espera, tendências e análise por projeto e "
+"estágio. O volume concluído segue a data de término, que o Odoo preenche "
+"quando a tarefa chega a um estágio dobrado, enquanto a taxa de conclusão "
+"segue as tarefas criadas no período. Requer Projeto."
+
+#. module: boardkit_dashboard_project
+#: model:boardkit.dashboard,name:boardkit_dashboard_project.dashboard_demo
+#: model:boardkit.dashboard.template,name:boardkit_dashboard_project.template_project_overview
+msgid "Project Overview"
+msgstr "Visão Geral de Projetos"
+
+#. module: boardkit_dashboard_project
+#: model:boardkit.dashboard,description:boardkit_dashboard_project.dashboard_demo
+msgid "Project tasks with completion rate, overdue backlog and stage funnel."
+msgstr ""
+"Tarefas de projeto com taxa de conclusão, fila de atrasos e funil de "
+"estágios."
