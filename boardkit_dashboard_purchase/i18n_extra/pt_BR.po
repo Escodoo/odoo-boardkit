@@ -1,0 +1,137 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_purchase
+#
+# Terms of the curated template payloads, which the standard exporter does not
+# read. Update with tools/boardkit_template_terms.py.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_purchase
+#. odoo-python
+#: code:addons/boardkit_dashboard_purchase/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Purchase Overview"
+msgstr "Visão Geral de Compras"
+
+#. module: boardkit_dashboard_purchase
+#. odoo-python
+#: code:addons/boardkit_dashboard_purchase/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "RFQs and confirmed purchase orders with spend, conversion and buyer analytics."
+msgstr "Cotações e pedidos de compra confirmados, com gastos, conversão e análise por comprador."
+
+#. module: boardkit_dashboard_purchase
+#. odoo-python
+#: code:addons/boardkit_dashboard_purchase/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "RFQs"
+msgstr "Cotações"
+
+#. module: boardkit_dashboard_purchase
+#. odoo-python
+#: code:addons/boardkit_dashboard_purchase/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Purchase Orders"
+msgstr "Pedidos de Compra"
+
+#. module: boardkit_dashboard_purchase
+#. odoo-python
+#: code:addons/boardkit_dashboard_purchase/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Untaxed Total"
+msgstr "Total sem Impostos"
+
+#. module: boardkit_dashboard_purchase
+#. odoo-python
+#: code:addons/boardkit_dashboard_purchase/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "RFQs Value"
+msgstr "Valor em Cotações"
+
+#. module: boardkit_dashboard_purchase
+#. odoo-python
+#: code:addons/boardkit_dashboard_purchase/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Confirmation Rate"
+msgstr "Taxa de Confirmação"
+
+#. module: boardkit_dashboard_purchase
+#. odoo-python
+#: code:addons/boardkit_dashboard_purchase/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Average Order Value"
+msgstr "Valor Médio do Pedido"
+
+#. module: boardkit_dashboard_purchase
+#. odoo-python
+#: code:addons/boardkit_dashboard_purchase/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Late Receipts"
+msgstr "Recebimentos Atrasados"
+
+#. module: boardkit_dashboard_purchase
+#. odoo-python
+#: code:addons/boardkit_dashboard_purchase/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Waiting Bills"
+msgstr "Faturas Pendentes"
+
+#. module: boardkit_dashboard_purchase
+#. odoo-python
+#: code:addons/boardkit_dashboard_purchase/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Untaxed Amount per Month"
+msgstr "Valor sem Impostos por Mês"
+
+#. module: boardkit_dashboard_purchase
+#. odoo-python
+#: code:addons/boardkit_dashboard_purchase/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Top Vendors by Amount"
+msgstr "Principais Fornecedores por Valor"
+
+#. module: boardkit_dashboard_purchase
+#. odoo-python
+#: code:addons/boardkit_dashboard_purchase/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Orders by Status"
+msgstr "Pedidos por Situação"
+
+#. module: boardkit_dashboard_purchase
+#. odoo-python
+#: code:addons/boardkit_dashboard_purchase/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Spend by Buyer"
+msgstr "Gastos por Comprador"
+
+#. module: boardkit_dashboard_purchase
+#. odoo-python
+#: code:addons/boardkit_dashboard_purchase/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Recent Orders"
+msgstr "Pedidos Recentes"
+
+#. module: boardkit_dashboard_purchase
+#. odoo-python
+#: code:addons/boardkit_dashboard_purchase/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "My Orders"
+msgstr "Meus Pedidos"
+
+#. module: boardkit_dashboard_purchase
+#. odoo-python
+#: code:addons/boardkit_dashboard_purchase/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Confirmed"
+msgstr "Confirmados"
