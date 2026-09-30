@@ -1,0 +1,130 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_helpdesk_mgmt
+#
+# Terms of the curated template payloads, which the standard exporter does not
+# read. Update with tools/boardkit_template_terms.py.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_helpdesk_mgmt
+#. odoo-python
+#: code:addons/boardkit_dashboard_helpdesk_mgmt/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Helpdesk Overview"
+msgstr "Visão Geral do Helpdesk"
+
+#. module: boardkit_dashboard_helpdesk_mgmt
+#. odoo-python
+#: code:addons/boardkit_dashboard_helpdesk_mgmt/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Ticket backlog, closures, priority and team analytics."
+msgstr "Fila de chamados, encerramentos, prioridade e análise por equipe."
+
+#. module: boardkit_dashboard_helpdesk_mgmt
+#. odoo-python
+#: code:addons/boardkit_dashboard_helpdesk_mgmt/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Open Tickets"
+msgstr "Chamados Abertos"
+
+#. module: boardkit_dashboard_helpdesk_mgmt
+#. odoo-python
+#: code:addons/boardkit_dashboard_helpdesk_mgmt/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Closed Tickets"
+msgstr "Chamados Encerrados"
+
+#. module: boardkit_dashboard_helpdesk_mgmt
+#. odoo-python
+#: code:addons/boardkit_dashboard_helpdesk_mgmt/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "High Priority"
+msgstr "Alta Prioridade"
+
+#. module: boardkit_dashboard_helpdesk_mgmt
+#. odoo-python
+#: code:addons/boardkit_dashboard_helpdesk_mgmt/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Unattended"
+msgstr "Sem Atendimento"
+
+#. module: boardkit_dashboard_helpdesk_mgmt
+#. odoo-python
+#: code:addons/boardkit_dashboard_helpdesk_mgmt/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Closure Rate"
+msgstr "Taxa de Encerramento"
+
+#. module: boardkit_dashboard_helpdesk_mgmt
+#. odoo-python
+#: code:addons/boardkit_dashboard_helpdesk_mgmt/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Unassigned"
+msgstr "Sem Responsável"
+
+#. module: boardkit_dashboard_helpdesk_mgmt
+#. odoo-python
+#: code:addons/boardkit_dashboard_helpdesk_mgmt/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "New Tickets"
+msgstr "Novos Chamados"
+
+#. module: boardkit_dashboard_helpdesk_mgmt
+#. odoo-python
+#: code:addons/boardkit_dashboard_helpdesk_mgmt/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Pipeline Funnel"
+msgstr "Funil de Estágios"
+
+#. module: boardkit_dashboard_helpdesk_mgmt
+#. odoo-python
+#: code:addons/boardkit_dashboard_helpdesk_mgmt/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Closed per Month"
+msgstr "Encerrados por Mês"
+
+#. module: boardkit_dashboard_helpdesk_mgmt
+#. odoo-python
+#: code:addons/boardkit_dashboard_helpdesk_mgmt/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Open by Team"
+msgstr "Abertos por Equipe"
+
+#. module: boardkit_dashboard_helpdesk_mgmt
+#. odoo-python
+#: code:addons/boardkit_dashboard_helpdesk_mgmt/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Open by Category"
+msgstr "Abertos por Categoria"
+
+#. module: boardkit_dashboard_helpdesk_mgmt
+#. odoo-python
+#: code:addons/boardkit_dashboard_helpdesk_mgmt/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Recent Tickets"
+msgstr "Chamados Recentes"
+
+#. module: boardkit_dashboard_helpdesk_mgmt
+#. odoo-python
+#: code:addons/boardkit_dashboard_helpdesk_mgmt/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "My Tickets"
+msgstr "Meus Chamados"
+
+#. module: boardkit_dashboard_helpdesk_mgmt
+#. odoo-python
+#: code:addons/boardkit_dashboard_helpdesk_mgmt/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Open"
+msgstr "Abertos"
