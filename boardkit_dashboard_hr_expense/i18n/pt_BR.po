@@ -1,0 +1,39 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_hr_expense
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_hr_expense
+#: model:boardkit.dashboard.template,description:boardkit_dashboard_hr_expense.template_expenses_overview
+msgid ""
+"\n"
+"            Expenses board for submissions and spend: to-report and submitted\n"
+"            backlogs, approved amounts, approval rate, reimbursement queue,\n"
+"            trends and employee/category analytics. Requires Expenses.\n"
+"        "
+msgstr ""
+"Painel de despesas para lançamentos e gastos: pendências a relatar e "
+"enviadas, valores aprovados, taxa de aprovação, fila de reembolso, "
+"tendências e análise por funcionário e categoria. Requer Despesas."
+
+#. module: boardkit_dashboard_hr_expense
+#: model:boardkit.dashboard,description:boardkit_dashboard_hr_expense.dashboard_demo
+msgid "Expense submissions, approvals, reimbursement and category analytics."
+msgstr "Envio de despesas, aprovações, reembolso e análise por categoria."
+
+#. module: boardkit_dashboard_hr_expense
+#: model:boardkit.dashboard,name:boardkit_dashboard_hr_expense.dashboard_demo
+#: model:boardkit.dashboard.template,name:boardkit_dashboard_hr_expense.template_expenses_overview
+msgid "Expenses Overview"
+msgstr "Visão Geral de Despesas"
