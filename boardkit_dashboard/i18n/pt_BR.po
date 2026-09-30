@@ -472,8 +472,9 @@ msgstr "Mapa de contatos"
 
 #. module: boardkit_dashboard
 #: model:boardkit.dashboard,name:boardkit_dashboard.dashboard_demo
+#: model:boardkit.dashboard.template,name:boardkit_dashboard.template_contacts_overview
 msgid "Contacts Overview"
-msgstr "Visão geral de contatos"
+msgstr "Visão Geral de Contatos"
 
 #. module: boardkit_dashboard
 #: model:boardkit.dashboard.item,name:boardkit_dashboard.dashboard_demo_item_kpi
@@ -2803,7 +2804,6 @@ msgstr "Manter nome do template"
 msgid "Payload"
 msgstr "Payload"
 
-
 #. module: boardkit_dashboard
 #: code:addons/boardkit_dashboard/models/boardkit_dashboard.py:0
 msgid "The selected template no longer exists."
@@ -2830,3 +2830,24 @@ msgstr "A partir de template"
 #: code:addons/boardkit_dashboard/static/src/catalogue/catalogue_views.xml:0
 msgid "Create a dashboard from a curated template"
 msgstr "Criar um painel a partir de um template curado"
+
+#. module: boardkit_dashboard
+#: model:boardkit.dashboard.template,description:boardkit_dashboard.template_contacts_overview
+msgid ""
+"\n"
+"            Contacts board with tiles, KPI, country and location maps, charts\n"
+"            and a latest-contacts list. Uses only Contacts (res.partner). The\n"
+"            location map and the geolocation items stay empty until contacts\n"
+"            are geolocalized.\n"
+"        "
+msgstr ""
+"Painel de contatos com tiles, KPI, mapas por país e por localização, "
+"gráficos e uma lista dos contatos mais recentes. Usa apenas Contatos "
+"(res.partner). O mapa de localização e os itens de geolocalização ficam "
+"vazios até que os contatos sejam geolocalizados."
+
+#. module: boardkit_dashboard
+#: model:boardkit.dashboard,description:boardkit_dashboard.dashboard_demo
+msgid "Contacts with geo maps, KPIs, charts and a recent list."
+msgstr ""
+"Contatos com mapas, indicadores, gráficos e uma lista de registros recentes."

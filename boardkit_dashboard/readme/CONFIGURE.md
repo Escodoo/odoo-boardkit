@@ -39,3 +39,32 @@
    server-side per user for up to that interval. Optionally lower the cap with
    system parameter `boardkit_dashboard.data_cache_max_ttl` (seconds; `0`
    disables the cache).
+
+## Template languages
+
+Boards created from a curated template come in the language of every installed
+language, not only English. Two files per addon carry that wording:
+
+- `i18n/<lang>.po` — name and description of the template and of the demo board.
+  Both are plain records with an xmlid, so they are exported to the `.pot` and
+  translated in the standard file, which is what the catalogue shows.
+- `i18n_extra/<lang>.po` — the terms inside the template payload: card names and
+  descriptions, filter labels and boolean legends. Payload text lives in JSON,
+  where Odoo's exporter cannot reach it, so those terms ship as code
+  translations. Odoo reads `i18n_extra` together with `i18n`, and the bot that
+  regenerates the `.pot` leaves it alone.
+
+The payload terms are written on the records right after the board is created.
+Installing a language later translates the boards that already exist, and a card
+renamed by a user is never overwritten.
+
+To add a language, or after changing a template payload:
+
+```
+python3 tools/boardkit_template_terms.py --lang pt_BR
+```
+
+The script writes one entry per term of each template, adds the record entries
+the standard file does not carry yet, keeps the translations already filled in,
+and reports what is still missing. Run it with `--check` to fail when a term has
+no translation, which is also what the module tests assert.

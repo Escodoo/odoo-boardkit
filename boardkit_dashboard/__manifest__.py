@@ -5,7 +5,7 @@
     "name": "Boardkit Dashboard",
     "summary": "Configurable analytic dashboards with tiles, KPIs, charts and lists",
     "category": "Productivity",
-    "version": "16.0.1.0.0",
+    "version": "16.0.1.1.0",
     "website": "https://github.com/Escodoo/odoo-boardkit",
     "author": "Escodoo",
     "maintainers": ["marcelsavegnago"],

@@ -10,5 +10,6 @@ from . import test_item_data
 from . import test_palette
 from . import test_preview
 from . import test_security
+from . import test_template_i18n
 from . import test_templates
 from . import test_tour
