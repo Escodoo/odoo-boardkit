@@ -15,6 +15,7 @@ from odoo.tools.safe_eval import safe_eval
 
 from ..tools.date_ranges import DATE_RANGE_PRESETS, get_date_range
 from ..tools.palettes import PRESET_PALETTE_COLORS, PRESET_PALETTE_SELECTION
+from ..tools.template_i18n import TRANSLATABLE_KEYS, target_languages, translator
 from .boardkit_dashboard_palette import HEX_COLOR_PATTERN
 from .boardkit_dashboard_tag import TAG_ICON_SELECTION
 
@@ -78,6 +79,15 @@ class BoardkitDashboard(models.Model):
         "icon from Tags.",
     )
     active = fields.Boolean(default=True)
+    source_template_id = fields.Many2one(
+        comodel_name="boardkit.dashboard.template",
+        string="Source Template",
+        ondelete="set null",
+        copy=False,
+        readonly=True,
+        help="Template this board was created from. Kept so the template "
+        "translations can be applied again when a language is installed.",
+    )
     company_id = fields.Many2one(
         comodel_name="res.company",
         help="Leave empty to share the dashboard across companies. "
@@ -630,6 +640,26 @@ class BoardkitDashboard(models.Model):
                 rec.menu_id.sudo().write(menu_vals)
             else:
                 rec.menu_id = self.env["ir.ui.menu"].sudo().create(menu_vals)
+            rec._sync_menu_translations()
+
+    def _sync_menu_translations(self):
+        """Label the menu entry in every language the board is named in.
+
+        The label above is written in the language of whoever published the
+        board, which would leave a board created from a translated template
+        with an English menu for Portuguese users, or the other way around.
+        A label the manager typed by hand is left alone.
+        """
+        self.ensure_one()
+        if self.menu_name or not self.menu_id:
+            return
+        for lang in ["en_US"] + target_languages(self.env):
+            value = self.with_context(lang=lang).name
+            if not value:
+                continue
+            self.menu_id.sudo().with_context(lang=lang).name = value
+            if self.client_action_id:
+                self.client_action_id.sudo().with_context(lang=lang).name = value
 
     def _remove_menu_entry(self):
         self.menu_id.sudo().unlink()
@@ -1012,11 +1042,132 @@ class BoardkitDashboard(models.Model):
                     data["name"] = name
                     break
         dashboard_ids = self.import_config(payload)
+        dashboards = self.browse(dashboard_ids)
+        vals = {"source_template_id": template.id}
         if template.group_ids:
-            self.browse(dashboard_ids).write(
-                {"group_ids": [(6, 0, template.group_ids.ids)]}
-            )
+            vals["group_ids"] = [(6, 0, template.group_ids.ids)]
+        dashboards.write(vals)
+        # The payload was deep copied above, so pair each board with the entry
+        # that produced it instead of matching names again.
+        entries = [
+            entry
+            for entry in payload.get("dashboards") or []
+            if isinstance(entry, dict)
+        ]
+        dashboards._apply_template_translations(
+            data_by_id=dict(zip(dashboards.ids, entries))
+        )
         return dashboard_ids
+
+    def _apply_template_translations(self, data_by_id=None, langs=None):
+        """Write the template terms in every active language.
+
+        English stays the source of truth: a term is only translated while the
+        record still carries the wording the template shipped, so a board or a
+        card the user renamed keeps his own text.
+        """
+        langs = target_languages(self.env) if langs is None else langs
+        if not langs:
+            return
+        for dashboard in self:
+            template = dashboard.sudo().source_template_id
+            if not template:
+                continue
+            module = (template.get_external_id().get(template.id) or "").split(".")[0]
+            if not module:
+                # Templates created by hand have no module to translate from.
+                continue
+            data = (data_by_id or {}).get(dashboard.id) or dashboard._template_data(
+                template
+            )
+            if not data:
+                continue
+            for lang in langs:
+                dashboard._write_template_translations(module, lang, data)
+            if dashboard.sudo().menu_id:
+                # The board was published before this pass, so its menu still
+                # carries the label of the language it was published in.
+                dashboard._sync_menu_translations()
+
+    @api.model
+    def _link_boards_to_templates(self):
+        """Point older boards at the template that produced them.
+
+        Boards created before the board kept that link carry no
+        ``source_template_id``, so nothing would translate them. Match them by
+        the English name the template ships; a board the user renamed stays
+        unlinked, which is the safe outcome.
+        """
+        templates = self.env["boardkit.dashboard.template"].search([])
+        boards = self.with_context(active_test=False).search(
+            [("source_template_id", "=", False)]
+        )
+        if not templates or not boards:
+            return
+        by_name = {}
+        for template in templates:
+            for entry in (template.get_payload() or {}).get("dashboards") or []:
+                if isinstance(entry, dict) and entry.get("name"):
+                    by_name.setdefault(entry["name"], template)
+        for board in boards:
+            template = by_name.get(board.with_context(lang="en_US").name)
+            if template:
+                board.source_template_id = template
+
+    def _template_data(self, template):
+        """Payload entry that produced this board."""
+        self.ensure_one()
+        entries = [
+            entry
+            for entry in (template.get_payload() or {}).get("dashboards") or []
+            if isinstance(entry, dict)
+        ]
+        if len(entries) == 1:
+            return entries[0]
+        english_name = self.with_context(lang="en_US").name
+        return next(
+            (entry for entry in entries if entry.get("name") == english_name), None
+        )
+
+    def _write_template_translations(self, module, lang, data):
+        self.ensure_one()
+        translate = translator(module, lang)
+        self._translate_from_payload(self, lang, data, translate)
+        self._translate_children(self.item_ids, data.get("items"), lang, translate)
+        self._translate_children(self.filter_ids, data.get("filters"), lang, translate)
+
+    @api.model
+    def _translate_children(self, records, entries, lang, translate):
+        """Pair records with payload entries through their English name."""
+        by_name = {}
+        for record in records.with_context(lang="en_US"):
+            by_name.setdefault(record.name, []).append(record.id)
+        for entry in entries or []:
+            if not isinstance(entry, dict):
+                continue
+            ids = by_name.get(entry.get("name"))
+            if not ids:
+                continue
+            self._translate_from_payload(
+                records.browse(ids.pop(0)), lang, entry, translate
+            )
+
+    @api.model
+    def _translate_from_payload(self, record, lang, entry, translate):
+        vals = {}
+        english = record.with_context(lang="en_US")
+        for key in TRANSLATABLE_KEYS:
+            if key not in record._fields:
+                continue
+            source = entry.get(key)
+            if not source or english[key] != source:
+                # Either the payload has no term, or this record was rewritten.
+                continue
+            value = translate(source)
+            if value:
+                vals[key] = value
+        if vals:
+            record.with_context(lang=lang).write(vals)
 
     @api.model
     def _load_demo_from_template(self, config):

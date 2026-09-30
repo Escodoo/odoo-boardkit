@@ -1,6 +1,9 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import polib
+
+from odoo.modules.module import get_resource_path
 from odoo.tests import TransactionCase, new_test_user
 
 
@@ -121,6 +124,70 @@ class BoardkitTemplateSmokeMixin:
         "date_field_2_id",
         "measure_field_2_id",
     )
+
+    def _translation_file(self, module, folder):
+        """Path of the pt_BR file of an addon, or skip while it has none.
+
+        The translations land one pull request per addon, so between the merge
+        of the core and the merge of an addon its file is legitimately
+        missing. ``tools/boardkit_template_terms.py --check`` is what reports
+        the addons still waiting for their translation.
+        """
+        path = get_resource_path(module, folder, "pt_BR.po")
+        if not path:
+            self.skipTest("%s ships no %s/pt_BR.po yet" % (module, folder))
+        return path
+
+    def test_template_terms_have_pt_br_translation(self):
+        """Every term a template shows must be translated in i18n_extra.
+
+        Template text lives in a JSON payload, out of reach of the standard
+        exporter, so nothing else would catch a card added without its
+        translation.
+        """
+        from ..tools.template_i18n import iter_terms, translator
+
+        for xmlid in self.template_xmlids:
+            module = xmlid.split(".")[0]
+            self._translation_file(module, "i18n_extra")
+            translate = translator(module, "pt_BR")
+            template = self.env.ref(xmlid)
+            missing = sorted(
+                {
+                    term
+                    for term in iter_terms(template.get_payload())
+                    if not translate(term)
+                }
+            )
+            self.assertFalse(
+                missing,
+                "%s: terms without a pt_BR translation in i18n_extra: %s"
+                % (module, missing),
+            )
+
+    def test_template_records_have_pt_br_translation(self):
+        """The template record itself must read Portuguese in the catalogue.
+
+        Name and description are plain record fields, so they are exported to
+        the ``.pot`` and translated in ``i18n/pt_BR.po``. The check compares
+        the wording the record ships with the msgids of that file, so editing
+        the XML without running the generator fails here.
+        """
+        for xmlid in self.template_xmlids:
+            module, name = xmlid.split(".")
+            path = self._translation_file(module, "i18n")
+            translated = {entry.msgid for entry in polib.pofile(path) if entry.msgstr}
+            template = self.env.ref(xmlid).with_context(lang="en_US")
+            for field in ("name", "description"):
+                source = template[field]
+                if not source:
+                    continue
+                self.assertIn(
+                    source,
+                    translated,
+                    "%s: the %s of %s has no pt_BR translation in i18n/pt_BR.po"
+                    % (module, field, name),
+                )
 
     def test_template_payload_resolves_and_renders(self):
         self.assertTrue(
