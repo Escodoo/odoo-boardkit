@@ -1,0 +1,41 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_contract
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_contract
+#: model:boardkit.dashboard.template,description:boardkit_dashboard_contract.template_contract_overview
+msgid ""
+"\n"
+"            Recurring contracts board for customer and supplier portfolios:\n"
+"            active counts, due-to-invoice backlog, contracts past their end\n"
+"            date, start trends, type and recurrence analytics, and a recent\n"
+"            contracts list. Requires Contract.\n"
+"        "
+msgstr ""
+"Painel de contratos recorrentes de clientes e fornecedores: quantidade de "
+"contratos ativos, pendências a faturar, contratos com data de término "
+"vencida, tendência de início, análise por tipo e recorrência e uma lista dos "
+"contratos recentes. Requer Contract."
+
+#. module: boardkit_dashboard_contract
+#: model:boardkit.dashboard,description:boardkit_dashboard_contract.dashboard_demo
+msgid "Active recurring contracts, invoicing queue and type analytics."
+msgstr "Contratos recorrentes ativos, fila de faturamento e análise por tipo."
+
+#. module: boardkit_dashboard_contract
+#: model:boardkit.dashboard,name:boardkit_dashboard_contract.dashboard_demo
+#: model:boardkit.dashboard.template,name:boardkit_dashboard_contract.template_contract_overview
+msgid "Contract Overview"
+msgstr "Visão Geral de Contratos"
