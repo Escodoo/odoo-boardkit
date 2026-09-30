@@ -1,0 +1,137 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_payroll
+#
+# Terms of the curated template payloads, which the standard exporter does not
+# read. Update with tools/boardkit_template_terms.py.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_payroll
+#. odoo-python
+#: code:addons/boardkit_dashboard_payroll/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Payroll Overview"
+msgstr "Visão Geral da Folha"
+
+#. module: boardkit_dashboard_payroll
+#. odoo-python
+#: code:addons/boardkit_dashboard_payroll/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Payslip processing, batches, structures and employee analytics."
+msgstr "Processamento de holerites, lotes, estruturas e análise por funcionário."
+
+#. module: boardkit_dashboard_payroll
+#. odoo-python
+#: code:addons/boardkit_dashboard_payroll/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Draft Payslips"
+msgstr "Holerites em Rascunho"
+
+#. module: boardkit_dashboard_payroll
+#. odoo-python
+#: code:addons/boardkit_dashboard_payroll/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Waiting"
+msgstr "Aguardando"
+
+#. module: boardkit_dashboard_payroll
+#. odoo-python
+#: code:addons/boardkit_dashboard_payroll/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Done Payslips"
+msgstr "Holerites Concluídos"
+
+#. module: boardkit_dashboard_payroll
+#. odoo-python
+#: code:addons/boardkit_dashboard_payroll/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Rejected"
+msgstr "Rejeitados"
+
+#. module: boardkit_dashboard_payroll
+#. odoo-python
+#: code:addons/boardkit_dashboard_payroll/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Done Rate"
+msgstr "Taxa de Conclusão"
+
+#. module: boardkit_dashboard_payroll
+#. odoo-python
+#: code:addons/boardkit_dashboard_payroll/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Unbatched"
+msgstr "Sem Lote"
+
+#. module: boardkit_dashboard_payroll
+#. odoo-python
+#: code:addons/boardkit_dashboard_payroll/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Credit Notes"
+msgstr "Notas de Crédito"
+
+#. module: boardkit_dashboard_payroll
+#. odoo-python
+#: code:addons/boardkit_dashboard_payroll/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Payslips per Month"
+msgstr "Holerites por Mês"
+
+#. module: boardkit_dashboard_payroll
+#. odoo-python
+#: code:addons/boardkit_dashboard_payroll/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Done by Structure"
+msgstr "Concluídos por Estrutura"
+
+#. module: boardkit_dashboard_payroll
+#. odoo-python
+#: code:addons/boardkit_dashboard_payroll/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Done by Employee"
+msgstr "Concluídos por Funcionário"
+
+#. module: boardkit_dashboard_payroll
+#. odoo-python
+#: code:addons/boardkit_dashboard_payroll/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Payslips by Status"
+msgstr "Holerites por Situação"
+
+#. module: boardkit_dashboard_payroll
+#. odoo-python
+#: code:addons/boardkit_dashboard_payroll/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Recent Payslips"
+msgstr "Holerites Recentes"
+
+#. module: boardkit_dashboard_payroll
+#. odoo-python
+#: code:addons/boardkit_dashboard_payroll/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "My Payslips"
+msgstr "Meus Holerites"
+
+#. module: boardkit_dashboard_payroll
+#. odoo-python
+#: code:addons/boardkit_dashboard_payroll/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Draft"
+msgstr "Rascunho"
+
+#. module: boardkit_dashboard_payroll
+#. odoo-python
+#: code:addons/boardkit_dashboard_payroll/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Done"
+msgstr "Concluídos"
