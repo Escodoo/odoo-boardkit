@@ -1,0 +1,46 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_hr_contract
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_hr_contract
+#: model:boardkit.dashboard.template,description:boardkit_dashboard_hr_contract.template_employee_contracts_overview
+msgid ""
+"\n"
+"            Employee contracts board for workforce agreements: running and\n"
+"            draft counts, new and expired contracts, average wage, contract\n"
+"            coverage of the active workforce, overdue endings, start trends and\n"
+"            department/type analytics. Workforce figures only count contracts\n"
+"            of active employees, while the overdue and open-ended alerts keep\n"
+"            the whole portfolio. Requires Contracts.\n"
+"        "
+msgstr ""
+"Painel de contratos de funcionários: quantidade de contratos em vigor e em "
+"rascunho, contratos novos e expirados, salário médio, cobertura de contratos "
+"no quadro ativo, términos vencidos, tendência de início e análise por "
+"departamento e tipo. Os números do quadro de pessoal contam apenas contratos "
+"de funcionários ativos, enquanto os alertas de vencidos e sem prazo "
+"consideram todo o portfólio. Requer Contratos de Funcionários."
+
+#. module: boardkit_dashboard_hr_contract
+#: model:boardkit.dashboard,name:boardkit_dashboard_hr_contract.dashboard_demo
+#: model:boardkit.dashboard.template,name:boardkit_dashboard_hr_contract.template_employee_contracts_overview
+msgid "Employee Contracts Overview"
+msgstr "Visão Geral de Contratos de Trabalho"
+
+#. module: boardkit_dashboard_hr_contract
+#: model:boardkit.dashboard,description:boardkit_dashboard_hr_contract.dashboard_demo
+msgid "Employee contract portfolio, wage, expiries and type analytics."
+msgstr ""
+"Carteira de contratos de trabalho, salários, vencimentos e análise por tipo."
