@@ -1,0 +1,130 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_hr_expense
+#
+# Terms of the curated template payloads, which the standard exporter does not
+# read. Update with tools/boardkit_template_terms.py.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_hr_expense
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_expense/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Expenses Overview"
+msgstr "Visão Geral de Despesas"
+
+#. module: boardkit_dashboard_hr_expense
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_expense/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Expense submissions, approvals, reimbursement and category analytics."
+msgstr "Envio de despesas, aprovações, reembolso e análise por categoria."
+
+#. module: boardkit_dashboard_hr_expense
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_expense/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "To Report"
+msgstr "A Relatar"
+
+#. module: boardkit_dashboard_hr_expense
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_expense/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Submitted"
+msgstr "Enviadas"
+
+#. module: boardkit_dashboard_hr_expense
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_expense/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Approved Amount"
+msgstr "Valor Aprovado"
+
+#. module: boardkit_dashboard_hr_expense
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_expense/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Approved Expenses"
+msgstr "Despesas Aprovadas"
+
+#. module: boardkit_dashboard_hr_expense
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_expense/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Approval Rate"
+msgstr "Taxa de Aprovação"
+
+#. module: boardkit_dashboard_hr_expense
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_expense/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "To Reimburse"
+msgstr "A Reembolsar"
+
+#. module: boardkit_dashboard_hr_expense
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_expense/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Refused"
+msgstr "Recusadas"
+
+#. module: boardkit_dashboard_hr_expense
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_expense/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Amount per Month"
+msgstr "Valor por Mês"
+
+#. module: boardkit_dashboard_hr_expense
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_expense/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Amount by Category"
+msgstr "Valor por Categoria"
+
+#. module: boardkit_dashboard_hr_expense
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_expense/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Amount by Employee"
+msgstr "Valor por Funcionário"
+
+#. module: boardkit_dashboard_hr_expense
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_expense/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Expense Funnel"
+msgstr "Funil de Despesas"
+
+#. module: boardkit_dashboard_hr_expense
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_expense/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Recent Expenses"
+msgstr "Despesas Recentes"
+
+#. module: boardkit_dashboard_hr_expense
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_expense/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "My Expenses"
+msgstr "Minhas Despesas"
+
+#. module: boardkit_dashboard_hr_expense
+#. odoo-python
+#: code:addons/boardkit_dashboard_hr_expense/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Approved"
+msgstr "Aprovadas"
