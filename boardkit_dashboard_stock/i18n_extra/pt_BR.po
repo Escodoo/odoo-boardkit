@@ -1,0 +1,144 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_stock
+#
+# Terms of the curated template payloads, which the standard exporter does not
+# read. Update with tools/boardkit_template_terms.py.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_stock
+#. odoo-python
+#: code:addons/boardkit_dashboard_stock/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Inventory Overview"
+msgstr "Visão Geral de Estoque"
+
+#. module: boardkit_dashboard_stock
+#. odoo-python
+#: code:addons/boardkit_dashboard_stock/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Transfers backlog, late operations, done volume and operation-type analytics."
+msgstr "Fila de transferências, operações atrasadas, volume concluído e análise por tipo de operação."
+
+#. module: boardkit_dashboard_stock
+#. odoo-python
+#: code:addons/boardkit_dashboard_stock/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Ready Transfers"
+msgstr "Transferências Prontas"
+
+#. module: boardkit_dashboard_stock
+#. odoo-python
+#: code:addons/boardkit_dashboard_stock/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Waiting Transfers"
+msgstr "Transferências Aguardando"
+
+#. module: boardkit_dashboard_stock
+#. odoo-python
+#: code:addons/boardkit_dashboard_stock/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Done Transfers"
+msgstr "Transferências Concluídas"
+
+#. module: boardkit_dashboard_stock
+#. odoo-python
+#: code:addons/boardkit_dashboard_stock/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Late Transfers"
+msgstr "Transferências Atrasadas"
+
+#. module: boardkit_dashboard_stock
+#. odoo-python
+#: code:addons/boardkit_dashboard_stock/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Completion Rate"
+msgstr "Taxa de Conclusão"
+
+#. module: boardkit_dashboard_stock
+#. odoo-python
+#: code:addons/boardkit_dashboard_stock/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Incoming Backlog"
+msgstr "Fila de Recebimento"
+
+#. module: boardkit_dashboard_stock
+#. odoo-python
+#: code:addons/boardkit_dashboard_stock/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Outgoing Backlog"
+msgstr "Fila de Expedição"
+
+#. module: boardkit_dashboard_stock
+#. odoo-python
+#: code:addons/boardkit_dashboard_stock/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Done Transfers per Month"
+msgstr "Transferências Concluídas por Mês"
+
+#. module: boardkit_dashboard_stock
+#. odoo-python
+#: code:addons/boardkit_dashboard_stock/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Transfers by Operation Type"
+msgstr "Transferências por Tipo de Operação"
+
+#. module: boardkit_dashboard_stock
+#. odoo-python
+#: code:addons/boardkit_dashboard_stock/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Transfers by Status"
+msgstr "Transferências por Situação"
+
+#. module: boardkit_dashboard_stock
+#. odoo-python
+#: code:addons/boardkit_dashboard_stock/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Transfers by Responsible"
+msgstr "Transferências por Responsável"
+
+#. module: boardkit_dashboard_stock
+#. odoo-python
+#: code:addons/boardkit_dashboard_stock/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Recent Transfers"
+msgstr "Transferências Recentes"
+
+#. module: boardkit_dashboard_stock
+#. odoo-python
+#: code:addons/boardkit_dashboard_stock/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "My Transfers"
+msgstr "Minhas Transferências"
+
+#. module: boardkit_dashboard_stock
+#. odoo-python
+#: code:addons/boardkit_dashboard_stock/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Ready"
+msgstr "Prontas"
+
+#. module: boardkit_dashboard_stock
+#. odoo-python
+#: code:addons/boardkit_dashboard_stock/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Late"
+msgstr "Atrasadas"
+
+#. module: boardkit_dashboard_stock
+#. odoo-python
+#: code:addons/boardkit_dashboard_stock/data/boardkit_dashboard_templates.xml:0
+#, python-format
+msgid "Outgoing"
+msgstr "Saída"
