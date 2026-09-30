@@ -1,0 +1,44 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* boardkit_dashboard_hr_timesheet
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: boardkit_dashboard_hr_timesheet
+#: model:boardkit.dashboard.template,description:boardkit_dashboard_hr_timesheet.template_timesheet_overview
+msgid ""
+"\n"
+"            Timesheet board for project time: hours logged, line counts,\n"
+"            average hours, today total, task coverage, cost amount, daily\n"
+"            trends and project/employee analytics. The cost tile follows the\n"
+"            analytic sign convention, so logged time shows as a negative\n"
+"            amount. Requires Timesheets.\n"
+"        "
+msgstr ""
+"Painel de planilhas de horas para o tempo de projeto: horas registradas, "
+"quantidade de linhas, média de horas, total de hoje, cobertura de tarefas, "
+"valor de custo, tendência diária e análise por projeto e funcionário. O tile "
+"de custo segue a convenção de sinal da contabilidade analítica, então o "
+"tempo registrado aparece como valor negativo. Requer Planilhas de Horas."
+
+#. module: boardkit_dashboard_hr_timesheet
+#: model:boardkit.dashboard,description:boardkit_dashboard_hr_timesheet.dashboard_demo
+msgid "Time spent on projects with employee and department analytics."
+msgstr ""
+"Horas dedicadas a projetos, com análise por funcionário e departamento."
+
+#. module: boardkit_dashboard_hr_timesheet
+#: model:boardkit.dashboard,name:boardkit_dashboard_hr_timesheet.dashboard_demo
+#: model:boardkit.dashboard.template,name:boardkit_dashboard_hr_timesheet.template_timesheet_overview
+msgid "Timesheet Overview"
+msgstr "Visão Geral de Planilhas de Horas"
