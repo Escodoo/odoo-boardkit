@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_boardkit_dashboard_form_ai" model="ir.ui.view">
+        <field name="name">boardkit.dashboard.form.ai</field>
+        <field name="model">boardkit.dashboard</field>
+        <field
+            name="inherit_id"
+            ref="boardkit_dashboard.boardkit_dashboard_view_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='settings']" position="inside">
+                <field name="ai_enabled" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_boardkit_dashboard_list_ai" model="ir.ui.view">
+        <field name="name">boardkit.dashboard.list.ai</field>
+        <field name="model">boardkit.dashboard</field>
+        <field
+            name="inherit_id"
+            ref="boardkit_dashboard.boardkit_dashboard_view_list"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='published']" position="after">
+                <field name="ai_enabled" optional="hide" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
