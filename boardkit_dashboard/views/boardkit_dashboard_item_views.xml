@@ -511,7 +511,7 @@
                 <field name="name" />
                 <field name="dashboard_id" />
                 <field name="model_id" />
-                <group expand="0" string="Group By">
+                <group>
                     <filter
                         name="group_by_dashboard"
                         string="Dashboard"

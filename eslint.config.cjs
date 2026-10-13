@@ -200,6 +200,14 @@ const config = [{
         ecmaVersion: 2024,
         sourceType: "module",
     },
+}, {
+    // Odoo 17+ JS is written as native ES modules.
+    files: ["**/static/src/**/*.js", "**/static/tests/**/*.js"],
+
+    languageOptions: {
+        ecmaVersion: 2024,
+        sourceType: "module",
+    },
 }];
 
 module.exports = config

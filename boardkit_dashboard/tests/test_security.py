@@ -213,7 +213,7 @@ class TestSecurity(BoardkitDashboardCommon):
         restricted_group = self.env["res.groups"].create(
             {"name": "Dashboard Restricted Partners"}
         )
-        self.user.groups_id = [(4, restricted_group.id)]
+        self.user.group_ids = [(4, restricted_group.id)]
         self.env["ir.rule"].create(
             {
                 "name": "Hide partners from restricted users",
@@ -276,7 +276,7 @@ class TestSecurity(BoardkitDashboardCommon):
             login="dash_audience",
             groups="base.group_user",
         )
-        audience.groups_id = [(4, audience_group.id)]
+        audience.group_ids = [(4, audience_group.id)]
 
         # Boards without Allowed Groups stay invisible to audience-only users.
         boards = self.env["boardkit.dashboard"].with_user(audience).search([])

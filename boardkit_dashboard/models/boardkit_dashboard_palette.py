@@ -3,7 +3,7 @@
 
 import re
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 HEX_COLOR_PATTERN = re.compile(r"^#[0-9A-Fa-f]{6}$")
@@ -33,7 +33,7 @@ class BoardkitDashboardPalette(models.Model):
         for rec in self:
             if not rec.color_ids:
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "Palette %(name)s must define at least one color.",
                         name=rec.name,
                     )
@@ -43,7 +43,7 @@ class BoardkitDashboardPalette(models.Model):
         vals_list = super().copy_data(default=default)
         if not default or "name" not in default:
             for palette, vals in zip(self, vals_list, strict=True):
-                vals["name"] = _("%s (copy)", palette.name)
+                vals["name"] = self.env._("%s (copy)", palette.name)
         return vals_list
 
     def _color_list(self):
@@ -73,7 +73,7 @@ class BoardkitDashboardPaletteColor(models.Model):
         for rec in self:
             if not HEX_COLOR_PATTERN.match(rec.color or ""):
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "Invalid color %(color)s. Use the #RRGGBB hex format.",
                         color=rec.color,
                     )

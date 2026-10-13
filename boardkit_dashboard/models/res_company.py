@@ -1,7 +1,7 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 from ..tools.palettes import PRESET_PALETTE_SELECTION
@@ -31,7 +31,7 @@ class ResCompany(models.Model):
                 and not company.boardkit_default_palette_id
             ):
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "Select a default custom palette for company "
                         "%(name)s or pick a preset color palette.",
                         name=company.name,

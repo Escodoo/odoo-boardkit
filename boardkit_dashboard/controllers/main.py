@@ -6,12 +6,12 @@ import csv
 import io
 import json
 
+import xlsxwriter
 from werkzeug.exceptions import Forbidden
 
-from odoo import _, http
+from odoo import http
 from odoo.exceptions import AccessError, UserError
 from odoo.http import content_disposition, request
-from odoo.tools.misc import xlsxwriter
 
 XLSX_MIMETYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 # Spreadsheet apps treat cells starting with these characters as formulas.
@@ -50,7 +50,9 @@ class BoardkitDashboardController(http.Controller):
         if not request.env.user.has_group("boardkit_dashboard.group_dashboard_manager"):
             raise Forbidden()
         if not ufile:
-            return request.make_json_response({"error": _("No file was uploaded.")})
+            return request.make_json_response(
+                {"error": request.env._("No file was uploaded.")}
+            )
         try:
             # Roll back partially imported records when the payload breaks
             # halfway through, since the error is swallowed below.

@@ -28,10 +28,7 @@ class BoardkitDashboardLayout(models.Model):
         "last applied on the dashboard.",
     )
 
-    _sql_constraints = [
-        (
-            "dashboard_user_uniq",
-            "unique(dashboard_id, user_id)",
-            "A user can only have one personal layout per dashboard.",
-        )
-    ]
+    _dashboard_user_uniq = models.Constraint(
+        "unique(dashboard_id, user_id)",
+        "A user can only have one personal layout per dashboard.",
+    )

@@ -1,7 +1,7 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 from .boardkit_dashboard_item import ITEM_MODEL_DOMAIN
@@ -22,7 +22,6 @@ class BoardkitDashboardFilter(models.Model):
     )
     model_id = fields.Many2one(
         comodel_name="ir.model",
-        string="Model",
         required=True,
         ondelete="cascade",
         domain=ITEM_MODEL_DOMAIN,
@@ -42,7 +41,7 @@ class BoardkitDashboardFilter(models.Model):
                 rec.dashboard_id._eval_domain(rec.domain, rec.model_name)
             except Exception as error:
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "Invalid domain on filter %(name)s: %(error)s",
                         name=rec.name,
                         error=error,

@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from markupsafe import Markup, escape
 
-from odoo import Command, _, api, fields, models
+from odoo import Command, api, fields, models
 from odoo.exceptions import AccessError, ValidationError
 from odoo.tools import SQL
 from odoo.tools.safe_eval import safe_eval
@@ -220,7 +220,7 @@ class BoardkitDashboard(models.Model):
     @api.model
     def _search_is_favorite(self, operator, value):
         if operator not in ("=", "!=") or not isinstance(value, bool):
-            raise NotImplementedError(_("Operation not supported"))
+            raise NotImplementedError(self.env._("Operation not supported"))
         return [
             (
                 "favorite_user_ids",
@@ -241,28 +241,23 @@ class BoardkitDashboard(models.Model):
 
     @api.model
     def _search_favorite_panel(self, operator, value):
-        # Searchpanel multi-select uses ('favorite_panel', 'in', ['favorite']).
-        if operator in ("in", "not in"):
-            values = value or []
-            if not isinstance(values, list | tuple | set):
-                values = [values]
-            has_favorite = "favorite" in values
-            if operator == "in":
-                return (
-                    self._search_is_favorite("=", has_favorite)
-                    if has_favorite
-                    else [(0, "=", 1)]
-                )
-            # not in ['favorite'] => boards that are not favorited
-            return (
-                self._search_is_favorite("=", not has_favorite) if has_favorite else []
-            )
-        if operator not in ("=", "!="):
-            raise NotImplementedError(_("Operation not supported"))
-        wants_favorite = (operator == "=" and value == "favorite") or (
-            operator == "!=" and value != "favorite"
-        )
-        return self._search_is_favorite("=", wants_favorite)
+        # The field holds 'favorite' on the user's favorites and False on the
+        # other boards. Since 19.0 the domain optimizer hands over sets: the
+        # searchpanel multi-select sends ('in', {'favorite'}) and its own
+        # ('favorite_panel', '!=', False) arrives as ('not in', {False}).
+        if operator in ("=", "!="):
+            operator, value = ("in" if operator == "=" else "not in"), [value]
+        if operator not in ("in", "not in"):
+            raise NotImplementedError(self.env._("Operation not supported"))
+        values = [value] if isinstance(value, str) else list(value or [])
+        positive = operator == "in"
+        match_favorites = ("favorite" in values) == positive
+        match_others = (False in values) == positive
+        if match_favorites and match_others:
+            return []
+        if match_favorites or match_others:
+            return self._search_is_favorite("=", match_favorites)
+        return [(0, "=", 1)]
 
     def _set_favorite_user_ids(self, is_favorite):
         # Users can favorite dashboards they can read even without write ACL.
@@ -286,12 +281,12 @@ class BoardkitDashboard(models.Model):
             self.env.uid,
         )
 
-    def _field_to_sql(self, alias, fname, query=None, flush=True):
+    def _field_to_sql(self, alias, field_expr, query=None):
         # Searchpanel uses read_group on selection fields; favorite_panel is
         # personal and non-stored, so expose an equivalent SQL expression.
-        if fname == "favorite_panel":
+        if field_expr == "favorite_panel":
             return self._favorite_panel_sql(alias)
-        return super()._field_to_sql(alias, fname, query=query, flush=flush)
+        return super()._field_to_sql(alias, field_expr, query=query)
 
     def _order_field_to_sql(self, alias, field_name, direction, nulls, query):
         if field_name == "is_favorite":
@@ -409,17 +404,17 @@ class BoardkitDashboard(models.Model):
                 continue
             if not rec.date_from or not rec.date_to:
                 raise ValidationError(
-                    _("Custom date filter requires both start and end dates.")
+                    self.env._("Custom date filter requires both start and end dates.")
                 )
             if rec.date_from > rec.date_to:
-                raise ValidationError(_("Start date must be before end date."))
+                raise ValidationError(self.env._("Start date must be before end date."))
 
     @api.constrains("default_color_palette", "default_palette_id")
     def _check_default_palette(self):
         for rec in self:
             if rec.default_color_palette == "custom" and not rec.default_palette_id:
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "Select a default custom palette on dashboard "
                         "%(name)s or pick a preset color palette.",
                         name=rec.name,
@@ -431,7 +426,7 @@ class BoardkitDashboard(models.Model):
         for rec in self:
             if rec.company_id and (rec.menu_parent_id or rec.menu_as_app):
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "Company-specific dashboards cannot have a menu "
                         "entry. Clear the company or the Parent Menu / "
                         "Show as App fields on %(name)s.",
@@ -554,7 +549,7 @@ class BoardkitDashboard(models.Model):
         self.ensure_one()
         default = dict(
             default or {},
-            name=_("%s (copy)", self.name),
+            name=self.env._("%s (copy)", self.name),
             menu_parent_id=False,
             menu_as_app=False,
             published=False,
@@ -597,7 +592,7 @@ class BoardkitDashboard(models.Model):
             else:
                 rec.client_action_id.sudo().name = rec.name
             # Menus pointing to client actions are not filtered by model
-            # access, so an empty groups_id would expose the menu to every
+            # access, so an empty group_ids would expose the menu to every
             # internal user. Fall back to the dashboard user group.
             menu_groups = rec.group_ids or self.env.ref(USER_GROUP)
             menu_vals = {
@@ -605,7 +600,7 @@ class BoardkitDashboard(models.Model):
                 "parent_id": False if rec.menu_as_app else rec.menu_parent_id.id,
                 "sequence": rec.menu_sequence,
                 "action": f"ir.actions.client,{rec.client_action_id.id}",
-                "groups_id": [(6, 0, menu_groups.ids)],
+                "group_ids": [(6, 0, menu_groups.ids)],
                 "active": rec.active,
                 # Root apps use the module icon; submenu entries have none.
                 "web_icon": (DEFAULT_MENU_WEB_ICON if rec.menu_as_app else False),
@@ -707,7 +702,7 @@ class BoardkitDashboard(models.Model):
         if not personal:
             if not self.env.user.has_group(MANAGER_GROUP):
                 raise AccessError(
-                    _("Only dashboard managers can change the default layout.")
+                    self.env._("Only dashboard managers can change the default layout.")
                 )
             dashboard.sudo().layout_json = layout_json
             return True
@@ -978,12 +973,14 @@ class BoardkitDashboard(models.Model):
         """
         template = self.env["boardkit.dashboard.template"].browse(template_id)
         if not template.exists():
-            raise ValidationError(_("The selected template no longer exists."))
+            raise ValidationError(self.env._("The selected template no longer exists."))
         template.ensure_one()
         payload = copy.deepcopy(template.get_payload())
         if not isinstance(payload, dict) or "dashboards" not in payload:
             raise ValidationError(
-                _("Template %(name)s has an invalid payload.", name=template.name)
+                self.env._(
+                    "Template %(name)s has an invalid payload.", name=template.name
+                )
             )
         if name:
             for data in payload.get("dashboards") or []:
@@ -1011,12 +1008,16 @@ class BoardkitDashboard(models.Model):
         - ``menu_sequence`` (optional, default ``-1``) — first in the menu
         """
         if not isinstance(config, dict):
-            raise ValidationError(_("Demo template config must be a dictionary."))
+            raise ValidationError(
+                self.env._("Demo template config must be a dictionary.")
+            )
         template_xmlid = config.get("template_xmlid")
         demo_xmlid = config.get("demo_xmlid")
         if not template_xmlid or not demo_xmlid or "." not in demo_xmlid:
             raise ValidationError(
-                _("Demo template config requires template_xmlid and demo_xmlid.")
+                self.env._(
+                    "Demo template config requires template_xmlid and demo_xmlid."
+                )
             )
         existing = self.env.ref(demo_xmlid, raise_if_not_found=False)
         if existing:
@@ -1070,7 +1071,9 @@ class BoardkitDashboard(models.Model):
         manager reviews them before making them visible.
         """
         if not isinstance(payload, dict) or "dashboards" not in payload:
-            raise ValidationError(_("The file is not a valid dashboard export."))
+            raise ValidationError(
+                self.env._("The file is not a valid dashboard export.")
+            )
         dashboards = self.browse()
         item_model = self.env["boardkit.dashboard.item"]
         for data in payload["dashboards"]:
@@ -1091,7 +1094,7 @@ class BoardkitDashboard(models.Model):
                 board_icon = False
             dashboard = self.create(
                 {
-                    "name": data.get("name") or _("Imported Dashboard"),
+                    "name": data.get("name") or self.env._("Imported Dashboard"),
                     "description": data.get("description") or False,
                     "icon": board_icon,
                     "tag_ids": [(6, 0, tags.ids)],
@@ -1121,7 +1124,7 @@ class BoardkitDashboard(models.Model):
                 self.env["boardkit.dashboard.filter"].create(
                     {
                         "dashboard_id": dashboard.id,
-                        "name": filter_data.get("name") or _("Filter"),
+                        "name": filter_data.get("name") or self.env._("Filter"),
                         "sequence": filter_data.get("sequence") or 10,
                         "model_id": model.id,
                         "domain": filter_data.get("domain") or "[]",
@@ -1155,7 +1158,9 @@ class BoardkitDashboard(models.Model):
             return []
         domain = safe_eval(domain_str, self._domain_eval_context())
         if not isinstance(domain, list):
-            raise ValidationError(_("A domain must be a list, got: %s", domain_str))
+            raise ValidationError(
+                self.env._("A domain must be a list, got: %s", domain_str)
+            )
         if model_name:
             # Let the ORM validate field names and operators.
             self.env[model_name].with_user(self.env.user).search_count(domain, limit=1)

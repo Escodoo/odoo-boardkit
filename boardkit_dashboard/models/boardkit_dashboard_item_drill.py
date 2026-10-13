@@ -1,7 +1,7 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 from .boardkit_dashboard_item import DATE_GRANULARITIES, GROUPABLE_FIELD_DOMAIN
@@ -78,7 +78,7 @@ class BoardkitDashboardItemDrill(models.Model):
                 and rec.group_by_field_id.model_id != rec.model_id
             ):
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "Drill field %(field)s does not belong to model %(model)s.",
                         field=rec.group_by_field_id.name,
                         model=rec.model_id.model,

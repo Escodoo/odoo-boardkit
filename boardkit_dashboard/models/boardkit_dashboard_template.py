@@ -3,7 +3,7 @@
 
 import json
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 from .boardkit_dashboard import FEATURED_TEMPLATE_KEYS
@@ -49,9 +49,10 @@ class BoardkitDashboardTemplate(models.Model):
         "with a dashboards list.",
     )
 
-    _sql_constraints = [
-        ("key_uniq", "unique(key)", "Template key must be unique."),
-    ]
+    _key_uniq = models.Constraint(
+        "unique(key)",
+        "Template key must be unique.",
+    )
 
     @api.model
     def _normalize_payload(self, payload):
@@ -61,7 +62,7 @@ class BoardkitDashboardTemplate(models.Model):
                 payload = json.loads(payload)
             except json.JSONDecodeError as error:
                 raise ValidationError(
-                    _("Template payload is not valid JSON: %s", error)
+                    self.env._("Template payload is not valid JSON: %s", error)
                 ) from error
         return payload
 

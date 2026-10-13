@@ -208,26 +208,16 @@ class BoardkitTemplateSmokeMixin:
 
         Read groups resolve a related field by joining its path, but a plain
         computed field has no column to aggregate and only fails once the
-        table holds records, which no template test would notice.
+        table holds records, which no template test would notice. Ask the ORM
+        for the SQL expression instead of walking the path by hand: since 19.0
+        models may resolve a non-stored link themselves (hr.employee reaches
+        its version fields through current_version_id).
         """
         model = self.env[model_name]
-        field = model._fields.get(field_name)
-        while field is not None and not field.store and field.related:
-            model, field = self._traverse_related(model, field.related)
-        self.assertTrue(
-            field is not None and field.store,
-            f"{label}: {model_name}.{field_name} cannot be aggregated in SQL",
-        )
-
-    def _traverse_related(self, model, related_path):
-        """Walk a related path and return the model and field it ends on."""
-        *steps, last = related_path.split(".")
-        for step in steps:
-            parent = model._fields.get(step)
-            if parent is None or not parent.store:
-                return model, None
-            model = self.env[parent.comodel_name]
-        return model, model._fields.get(last)
+        try:
+            model._field_to_sql(model._table, field_name, model._search([]))
+        except ValueError:
+            self.fail(f"{label}: {model_name}.{field_name} cannot be aggregated in SQL")
 
     def _assert_filters_evaluate(self, dashboard, board_data):
         for filter_data in board_data.get("filters", []):

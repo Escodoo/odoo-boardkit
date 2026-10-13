@@ -8,7 +8,7 @@ import babel.dates
 import pytz
 from dateutil.relativedelta import relativedelta
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 from odoo.tools.misc import babel_locale_parse, format_date, format_datetime, get_lang
 from odoo.tools.safe_eval import safe_eval
@@ -259,7 +259,6 @@ class BoardkitDashboardItem(models.Model):
     )
     model_id = fields.Many2one(
         comodel_name="ir.model",
-        string="Model",
         required=True,
         ondelete="cascade",
         domain=ITEM_MODEL_DOMAIN,
@@ -269,7 +268,6 @@ class BoardkitDashboardItem(models.Model):
     domain = fields.Char(default="[]", help="Filter applied to the source records.")
     date_field_id = fields.Many2one(
         comodel_name="ir.model.fields",
-        string="Date Field",
         domain="[('model_id', '=', model_id), ('store', '=', True),"
         " ('ttype', 'in', ['date', 'datetime'])]",
         help="Field used by the dashboard date filter and the item date filter.",
@@ -335,7 +333,6 @@ class BoardkitDashboardItem(models.Model):
     )
     measure_field_id = fields.Many2one(
         comodel_name="ir.model.fields",
-        string="Measure Field",
         domain=NUMERIC_FIELD_DOMAIN,
         help="Numeric field aggregated on tiles and KPIs.",
     )
@@ -464,13 +461,11 @@ class BoardkitDashboardItem(models.Model):
     )
     latitude_field_id = fields.Many2one(
         comodel_name="ir.model.fields",
-        string="Latitude Field",
         domain=FLOAT_FIELD_DOMAIN,
         help="Float field used as the marker latitude in Points map mode.",
     )
     longitude_field_id = fields.Many2one(
         comodel_name="ir.model.fields",
-        string="Longitude Field",
         domain=FLOAT_FIELD_DOMAIN,
         help="Float field used as the marker longitude in Points map mode.",
     )
@@ -591,7 +586,7 @@ class BoardkitDashboardItem(models.Model):
                 raise
             except Exception as error:
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "Invalid domain on item %(name)s: %(error)s",
                         name=rec.name,
                         error=error,
@@ -651,7 +646,7 @@ class BoardkitDashboardItem(models.Model):
                 and rec.date_to
                 and rec.date_from > rec.date_to
             ):
-                raise ValidationError(_("Start date must be before end date."))
+                raise ValidationError(self.env._("Start date must be before end date."))
 
     @api.constrains(
         "model_id",
@@ -712,7 +707,7 @@ class BoardkitDashboardItem(models.Model):
             relation = rec.map_relation_field_id
             if relation and (relation.ttype != "many2one" or not relation.store):
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "Coordinates From must be a stored many2one field on "
                         "item %(name)s.",
                         name=rec.name,
@@ -721,19 +716,19 @@ class BoardkitDashboardItem(models.Model):
             if rec.map_mode == "points":
                 if not rec.latitude_field_id or not rec.longitude_field_id:
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "Map points mode requires Latitude and Longitude "
                             "fields on item %(name)s.",
                             name=rec.name,
                         )
                     )
                 for field, label in (
-                    (rec.latitude_field_id, _("Latitude")),
-                    (rec.longitude_field_id, _("Longitude")),
+                    (rec.latitude_field_id, self.env._("Latitude")),
+                    (rec.longitude_field_id, self.env._("Longitude")),
                 ):
                     if field.ttype != "float":
                         raise ValidationError(
-                            _(
+                            self.env._(
                                 "%(label)s field must be a float on item %(name)s.",
                                 label=label,
                                 name=rec.name,
@@ -744,7 +739,7 @@ class BoardkitDashboardItem(models.Model):
                 or rec.group_by_field_id.relation != "res.country"
             ):
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "Map regions mode requires a Group By field pointing "
                         "to Countries on item %(name)s.",
                         name=rec.name,
@@ -756,7 +751,7 @@ class BoardkitDashboardItem(models.Model):
         for rec in self:
             if rec.color_palette == "custom" and not rec.palette_id:
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "Select a custom palette on item %(name)s or pick a "
                         "preset color palette.",
                         name=rec.name,
@@ -769,7 +764,7 @@ class BoardkitDashboardItem(models.Model):
         for field in field_records:
             if field and field.model_id != model:
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "Field %(field)s does not belong to model %(model)s "
                         "on item %(name)s.",
                         field=field.name,
@@ -839,7 +834,7 @@ class BoardkitDashboardItem(models.Model):
         vals_list = super().copy_data(default=default)
         if not default or "name" not in default:
             for item, vals in zip(self, vals_list, strict=True):
-                vals["name"] = _("%s (copy)", item.name)
+                vals["name"] = self.env._("%s (copy)", item.name)
         return vals_list
 
     # ------------------------------------------------------------------
@@ -1067,8 +1062,7 @@ class BoardkitDashboardItem(models.Model):
             return []
         domain = []
         if field.ttype == "date":
-            tz_name = self.env.context.get("tz") or self.env.user.tz or "UTC"
-            tz = pytz.timezone(tz_name)
+            tz = self.env.tz
 
             def to_local_date(value, *, ceil_partial_day=False):
                 local_dt = pytz.utc.localize(value).astimezone(tz)
@@ -1135,11 +1129,11 @@ class BoardkitDashboardItem(models.Model):
         field = model._fields.get(field_name)
         # fields_get also hides fields restricted by field-level groups.
         if not field or not model.fields_get([field_name]):
-            raise ValidationError(_("Unknown filter field: %s", field_name))
+            raise ValidationError(self.env._("Unknown filter field: %s", field_name))
         operator = spec.get("operator")
         if operator not in CUSTOM_FILTER_OPERATORS.get(field.type, ()):
             raise ValidationError(
-                _(
+                self.env._(
                     "Unsupported filter operator %(operator)s for field %(field)s.",
                     operator=operator,
                     field=field_name,
@@ -1155,7 +1149,9 @@ class BoardkitDashboardItem(models.Model):
         elif field.type == "date":
             day = fields.Date.to_date(value)
             if not day:
-                raise ValidationError(_("Invalid date value in filter: %s", value))
+                raise ValidationError(
+                    self.env._("Invalid date value in filter: %s", value)
+                )
             value = fields.Date.to_string(day)
         elif field.type == "datetime":
             value, operator = self._custom_filter_datetime(value, operator)
@@ -1167,13 +1163,12 @@ class BoardkitDashboardItem(models.Model):
         """Turn a day picked by the user into a UTC datetime bound."""
         day = fields.Date.to_date(value)
         if not day:
-            raise ValidationError(_("Invalid date value in filter: %s", value))
+            raise ValidationError(self.env._("Invalid date value in filter: %s", value))
         # Day bounds are inclusive: shift ``<=`` / ``>`` to the next day.
         if operator in ("<=", ">"):
             day += timedelta(days=1)
             operator = "<" if operator == "<=" else ">="
-        tz_name = self.env.context.get("tz") or self.env.user.tz or "UTC"
-        tz = pytz.timezone(tz_name)
+        tz = self.env.tz
         moment = tz.localize(datetime.combine(day, time.min)).astimezone(pytz.utc)
         return fields.Datetime.to_string(moment.replace(tzinfo=None)), operator
 
@@ -1203,7 +1198,9 @@ class BoardkitDashboardItem(models.Model):
     def _source_model(self, secondary=False):
         model_name = self.model_2_name if secondary else self.model_name
         if not model_name or model_name not in self.env:
-            raise ValidationError(_("The item data source model is not configured."))
+            raise ValidationError(
+                self.env._("The item data source model is not configured.")
+            )
         return self.env[model_name]
 
     def _aggregate_value(self, params, secondary=False):
@@ -1266,7 +1263,9 @@ class BoardkitDashboardItem(models.Model):
 
     def _get_funnel_data(self, params):
         if not self.group_by_field_id:
-            raise ValidationError(_("Configure the Group By field for this chart."))
+            raise ValidationError(
+                self.env._("Configure the Group By field for this chart.")
+            )
         base_domain = self._build_domain(params)
         # Build unsorted groups first, then apply funnel-specific ordering.
         chart = self._grouped_payload(
@@ -1415,7 +1414,7 @@ class BoardkitDashboardItem(models.Model):
             chart["datasets"][0]
             if chart["datasets"]
             else {
-                "label": _("Value"),
+                "label": self.env._("Value"),
                 "data": [],
                 "drilldowns": [],
             }
@@ -1452,11 +1451,15 @@ class BoardkitDashboardItem(models.Model):
 
     def _get_map_regions_data(self, params):
         if not self.group_by_field_id:
-            raise ValidationError(_("Configure the Group By field for the map."))
+            raise ValidationError(
+                self.env._("Configure the Group By field for the map.")
+            )
         group_field = self.group_by_field_id
         if group_field.ttype != "many2one" or group_field.relation != "res.country":
             raise ValidationError(
-                _("Map regions mode requires a Group By field pointing to Countries.")
+                self.env._(
+                    "Map regions mode requires a Group By field pointing to Countries."
+                )
             )
         model = self._source_model()
         base_domain = self._build_domain(params)
@@ -1531,7 +1534,9 @@ class BoardkitDashboardItem(models.Model):
             return [self._chart_measures()[0][0]]
         measures = self._ordered_measure_fields() or self.measure_field_id
         if not measures:
-            raise ValidationError(_("Configure at least one measure for this chart."))
+            raise ValidationError(
+                self.env._("Configure at least one measure for this chart.")
+            )
         name = measures[0].name
         return [f"{name}:sum", f"{name}:count"]
 
@@ -1554,7 +1559,7 @@ class BoardkitDashboardItem(models.Model):
     def _get_map_points_data(self, params):
         if not self.latitude_field_id or not self.longitude_field_id:
             raise ValidationError(
-                _("Configure Latitude and Longitude fields for the map.")
+                self.env._("Configure Latitude and Longitude fields for the map.")
             )
         lat_name = self.latitude_field_id.name
         lon_name = self.longitude_field_id.name
@@ -1603,7 +1608,7 @@ class BoardkitDashboardItem(models.Model):
         for group in groups.values():
             ids = group.pop("ids")
             if group["count"] > 1:
-                group["label"] = _(
+                group["label"] = self.env._(
                     "%(name)s (+%(count)s more)",
                     name=group["label"],
                     count=group["count"] - 1,
@@ -1751,12 +1756,12 @@ class BoardkitDashboardItem(models.Model):
         name = field.name
         if field.ttype == "boolean":
             if raw:
-                label = self.boolean_true_label or _("Yes")
+                label = self.boolean_true_label or self.env._("Yes")
             else:
-                label = self.boolean_false_label or _("No")
+                label = self.boolean_false_label or self.env._("No")
             return label, [(name, "=", bool(raw))]
         if raw is False or raw is None or (hasattr(raw, "_name") and not raw):
-            return _("None"), [(name, "=", False)]
+            return self.env._("None"), [(name, "=", False)]
         if field.ttype in ("date", "datetime"):
             granularity = granularity or "month"
             interval = GRANULARITY_INTERVAL[granularity]
@@ -1800,10 +1805,12 @@ class BoardkitDashboardItem(models.Model):
 
     def _chart_measures(self):
         if self.aggregation == "count":
-            return [("__count", _("Count"))]
+            return [("__count", self.env._("Count"))]
         measures = self._ordered_measure_fields() or self.measure_field_id
         if not measures:
-            raise ValidationError(_("Configure at least one measure for this chart."))
+            raise ValidationError(
+                self.env._("Configure at least one measure for this chart.")
+            )
         return [
             (f"{field.name}:{self.aggregation}", field.field_description)
             for field in measures
@@ -1916,7 +1923,7 @@ class BoardkitDashboardItem(models.Model):
         """Re-aggregate ``self`` over ``domain`` for one drill chart type."""
         if not group_field:
             raise ValidationError(
-                _("Configure the Group By field for the drill level.")
+                self.env._("Configure the Group By field for the drill level.")
             )
         if chart_type == "funnel":
             payload = self._grouped_payload(
@@ -1959,7 +1966,9 @@ class BoardkitDashboardItem(models.Model):
         self.check_access("read")
         level = self.env["boardkit.dashboard.item.drill"].browse(level_id)
         if not level.exists() or level.item_id != self:
-            raise ValidationError(_("Invalid drill level for this dashboard item."))
+            raise ValidationError(
+                self.env._("Invalid drill level for this dashboard item.")
+            )
         return self._drill_level_payload(
             level.group_by_field_id,
             level.group_by_granularity,
@@ -1978,12 +1987,12 @@ class BoardkitDashboardItem(models.Model):
         the database. ``snapshot`` is built from the preview config payload.
         """
         if not isinstance(snapshot, dict):
-            raise ValidationError(_("Invalid preview drill snapshot."))
+            raise ValidationError(self.env._("Invalid preview drill snapshot."))
         item_id = snapshot.get("item_id") or 0
         if item_id:
             item = self.browse(item_id)
             if not item.exists():
-                raise ValidationError(_("Invalid dashboard item."))
+                raise ValidationError(self.env._("Invalid dashboard item."))
             item.check_access("read")
         else:
             # Creating an item in the form: still require dashboard item read.
@@ -1991,7 +2000,7 @@ class BoardkitDashboardItem(models.Model):
 
         model_name = snapshot.get("model")
         if not model_name or model_name not in self.env:
-            raise ValidationError(_("Invalid model for preview drill."))
+            raise ValidationError(self.env._("Invalid model for preview drill."))
         self.env[model_name].check_access("read")
 
         levels = snapshot.get("drill_levels") or []
@@ -2000,14 +2009,16 @@ class BoardkitDashboardItem(models.Model):
             or level_index < 0
             or level_index >= len(levels)
         ):
-            raise ValidationError(_("Invalid drill level for this dashboard item."))
+            raise ValidationError(
+                self.env._("Invalid drill level for this dashboard item.")
+            )
         level_spec = levels[level_index] or {}
         group_field = self.env["ir.model.fields"].browse(
             level_spec.get("group_by_field_id")
         )
         if not group_field.exists() or group_field.model != model_name:
             raise ValidationError(
-                _("Configure the Group By field for the drill level.")
+                self.env._("Configure the Group By field for the drill level.")
             )
 
         measure_ids = [
@@ -2018,7 +2029,9 @@ class BoardkitDashboardItem(models.Model):
         if measure_ids:
             measures = self.env["ir.model.fields"].browse(measure_ids).exists()
             if any(field.model != model_name for field in measures):
-                raise ValidationError(_("Invalid measure field for preview drill."))
+                raise ValidationError(
+                    self.env._("Invalid measure field for preview drill.")
+                )
             measure_ids = measures.ids
 
         model_rec = self.env["ir.model"]._get(model_name)
@@ -2044,7 +2057,9 @@ class BoardkitDashboardItem(models.Model):
 
     def _get_chart_data(self, params):
         if not self.group_by_field_id:
-            raise ValidationError(_("Configure the Group By field for this chart."))
+            raise ValidationError(
+                self.env._("Configure the Group By field for this chart.")
+            )
         model = self._source_model()
         base_domain = self._build_domain(params)
         group_field = self.group_by_field_id
@@ -2120,10 +2135,12 @@ class BoardkitDashboardItem(models.Model):
 
     def _get_scatter_data(self, params):
         if not self.group_by_field_id:
-            raise ValidationError(_("Configure the Group By field for this chart."))
+            raise ValidationError(
+                self.env._("Configure the Group By field for this chart.")
+            )
         if not self.measure_x_field_id or not self.measure_y_field_id:
             raise ValidationError(
-                _("Configure the X and Y measures for the scatter chart.")
+                self.env._("Configure the X and Y measures for the scatter chart.")
             )
         model = self._source_model()
         base_domain = self._build_domain(params)
@@ -2196,7 +2213,7 @@ class BoardkitDashboardItem(models.Model):
         # whose one2many cache keeps insertion order, not the model _order.
         columns = self.list_column_ids.sorted("sequence").field_id
         if not columns:
-            raise ValidationError(_("Configure the columns of this list."))
+            raise ValidationError(self.env._("Configure the columns of this list."))
         offset = int(params.get("offset") or 0)
         if params.get("no_pagination"):
             limit = int(params.get("export_max_rows") or EXPORT_MAX_ROWS)
@@ -2239,7 +2256,7 @@ class BoardkitDashboardItem(models.Model):
     def _get_grouped_list_data(self, params):
         if not self.group_by_field_id:
             raise ValidationError(
-                _("Configure the Group By field for this grouped list.")
+                self.env._("Configure the Group By field for this grouped list.")
             )
         model = self._source_model()
         base_domain = self._build_domain(params)
@@ -2262,7 +2279,7 @@ class BoardkitDashboardItem(models.Model):
                 "label": group_field.field_description,
                 "type": "char",
             },
-            {"name": "__count", "label": _("Count"), "type": "integer"},
+            {"name": "__count", "label": self.env._("Count"), "type": "integer"},
         ] + [
             {"name": field.name, "label": field.field_description, "type": field.ttype}
             for field in measures
@@ -2331,16 +2348,19 @@ class BoardkitDashboardItem(models.Model):
         if self.item_type == "tile":
             data = self._get_data(params)
             return (
-                [_("Name"), _("Value"), _("Records")],
+                [self.env._("Name"), self.env._("Value"), self.env._("Records")],
                 [[self.name, data["value"], data["count"]]],
             )
         if self.item_type == "kpi":
             data = self._get_data(params)
-            headers, row = [_("Name"), _("Value")], [self.name, data["value"]]
+            headers, row = (
+                [self.env._("Name"), self.env._("Value")],
+                [self.name, data["value"]],
+            )
             for key, label in (
-                ("target", _("Target")),
-                ("value_2", _("Second Value")),
-                ("previous_value", _("Previous Period")),
+                ("target", self.env._("Target")),
+                ("value_2", self.env._("Second Value")),
+                ("previous_value", self.env._("Previous Period")),
             ):
                 if key in data:
                     headers.append(label)
@@ -2349,7 +2369,12 @@ class BoardkitDashboardItem(models.Model):
         if self.item_type == "gauge":
             data = self._get_data(params)
             return (
-                [_("Name"), _("Value"), _("Target"), _("Maximum")],
+                [
+                    self.env._("Name"),
+                    self.env._("Value"),
+                    self.env._("Target"),
+                    self.env._("Maximum"),
+                ],
                 [[self.name, data["value"], data["target"] or 0, data["max"]]],
             )
         if self.item_type == "map":
@@ -2357,11 +2382,11 @@ class BoardkitDashboardItem(models.Model):
             if data.get("mode") == "points":
                 return (
                     [
-                        _("Label"),
-                        _("Latitude"),
-                        _("Longitude"),
-                        _("Records"),
-                        _("Value"),
+                        self.env._("Label"),
+                        self.env._("Latitude"),
+                        self.env._("Longitude"),
+                        self.env._("Records"),
+                        self.env._("Value"),
                     ],
                     [
                         [
@@ -2375,7 +2400,7 @@ class BoardkitDashboardItem(models.Model):
                     ],
                 )
             return (
-                [_("Country"), _("Value")],
+                [self.env._("Country"), self.env._("Value")],
                 [
                     [region["label"], region["value"]]
                     for region in data.get("regions") or []
@@ -2386,7 +2411,7 @@ class BoardkitDashboardItem(models.Model):
             points = data["datasets"][0]["data"]
             return (
                 [
-                    self.group_by_field_id.field_description or _("Label"),
+                    self.group_by_field_id.field_description or self.env._("Label"),
                     self.measure_x_field_id.field_description,
                     self.measure_y_field_id.field_description,
                 ],
@@ -2412,7 +2437,7 @@ class BoardkitDashboardItem(models.Model):
         # Remaining types (bar, line, pie, funnel, bullet, ...) share the
         # labels/datasets payload.
         data = self._get_data(params)
-        headers = [self.group_by_field_id.field_description or _("Label")] + [
+        headers = [self.group_by_field_id.field_description or self.env._("Label")] + [
             dataset["label"] for dataset in data["datasets"]
         ]
         rows = [

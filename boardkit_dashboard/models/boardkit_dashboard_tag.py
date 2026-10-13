@@ -75,7 +75,7 @@ class BoardkitDashboardTag(models.Model):
     name = fields.Char(required=True, translate=True)
     color = fields.Integer(
         string="Color Index",
-        default=_get_default_color,
+        default=lambda self: self._get_default_color(),
         help="Transparent tags (color 0) are not visible on dashboard kanban cards.",
     )
     icon = fields.Selection(

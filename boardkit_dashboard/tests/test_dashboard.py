@@ -3,7 +3,7 @@
 
 import json
 
-from odoo.exceptions import AccessError, ValidationError
+from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.tests import tagged
 
 from .common import BoardkitDashboardCommon
@@ -21,7 +21,7 @@ class TestDashboard(BoardkitDashboardCommon):
         # Without explicit groups the menu must stay restricted to dashboard
         # users instead of being visible to every internal user.
         user_group = self.env.ref("boardkit_dashboard.group_dashboard_user")
-        self.assertEqual(dashboard.menu_id.groups_id, user_group)
+        self.assertEqual(dashboard.menu_id.group_ids, user_group)
 
         dashboard.write({"menu_name": "Renamed Menu", "menu_sequence": 5})
         self.assertEqual(dashboard.menu_id.name, "Renamed Menu")
@@ -29,10 +29,10 @@ class TestDashboard(BoardkitDashboardCommon):
 
         group = self.env.ref("boardkit_dashboard.group_dashboard_manager")
         dashboard.write({"group_ids": [(6, 0, group.ids)]})
-        self.assertEqual(dashboard.menu_id.groups_id, group)
+        self.assertEqual(dashboard.menu_id.group_ids, group)
 
         dashboard.write({"group_ids": [(5, 0, 0)]})
-        self.assertEqual(dashboard.menu_id.groups_id, user_group)
+        self.assertEqual(dashboard.menu_id.group_ids, user_group)
 
         dashboard.action_archive()
         self.assertFalse(dashboard.menu_id.active)
@@ -515,17 +515,26 @@ class TestDashboard(BoardkitDashboardCommon):
         self.assertIn(self.dashboard, still_favorite)
         with self.assertRaises(NotImplementedError):
             user_dashboards._search_favorite_panel("ilike", "favorite")
-        with self.assertRaises(NotImplementedError):
+        # Recent 19.0 builds wrap the search method error in a UserError.
+        with self.assertRaises(Exception) as caught:
             user_dashboards.search([("favorite_panel", "ilike", "favorite")])
-        # Searchpanel calls read_group via search_panel_select_multi_range.
+        self.assertIsInstance(caught.exception, (NotImplementedError, UserError))
+        # Searchpanel calls read_group via search_panel_select_multi_range. A
+        # visible board left out of the favorites must not reach the groups:
+        # since 19.0 the panel's ('favorite_panel', '!=', False) arrives as
+        # ('not in', {False}), and a False group breaks the selection lookup.
+        self.dashboard.copy().action_publish()
+        self.assertEqual(
+            user_dashboards.search([("favorite_panel", "!=", False)]), self.dashboard
+        )
         panel = user_dashboards.search_panel_select_multi_range(
             "favorite_panel",
             enable_counters=True,
             search_domain=[],
         )
         values = {row["id"]: row for row in panel["values"]}
-        self.assertIn("favorite", values)
-        self.assertGreaterEqual(values["favorite"]["__count"], 1)
+        self.assertEqual(list(values), ["favorite"])
+        self.assertEqual(values["favorite"]["__count"], 1)
         # Counting tags while Favorites is selected also uses 'in' on favorite_panel.
         tags_panel = user_dashboards.search_panel_select_multi_range(
             "tag_ids",

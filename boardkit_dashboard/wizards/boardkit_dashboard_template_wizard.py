@@ -1,7 +1,7 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import _, fields, models
+from odoo import fields, models
 
 
 class BoardkitDashboardTemplateWizard(models.TransientModel):
@@ -10,7 +10,6 @@ class BoardkitDashboardTemplateWizard(models.TransientModel):
 
     template_id = fields.Many2one(
         comodel_name="boardkit.dashboard.template",
-        string="Template",
         required=True,
         domain=[("active", "=", True)],
     )
@@ -27,7 +26,7 @@ class BoardkitDashboardTemplateWizard(models.TransientModel):
         )
         return {
             "type": "ir.actions.act_window",
-            "name": _("Dashboard"),
+            "name": self.env._("Dashboard"),
             "res_model": "boardkit.dashboard",
             "res_id": dashboard_ids[0],
             "view_mode": "form",
