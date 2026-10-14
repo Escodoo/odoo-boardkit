@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="boardkit_dashboard.ItemCard">
+        <div
+            class="o_boardkit_dashboard_card d-flex flex-column h-100"
+            t-att-style="cardStyle"
+        >
+            <div
+                class="o_boardkit_dashboard_card_header d-flex align-items-center gap-2 px-3 pt-2"
+                t-att-class="props.editable ? 'o_grab' : ''"
+                t-on-pointerdown="(ev) => props.editable and props.onDragStart(ev)"
+            >
+                <span
+                    class="o_boardkit_dashboard_card_title text-truncate fw-bold"
+                    t-att-title="config.description || config.name"
+                    t-esc="config.name"
+                />
+                <span class="ms-auto" />
+                <i
+                    t-if="props.editable"
+                    class="fa fa-arrows o_boardkit_dashboard_drag_icon"
+                    role="img"
+                    aria-label="Move"
+                />
+                <Dropdown t-if="!props.editable and !props.preview">
+                    <button
+                        class="btn btn-sm btn-link p-0 o_boardkit_dashboard_card_menu"
+                    >
+                        <i class="fa fa-ellipsis-v" role="img" aria-label="Item menu" />
+                    </button>
+                    <t t-set-slot="content">
+                        <DropdownItem
+                            t-if="props.isManager"
+                            onSelected="props.onEdit"
+                        >Edit</DropdownItem>
+                        <DropdownItem
+                            t-if="props.isManager"
+                            onSelected="props.onDuplicate"
+                        >Duplicate</DropdownItem>
+                        <DropdownItem
+                            onSelected="() => props.onExport('csv')"
+                        >Export CSV</DropdownItem>
+                        <DropdownItem
+                            onSelected="() => props.onExport('xlsx')"
+                        >Export XLSX</DropdownItem>
+                        <DropdownItem
+                            t-if="props.isManager"
+                            onSelected="props.onDelete"
+                        >Delete</DropdownItem>
+                    </t>
+                </Dropdown>
+            </div>
+            <div
+                t-if="isDrilled"
+                class="o_boardkit_dashboard_drill_breadcrumb d-flex align-items-center gap-1 px-3 small"
+            >
+                <button
+                    class="btn btn-link btn-sm p-0"
+                    title="Back"
+                    t-on-click="() => this.goToDrillLevel(state.drillStack.length - 2)"
+                >
+                    <i class="fa fa-arrow-left" role="img" aria-label="Back" />
+                </button>
+                <button
+                    class="btn btn-link btn-sm p-0 text-truncate"
+                    t-on-click="() => this.goToDrillLevel(-1)"
+                >
+                    <t t-esc="config.name" />
+                </button>
+                <t t-foreach="state.drillStack" t-as="entry" t-key="entry_index">
+                    <span class="text-muted">/</span>
+                    <button
+                        t-if="!entry_last"
+                        class="btn btn-link btn-sm p-0 text-truncate"
+                        t-on-click="() => this.goToDrillLevel(entry_index)"
+                    >
+                        <t t-esc="entry.label" />
+                    </button>
+                    <span t-else="" class="text-truncate fw-bold" t-esc="entry.label" />
+                </t>
+            </div>
+            <div
+                class="o_boardkit_dashboard_card_body d-flex flex-column flex-grow-1 px-3 pb-2 overflow-hidden"
+            >
+                <!-- Loading -->
+                <div
+                    t-if="state.drilling or !displayData"
+                    class="d-flex h-100 align-items-center justify-content-center"
+                >
+                    <i
+                        class="fa fa-circle-o-notch fa-spin fa-2x text-muted"
+                        role="img"
+                        aria-label="Loading"
+                    />
+                </div>
+                <!-- Error -->
+                <div
+                    t-elif="displayData.error"
+                    class="d-flex h-100 align-items-center justify-content-center text-center text-muted small"
+                    t-att-title="displayData.error"
+                >
+                    <div>
+                        <i
+                            class="fa fa-exclamation-triangle fa-2x mb-2"
+                            role="img"
+                            aria-label="Error"
+                        />
+                        <div
+                            t-esc="displayData.error"
+                            class="o_boardkit_dashboard_error_text"
+                        />
+                    </div>
+                </div>
+                <!-- Drilled chart view (overrides the root tile/kpi/chart) -->
+                <ChartRenderer
+                    t-elif="isDrilled"
+                    config="displayConfig"
+                    data="displayData"
+                    currency="props.currency"
+                    onSectionClicked.bind="onChartSectionClicked"
+                />
+                <!-- Tile -->
+                <div
+                    t-elif="config.type === 'tile'"
+                    class="d-flex h-100 align-items-center gap-3"
+                    t-att-class="config.show_records and !props.editable ? 'cursor-pointer' : ''"
+                    t-on-click="onBodyClicked"
+                >
+                    <span
+                        class="o_boardkit_dashboard_tile_icon d-flex align-items-center justify-content-center rounded"
+                        t-att-style="tileIconStyle"
+                    >
+                        <i
+                            t-att-class="'fa fa-2x ' + (config.icon || 'fa-bar-chart')"
+                            role="img"
+                            aria-label="Tile icon"
+                        />
+                    </span>
+                    <div class="overflow-hidden">
+                        <div class="d-flex align-items-baseline gap-2 flex-wrap">
+                            <div
+                                class="o_boardkit_dashboard_big_value"
+                                t-esc="formattedValue"
+                            />
+                            <span
+                                t-if="previousDelta"
+                                class="badge"
+                                t-att-class="previousDelta.positive ? 'text-bg-success' : 'text-bg-danger'"
+                            >
+                                <i
+                                    t-att-class="'fa ' + (previousDelta.positive ? 'fa-arrow-up' : 'fa-arrow-down')"
+                                    role="img"
+                                    aria-label="Trend"
+                                />
+                                <t t-esc="previousDelta.value" />
+                            </span>
+                        </div>
+                        <div
+                            t-if="aggregationLabel"
+                            class="text-truncate opacity-75"
+                            t-esc="aggregationLabel"
+                        />
+                    </div>
+                </div>
+                <!-- KPI -->
+                <div
+                    t-elif="config.type === 'kpi'"
+                    class="d-flex flex-column h-100 justify-content-center"
+                    t-att-class="config.show_records and !props.editable ? 'cursor-pointer' : ''"
+                    t-on-click="onBodyClicked"
+                >
+                    <div class="d-flex align-items-baseline gap-2 flex-wrap">
+                        <span
+                            class="o_boardkit_dashboard_big_value"
+                            t-esc="formattedValue"
+                        />
+                        <span
+                            t-if="previousDelta"
+                            class="badge"
+                            t-att-class="previousDelta.positive ? 'text-bg-success' : 'text-bg-danger'"
+                        >
+                            <i
+                                t-att-class="'fa ' + (previousDelta.positive ? 'fa-arrow-up' : 'fa-arrow-down')"
+                                role="img"
+                                aria-label="Trend"
+                            />
+                            <t t-esc="previousDelta.value" />
+                        </span>
+                    </div>
+                    <t
+                        t-if="config.kpi.mode === 'target' and data.target !== undefined"
+                    >
+                        <div class="progress mt-2" t-att-style="kpiProgressTrackStyle">
+                            <div
+                                class="progress-bar"
+                                role="progressbar"
+                                t-att-style="kpiProgressStyle"
+                            />
+                        </div>
+                        <div
+                            class="d-flex justify-content-between small opacity-75 mt-1"
+                        >
+                            <span>
+                                <t t-esc="Math.round(targetProgress || 0)" />%
+                            </span>
+                            <span>Target: <t t-esc="formattedTarget" /></span>
+                        </div>
+                    </t>
+                    <t
+                        t-if="config.kpi.mode === 'comparison' and data.value_2 !== undefined"
+                    >
+                        <div
+                            t-if="config.kpi.display === 'value'"
+                            class="small opacity-75 mt-1"
+                        >
+                            vs <span class="fw-bold" t-esc="formattedValue2" />
+                        </div>
+                        <div t-else="" class="small opacity-75 mt-1">
+                            <span class="fw-bold" t-esc="kpiComparison" />
+                            (<t t-esc="formattedValue" /> / <t
+                            t-esc="formattedValue2"
+                        />)
+                        </div>
+                    </t>
+                </div>
+                <!-- List -->
+                <ListCard
+                    t-elif="config.type === 'list'"
+                    config="config"
+                    data="data"
+                    onOpenRecord="(resId) => props.onOpenRecord(resId)"
+                    onOpenGroup="(domain) => props.onDrill(domain, config.name)"
+                    onPageChange="(params) => props.onPageChange(params)"
+                />
+                <!-- Charts -->
+                <ChartRenderer
+                    t-else=""
+                    config="displayConfig"
+                    data="displayData"
+                    currency="props.currency"
+                    onSectionClicked.bind="onChartSectionClicked"
+                />
+            </div>
+            <div
+                t-if="displayData and displayData.truncated"
+                class="px-3 pb-2 small text-muted text-truncate"
+                title="Too many records to plot them all. Narrow the filters or the item domain to see the full picture."
+            >
+                <i class="fa fa-info-circle me-1" role="img" aria-label="Notice" />
+                Partial data
+            </div>
+            <div
+                t-if="props.editable"
+                class="o_boardkit_dashboard_resize_handle"
+                role="button"
+                aria-label="Resize"
+                t-on-pointerdown="(ev) => props.onResizeStart(ev)"
+            />
+        </div>
+    </t>
+</templates>
