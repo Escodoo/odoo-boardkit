@@ -47,7 +47,8 @@ class TestExpenseDashboardTemplates(BoardkitTemplateSmokeMixin, TransactionCase)
         self.assertIn("submitted", approval.domain_2)
 
         to_reimburse = dashboard.item_ids.filtered(lambda i: i.name == "To Reimburse")
-        self.assertIn("reported", to_reimburse.domain)
+        # Posted but unpaid expenses are still owed to the employee.
+        self.assertIn("posted", to_reimburse.domain)
 
         by_cat = dashboard.item_ids.filtered(lambda i: i.name == "Amount by Category")
         self.assertEqual(by_cat.item_type, "bar_horizontal")

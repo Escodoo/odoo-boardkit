@@ -63,7 +63,7 @@
           "icon": "fa-money",
           "unit_type": "monetary",
           "compare_previous_period": true,
-          "domain": "[('state', 'in', ['approved', 'done'])]",
+          "domain": "[('state', 'in', ['approved', 'posted', 'in_payment', 'paid'])]",
           "date_field_id": "date",
           "layout": {
             "x": 6,
@@ -80,7 +80,7 @@
           "aggregation": "count",
           "icon": "fa-check-square-o",
           "compare_previous_period": true,
-          "domain": "[('state', 'in', ['approved', 'done'])]",
+          "domain": "[('state', 'in', ['approved', 'posted', 'in_payment', 'paid'])]",
           "date_field_id": "date",
           "layout": {
             "x": 9,
@@ -97,10 +97,10 @@
           "aggregation": "count",
           "kpi_mode": "comparison",
           "kpi_display": "percent",
-          "domain": "[('state', 'in', ['approved', 'done'])]",
+          "domain": "[('state', 'in', ['approved', 'posted', 'in_payment', 'paid'])]",
           "model_2": "hr.expense",
           "aggregation_2": "count",
-          "domain_2": "[('state', 'in', ['submitted', 'approved', 'done', 'refused'])]",
+          "domain_2": "[('state', 'in', ['submitted', 'approved', 'posted', 'in_payment', 'paid', 'refused'])]",
           "date_field_id": "date",
           "date_field_2_id": "date",
           "layout": {
@@ -119,7 +119,7 @@
           "measure_field_id": "total_amount",
           "icon": "fa-credit-card",
           "unit_type": "monetary",
-          "domain": "[('payment_mode', '=', 'own_account'), ('state', 'in', ['reported', 'submitted', 'approved'])]",
+          "domain": "[('payment_mode', '=', 'own_account'), ('state', 'in', ['submitted', 'approved', 'posted'])]",
           "layout": {
             "x": 6,
             "y": 2,
@@ -159,7 +159,7 @@
           "date_field_id": "date",
           "chart_sort": "label_asc",
           "show_trend_line": true,
-          "domain": "[('state', 'in', ['approved', 'done'])]",
+          "domain": "[('state', 'in', ['approved', 'posted', 'in_payment', 'paid'])]",
           "layout": {
             "x": 0,
             "y": 4,
@@ -180,7 +180,7 @@
           "group_by_field_id": "product_id",
           "chart_sort": "value_desc",
           "record_limit": 10,
-          "domain": "[('state', 'in', ['approved', 'done'])]",
+          "domain": "[('state', 'in', ['approved', 'posted', 'in_payment', 'paid'])]",
           "date_field_id": "date",
           "layout": {
             "x": 6,
@@ -202,7 +202,7 @@
           "group_by_field_id": "employee_id",
           "chart_sort": "value_desc",
           "record_limit": 10,
-          "domain": "[('state', 'in', ['approved', 'done'])]",
+          "domain": "[('state', 'in', ['approved', 'posted', 'in_payment', 'paid'])]",
           "date_field_id": "date",
           "layout": {
             "x": 0,
@@ -284,7 +284,7 @@
           "name": "Approved",
           "sequence": 40,
           "model": "hr.expense",
-          "domain": "[('state', 'in', ['approved', 'done'])]",
+          "domain": "[('state', 'in', ['approved', 'posted', 'in_payment', 'paid'])]",
           "default_enabled": false
         }
       ]
