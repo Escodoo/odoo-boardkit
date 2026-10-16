@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -26,12 +26,6 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard_event
-#: model:boardkit.dashboard,name:boardkit_dashboard_event.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard_event.template_event_overview
 msgid "Event Overview"
-msgstr ""
-
-#. module: boardkit_dashboard_event
-#: model:boardkit.dashboard,description:boardkit_dashboard_event.dashboard_demo
-msgid "Event portfolio, registrations, attendance and stage analytics."
 msgstr ""
