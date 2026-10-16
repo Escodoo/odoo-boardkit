@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -25,12 +25,6 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard_hr_holidays
-#: model:boardkit.dashboard,description:boardkit_dashboard_hr_holidays.dashboard_demo
-msgid "Leave requests, approvals, days off and department analytics."
-msgstr ""
-
-#. module: boardkit_dashboard_hr_holidays
-#: model:boardkit.dashboard,name:boardkit_dashboard_hr_holidays.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard_hr_holidays.template_time_off_overview
 msgid "Time Off Overview"
 msgstr ""
