@@ -48,7 +48,7 @@
           "aggregation": "count",
           "icon": "fa-shopping-basket",
           "compare_previous_period": true,
-          "domain": "[('state', 'in', ['purchase', 'done'])]",
+          "domain": "[('state', '=', 'purchase')]",
           "date_field_id": "date_approve",
           "layout": {
             "x": 3,
@@ -67,7 +67,7 @@
           "icon": "fa-money",
           "unit_type": "monetary",
           "compare_previous_period": true,
-          "domain": "[('state', 'in', ['purchase', 'done'])]",
+          "domain": "[('state', '=', 'purchase')]",
           "date_field_id": "date_approve",
           "layout": {
             "x": 6,
@@ -101,7 +101,7 @@
           "aggregation": "count",
           "kpi_mode": "comparison",
           "kpi_display": "percent",
-          "domain": "[('state', 'in', ['purchase', 'done'])]",
+          "domain": "[('state', '=', 'purchase')]",
           "model_2": "purchase.order",
           "aggregation_2": "count",
           "domain_2": "[]",
@@ -124,7 +124,7 @@
           "icon": "fa-balance-scale",
           "unit_type": "monetary",
           "compare_previous_period": true,
-          "domain": "[('state', 'in', ['purchase', 'done'])]",
+          "domain": "[('state', '=', 'purchase')]",
           "date_field_id": "date_approve",
           "layout": {
             "x": 3,
@@ -140,7 +140,7 @@
           "model": "purchase.order",
           "aggregation": "count",
           "icon": "fa-exclamation-triangle",
-          "domain": "[('state', 'in', ['purchase', 'done']), ('date_planned', '!=', False), ('date_planned', '&lt;', context_today())]",
+          "domain": "[('state', '=', 'purchase'), ('date_planned', '!=', False), ('date_planned', '&lt;', context_today())]",
           "layout": {
             "x": 6,
             "y": 2,
@@ -155,7 +155,7 @@
           "model": "purchase.order",
           "aggregation": "count",
           "icon": "fa-file-text",
-          "domain": "[('state', 'in', ['purchase', 'done']), ('invoice_status', '=', 'to invoice')]",
+          "domain": "[('state', '=', 'purchase'), ('invoice_status', '=', 'to invoice')]",
           "layout": {
             "x": 9,
             "y": 2,
@@ -178,7 +178,7 @@
           "date_field_id": "date_approve",
           "chart_sort": "label_asc",
           "show_trend_line": true,
-          "domain": "[('state', 'in', ['purchase', 'done'])]",
+          "domain": "[('state', '=', 'purchase')]",
           "layout": {
             "x": 0,
             "y": 4,
@@ -199,7 +199,7 @@
           "group_by_field_id": "partner_id",
           "chart_sort": "value_desc",
           "record_limit": 10,
-          "domain": "[('state', 'in', ['purchase', 'done'])]",
+          "domain": "[('state', '=', 'purchase')]",
           "date_field_id": "date_approve",
           "layout": {
             "x": 6,
@@ -237,7 +237,7 @@
           "group_by_field_id": "user_id",
           "chart_sort": "value_desc",
           "record_limit": 10,
-          "domain": "[('state', 'in', ['purchase', 'done'])]",
+          "domain": "[('state', '=', 'purchase')]",
           "date_field_id": "date_approve",
           "layout": {
             "x": 6,
@@ -289,7 +289,7 @@
           "name": "Confirmed",
           "sequence": 20,
           "model": "purchase.order",
-          "domain": "[('state', 'in', ['purchase', 'done'])]",
+          "domain": "[('state', '=', 'purchase')]",
           "default_enabled": false
         },
         {
@@ -303,7 +303,7 @@
           "name": "Waiting Bills",
           "sequence": 40,
           "model": "purchase.order",
-          "domain": "[('state', 'in', ['purchase', 'done']), ('invoice_status', '=', 'to invoice')]",
+          "domain": "[('state', '=', 'purchase'), ('invoice_status', '=', 'to invoice')]",
           "default_enabled": false
         }
       ]
