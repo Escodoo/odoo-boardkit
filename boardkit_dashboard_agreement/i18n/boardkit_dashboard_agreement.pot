@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -24,12 +24,6 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard_agreement
-#: model:boardkit.dashboard,name:boardkit_dashboard_agreement.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard_agreement.template_agreement_overview
 msgid "Agreement Overview"
-msgstr ""
-
-#. module: boardkit_dashboard_agreement
-#: model:boardkit.dashboard,description:boardkit_dashboard_agreement.dashboard_demo
-msgid "Agreement portfolio, signatures, expiries and type analytics."
 msgstr ""
