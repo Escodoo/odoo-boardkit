@@ -5,7 +5,7 @@
     "name": "Boardkit Dashboard Maintenance",
     "summary": "Maintenance overview dashboard template for Boardkit",
     "category": "Manufacturing/Maintenance",
-    "version": "18.0.1.0.0",
+    "version": "19.0.1.0.0",
     "website": "https://github.com/Escodoo/odoo-boardkit",
     "author": "Escodoo",
     "maintainers": ["marcelsavegnago"],
