@@ -286,7 +286,7 @@
           "name": "My Team",
           "sequence": 20,
           "model": "hr.leave",
-          "domain": "[('manager_id.user_id', '=', uid)]",
+          "domain": "[('employee_id.parent_id.user_id', '=', uid)]",
           "default_enabled": false
         },
         {
