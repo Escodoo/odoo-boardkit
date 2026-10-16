@@ -230,7 +230,7 @@
           "page_size": 10,
           "list_columns": [
             "create_date",
-            "candidate_id",
+            "partner_name",
             "job_id",
             "stage_id",
             "source_id",
