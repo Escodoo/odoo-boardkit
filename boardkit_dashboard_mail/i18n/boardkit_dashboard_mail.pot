@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -25,13 +25,6 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard_mail
-#: model:boardkit.dashboard,name:boardkit_dashboard_mail.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard_mail.template_my_day
 msgid "My Day"
-msgstr ""
-
-#. module: boardkit_dashboard_mail
-#: model:boardkit.dashboard,description:boardkit_dashboard_mail.dashboard_demo
-msgid ""
-"Personal activities, meetings, inbox and Discuss for the signed-in user."
 msgstr ""
