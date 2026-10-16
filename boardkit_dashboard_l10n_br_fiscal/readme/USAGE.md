@@ -1,5 +1,7 @@
-Install this module (it auto-installs when Boardkit Dashboard and Brazilian
-Fiscal are both installed).
+Install this module (it auto-installs when Boardkit Dashboard and the fiscal
+EDI module `l10n_br_fiscal_edi` are both installed: since 19.0 the electronic
+document states the board relies on, such as authorized and rejected, live
+there).
 
 As a Dashboard Manager, open _All Dashboards > Boards_, click _From template_,
 and choose **Brazilian Fiscal Overview**. Optionally rename the board in the
