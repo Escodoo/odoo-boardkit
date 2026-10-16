@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -27,12 +27,6 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard_survey
-#: model:boardkit.dashboard,name:boardkit_dashboard_survey.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard_survey.template_survey_overview
 msgid "Survey Overview"
-msgstr ""
-
-#. module: boardkit_dashboard_survey
-#: model:boardkit.dashboard,description:boardkit_dashboard_survey.dashboard_demo
-msgid "Survey portfolio, completions, success rate and answer analytics."
 msgstr ""
