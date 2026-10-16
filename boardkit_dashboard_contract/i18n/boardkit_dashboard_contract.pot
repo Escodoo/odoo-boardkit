@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -25,12 +25,6 @@ msgid ""
 msgstr ""
 
 #. module: boardkit_dashboard_contract
-#: model:boardkit.dashboard,description:boardkit_dashboard_contract.dashboard_demo
-msgid "Active recurring contracts, invoicing queue and type analytics."
-msgstr ""
-
-#. module: boardkit_dashboard_contract
-#: model:boardkit.dashboard,name:boardkit_dashboard_contract.dashboard_demo
 #: model:boardkit.dashboard.template,name:boardkit_dashboard_contract.template_contract_overview
 msgid "Contract Overview"
 msgstr ""
